@@ -1,6 +1,6 @@
 <?php
 
-class AnsPress_Comment_Hooks
+class PlatformPress_Comment_Hooks
 {
 	public static function comments_data( $post_id, $editing = false ) {
 		$data = array(
@@ -49,7 +49,7 @@ class AnsPress_Comment_Hooks
 	/**
 	 * Return comment form.
 	 * @since 2.0.1
-	 * @since 3.0.0 Moved from AnsPress_Ajax class.
+	 * @since 3.0.0 Moved from PlatformPress_Ajax class.
 	 */
 	public static function load_comments() {
 		if ( ! ap_verify_nonce( 'comment_form_nonce' ) ) {
@@ -189,7 +189,7 @@ class AnsPress_Comment_Hooks
 			'comment_author_email' 	=> wp_slash( $user->user_email ),
 			'comment_author_url' 	=> wp_slash( $user->user_url ),
 			'comment_content' 		=> trim( $content ),
-			'comment_type' 			=> 'anspress',
+			'comment_type' 			=> 'platformpress',
 			'comment_parent' 		=> 0,
 			'user_id' 				=> $user->ID,
 		);
@@ -217,7 +217,7 @@ class AnsPress_Comment_Hooks
 				'message' 		=> 'comment_success',
 				'view' 			=> array(
 					'comments_count_'.$comment->comment_post_ID => '('.$count['approved'].')',
-					'comment_count_label_'.$comment->comment_post_ID => sprintf( _n( 'One comment', '%d comments',$count['approved'], 'anspress-question-answer' ), $count['approved'] ),
+					'comment_count_label_'.$comment->comment_post_ID => sprintf( _n( 'One comment', '%d comments',$count['approved'], 'platformpress' ), $count['approved'] ),
 					),
 				);
 
@@ -251,14 +251,14 @@ class AnsPress_Comment_Hooks
 
 		if ( ! $content_changed && $subscription ) {
 			ap_ajax_json( [
-				'message' => __('Your comment subscription updated successfully', 'anspress-question-answer' ),
+				'message' => __('Your comment subscription updated successfully', 'platformpress' ),
 				'message_type' => 'success',
 			] );
 		}
 
 		if ( ! $content_changed ) {
 			ap_ajax_json( [
-				'message' => __('Nothing changed!', 'anspress-question-answer' ),
+				'message' => __('Nothing changed!', 'platformpress' ),
 				'message_type' => 'warning',
 			] );
 		}
@@ -303,7 +303,7 @@ class AnsPress_Comment_Hooks
 			ap_ajax_json( array(
 				'message_type' => 'warning',
 				'message' => sprintf(
-					__( 'This post was created %s, its locked hence you cannot delete it.', 'anspress-question-answer' ),
+					__( 'This post was created %s, its locked hence you cannot delete it.', 'platformpress' ),
 					ap_human_time( $comment->comment_date_gmt, false )
 				),
 			) );
@@ -322,7 +322,7 @@ class AnsPress_Comment_Hooks
 				'do' 			=> array( 'remove_if_exists' => '#comment-'.$comment->comment_ID ),
 				'view' 			=> array(
 						'comments_count_'.$comment->comment_post_ID => '('.$count['approved'].')',
-						'comment_count_label_'.$comment->comment_post_ID => sprintf( _n( 'One comment', '%d comments', $count['approved'], 'anspress-question-answer' ), $count['approved'] ),
+						'comment_count_label_'.$comment->comment_post_ID => sprintf( _n( 'One comment', '%d comments', $count['approved'], 'platformpress' ), $count['approved'] ),
 					),
 			);
 
@@ -360,7 +360,7 @@ class AnsPress_Comment_Hooks
 			ap_ajax_json( array(
 				'action' 		=> 'approve_comment',
 				'comment_ID' 	=> $comment_id,
-				'message' 		=> __('Comment approved successfully', 'anspress-question-answer' ),
+				'message' 		=> __('Comment approved successfully', 'platformpress' ),
 				'do'			=> array(
 					'removeClass' => [ '#comment-'.$comment_id, 'unapproved' ],
 					array(
@@ -395,7 +395,7 @@ function ap_comment_btn_html($echo = false) {
 
 		$nonce = wp_create_nonce( 'comment_form_nonce' );
 		$comment_count = get_comments_number( get_the_ID() );
-		$output = '<a href="#comments-'.get_the_ID().'" class="comment-btn ap-tip" data-action="ajax_btn" data-query="load_comments::'.$nonce.'::'.get_the_ID().'" title="'.__( 'Comments', 'anspress-question-answer' ).'">'.__( 'Comment', 'anspress-question-answer' ).'<span class="ap-data-view ap-view-count-'.$comment_count.'" data-view="comments_count_'.get_the_ID().'">('.$comment_count.')</span></a>';
+		$output = '<a href="#comments-'.get_the_ID().'" class="comment-btn ap-tip" data-action="ajax_btn" data-query="load_comments::'.$nonce.'::'.get_the_ID().'" title="'.__( 'Comments', 'platformpress' ).'">'.__( 'Comment', 'platformpress' ).'<span class="ap-data-view ap-view-count-'.$comment_count.'" data-view="comments_count_'.get_the_ID().'">('.$comment_count.')</span></a>';
 
 		if ( $echo ) {
 			echo $output;
@@ -417,12 +417,12 @@ function ap_get_comment_actions( $comment_id, $post_id ) {
 
 	if ( ap_user_can_edit_comment( $comment->comment_ID ) ) {
 		$nonce = wp_create_nonce( 'comment_form_nonce' );
-		$actions['edit'] = '<a class="comment-edit-btn" href="#" data-toggle="#li-comment-'.$comment->comment_ID.'" data-action="editComment" data-query="ap_ajax_action=edit_comment_form&__nonce='.$nonce.'&comment_ID='.$comment->comment_ID.'">'.__( 'Edit', 'anspress-question-answer' ).'</a>';
+		$actions['edit'] = '<a class="comment-edit-btn" href="#" data-toggle="#li-comment-'.$comment->comment_ID.'" data-action="editComment" data-query="ap_ajax_action=edit_comment_form&__nonce='.$nonce.'&comment_ID='.$comment->comment_ID.'">'.__( 'Edit', 'platformpress' ).'</a>';
 	}
 
 	if ( ap_user_can_delete_comment( $comment->comment_ID ) ) {
 		$nonce = wp_create_nonce( 'delete_comment' );
-		$actions['delete'] = '<a class="comment-delete-btn" href="#" data-toggle="#li-comment-'.$comment->comment_ID.'" data-action="deleteComment" data-query="ap_ajax_action=delete_comment&__nonce='.$nonce.'&comment_ID='.$comment->comment_ID.'">'.__( 'Delete', 'anspress-question-answer' ).'</a>';
+		$actions['delete'] = '<a class="comment-delete-btn" href="#" data-toggle="#li-comment-'.$comment->comment_ID.'" data-action="deleteComment" data-query="ap_ajax_action=delete_comment&__nonce='.$nonce.'&comment_ID='.$comment->comment_ID.'">'.__( 'Delete', 'platformpress' ).'</a>';
 	}
 
 	if ( '0' != $comment->comment_approved && is_user_logged_in() ) {
@@ -431,7 +431,7 @@ function ap_get_comment_actions( $comment_id, $post_id ) {
 
 	if ( '0' == $comment->comment_approved && ap_user_can_approve_comment( ) ) {
 		$nonce = wp_create_nonce( 'approve_comment_'.$comment->comment_ID );
-		$actions['approve'] = '<a class="ap-comment-approve" href="#" data-action="ajax_btn" data-query="approve_comment::'.$nonce.'::'.$comment->comment_ID.'">'.__( 'Approve', 'anspress-question-answer' ).'</a>';
+		$actions['approve'] = '<a class="ap-comment-approve" href="#" data-action="ajax_btn" data-query="approve_comment::'.$nonce.'::'.$comment->comment_ID.'">'.__( 'Approve', 'platformpress' ).'</a>';
 	}
 
 	/*
@@ -483,7 +483,7 @@ function ap_get_comment_form( $post_id = false, $comment_id = false ) {
 	$o = ob_get_clean();
 
 	/**
-	 * Filter AnsPress comment form.
+	 * Filter PlatformPress comment form.
 	 * @param string $o Form html.
 	 * @since 3.0.0
 	 */

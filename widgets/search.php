@@ -1,13 +1,13 @@
 <?php
 /**
- * AnsPress search widget
+ * PlatformPress search widget
  * An ajax based search widget for searching questions and answers
- * @package AnsPress
- * @author Rahul Aryan <support@anspress.io>
- * @license GPL 2+ GNU GPL licence above 2+
- * @link http://anspress.io
- * @since 2.0.0-alpha2
- *  
+ *
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
+ *
  */
 
 // If this file is called directly, abort.
@@ -23,8 +23,8 @@ class AP_Search_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'AP_Search_Widget',
-			__( '(AnsPress) Search', 'anspress-question-answer' ),
-			array( 'description' => __( 'Question and answer search form.', 'anspress-question-answer' ) )
+			__( '(PlatformPress) Search', 'platformpress' ),
+			array( 'description' => __( 'Question and answer search form.', 'platformpress' ) )
 		);
 	}
 
@@ -38,8 +38,8 @@ class AP_Search_Widget extends WP_Widget {
 		?>
 			<form id="ap-search-form" class="ap-search-form" action="<?php echo ap_get_link_to('search'); ?>" method="GET">
 				<div class="ap-qaf-inner">
-					<input class="form-control" type="text" name="ap_s" id="ap-quick-ask-input" placeholder="<?php _e('Search questions & answers', 'anspress-question-answer'); ?>" value="<?php echo sanitize_text_field(get_query_var('ap_s')); ?>" autocomplete="off" />
-					<button type="submit" ><?php _e('Search', 'anspress-question-answer'); ?></button>
+					<input class="form-control" type="text" name="ap_s" id="ap-quick-comment-input" placeholder="<?php _e('Search questions & answers', 'platformpress'); ?>" value="<?php echo sanitize_text_field(get_query_var('ap_s')); ?>" autocomplete="off" />
+					<button type="submit" ><?php _e('Search', 'platformpress'); ?></button>
 				</div>
 			</form>
 		<?php
@@ -51,14 +51,14 @@ class AP_Search_Widget extends WP_Widget {
 			$title = $instance[ 'title' ];
 		}
 		else {
-			$title = __( 'Search questions', 'anspress-question-answer' );
+			$title = __( 'Search questions', 'platformpress' );
 		}
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
-		<?php 
+		<?php
 	}
 
 	/**

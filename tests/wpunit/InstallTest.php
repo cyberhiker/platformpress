@@ -22,8 +22,8 @@ class InstallTest extends \Codeception\TestCase\WPTestCase
 	 * Test if the default settings are set and have settings pages.
 	 */
 	public function test_settings() {
-		$this->assertArrayHasKey( 'base_page', ap_opt() );
-		$this->assertArrayHasKey( 'base_page_id', ap_opt() );
+		$this->assertArrayHcommentey( 'base_page', ap_opt() );
+		$this->assertArrayHcommentey( 'base_page_id', ap_opt() );
 		$this->assertEquals( 'questions', ap_opt('base_page_id' ) );
 	}
 

@@ -7,8 +7,8 @@ class AP_Questions_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'ap_questions_widget',
-			__( '(AnsPress) Questions', 'anspress-question-answer' ),
-			array( 'description' => __( 'Shows list of question shorted by option.', 'anspress-question-answer' ) )
+			__( '(PlatformPress) Questions', 'platformpress' ),
+			array( 'description' => __( 'Shows list of question shorted by option.', 'platformpress' ) )
 		);
 	}
 
@@ -50,7 +50,7 @@ class AP_Questions_Widget extends WP_Widget {
 	}
 
 	public function form( $instance ) {
-		$title 			= __( 'Questions', 'anspress-question-answer' );
+		$title 			= __( 'Questions', 'platformpress' );
 		$sort			= 'active';
 		$limit			= 5;
 		$category_ids   = '';
@@ -73,28 +73,28 @@ class AP_Questions_Widget extends WP_Widget {
 
 		?>
         <p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
         <p>
-			<label for="<?php echo $this->get_field_id( 'sort' ); ?>"><?php _e( 'Sort by:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'sort' ); ?>"><?php _e( 'Sort by:', 'platformpress' ); ?></label>
 			<select class="widefat" id="<?php echo $this->get_field_id( 'sort' ); ?>" name="<?php echo $this->get_field_name( 'sort' ); ?>">
-				<option <?php selected( $sort, 'active' ); ?> value="active"><?php _e( 'Active', 'anspress-question-answer' ); ?></option>
-				<option <?php selected( $sort, 'newest' ); ?> value="newest"><?php _e( 'Newest', 'anspress-question-answer' ); ?></option>
-				<option <?php selected( $sort, 'voted' ); ?> value="voted"><?php _e( 'Voted', 'anspress-question-answer' ); ?></option>
-				<option <?php selected( $sort, 'answers' ); ?> value="answers"><?php _e( 'Answers', 'anspress-question-answer' ); ?></option>
-				<option <?php selected( $sort, 'unanswered' ); ?> value="unanswered"><?php _e( 'Unanswered', 'anspress-question-answer' ); ?></option>
+				<option <?php selected( $sort, 'active' ); ?> value="active"><?php _e( 'Active', 'platformpress' ); ?></option>
+				<option <?php selected( $sort, 'newest' ); ?> value="newest"><?php _e( 'Newest', 'platformpress' ); ?></option>
+				<option <?php selected( $sort, 'voted' ); ?> value="voted"><?php _e( 'Voted', 'platformpress' ); ?></option>
+				<option <?php selected( $sort, 'answers' ); ?> value="answers"><?php _e( 'Answers', 'platformpress' ); ?></option>
+				<option <?php selected( $sort, 'unanswered' ); ?> value="unanswered"><?php _e( 'Unanswered', 'platformpress' ); ?></option>
             </select>
         </p>
 		<?php if ( taxonomy_exists( 'question_category' ) ) : ?>
             <p>
-				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Category IDs:', 'anspress-question-answer' ); ?></label>
+				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Category IDs:', 'platformpress' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'category_ids' ); ?>" name="<?php echo $this->get_field_name( 'category_ids' ); ?>" type="text" value="<?php echo esc_attr( $category_ids ); ?>">
-				<small><?php _e( 'Comma separted AnsPress category ids', 'anspress-question-answer' ); ?></small>
+				<small><?php _e( 'Comma separted PlatformPress category ids', 'platformpress' ); ?></small>
             </p>
 		<?php endif; ?>
         <p>
-			<label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="text" value="<?php echo esc_attr( $limit ); ?>">
         </p>
 

@@ -2,11 +2,10 @@
 /**
  * Plugin rewrite rules and query variables
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      https://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -15,10 +14,10 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * This class handle all rewrite rules and define query varibale of anspress
+ * This class handle all rewrite rules and define query varibale of platformpress
  * @since 2.0.0
  */
-class AnsPress_Rewrite
+class PlatformPress_Rewrite
 {
 	/**
 	 * Register query vars
@@ -33,7 +32,7 @@ class AnsPress_Rewrite
 		$query_vars[] = 'question_name';
 		$query_vars[] = 'answer_id';
 		$query_vars[] = 'answer';
-		$query_vars[] = 'ask';
+		$query_vars[] = 'comment';
 		$query_vars[] = 'ap_page';
 		$query_vars[] = 'qcat_id';
 		$query_vars[] = 'qcat';
@@ -114,7 +113,7 @@ class AnsPress_Rewrite
 
 		$new_rules[$slug. 'search/([^/]+)/?'] = 'index.php?page_id='.$base_page_id.'&ap_page=search&ap_s='. $wp_rewrite->preg_index( 1 );
 
-		$new_rules[$slug. 'ask/([^/]+)/?'] = 'index.php?page_id='.$base_page_id.'&ap_page=ask&parent='.$wp_rewrite->preg_index( 1 );
+		$new_rules[$slug. 'comment/([^/]+)/?'] = 'index.php?page_id='.$base_page_id.'&ap_page=comment&parent='.$wp_rewrite->preg_index( 1 );
 
 		$new_rules[$slug. '([^/]+)/?'] = 'index.php?page_id='.$base_page_id.'&ap_page='.$wp_rewrite->preg_index( 1 );
 

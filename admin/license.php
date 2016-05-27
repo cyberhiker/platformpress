@@ -1,12 +1,12 @@
 <?php
 /**
- * AnsPress product license *
- * Handle licences of AnsPress products.
+ * PlatformPress product license *
+ * Handle licences of PlatformPress products.
  *
- * @link http://anspress.io
- * @since 2.4.5
- *
- * @package AnsPress/AP_License
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
@@ -27,7 +27,7 @@ class AP_License{
 		$fields = ap_product_license_fields();
 		if ( ! empty( $fields ) ) {
 			$count = ' <span class="update-plugins count"><span class="plugin-count">'.number_format_i18n( count($fields ) ).'</span></span>';
-			add_submenu_page( 'anspress', __( 'Licenses', 'anspress-question-answer' ), __( 'Licenses', 'anspress-question-answer' ).$count, 'manage_options', 'anspress_licenses', array( $this, 'display_plugin_licenses' ) );
+			add_submenu_page( 'platformpress', __( 'Licenses', 'platformpress' ), __( 'Licenses', 'platformpress' ).$count, 'manage_options', 'platformpress_licenses', array( $this, 'display_plugin_licenses' ) );
 		}
 	}
 
@@ -44,7 +44,7 @@ class AP_License{
 			return;
 		}
 
-		$licenses = get_option( 'anspress_license', array() );
+		$licenses = get_option( 'platformpress_license', array() );
 		$fields = ap_product_license_fields();
 
 		if ( empty($fields ) ) {
@@ -59,7 +59,7 @@ class AP_License{
 						'key' => trim(sanitize_text_field( wp_unslash( $_POST['ap_license_'.$slug] ) ) ),
 						'status' => false,
 					);
-					update_option( 'anspress_license', $licenses );
+					update_option( 'platformpress_license', $licenses );
 				}
 			}
 		}
@@ -79,7 +79,7 @@ class AP_License{
 				$api_params['edd_action'] = 'activate_license';
 
 				// Call the custom API.
-				$response = wp_remote_post( 'https://anspress.io', array( 'timeout' => 15, 'sslverify' => true, 'body' => $api_params ) );
+				$response = wp_remote_post( 'https://platformpress.io', array( 'timeout' => 15, 'sslverify' => true, 'body' => $api_params ) );
 
 				// Make sure the response came back okay.
 				if ( ! is_wp_error( $response ) ) {
@@ -87,7 +87,7 @@ class AP_License{
 					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
 					$licenses[$slug]['status'] = sanitize_text_field( $license_data->license );
-					update_option( 'anspress_license', $licenses );
+					update_option( 'platformpress_license', $licenses );
 				}
 			}
 
@@ -96,14 +96,14 @@ class AP_License{
 				$api_params['edd_action'] = 'deactivate_license';
 
 				// Call the custom API.
-				$response = wp_remote_post( 'https://anspress.io', array( 'timeout' => 15, 'sslverify' => true, 'body' => $api_params ) );
+				$response = wp_remote_post( 'https://platformpress.io', array( 'timeout' => 15, 'sslverify' => true, 'body' => $api_params ) );
 
 				// Make sure the response came back okay.
 				if ( ! is_wp_error( $response ) ) {
 					// Decode the license data.
 					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 					$licenses[$slug]['status'] = sanitize_text_field( $license_data->license );
-					update_option( 'anspress_license', $licenses );
+					update_option( 'platformpress_license', $licenses );
 				}
 			}
 		}
@@ -114,12 +114,12 @@ class AP_License{
 	 */
 	public function ap_plugin_updater() {
 		$fields = ap_product_license_fields();
-		$licenses = get_option( 'anspress_license', array() );
+		$licenses = get_option( 'platformpress_license', array() );
 
 		if ( ! empty($fields ) ) {
 			foreach ( $fields as $slug => $prod ) {
 				if ( isset( $licenses[ $slug ] ) && ! empty($licenses[ $slug ]['key'] ) ) {
-					new EDD_SL_Plugin_Updater( 'https://anspress.io', __FILE__, array(
+					new EDD_SL_Plugin_Updater( 'https://platformpress.io', __FILE__, array(
 							'version' 	=> ! empty( $prod['version'] ) ? $prod['version'] : '',
 							'license' 	=> $licenses[ $slug ]['key'],
 							'item_name' => ! empty( $prod['name'] ) ? $prod['name'] : '',
@@ -134,11 +134,10 @@ class AP_License{
 }
 
 /**
- * AnsPress product licenses
+ * PlatformPress product licenses
  * @return array
  * @since 2.4.5
  */
 function ap_product_license_fields() {
-	return apply_filters( 'anspress_license_fields', array() );
+	return apply_filters( 'platformpress_license_fields', array() );
 }
-

@@ -74,9 +74,9 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 
 	public function test_roles() {
 		global $wp_roles;
-		$this->assertArrayHasKey('ap_moderator', (array) $wp_roles->role_names );
-		$this->assertArrayHasKey('ap_participant', (array) $wp_roles->role_names );
-		$this->assertArrayHasKey('ap_banned', (array) $wp_roles->role_names );
+		$this->assertArrayHcommentey('ap_moderator', (array) $wp_roles->role_names );
+		$this->assertArrayHcommentey('ap_participant', (array) $wp_roles->role_names );
+		$this->assertArrayHcommentey('ap_banned', (array) $wp_roles->role_names );
 	}
 
 	public function test_ap_moderator_caps() {
@@ -87,10 +87,10 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 		}
 
 		foreach ( $this->_mod_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['ap_moderator']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['ap_moderator']['capabilities'] ); }
 
 		foreach ( $this->_normal_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['ap_moderator']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['ap_moderator']['capabilities'] ); }
 	}
 
 	public function test_ap_participant_caps() {
@@ -101,10 +101,10 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 		}
 
 		foreach ( $this->_mod_caps as $c => $val ) {
-			$this->assertArrayNotHasKey( $c, (array) $wp_roles->roles['ap_participant']['capabilities'] ); }
+			$this->assertArrayNotHcommentey( $c, (array) $wp_roles->roles['ap_participant']['capabilities'] ); }
 
 		foreach ( $this->_normal_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['ap_participant']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['ap_participant']['capabilities'] ); }
 	}
 
 	public function test_ap_banned_caps() {
@@ -115,10 +115,10 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 		}
 
 		foreach ( $this->_mod_caps as $c => $val ) {
-			$this->assertArrayNotHasKey( $c, (array) $wp_roles->roles['ap_banned']['capabilities'] ); }
+			$this->assertArrayNotHcommentey( $c, (array) $wp_roles->roles['ap_banned']['capabilities'] ); }
 
 		foreach ( $this->_normal_caps as $c => $val ) {
-			$this->assertArrayNotHasKey( $c, (array) $wp_roles->roles['ap_banned']['capabilities'] ); }
+			$this->assertArrayNotHcommentey( $c, (array) $wp_roles->roles['ap_banned']['capabilities'] ); }
 	}
 
 	public function test_administrator_caps() {
@@ -129,10 +129,10 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 		}
 
 		foreach ( $this->_mod_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['administrator']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['administrator']['capabilities'] ); }
 
 		foreach ( $this->_normal_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['administrator']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['administrator']['capabilities'] ); }
 	}
 
 	public function test_editor_caps() {
@@ -143,10 +143,10 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 		}
 
 		foreach ( $this->_mod_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['editor']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['editor']['capabilities'] ); }
 
 		foreach ( $this->_normal_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['editor']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['editor']['capabilities'] ); }
 	}
 
 	public function test_contributor_caps() {
@@ -157,10 +157,10 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 		}
 
 		foreach ( $this->_mod_caps as $c => $val ) {
-			$this->assertArrayNotHasKey( $c, (array) $wp_roles->roles['contributor']['capabilities'] ); }
+			$this->assertArrayNotHcommentey( $c, (array) $wp_roles->roles['contributor']['capabilities'] ); }
 
 		foreach ( $this->_normal_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['contributor']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['contributor']['capabilities'] ); }
 	}
 
 	public function test_author_caps() {
@@ -171,10 +171,10 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 		}
 
 		foreach ( $this->_mod_caps as $c => $val ) {
-			$this->assertArrayNotHasKey( $c, (array) $wp_roles->roles['author']['capabilities'] ); }
+			$this->assertArrayNotHcommentey( $c, (array) $wp_roles->roles['author']['capabilities'] ); }
 
 		foreach ( $this->_normal_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['author']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['author']['capabilities'] ); }
 	}
 
 	public function test_subscriber_caps() {
@@ -185,29 +185,29 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 		}
 
 		foreach ( $this->_mod_caps as $c => $val ) {
-			$this->assertArrayNotHasKey( $c, (array) $wp_roles->roles['subscriber']['capabilities'] ); }
+			$this->assertArrayNotHcommentey( $c, (array) $wp_roles->roles['subscriber']['capabilities'] ); }
 
 		foreach ( $this->_normal_caps as $c => $val ) {
-			$this->assertArrayHasKey( $c, (array) $wp_roles->roles['subscriber']['capabilities'] ); }
+			$this->assertArrayHcommentey( $c, (array) $wp_roles->roles['subscriber']['capabilities'] ); }
 	}
 
-	public function test_user_can_ask() {
+	public function test_user_can_comment() {
 		$this->_setRole( 'subscriber' );
-		$this->assertTrue( ap_user_can_ask() );
+		$this->assertTrue( ap_user_can_comment() );
 		$this->_setRole( 'ap_participant' );
-		$this->assertTrue( ap_user_can_ask() );
+		$this->assertTrue( ap_user_can_comment() );
 		$this->_setRole( 'ap_moderator' );
-		$this->assertTrue( ap_user_can_ask() );
+		$this->assertTrue( ap_user_can_comment() );
 		$this->_setRole( 'editor' );
-		$this->assertTrue( ap_user_can_ask() );
+		$this->assertTrue( ap_user_can_comment() );
 		$this->_setRole( 'ap_banned' );
-		$this->assertFalse( ap_user_can_ask() );
+		$this->assertFalse( ap_user_can_comment() );
 	}
 
-	public function test_anonymous_can_ask() {
+	public function test_anonymous_can_comment() {
 		$this->logout();
 		ap_opt('allow_anonymous', true );
-		$this->assertTrue( ap_user_can_ask() );
+		$this->assertTrue( ap_user_can_comment() );
 	}
 
 	public function test_user_can_answer() {
@@ -255,21 +255,21 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 
 	public function test_user_can_select_answer() {
 		$this->_setRole( 'subscriber' );
-		$asker_id = get_current_user_id();
+		$commenter_id = get_current_user_id();
 		$question_id = $this->factory->post->create( array( 'post_title' => 'Test question another', 'post_type' => 'question', 'post_status' => 'publish' ) );
 		$this->logout();
 		$this->_setRole( 'subscriber' );
 		$answer_id = $this->factory->post->create( array( 'post_title' => 'Test question another', 'post_type' => 'answer', 'post_status' => 'publish', 'post_parent' => $question_id ) );
 		$this->assertFalse( ap_user_can_select_answer($answer_id ) );
 		$this->logout();
-		$this->assertTrue( ap_user_can_select_answer( $answer_id, $asker_id ) );
+		$this->assertTrue( ap_user_can_select_answer( $answer_id, $commenter_id ) );
 		$this->_setRole( 'administrator' );
 		$this->assertTrue( ap_user_can_select_answer( $answer_id ) );
 	}
 
 	public function test_user_can_edit_question() {
 		$this->_setRole( 'subscriber' );
-		$asker_id = get_current_user_id();
+		$commenter_id = get_current_user_id();
 		$question_id = $this->factory->post->create( array( 'post_title' => 'Test question another', 'post_type' => 'question', 'post_status' => 'publish' ) );
 
 		$this->assertTrue( ap_user_can_edit_question( $question_id ) );
@@ -297,7 +297,7 @@ class RoleTest extends \Codeception\TestCase\WPTestCase
 
 	public function test_user_can_edit_answer() {
 		$this->_setRole( 'subscriber' );
-		$asker_id = get_current_user_id();
+		$commenter_id = get_current_user_id();
 		$question_id = $this->factory->post->create( array( 'post_title' => 'Test question another', 'post_type' => 'question', 'post_status' => 'publish' ) );
 
 		$this->logout();

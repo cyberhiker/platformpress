@@ -1,13 +1,11 @@
 <?php
 /**
- * AnsPress options
+ * PlatformPress options
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://rahularyan.com
- * @copyright 2014 Rahul Aryan
- * @since 2.0.1
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -16,9 +14,9 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * To retrive AnsPress option
+ * To retrive PlatformPress option
  * @param  string $key   Name of option to retrive,
- *                       Keep it blank to get all options of AnsPress
+ *                       Keep it blank to get all options of PlatformPress
  * @param  string $value Enter value to update existing option
  * @return string
  * @since 0.1
@@ -27,13 +25,13 @@ function ap_opt($key = false, $value = null) {
 	$settings = wp_cache_get('ap_opt', 'options' );
 
 	if ( false === $settings ) {
-		$settings = get_option( 'anspress_opt' );
+		$settings = get_option( 'platformpress_opt' );
 
 		if ( ! $settings ) {
 			$settings = array();
 		}
 
-		wp_cache_set('anspress_opt', $settings, 'options' );
+		wp_cache_set('platformpress_opt', $settings, 'options' );
 	}
 
 	$settings = $settings + ap_default_options();
@@ -41,29 +39,29 @@ function ap_opt($key = false, $value = null) {
 	if ( ! is_null( $value ) ) {
 
 		$settings[$key] = $value;
-		update_option( 'anspress_opt', $settings );
+		update_option( 'platformpress_opt', $settings );
 
 		// Clear cache if option updated.
-		wp_cache_delete( 'anspress_opt', 'options' );
+		wp_cache_delete( 'platformpress_opt', 'options' );
 
 		return;
 	}
 
 	if ( false === $key ) {
-		return $settings; 
+		return $settings;
 	}
 
 	if ( isset($settings[$key] ) ) {
-		return $settings[$key]; 
+		return $settings[$key];
 	} else {
-		return null; 
+		return null;
 	}
 
 	return false;
 }
 
 /**
- * Default options for AnsPress
+ * Default options for PlatformPress
  * @return array
  * @since 2.0.1
  */
@@ -109,7 +107,7 @@ function ap_default_options() {
 		'question_text_editor'		=> false,
 		'answer_text_editor'		=> false,
 		'base_page_title'			=> 'Questions',
-		'ask_page_title'			=> 'Ask question',
+		'comment_page_title'			=> 'comment question',
 		'search_page_title'			=> 'Search "%s"',
 		'disable_comments_on_question' => false,
 		'disable_comments_on_answer' => false,
@@ -137,22 +135,22 @@ function ap_default_options() {
 		'image_per_post' 			=> 3,
 		'base_before_user_perma' 	=> false,
 		'user_page_slug' 			=> 'user',
-		'ask_page_slug' 			=> 'ask',
+		'comment_page_slug' 			=> 'comment',
 		'question_page_slug' 		=> 'question',
 		'users_page_slug' 			=> 'users',
-		'users_page_title' 			=> __('Users', 'anspress-question-answer' ),
+		'users_page_title' 			=> __('Users', 'platformpress' ),
 		'users_page_title' 			=> false,
 		'max_upload_size' 			=> 500000,
 		'disable_down_vote_on_question' => false,
 		'disable_down_vote_on_answer' => false,
 		'show_solved_prefix'		=> true,
 		'notification_sidebar'		=> false,
-		'user_profile'				=> 'anspress',
+		'user_profile'				=> 'platformpress',
 		'check_bad_words'			=> false,
 		'bad_word_post_action'		=> 'moderate',
 		'bad_word_comment_action'	=> 'moderate',
 		'akismet_validation'		=> false,
-		'load_assets_in_anspress_only'		=> false,
+		'load_assets_in_platformpress_only'		=> false,
 		'only_logged_in'			=> false,
 		'keep_stop_words'			=> true,
 		'default_date_format'		=> false,

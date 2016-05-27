@@ -1,18 +1,17 @@
 <?php
 /**
- * Class for AnsPress base page shortcode
+ * Class for PlatformPress base page shortcode
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
- * Class for AnsPress base page shortcode
+ * Class for PlatformPress base page shortcode
  */
-class AnsPress_BasePage_Shortcode {
+class PlatformPress_BasePage_Shortcode {
 
 	protected static $instance = null;
 
@@ -25,7 +24,7 @@ class AnsPress_BasePage_Shortcode {
 	}
 
 	/**
-	 * Control the output of [anspress] shortcode
+	 * Control the output of [platformpress] shortcode
 	 *
 	 * @param  array  $atts  {
 	 *     Attributes of the shortcode.
@@ -43,12 +42,12 @@ class AnsPress_BasePage_Shortcode {
 	 * @since 2.0.0
 	 * @since  3.0.0 Added new attribute `hide_list_head` and `attr_sortby`.
 	 */
-	public function anspress_sc( $atts, $content = '' ) {
+	public function platformpress_sc( $atts, $content = '' ) {
 		global $questions, $ap_shortcode_loaded;
 
-		// Check if AnsPress shortcode already loaded.
+		// Check if PlatformPress shortcode already loaded.
 		if ( true === $ap_shortcode_loaded ) {
-			return __('AnsPress shortcode cannot be nested.', 'anspress-question-answer' );
+			return __('PlatformPress shortcode cannot be nested.', 'platformpress' );
 		}
 
 		$ap_shortcode_loaded = true;
@@ -56,10 +55,10 @@ class AnsPress_BasePage_Shortcode {
 		$this->attributes($atts, $content );
 
 		ob_start();
-		echo '<div id="anspress">';
+		echo '<div id="platformpress">';
 
 			/**
-			 * Action is fired before loading AnsPress body.
+			 * Action is fired before loading PlatformPress body.
 			 */
 			do_action( 'ap_before' );
 
@@ -68,7 +67,7 @@ class AnsPress_BasePage_Shortcode {
 
 			// Linkback to author.
 			if ( ! ap_opt( 'author_credits' ) ) {
-				echo '<div class="ap-cradit">' . __( 'Question and answer is powered by', 'anspress-question-answer' ). ' <a href="https://anspress.io" traget="_blank">AnsPress.io</a>' . '</div>';
+				echo '<div class="ap-cradit">' . __( 'Question and answer is powered by', 'platformpress' ). ' <a href="https://platformpress.io" traget="_blank">PlatformPress.io</a>' . '</div>';
 			}
 		echo '</div>';
 		wp_reset_postdata();
@@ -108,7 +107,7 @@ class AnsPress_BasePage_Shortcode {
 			$wp->set_query_var( 'ap_categories_operator', $categories_operator );
 		}
 
-		// Load specefic AnsPress page.
+		// Load specefic PlatformPress page.
 		if ( isset( $atts['page'] ) ) {
 			set_query_var( 'ap_page', $atts['page'] );
 			$_GET['ap_page'] = $atts['page'];
@@ -127,4 +126,3 @@ class AnsPress_BasePage_Shortcode {
 	}
 
 }
-

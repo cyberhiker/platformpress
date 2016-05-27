@@ -1,6 +1,6 @@
 <?php
 /**
- * AnsPress user widget.
+ * PlatformPress user widget.
  *
  * Display logged in users profile menu and profile details. 
  */
@@ -12,8 +12,8 @@ class AP_User_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'ap_user_widget',
-			__( '(AnsPress) User menu and profile', 'anspress-question-answer' ),
-			array( 'description' => __( 'Display current logged in users detail and menu.', 'anspress-question-answer' ) )
+			__( '(PlatformPress) User menu and profile', 'platformpress' ),
+			array( 'description' => __( 'Display current logged in users detail and menu.', 'platformpress' ) )
 		);
 	}
 
@@ -38,7 +38,7 @@ class AP_User_Widget extends WP_Widget {
 				endwhile;
 			}
 		} else {
-			_e( 'Login to see your profile links', 'anspress-question-answer' );
+			_e( 'Login to see your profile links', 'platformpress' );
 		}
 
 		echo '</div>';
@@ -50,11 +50,11 @@ class AP_User_Widget extends WP_Widget {
 		if ( isset( $instance[ 'title' ] ) ) {
 			$title = $instance[ 'title' ];
 		} else {
-			$title = __( 'My profile', 'anspress-question-answer' );
+			$title = __( 'My profile', 'platformpress' );
 		}
 		?>
         <p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
 		<?php

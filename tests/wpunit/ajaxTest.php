@@ -63,7 +63,7 @@ class ApajaxTest extends \Codeception\TestCase\WPAjaxTestCase
 		$nonce = wp_create_nonce( 'vote_'.$this->current_post );
 
 		$this->_set_post_data( 'ap_ajax_action=vote&type=up&post_id='.$this->current_post.'&__nonce='.$nonce.'' );
-		add_action( 'ap_ajax_vote', array( 'AnsPress_Vote', 'vote' ) );
+		add_action( 'ap_ajax_vote', array( 'PlatformPress_Vote', 'vote' ) );
 		$this->triggerAjaxCapture();
 
 		// Ensure we found the right match
@@ -75,7 +75,7 @@ class ApajaxTest extends \Codeception\TestCase\WPAjaxTestCase
 		$this->_setRole( 'subscriber' );
 		$nonce = wp_create_nonce( 'vote_'.$this->current_post );
 		$this->_set_post_data( 'ap_ajax_action=vote&type=up&post_id='.$this->current_post.'&__nonce='.$nonce.'' );
-		add_action( 'ap_ajax_vote', array( 'AnsPress_Vote', 'vote' ) );
+		add_action( 'ap_ajax_vote', array( 'PlatformPress_Vote', 'vote' ) );
 		$this->triggerAjaxCapture();
 		$this->assertTrue( 'Thank you for voting.' == $this->ap_ajax_success( 'message' ) );
 		$this->assertTrue( '1' == $this->ap_ajax_success( 'count' ) );
@@ -85,7 +85,7 @@ class ApajaxTest extends \Codeception\TestCase\WPAjaxTestCase
 		$this->_setRole( 'ap_participant' );
 		$nonce = wp_create_nonce( 'vote_'.$this->current_post );
 		$this->_set_post_data( 'ap_ajax_action=vote&type=down&post_id='.$this->current_post.'&__nonce='.$nonce.'' );
-		add_action( 'ap_ajax_vote', array( 'AnsPress_Vote', 'vote' ) );
+		add_action( 'ap_ajax_vote', array( 'PlatformPress_Vote', 'vote' ) );
 		$this->triggerAjaxCapture();
 		$this->assertTrue( 'Thank you for voting.' == $this->ap_ajax_success( 'message' ) );
 		$this->assertTrue( '-1' == $this->ap_ajax_success( 'count' ) );
@@ -97,7 +97,7 @@ class ApajaxTest extends \Codeception\TestCase\WPAjaxTestCase
         $counts = ap_add_post_vote( get_current_user_id(), 'vote_up', $this->current_post, $post->post_author );
         $nonce = wp_create_nonce( 'vote_'.$this->current_post );
         $this->_set_post_data( 'ap_ajax_action=vote&type=up&post_id='.$this->current_post.'&__nonce='.$nonce.'' );
-        add_action( 'ap_ajax_vote', array( 'AnsPress_Vote', 'vote' ) );
+        add_action( 'ap_ajax_vote', array( 'PlatformPress_Vote', 'vote' ) );
         $this->triggerAjaxCapture();
         $this->assertTrue( 'Your vote has been removed.' == $this->ap_ajax_success( 'message' ) );
         $this->assertTrue( '1' == $this->ap_ajax_success( 'count' ) );
@@ -109,7 +109,7 @@ class ApajaxTest extends \Codeception\TestCase\WPAjaxTestCase
 		$counts = ap_add_post_vote( get_current_user_id(), 'vote_up', $this->current_post, $post->post_author );
 		$nonce = wp_create_nonce( 'vote_'.$this->current_post );
 		$this->_set_post_data( 'ap_ajax_action=vote&type=down&post_id='.$this->current_post.'&__nonce='.$nonce.'' );
-		add_action( 'ap_ajax_vote', array( 'AnsPress_Vote', 'vote' ) );
+		add_action( 'ap_ajax_vote', array( 'PlatformPress_Vote', 'vote' ) );
 		$this->triggerAjaxCapture();
 		$this->assertTrue( 'Undo your vote first.' == $this->ap_ajax_success( 'message' ) );
 	}
@@ -121,7 +121,7 @@ class ApajaxTest extends \Codeception\TestCase\WPAjaxTestCase
 
 		$nonce = wp_create_nonce( 'ap_ajax_nonce' );
 		$this->_set_post_data( 'ap_ajax_action=suggest_similar_questions&value=Very+unique&__nonce='.$nonce.'' );
-		add_action( 'ap_ajax_suggest_similar_questions', array( 'AnsPress_Ajax', 'suggest_similar_questions' ) );
+		add_action( 'ap_ajax_suggest_similar_questions', array( 'PlatformPress_Ajax', 'suggest_similar_questions' ) );
 		$this->triggerAjaxCapture();
 		$json = $this->ap_ajax_success(false, true );
 		$this->assertContains( 'Very unique question', strip_tags($json->html ) );
@@ -133,12 +133,12 @@ class ApajaxTest extends \Codeception\TestCase\WPAjaxTestCase
 
 		$nonce = wp_create_nonce( 'comment_form_nonce' );
 		$this->_set_post_data( 'ap_ajax_action=load_comments&args[]='.$this->current_post.'&__nonce='.$nonce.'' );
-		add_action( 'ap_ajax_load_comments', array( 'AnsPress_Comment_Hooks', 'load_comments' ) );
+		add_action( 'ap_ajax_load_comments', array( 'PlatformPress_Comment_Hooks', 'load_comments' ) );
 		$this->triggerAjaxCapture();
 		$comments = $this->ap_ajax_success( 'comments' );
 		$this->assertTrue( $comments[0]->id > 0 );
-		$this->assertArrayHasKey( '0', $comments );
-		$this->assertArrayHasKey( 'id', $comments[0] );
-		$this->assertArrayHasKey( 'id', $comments[0]['content'] );
+		$this->assertArrayHcommentey( '0', $comments );
+		$this->assertArrayHcommentey( 'id', $comments[0] );
+		$this->assertArrayHcommentey( 'id', $comments[0]['content'] );
 	}*/
 }

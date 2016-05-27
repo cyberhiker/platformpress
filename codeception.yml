@@ -30,7 +30,7 @@ modules:
             url: 'http://wptest.localhost'
             tablePrefix: wp_
         WPLoader:
-            wpRootFolder: /home/travis/build/anspress/anspress/www
+            wpRootFolder: /home/travis/build/platformpress/platformpress/www
             dbName: wptest
             dbHost: localhost
             dbUser: root
@@ -44,8 +44,8 @@ modules:
             title: 'WP Tests'
             phpBinary: php
             language: ''
-            plugins: [hello.php, anspress-question-answer/anspress-question-answer.php]
-            activatePlugins: [hello.php, anspress-question-answer/anspress-question-answer.php]
+            plugins: [hello.php, platformpress/platformpress.php]
+            activatePlugins: [hello.php, platformpress/platformpress.php]
             bootstrapActions: [my-first-action, my-second-action]
         WPWebDriver:
             url: 'http://wptest.localhost'

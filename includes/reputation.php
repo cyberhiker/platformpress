@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPress reputation controller class
+ * PlatformPress reputation controller class
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-3.0+
- * @link      http://wp3.com
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 class AP_Reputation {
@@ -22,7 +21,7 @@ class AP_Reputation {
 			return;
 		}
 
-		ap_register_user_page( 'reputation', __( 'Reputation', 'anspress-question-answer' ), array( $this, 'reputation_page' ) );
+		ap_register_user_page( 'reputation', __( 'Reputation', 'platformpress' ), array( $this, 'reputation_page' ) );
 		add_filter( 'ap_user_menu', array( $this, 'sort_reputation_page' ) );
 
 		add_action( 'ap_after_new_question', array( $this, 'new_question' ) );
@@ -287,7 +286,7 @@ class AP_Reputation {
 
 	public function display_meta($metas, $user_id) {
 		if ( $user_id > 0 ) {
-			$metas['reputation'] = '<span class="ap-user-meta ap-user-meta-reputation" title="'.__( 'Reputation', 'anspress-question-answer' ).'">'. sprintf( __( '%s Rep.', 'anspress-question-answer' ), ap_get_reputation( $user_id, true ) ) .'</span>'; }
+			$metas['reputation'] = '<span class="ap-user-meta ap-user-meta-reputation" title="'.__( 'Reputation', 'platformpress' ).'">'. sprintf( __( '%s Rep.', 'platformpress' ), ap_get_reputation( $user_id, true ) ) .'</span>'; }
 
 		return $metas;
 	}
@@ -310,7 +309,7 @@ class AP_Reputation {
  *                           @param integer $offset Rows to offset
  * @since 2.3
  */
-class AnsPress_Reputation
+class PlatformPress_Reputation
 {
 	/**
 	 * The loop iterator.
@@ -485,7 +484,7 @@ class AnsPress_Reputation
 
 	}
 
-	
+
 }
 
 /**
@@ -499,17 +498,17 @@ function ap_has_reputations($args = '') {
 
 	$args = wp_parse_args( $args, array( 'sortby' => $sortby ) );
 
-	anspress()->reputations = new AnsPress_Reputation( $args );
+	platformpress()->reputations = new PlatformPress_Reputation( $args );
 
-	return anspress()->reputations->has_reputations();
+	return platformpress()->reputations->has_reputations();
 }
 
 function ap_reputations() {
-	return anspress()->reputations->reputations();
+	return platformpress()->reputations->reputations();
 }
 
 function ap_the_reputation() {
-	return anspress()->reputations->the_reputation();
+	return platformpress()->reputations->the_reputation();
 }
 
 /**
@@ -517,7 +516,7 @@ function ap_the_reputation() {
  * @return object
  */
 function ap_reputation_the_object() {
-	$rep = anspress()->reputations->reputation;
+	$rep = platformpress()->reputations->reputation;
 	return $rep;
 }
 
@@ -548,7 +547,7 @@ function ap_reputation_get_the_reputation() {
 	$rep = ap_reputation_get_reputation();
 
 	if ( $rep > 0 ) {
-		printf( __( '+%d', 'anspress-question-answer' ), $rep );
+		printf( __( '+%d', 'platformpress' ), $rep );
 	} else {
 		echo $rep;
 	}
@@ -596,35 +595,35 @@ function ap_reputation_get_info($event, $action_id) {
 
 	switch ( $event ) {
 		case 'question':
-			$info = sprintf( __( '%sAsked %s', 'anspress-question-answer' ), '<span class="ap-reputation-event">', '</span><a href="'.get_permalink( $action_id ).'">'.get_the_title( $action_id ).'</a>' );
+			$info = sprintf( __( '%scommented %s', 'platformpress' ), '<span class="ap-reputation-event">', '</span><a href="'.get_permalink( $action_id ).'">'.get_the_title( $action_id ).'</a>' );
 			break;
 
 		case 'answer':
-			$info = sprintf( __( '%sAnswered %s', 'anspress-question-answer' ), '<span class="ap-reputation-event">','</span><a href="'.get_permalink( $action_id ).'">'. get_the_title( $action_id ).'</a>' );
+			$info = sprintf( __( '%sAnswered %s', 'platformpress' ), '<span class="ap-reputation-event">','</span><a href="'.get_permalink( $action_id ).'">'. get_the_title( $action_id ).'</a>' );
 			break;
 
 		case 'comment':
-			$info = sprintf( __( '%sCommented %s', 'anspress-question-answer' ), '<span class="ap-reputation-event">', '</span><a href="'.get_comment_link( $action_id ).'">'. get_comment_text( $action_id ).'</a>' );
+			$info = sprintf( __( '%sCommented %s', 'platformpress' ), '<span class="ap-reputation-event">', '</span><a href="'.get_comment_link( $action_id ).'">'. get_comment_text( $action_id ).'</a>' );
 			break;
 
 		case 'selecting_answer':
-			$info = sprintf( __( '%sSelected answer %s','anspress-question-answer' ), '<span class="ap-reputation-event">', '</span><a href="'.get_permalink( $action_id ).'">'. get_the_title( $action_id ).'</a>' );
+			$info = sprintf( __( '%sSelected answer %s','platformpress' ), '<span class="ap-reputation-event">', '</span><a href="'.get_permalink( $action_id ).'">'. get_the_title( $action_id ).'</a>' );
 			break;
 
 		case 'vote_up':
-			$info = sprintf( __( '%sUp vote %s %s','anspress-question-answer' ), '<span class="ap-reputation-event">', '</span>'.__( get_post_type( $action_id ) ,'anspress-question-answer' ), '<a href="'.get_permalink( $action_id ).'">'.get_the_title( $action_id ).'</a>' );
+			$info = sprintf( __( '%sUp vote %s %s','platformpress' ), '<span class="ap-reputation-event">', '</span>'.__( get_post_type( $action_id ) ,'platformpress' ), '<a href="'.get_permalink( $action_id ).'">'.get_the_title( $action_id ).'</a>' );
 			break;
 
 		case 'vote_down':
-			$info = sprintf( __( '%sDown vote %s %s','anspress-question-answer' ), '<span class="ap-reputation-event">', '</span>'.get_post_type( $action_id ), '<a href="'.get_permalink( $action_id ).'">'.get_the_title( $action_id ).'</a>' );
+			$info = sprintf( __( '%sDown vote %s %s','platformpress' ), '<span class="ap-reputation-event">', '</span>'.get_post_type( $action_id ), '<a href="'.get_permalink( $action_id ).'">'.get_the_title( $action_id ).'</a>' );
 			break;
 
 		case 'voted_down':
-			$info = sprintf( __( '%sDown voted %s','anspress-question-answer' ), '<span class="ap-reputation-event">', '</span>'.get_post_type( $action_id ) );
+			$info = sprintf( __( '%sDown voted %s','platformpress' ), '<span class="ap-reputation-event">', '</span>'.get_post_type( $action_id ) );
 			break;
 
 		case 'best_answer':
-			$info = sprintf( __( '%sBest answer %s','anspress-question-answer' ), '<span class="ap-reputation-event">', '</span>'.get_post_type( $action_id ) );
+			$info = sprintf( __( '%sBest answer %s','platformpress' ), '<span class="ap-reputation-event">', '</span>'.get_post_type( $action_id ) );
 			break;
 
 		default:
@@ -815,114 +814,114 @@ function ap_default_reputation() {
 	$reputation = array(
 		array(
 			'id'       		=> 1,
-			'title'       	=> __( 'New Registration', 'anspress-question-answer' ),
-			'description' 	=> __( 'Points given to newly registered user.', 'anspress-question-answer' ),
+			'title'       	=> __( 'New Registration', 'platformpress' ),
+			'description' 	=> __( 'Points given to newly registered user.', 'platformpress' ),
 			'reputation'      	=> '1',
 			'event'    		=> 'registration',
 		),
 		array(
 			'id'       		=> 2,
-			'title'       	=> __( 'Uploading avatar', 'anspress-question-answer' ),
-			'description' 	=> __( 'Awarded for uploading an profile picture.', 'anspress-question-answer' ),
+			'title'       	=> __( 'Uploading avatar', 'platformpress' ),
+			'description' 	=> __( 'Awarded for uploading an profile picture.', 'platformpress' ),
 			'reputation'      	=> '2',
 			'event'    		=> 'uploaded_avatar',
 		),
 		array(
 			'id'       		=> 3,
-			'title'       	=> __( 'Completing profile', 'anspress-question-answer' ),
-			'description' 	=> __( 'Awarded for completing profile fields.', 'anspress-question-answer' ),
+			'title'       	=> __( 'Completing profile', 'platformpress' ),
+			'description' 	=> __( 'Awarded for completing profile fields.', 'platformpress' ),
 			'reputation'      	=> '2',
 			'event'    		=> 'uploaded_avatar',
 		),
 		array(
 			'id'       		=> 4,
-			'title'       	=> __( 'Question', 'anspress-question-answer' ),
-			'description' 	=> __( 'For asking a question.', 'anspress-question-answer' ),
+			'title'       	=> __( 'Question', 'platformpress' ),
+			'description' 	=> __( 'For commenting a question.', 'platformpress' ),
 			'reputation'      	=> '2',
 			'event'    		=> 'new_question',
 		),
 		array(
 			'id'       		=> 5,
-			'title'       	=> __( 'Answer', 'anspress-question-answer' ),
-			'description' 	=> __( 'For answering a question.', 'anspress-question-answer' ),
+			'title'       	=> __( 'Answer', 'platformpress' ),
+			'description' 	=> __( 'For answering a question.', 'platformpress' ),
 			'reputation'      	=> '10',
 			'event'    		=> 'new_answer',
 		),
 		array(
 			'id'       		=> 6,
-			'title'       	=> __( 'Comment', 'anspress-question-answer' ),
-			'description' 	=> __( 'For new comment.', 'anspress-question-answer' ),
+			'title'       	=> __( 'Comment', 'platformpress' ),
+			'description' 	=> __( 'For new comment.', 'platformpress' ),
 			'reputation'      	=> '1',
 			'event'    		=> 'new_comment',
 		),
 		array(
 			'id'       		=> 7,
-			'title'       	=> __( 'Receive upvote on question', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user receive an upvote on question', 'anspress-question-answer' ),
+			'title'       	=> __( 'Receive upvote on question', 'platformpress' ),
+			'description' 	=> __( 'When user receive an upvote on question', 'platformpress' ),
 			'reputation'      	=> '2',
 			'event'    		=> 'question_upvote',
 		),
 		array(
 			'id'       		=> 8,
-			'title'       	=> __( 'Receive upvote on answer', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user receive an upvote on answer', 'anspress-question-answer' ),
+			'title'       	=> __( 'Receive upvote on answer', 'platformpress' ),
+			'description' 	=> __( 'When user receive an upvote on answer', 'platformpress' ),
 			'reputation'      	=> '5',
 			'event'    		=> 'answer_upvote',
 		),
 		array(
 			'id'       		=> 9,
-			'title'       	=> __( 'Receive down vote on question', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user receive an down vote on question', 'anspress-question-answer' ),
+			'title'       	=> __( 'Receive down vote on question', 'platformpress' ),
+			'description' 	=> __( 'When user receive an down vote on question', 'platformpress' ),
 			'reputation'      	=> '-1',
 			'event'    		=> 'question_downvote',
 		),
 		array(
 			'id'       		=> 10,
-			'title'       	=> __( 'Receive down vote on answer', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user receive an down vote on answer', 'anspress-question-answer' ),
+			'title'       	=> __( 'Receive down vote on answer', 'platformpress' ),
+			'description' 	=> __( 'When user receive an down vote on answer', 'platformpress' ),
 			'reputation'      	=> '-3',
 			'event'    		=> 'answer_downvote',
 		),
 		array(
 			'id'       		=> 11,
-			'title'       	=> __( 'Up voted questions', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user upvote others question', 'anspress-question-answer' ),
+			'title'       	=> __( 'Up voted questions', 'platformpress' ),
+			'description' 	=> __( 'When user upvote others question', 'platformpress' ),
 			'reputation'      	=> '0',
 			'event'    		=> 'question_upvoted',
 		),
 		array(
 			'id'       		=> 12,
-			'title'       	=> __( 'Up voted answers', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user upvote others answer', 'anspress-question-answer' ),
+			'title'       	=> __( 'Up voted answers', 'platformpress' ),
+			'description' 	=> __( 'When user upvote others answer', 'platformpress' ),
 			'reputation'      	=> '0',
 			'event'    		=> 'answer_upvoted',
 		),
 		array(
 			'id'       		=> 13,
-			'title'       	=> __( 'Down voted questions', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user down vote others question', 'anspress-question-answer' ),
+			'title'       	=> __( 'Down voted questions', 'platformpress' ),
+			'description' 	=> __( 'When user down vote others question', 'platformpress' ),
 			'reputation'      	=> '-1',
 			'event'    		=> 'question_downvoted',
 		),
 		array(
 			'id'       		=> 14,
-			'title'       	=> __( 'Down voted answers', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user down vote others answers', 'anspress-question-answer' ),
+			'title'       	=> __( 'Down voted answers', 'platformpress' ),
+			'description' 	=> __( 'When user down vote others answers', 'platformpress' ),
 			'reputation'      	=> '-1',
 			'event'    		=> 'answer_downvoted',
 			'negative'    	=> true,
 		),
 		array(
 			'id'       		=> 15,
-			'title'       	=> __( 'Best answer', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user\'s answer get selected as best', 'anspress-question-answer' ),
+			'title'       	=> __( 'Best answer', 'platformpress' ),
+			'description' 	=> __( 'When user\'s answer get selected as best', 'platformpress' ),
 			'reputation'      	=> '10',
 			'event'    		=> 'select_answer',
 		),
 		array(
 			'id'       		=> 16,
-			'title'       	=> __( 'Selecting answer', 'anspress-question-answer' ),
-			'description' 	=> __( 'When user user select an answer.', 'anspress-question-answer' ),
+			'title'       	=> __( 'Selecting answer', 'platformpress' ),
+			'description' 	=> __( 'When user user select an answer.', 'platformpress' ),
 			'reputation'      	=> '2',
 			'event'    		=> 'selecting_answer',
 		),
@@ -982,4 +981,3 @@ function ap_get_top_10_ranked_users() {
 
 	return $results;
 }
-

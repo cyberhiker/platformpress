@@ -3,7 +3,7 @@ class AP_PostDiscussion_Widget extends WP_Widget {
 
 	public function AP_PostDiscussion_Widget() {
 		// Instantiate the parent object
-		parent::__construct( false, 'AnsPress Post Discussion' );
+		parent::__construct( false, 'PlatformPress Post Discussion' );
 	}
 
 	public function widget( $args, $instance ) {
@@ -16,7 +16,7 @@ class AP_PostDiscussion_Widget extends WP_Widget {
 	public function form( $instance ) {		
 		?>
 		<p>
-			<?php _e('No options', 'anspress-question-answer'); ?>
+			<?php _e('No options', 'platformpress'); ?>
 		</p>
 		<?php 
 	}

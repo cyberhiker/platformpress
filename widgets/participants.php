@@ -1,12 +1,12 @@
 <?php
 /**
- * AnsPress participants question
+ * PlatformPress participants question
  * Widget for showing participants button
- * @package AnsPress
- * @author Rahul Aryan <support@anspress.io>
- * @license GPL 2+ GNU GPL licence above 2+
- * @link http://anspress.io
- * @since 2.0.0-alpha2
+ *
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -14,15 +14,15 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die();
 }
 
-class AnsPress_Participants_Widget extends WP_Widget {
+class PlatformPress_Participants_Widget extends WP_Widget {
 	/**
 	 * Initialize the class
 	 */
 	public function __construct() {
 		parent::__construct(
-			'AnsPress_Participants_Widget',
-			__( '(AnsPress) Participants', 'anspress-question-answer' ),
-			array( 'description' => __( 'Show question participants', 'anspress-question-answer' ) )
+			'PlatformPress_Participants_Widget',
+			__( '(PlatformPress) Participants', 'platformpress' ),
+			array( 'description' => __( 'Show question participants', 'platformpress' ) )
 		);
 
 	}
@@ -45,11 +45,11 @@ class AnsPress_Participants_Widget extends WP_Widget {
 
 		?>
         <p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
         <p>
-			<label for="<?php echo $this->get_field_id( 'avatar_size' ); ?>"><?php _e( 'Avatar size:', 'anspress-question-answer' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'avatar_size' ); ?>"><?php _e( 'Avatar size:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'avatar_size' ); ?>" name="<?php echo $this->get_field_name( 'avatar_size' ); ?>" type="text" value="<?php echo esc_attr( $avatar_size ); ?>">
         </p>
 		<?php
@@ -75,8 +75,7 @@ class AnsPress_Participants_Widget extends WP_Widget {
 }
 
 function ap_participants_register_widgets() {
-	register_widget( 'AnsPress_Participants_Widget' );
+	register_widget( 'PlatformPress_Participants_Widget' );
 }
 
 add_action( 'widgets_init', 'ap_participants_register_widgets' );
-

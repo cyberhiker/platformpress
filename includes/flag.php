@@ -4,16 +4,16 @@
  *
  * This file keep all function required by flagging system.
  *
- * @link http://anspress.io
- * @since 2.3.4
- *
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  **/
 
 /**
  * All flag methods.
  */
-class AnsPress_Flag
+class PlatformPress_Flag
 {
 	/**
 	 * Ajax callback for processing comment flag button.
@@ -42,7 +42,7 @@ class AnsPress_Flag
 
 		ap_insert_comment_flag( $userid, $comment_id );
 		$count = ap_comment_flag_count( $comment_id );
-		update_comment_meta( $comment_id, ANSPRESS_FLAG_META, $count );
+		update_comment_meta( $comment_id, platformpress_FLAG_META, $count );
 
 		ap_ajax_json( array(
 			'message' 	=> 'flagged_comment',
@@ -76,9 +76,9 @@ class AnsPress_Flag
         ap_add_flag( $userid, $post_id );
 
         $new_count = $count + 1;
-		
+
 		// Update post meta.
-		update_post_meta( $post_id, ANSPRESS_FLAG_META, $new_count );
+		update_post_meta( $post_id, platformpress_FLAG_META, $new_count );
         ap_ajax_json( array(
         	'message' => 'flagged',
         	'action' => 'flagged',
@@ -151,7 +151,7 @@ function ap_post_flag_count($postid = false) {
  * @return integer
  */
 function ap_flagged_post_meta( $post_id ) {
-	return (int) get_post_meta( $post_id, ANSPRESS_FLAG_META, true );
+	return (int) get_post_meta( $post_id, platformpress_FLAG_META, true );
 }
 
 /**
@@ -188,9 +188,9 @@ function ap_flag_btn_html($echo = false) {
 	$flagged = ap_is_user_flagged();
 	$total_flag = ap_flagged_post_meta( $post->ID );
 	$nonce = wp_create_nonce('flag_'.$post->ID );
-	$title = ( ! $flagged) ? (__('Flag this post', 'anspress-question-answer' )) : (__('You have flagged this post', 'anspress-question-answer' ));
+	$title = ( ! $flagged) ? (__('Flag this post', 'platformpress' )) : (__('You have flagged this post', 'platformpress' ));
 
-	$output = '<a id="flag_'.$post->ID.'" data-action="ajax_btn" data-query="flag_post::'.$nonce.'::'.$post->ID.'" class="flag-btn'.( ! $flagged ? ' can-flagged' : '').'" href="#" title="'.$title.'">'.__('Flag ', 'anspress-question-answer' ).'<span class="ap-data-view ap-view-count-'.$total_flag.'" data-view="'.$post->ID.'_flag_count">'.$total_flag.'</span></a>';
+	$output = '<a id="flag_'.$post->ID.'" data-action="ajax_btn" data-query="flag_post::'.$nonce.'::'.$post->ID.'" class="flag-btn'.( ! $flagged ? ' can-flagged' : '').'" href="#" title="'.$title.'">'.__('Flag ', 'platformpress' ).'<span class="ap-data-view ap-view-count-'.$total_flag.'" data-view="'.$post->ID.'_flag_count">'.$total_flag.'</span></a>';
 
 	if ( $echo ) {
 		echo $output;
@@ -241,7 +241,7 @@ function ap_get_comment_flag_btn($comment_id = false, $label = false) {
 	}
 
 	if ( false === $label ) {
-		$label = __('Flag', 'anspress-question-answer' );
+		$label = __('Flag', 'platformpress' );
 	}
 
 	if ( false === $comment_id ) {
@@ -254,7 +254,7 @@ function ap_get_comment_flag_btn($comment_id = false, $label = false) {
 	$nonce = wp_create_nonce('flag_'.$comment_id );
 
 	$output = '<a id="flag_'.$comment_id.'" data-query="flag_comment::'.$nonce.'::'.$comment_id.'"
-    	data-action="ajax_btn" class="flag-btn'.( ! $flagged ? ' can-flag' : '').'" href="#" title="'.__('Report this comment to moderaor', 'anspress-question-answer' ).'">
+    	data-action="ajax_btn" class="flag-btn'.( ! $flagged ? ' can-flag' : '').'" href="#" title="'.__('Report this comment to moderaor', 'platformpress' ).'">
     	'.$label.'<span class="ap-data-view ap-view-count-'.$total_flag.'" data-view="'.$comment_id.'_comment_flag">'.$total_flag.'</span>
     </a>';
 
@@ -312,5 +312,3 @@ function ap_is_user_flagged_comment($comment_id = false, $user_id = false) {
 function ap_delete_all_post_flags( $post_id ) {
 	return ap_delete_meta( array( 'apmeta_actionid' => (int) $post_id, 'apmeta_type' => 'flag' ) );
 }
-
-

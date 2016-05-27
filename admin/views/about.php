@@ -1,11 +1,11 @@
 <?php
 /**
- * Control the output of AnsPress about page
+ * Control the output of PlatformPress about page
  *
- * @link http://anspress.io
- * @since 2.2
- * @author Rahul Aryan <support@anspress.io>
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -14,11 +14,11 @@ if (! defined('WPINC')) {
 }
 
 ?>
-<div id="anspress" class="wrap ap-about">
+<div id="platformpress" class="wrap ap-about">
 	<h2>
-		<i class="apicon-anspress"></i>
+		<i class="apicon-platformpress"></i>
 		<span><?php echo AP_VERSION; ?></span>
-		
+
 	</h2>
 
 	<div class="container">
@@ -26,7 +26,7 @@ if (! defined('WPINC')) {
 			<div class="col-md-8">
 				<h3>Changelog</h3>
 				<div class="ap-changelog">
-				
+
 				<span class="done"> <span class="bullet-done">✔</span> Form error message below input field</span>
 				<span class="done"> <span class="bullet-done">✔</span> DB error in Answer sorting</span>
 				<span class="done"> <span class="bullet-done">✔</span> While try to edit answer format get cleared </span>
@@ -51,11 +51,11 @@ if (! defined('WPINC')) {
 				<span class="done"> <span class="bullet-done">✔</span> Check comments as general user</span>
 				<span class="done"> <span class="bullet-done">✔</span> Show question filter tab on Category and Tag pages</span>
 				<span class="done"> <span class="bullet-done">✔</span> BuddyPress not working</span>
-				<span class="done"> <span class="bullet-done">✔</span> Short category dropdown in ask form as defined</span>
+				<span class="done"> <span class="bullet-done">✔</span> Short category dropdown in comment form as defined</span>
 				<span class="done"> <span class="bullet-done">✔</span> Rename "voted" tab to vote</span>
 				<span class="done"> <span class="bullet-done">✔</span> Unsolved also shows questions with selected answers</span>
 				<span class="done"> <span class="bullet-done">✔</span> On Single Question page  , Active | Voted | Newest | Oldest should be ajax based</span>
-				<span class="done"> <span class="bullet-done">✔</span> Ask page title option not working</span>
+				<span class="done"> <span class="bullet-done">✔</span> comment page title option not working</span>
 				<span class="done"> <span class="bullet-done">✔</span> Dont let reputation to be negative</span>
 				<span class="done"> <span class="bullet-done">✔</span> Improve UI of button</span>
 				<span class="done"> <span class="bullet-done">✔</span> Add sticky answer navigation</span>
@@ -83,10 +83,10 @@ if (! defined('WPINC')) {
 			<div class="col-md-4">
 				<div class="ap-donation-block">
 					<h3>Please donate</h3>
-					<p>We love open source as you do, so we decided to keep AnsPress free and open source. Your donation will keep us going, so kindly donate. Thanks.</p>
+					<p>We love open source as you do, so we decided to keep PlatformPress free and open source. Your donation will keep us going, so kindly donate. Thanks.</p>
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 						<input type="hidden" name="cmd" value="_xclick">
-						<input type="hidden" name="business" value="support@anspress.io">
+						<input type="hidden" name="business" value="support@platformpress.io">
 						<input type="hidden" name="lc" value="US">
 						<input type="hidden" name="button_subtype" value="services">
 						<input type="hidden" name="no_note" value="0">
@@ -113,17 +113,17 @@ if (! defined('WPINC')) {
 					</form>
 				</div>
 				<div class="ap-dash-tile clearfix">
-					<div class="anspress-links">
-						<a href="http://anspress.io/" target="_blank"><i class="apicon-anspress-icon"></i><?php _e('About AnsPress', 'anspress-question-answer'); ?></a>
-						<a href="http://anspress.io/questions/" target="_blank"><i class="apicon-question"></i><?php _e('Support Q&A', 'anspress-question-answer'); ?></a>
-						<a href="http://anspress.io/themes/" target="_blank"><i class="apicon-info"></i><?php _e('AnsPress Themes', 'anspress-question-answer'); ?></a>
-						<a href="http://github.com/anspress/anspress" target="_blank"><i class="apicon-mark-github"></i><?php _e('Github Repo', 'anspress-question-answer'); ?></a>
+					<div class="platformpress-links">
+						<a href="http://platformpress.io/" target="_blank"><i class="apicon-platformpress-icon"></i><?php _e('About PlatformPress', 'platformpress'); ?></a>
+						<a href="http://platformpress.io/questions/" target="_blank"><i class="apicon-question"></i><?php _e('Support Q&A', 'platformpress'); ?></a>
+						<a href="http://platformpress.io/themes/" target="_blank"><i class="apicon-info"></i><?php _e('PlatformPress Themes', 'platformpress'); ?></a>
+						<a href="http://github.com/platformpress/platformpress" target="_blank"><i class="apicon-mark-github"></i><?php _e('Github Repo', 'platformpress'); ?></a>
 					</div>
 					<div class="ap-ext-notice">
 						<i class="apicon-puzzle"></i>
-						<h3>AnsPress extensions</h3>
-						<p>Extend AnsPress capabilities, get free extensions</p>
-						<a href="http://anspress.io/extensions/" target="_blank">Browse</a>
+						<h3>PlatformPress extensions</h3>
+						<p>Extend PlatformPress capabilities, get free extensions</p>
+						<a href="http://platformpress.io/extensions/" target="_blank">Browse</a>
 					</div>
 				</div>
 			</div>

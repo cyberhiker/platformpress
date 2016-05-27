@@ -1,15 +1,14 @@
 <?php
 /**
- * AnsPress.
+ * PlatformPress.
  *
- * @package   AnsPress
- * @author    Rahul Aryan <admin@rahularyan.com>
- * @license   GPL-2.0+
- * @link      http://rahularyan.com
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
-class AnsPress_Form_Helper
+class PlatformPress_Form_Helper
 {
 	/**
 	 * Instance of this class.
@@ -34,7 +33,7 @@ class AnsPress_Form_Helper
 	 */
 	public function __construct() {
 
-		/*TODO: remove this, only anspress comment from ajax*/
+		/*TODO: remove this, only platformpress comment from ajax*/
 		add_action('comment_post', array( $this, 'save_comment' ), 20, 2 );
 
 		// add_action( 'ap_after_delete_comment', array($this, 'after_deleting_comment'), 10, 2 );
@@ -57,7 +56,7 @@ class AnsPress_Form_Helper
 	public function delete_comment() {
 		$args = $args = explode('-', sanitize_text_field($_REQUEST['args'] ) );
 		if ( ! ap_user_can_delete_comment($args[0] ) ) {
-			$result = array( 'status' => false, 'message' => __('You do not have permission to delete this comment', 'anspress-question-answer' ) );
+			$result = array( 'status' => false, 'message' => __('You do not have permission to delete this comment', 'platformpress' ) );
 
 			wp_die(json_encode($result ) );
 		}
@@ -73,7 +72,7 @@ class AnsPress_Form_Helper
 					ap_do_event('delete_comment', $comment, 'question' ); } elseif ($post_type == 'answer')
 					ap_do_event('delete_comment', $comment, 'answer' );
 			}
-			$result = array( 'status' => true, 'message' => __('Comment deleted successfully', 'anspress-question-answer' ) );
+			$result = array( 'status' => true, 'message' => __('Comment deleted successfully', 'platformpress' ) );
 			wp_die(json_encode($result ) );
 		}
 		wp_die();
@@ -97,7 +96,7 @@ class AnsPress_Form_Helper
 			if ( $post->post_type == 'question' ) {
 				ap_do_event('new_comment', $comment_object, 'question', '' );
 				// set updated meta for sorting purpose
-				update_post_meta($comment_object->comment_post_ID, ANSPRESS_UPDATED_META, current_time( 'mysql' ) );
+				update_post_meta($comment_object->comment_post_ID, platformpress_UPDATED_META, current_time( 'mysql' ) );
 
 				// add participant
 				// ap_add_parti($comment_object->comment_post_ID, $comment_object->user_id, 'comment', $comment_id);
@@ -105,7 +104,7 @@ class AnsPress_Form_Helper
 				ap_do_event('new_comment', $comment_object, 'answer', $post->post_parent );
 				$post_id = wp_get_post_parent_id($comment_object->comment_post_ID );
 				// set updated meta for sorting purpose
-				update_post_meta($post_id, ANSPRESS_UPDATED_META, current_time( 'mysql' ) );
+				update_post_meta($post_id, platformpress_UPDATED_META, current_time( 'mysql' ) );
 
 				// add participant only
 				// ap_add_parti($post_id, $comment_object->user_id, 'comment', $comment_id);
@@ -116,11 +115,11 @@ class AnsPress_Form_Helper
 	/**
 	 * TODO: EXTENSION - move to tags
 	 */
-	public function ask_from_tags_field($validate) {
+	public function comment_from_tags_field($validate) {
 		if ( ap_opt('enable_tags' ) ) :
 		?>
 			<div class="form-group<?php echo isset($validate['tags'] ) ? ' has-error' : ''; ?>">
-				<label for="tags"><?php _e('Tags', 'anspress-question-answer' ) ?></label>
+				<label for="tags"><?php _e('Tags', 'platformpress' ) ?></label>
                 <input data-role="ap-tagsinput" type="text" value="" tabindex="5" name="tags" id="tags" class="form-control" />
 				<?php echo isset($validate['tags'] ) ? '<span class="help-block">'. $validate['tags'] .'</span>' : ''; ?>
             </div>
@@ -143,7 +142,7 @@ class AnsPress_Form_Helper
 
 			?>
 				<div class="form-group<?php echo isset($validate['tags'] ) ? ' has-error' : ''; ?>">
-					<label for="tags"><?php _e('Tags', 'anspress-question-answer' ) ?></label>
+					<label for="tags"><?php _e('Tags', 'platformpress' ) ?></label>
 					<input type="text" data-role="ap-tagsinput" value="<?php echo $tags; ?>" tabindex="5" name="tags" id="tags" class="form-control" />
 					<?php echo isset($validate['tags'] ) ? '<span class="help-block">'. $validate['tags'] .'</span>' : ''; ?>
                 </div>
@@ -164,18 +163,18 @@ class AnsPress_Form_Helper
 				ap_edit_question_form($post_id );
 				$html = ob_get_clean();
 
-				$result = array( 'action' => true, 'type' => 'question', 'message' => __('Form loaded.', 'anspress-question-answer' ), 'html' => $html );
+				$result = array( 'action' => true, 'type' => 'question', 'message' => __('Form loaded.', 'platformpress' ), 'html' => $html );
 			} elseif ( ap_user_can_edit_answer($post_id ) && $post->post_type == 'answer' ) {
 				ob_start();
 				ap_edit_answer_form($post_id );
 				$html = ob_get_clean();
 
-				$result = array( 'action' => true, 'type' => 'answer', 'message' => __('Form loaded.', 'anspress-question-answer' ), 'html' => $html );
+				$result = array( 'action' => true, 'type' => 'answer', 'message' => __('Form loaded.', 'platformpress' ), 'html' => $html );
 			} else {
-				$result = array( 'action' => false, 'message' => __('You do not have permission to edit this question.', 'anspress-question-answer' ) );
+				$result = array( 'action' => false, 'message' => __('You do not have permission to edit this question.', 'platformpress' ) );
 			}
 		} else {
-			$result = array( 'action' => false, 'message' => __('Something went wrong, please try again.', 'anspress-question-answer' ) );
+			$result = array( 'action' => false, 'message' => __('Something went wrong, please try again.', 'platformpress' ) );
 		}
 
 		die(json_encode($result ) );
@@ -207,7 +206,7 @@ class AnsPress_Form_Helper
 			$content .= '<input type="hidden" name="action" value="ap_ajax_login" />';
 			$content .= wp_nonce_field( 'ap_login_nonce', '_wpnonce', true, false );
 		}
-		$content .= '<p>' . sprintf(__("Don't have a user account? %sRegister now%s.", 'anspress-question-answer' ), '<a class="ap-open-modal" href="#ap_signup_modal">', '</a>' ) . '</p>';
+		$content .= '<p>' . sprintf(__("Don't have a user account? %sRegister now%s.", 'platformpress' ), '<a class="ap-open-modal" href="#ap_signup_modal">', '</a>' ) . '</p>';
 
 		return $content;
 	}
@@ -225,19 +224,19 @@ class AnsPress_Form_Helper
 			)
 		);
 		if ( is_wp_error($term ) ) {
-			$result = array( 'status' => false, 'message' => __('Unable to create tag, please try again.', 'anspress-question-answer' ) );
+			$result = array( 'status' => false, 'message' => __('Unable to create tag, please try again.', 'platformpress' ) );
 
 		} else {
-			$result = array( 'status' => true, 'message' => __('Successfully created a tag.', 'anspress-question-answer' ), 'tag' => get_term_by( 'id', $term['term_id'], 'question_tags' ) );
+			$result = array( 'status' => true, 'message' => __('Successfully created a tag.', 'platformpress' ), 'tag' => get_term_by( 'id', $term['term_id'], 'question_tags' ) );
 		}
 		die(json_encode($result ) );
 	}
 
 	public function ap_load_new_tag_form() {
 		if ( ! wp_verify_nonce( $_REQUEST['args'], 'new_tag_form' ) && ap_user_can_create_tag() ) {
-			$result = array( 'status' => false, 'message' => __('Unable to load form, please try again.', 'anspress-question-answer' ) );
+			$result = array( 'status' => false, 'message' => __('Unable to load form, please try again.', 'platformpress' ) );
 		} else {
-			$result = array( 'status' => true, 'message' => __('Successfully loaded form.', 'anspress-question-answer' ), 'html' => ap_tag_form() );
+			$result = array( 'status' => true, 'message' => __('Successfully loaded form.', 'platformpress' ), 'html' => ap_tag_form() );
 		}
 		die(json_encode($result ) );
 	}
@@ -249,17 +248,17 @@ function ap_edit_answer_form_hidden_input($post_id) {
 	echo '<input type="hidden" name="answer_id" value="'.$post_id.'" />';
 	echo '<input type="hidden" name="edited" value="true" />';
 	echo '<input type="hidden" name="submitted" value="true" />';
-	echo '<input type="submit" class="btn btn-primary" value="'. __('Update Answer', 'anspress-question-answer' ). '" />';
+	echo '<input type="submit" class="btn btn-primary" value="'. __('Update Answer', 'platformpress' ). '" />';
 }
 
 
 function ap_tag_form() {
 	$output = '';
 	$output .= '<form method="POST" id="ap_new_tag_form">';
-	$output .= '<strong>'.__('Create new tag', 'anspress-question-answer' ).'</strong>';
-	$output .= '<input type="text" name="tag_name" class="form-control" value="" placeholder="'.__('Enter tag', 'anspress-question-answer' ).'" />';
-	$output .= '<textarea type="text" name="tag_desc" class="form-control" value="" placeholder="'.__('Description of tag.', 'anspress-question-answer' ).'"></textarea>';
-	$output .= '<button type="submit" class="ap-btn">'.__('Create tag', 'anspress-question-answer' ).'</button>';
+	$output .= '<strong>'.__('Create new tag', 'platformpress' ).'</strong>';
+	$output .= '<input type="text" name="tag_name" class="form-control" value="" placeholder="'.__('Enter tag', 'platformpress' ).'" />';
+	$output .= '<textarea type="text" name="tag_desc" class="form-control" value="" placeholder="'.__('Description of tag.', 'platformpress' ).'"></textarea>';
+	$output .= '<button type="submit" class="ap-btn">'.__('Create tag', 'platformpress' ).'</button>';
 	$output .= '<input type="hidden" name="action" value="ap_new_tag" />';
 	$output .= '<input type="hidden" name="_nonce" value="'.wp_create_nonce('new_tag' ).'" />';
 	$output .= '</form>';

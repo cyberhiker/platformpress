@@ -1,9 +1,9 @@
 /**
- * Javascript code for AnsPress fontend
- * @since 2.0
- * @package AnsPress
- * @author Rahul Aryan
- * @license GPL 2+
+ * Javascript code for PlatformPress fontend
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 var apData = {};
 (function($) {
@@ -12,14 +12,14 @@ var apData = {};
     /* on start */
     $(function() {
         /* create document */
-        AnsPress.site = new AnsPress.site();
+        PlatformPress.site = new PlatformPress.site();
         /* need to call init manually with $ */
-        AnsPress.site.initialize();
+        PlatformPress.site.initialize();
     });
     /* namespace */
-    window.AnsPress = {};
-    AnsPress.site = function() {};
-    AnsPress.site.prototype = {
+    window.PlatformPress = {};
+    PlatformPress.site = function() {};
+    PlatformPress.site.prototype = {
         /** Initalize the class */
         initialize: function() {
             ApSite = this;
@@ -63,8 +63,8 @@ var apData = {};
             context = context || false;
             success = success || false;
             before = before || false;
-            abort = abort || false;            
-            var action = apGetValueFromStr(query, 'ap_ajax_action');            
+            abort = abort || false;
+            var action = apGetValueFromStr(query, 'ap_ajax_action');
             if (abort && (typeof ApSite.ajax_id[action] !== 'undefined')) {
                 ApSite.ajax_id[action].abort();
             }
@@ -76,7 +76,7 @@ var apData = {};
                 beforeSend: function(){
                     if( context )
                         ApSite.showLoading(context);
-                    
+
                     if( typeof before === 'function' )
                         before();
                 },
@@ -105,7 +105,7 @@ var apData = {};
                 actions[action] = '1';
                 //if (typeof self[action] === 'function')
                 self[action]('[data-action="' + action + '"]');
-                
+
             });
         },
         uniqueId: function() {
@@ -113,7 +113,7 @@ var apData = {};
         },
         showLoading: function(elm) {
             /*hide any existing loading icon*/
-            AnsPress.site.hideLoading(elm);
+            PlatformPress.site.hideLoading(elm);
             var customClass = $(elm).data('loadclass')||'';
             var uid = this.uniqueId();
             var el = $('<div class="ap-loading-icon ap-uid '+customClass+'" id="apuid-' + uid + '"><i class="apicon-sync"><i></div>');
@@ -140,7 +140,7 @@ var apData = {};
 
             return '#apuid-' + uid;
         },
-        
+
         hideLoading: function(elm) {
             if( 'all' == elm )
                 $('.ap-loading-icon').hide();
@@ -150,7 +150,7 @@ var apData = {};
 
         ap_ajax_form: function() {
             $('body').delegate('[data-action="ap_ajax_form"]', 'submit', function() {
-                AnsPress.site.showLoading(this);
+                PlatformPress.site.showLoading(this);
 
                 // Clear errors.
                 ApSite.clearFormErrors($(this).attr('id'));
@@ -174,12 +174,12 @@ var apData = {};
                     type: 'POST',
                     url: ajaxurl,
                     success: function(data) {
-                        AnsPress.site.hideLoading(this);
+                        PlatformPress.site.hideLoading(this);
                         if (typeof tinyMCE !== 'undefined' && typeof data.type !== 'undefined' && data.type == 'success') tinyMCE.activeEditor.setContent('');
                     },
                     error: function(jqXHR, textStatus, errorThrown){
                         console.log(errorThrown);
-                        AnsPress.site.hideLoading(this);
+                        PlatformPress.site.hideLoading(this);
                     },
                     dataType: 'html',
                     context: this,
@@ -251,7 +251,7 @@ var apData = {};
 
         /**
          * Update html of an element
-         * @param  {string} elm  Selector.  
+         * @param  {string} elm  Selector.
          * @param  {object} data Ajax success response.
          */
         updateHtml: function(elm, data) {
@@ -270,7 +270,7 @@ var apData = {};
                 $(elm).toggleClass('active');
             }
         },
-        
+
         /**
          * Remove a class from an element.
          * @param  {string} elm    Element selector.
@@ -302,7 +302,7 @@ var apData = {};
             if (typeof elm !== 'undefined')
                 $(elm).before(data.html);
         },
-        
+
         /**
          * Remove an element if exists
          * @param  {string} elm elment selector.
@@ -311,7 +311,7 @@ var apData = {};
             if (typeof elm !== 'undefined' && $(elm).length > 0)
                 $(elm).remove();
         },
-        
+
         clearForm: function(data) {
             if (typeof tinyMCE !== 'undefined')
                 tinyMCE.activeEditor.setContent('');
@@ -326,15 +326,15 @@ var apData = {};
             $('body').delegate('[data-action="ajax_btn"]', 'click', function(e) {
                 if($(this).is('.ajax-disabled'))
                     return;
-                
+
                 e.preventDefault();
                 var q = $(this).apAjaxQueryString();
 
-                ApSite.doAjax(q, function(data, context) {                             
+                ApSite.doAjax(q, function(data, context) {
                     if( $(context).data('cb') || false ){
                         var cb = $(context).data("cb");
                         console.log(apFunctions[cb]);
-                                        
+
                         if( typeof apFunctions[cb] === 'function' ){
                             apFunctions[cb](data, context);
                         }
@@ -348,7 +348,7 @@ var apData = {};
                 var $el = $(this);
                 ApSite.doAjax(apAjaxData($el.formSerialize()), function(data) {
                     ApSite.hideLoading(this);
-                    
+
                     apData[data.key] = data.apData;
                     $('a[href="#comments-' + data.comment_post_ID+ '"]').removeClass('loaded');
                 }, this);
@@ -360,7 +360,7 @@ var apData = {};
                 e.preventDefault();
                 var $el = $(this);
                 var q = $el.attr('data-query');
-                
+
                 ApSite.doAjax(apAjaxData(q), function(data) {
                     apData[data.key] = data.apData;
                 }, this, false, true);
@@ -371,7 +371,7 @@ var apData = {};
                 e.preventDefault();
                 var $el = $(this);
                 var q = $el.attr('data-query');
-                
+
                 ApSite.doAjax(apAjaxData(q), function(data) {
                     //apData[data.key] = data.apData;
                 }, this, false, true);
@@ -382,7 +382,7 @@ var apData = {};
                 e.preventDefault();
                 var q = $(this).attr('data-query');
                 ApSite.doAjax(apAjaxData(q), function(data) {
-                    AnsPress.site.hideLoading(this);
+                    PlatformPress.site.hideLoading(this);
                     if (data.action == 'subscribed') {
                         $(this).addClass('active');
                         $(this).closest('.ap-subscribe').addClass('active');
@@ -444,7 +444,7 @@ var apData = {};
         },
 
         ap_delete_post: function() {
-            $('#anspress').delegate('[data-action="ap_delete_post"]', 'click', function(e) {
+            $('#platformpress').delegate('[data-action="ap_delete_post"]', 'click', function(e) {
                 e.preventDefault();
 
                 var q = $(this).attr('data-query');
@@ -475,7 +475,7 @@ var apData = {};
         },
         avatarUploadCallback: function(){
             $(document).on('uploadForm', function(e, data) {
-                
+
                 if (typeof data.action !== 'undefined' && data.action === 'avatar_uploaded') {
                     var src = $(data.html).attr('src');
                     $('[data-view="user_avatar_'+ data.user_id +'"]').attr('src', src);
@@ -488,7 +488,7 @@ var apData = {};
                 var c = $(this).closest('ul').prev();
                 var q = $(this).attr('data-query');
                 ApSite.doAjax(apAjaxData(q), function(data) {
-                    AnsPress.site.hideLoading(c);
+                    PlatformPress.site.hideLoading(c);
                 }, this, false, true);
             });
         },
@@ -497,7 +497,7 @@ var apData = {};
                 e.preventDefault();
                 var q = $(this).attr('data-query');
                 ApSite.doAjax(apAjaxData(q), function(data) {
-                    AnsPress.site.hideLoading(this);
+                    PlatformPress.site.hideLoading(this);
                 }, this, false);
             });
         },
@@ -590,7 +590,7 @@ var apData = {};
                 var c = $(this).closest('ul').prev();
                 var q = $(this).attr('data-query');
                 ApSite.doAjax(apAjaxData(q), function(data) {
-                    
+
                 }, this, false, true);
             });
         },
@@ -633,7 +633,7 @@ var apData = {};
                 e.preventDefault();
                 var q = $(this).attr('data-query');
                 ApSite.doAjax(apAjaxData(q), function(data) {
-                    AnsPress.site.hideLoading(this);
+                    PlatformPress.site.hideLoading(this);
                     if (data.action == 'follow') {
                         $(this).addClass('active');
                     } else {
@@ -666,7 +666,7 @@ var apData = {};
                 e.preventDefault();
                 var q = $(this).attr('data-query');
                 ApSite.doAjax(apAjaxData(q), function(data) {
-                    AnsPress.site.hideLoading(this);
+                    PlatformPress.site.hideLoading(this);
                     if(typeof data.container !== 'undefined')
                         $(data.container).slideUp('400', function() {
                             $(data.container).remove();
@@ -679,7 +679,7 @@ var apData = {};
                 e.preventDefault();
                 var q = $(this).attr('data-query');
                 ApSite.doAjax(apAjaxData(q), function(data) {
-                    AnsPress.site.hideLoading(this);
+                    PlatformPress.site.hideLoading(this);
 
                 }, this);
             });
@@ -707,9 +707,9 @@ var apData = {};
         },
 
         questionSuggestion: function(){
-            if( disable_q_suggestion || false ) 
+            if( disable_q_suggestion || false )
                 return;
-            
+
             $('[data-action="suggest_similar_questions"]').on('blur', function(){
                 var title = $(this).val();
                 if(title.length == 0)
@@ -717,10 +717,10 @@ var apData = {};
 
                 ApSite.doAjax(
                     apAjaxData('action=ap_ajax&ap_ajax_action=suggest_similar_questions&ap_ajax_nonce='+ap_nonce+'&value='+title),
-                    function(data) {                        
-                        $("#similar_suggestions").html(data.html);      
+                    function(data) {
+                        $("#similar_suggestions").html(data.html);
                     },
-                    this, 
+                    this,
                     false,
                     true
                 );
@@ -729,7 +729,7 @@ var apData = {};
 
         notificationAsRead: function(){
         	/*var ids = $('input[name="ap_loaded_notifications"]').val();
-        	
+
         	if( ids.length == 0 || $(this).parent().is('.open') ){
         		return;
         	}
@@ -738,7 +738,7 @@ var apData = {};
         },
 
         checkboxUncheck: function(){
-            $('#anspress input[type="checkbox"]').click(function(){
+            $('#platformpress input[type="checkbox"]').click(function(){
                 var name = $(this).attr('name');
                 if ($(this).is(':checked')){
                     $('input[name="'+ name +'"][type="hidden"]').attr('name', '_hidden_'+ name );
@@ -746,7 +746,7 @@ var apData = {};
                     $('input[name="_hidden_'+ name +'"]').attr('name', name );
                 }
 
-                
+
             })
         },
 
@@ -754,15 +754,15 @@ var apData = {};
             $('body').delegate('[data-action="load_filter"]', 'click', function(e) {
                 if($(this).is('.ajax-disabled'))
                     return;
-                
+
                 e.preventDefault();
                 var q = $(this).apAjaxQueryString();
                 q.current_filter = $('#current_filter').html();
-                ApSite.doAjax(q, function(data, context) {                             
+                ApSite.doAjax(q, function(data, context) {
                     if( $(context).data('cb') || false ){
                         var cb = $(context).data("cb");
                         console.log(apFunctions[cb]);
-                                        
+
                         if( typeof apFunctions[cb] === 'function' ){
                             apFunctions[cb](data, context);
                         }
@@ -774,7 +774,7 @@ var apData = {};
                 var dropdown = $(this).closest('.ap-dropdown-menu');
                 var filter = dropdown.data('key');
                 var val = $(this).data('value')||false;
-                
+
                 // If no data-value is found then return.
                 if(!val) return;
 
@@ -801,7 +801,7 @@ var apData = {};
             $('body').delegate('.ap-filter-search', 'keyup', function(e) {
                 var val = $(this).val();
                 $(this).data('query', 'filter_search::'+ap_nonce+'::'+val);
-                var q = $(this).apAjaxQueryString();                
+                var q = $(this).apAjaxQueryString();
                 var filter = $(this).closest('.ap-dropdown-menu').data('key');
                 clearTimeout (filtertimer);
                 filtertimer = setTimeout(function(){
@@ -822,22 +822,22 @@ var apData = {};
                             }
                         }
                     })
-                }, 500);            
+                }, 500);
             });
 
             $('body').delegate('#ap-question-sorting', 'submit', function(){
-                AnsPress.site.showLoading(this);
+                PlatformPress.site.showLoading(this);
                 var form_data = $(this).serialize().replace(/[^&]+=&/g, '').replace(/&[^&]+=$/g, '');
                 $.ajax({
                     type: 'GET',
                     dataType: 'html',
                     data: form_data,
                     success: function(data){
-                        AnsPress.site.hideLoading('#ap-question-sorting');
+                        PlatformPress.site.hideLoading('#ap-question-sorting');
                         var html = $(data);
                         window.history.replaceState('', '', '?' + form_data);
 
-                        $('#anspress').html(html.find('#anspress'));
+                        $('#platformpress').html(html.find('#platformpress'));
 
                         $(document).trigger('apAfterSorting');
                     }
@@ -873,35 +873,35 @@ var apData = {};
         if( $.isEmptyObject(data) )
             return;
         console.log(data);
-        
+
         // Store template in global object.
         if( (data.apTemplate||false) && 'object' === typeof data.apTemplate && !apAutloadTemplate(data) )
             apLoadTemplate(data.apTemplate.name, data.apTemplate.template, function(template){
                 // Watch apData for change.
                 if( data.apData && (data.key||false) ){
-                    var notExists = typeof apData[data.key] === 'undefined';                    
+                    var notExists = typeof apData[data.key] === 'undefined';
                     apData[data.key] = data.apData;
-                    var watchCB = function(){                            
-                            console.log(data.key + ' changed');                            
+                    var watchCB = function(){
+                            console.log(data.key + ' changed');
                             var html = $(Ta.render(template, apData[data.key]));
                             $(apObjectWatching[data.key]).replaceWith(html);
                             apObjectWatching[data.key] = html.apGetSelector();
                         };
-                        
+
                         if(typeof apObjectWatching[data.key] === 'undefined' && notExists ){
                             console.log('Watching object '+data.key+' for change.');
                             watch(apData, data.key, watchCB);
                             apObjectWatching[data.key] = true;
                             var html = $(Ta.render(template, data.apData));
-                            $(data.appendTo).append(html);                
+                            $(data.appendTo).append(html);
                             apObjectWatching[data.key] = html.apGetSelector();
                         }
 
                 }
-                
+
             });
-        
-        if (typeof data.message_type !== 'undefined') {            
+
+        if (typeof data.message_type !== 'undefined') {
             if( '' != data.message_type && '' != data.message){
                 ApSite.addMessage(data.message, data.message_type);
             }
@@ -911,7 +911,7 @@ var apData = {};
 
             $(document).trigger('ap_after_ajax', data);
 
-            AnsPress.site.hideLoading('all');
+            PlatformPress.site.hideLoading('all');
         }
 
         // Trigger custom actions after ajax
@@ -921,7 +921,7 @@ var apData = {};
             //Check if data.do is object
             if( typeof action === 'object' ){
                 $.each(action, function(index, el) {
-                    if(typeof ApSite[index] === 'function'){  
+                    if(typeof ApSite[index] === 'function'){
                         apDoActions(index, el, data, settings.context);
                     }else if(typeof el === 'object'){
                         $.each(el, function(i, obj) {
@@ -929,7 +929,7 @@ var apData = {};
                                 apDoActions(obj.action, obj.args, data, settings.context);
                         });
                     }
-                    
+
                 });
             }else{
                 if(typeof ApSite[action] === 'function'){
@@ -956,11 +956,9 @@ var apData = {};
             });
         }
 
-    }); 
+    });
 })(jQuery);
 
 function apAutloadTemplate(data){
     return 'undefined' !== typeof data.disableAutoLoad && data.disableAutoLoad;
 }
-
-

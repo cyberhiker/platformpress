@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPress breadcrumbs widget
+ * PlatformPress breadcrumbs widget
  *
- * @package AnsPress
- * @author  Rahul Aryan <support@anspress.io>
- * @license GPL 2+ GNU GPL licence above 2+
- * @link    http://anspress.io
- * @since   2.0.0
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -15,9 +14,9 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * AnsPress breadcrumbs widget.
+ * PlatformPress breadcrumbs widget.
  */
-class AnsPress_Breadcrumbs_Widget extends WP_Widget {
+class PlatformPress_Breadcrumbs_Widget extends WP_Widget {
 
 	/**
 	 * Initialize the class
@@ -25,8 +24,8 @@ class AnsPress_Breadcrumbs_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'ap_breadcrumbs_widget',
-			__( '(AnsPress) Breadcrumbs', 'anspress-question-answer' ),
-			array( 'description' => __( 'Show current anspress page navigation', 'anspress-question-answer' ) )
+			__( '(PlatformPress) Breadcrumbs', 'platformpress' ),
+			array( 'description' => __( 'Show current platformpress page navigation', 'platformpress' ) )
 		);
 	}
 
@@ -45,7 +44,7 @@ class AnsPress_Breadcrumbs_Widget extends WP_Widget {
 /**
  * Register breadcrumbs widget
  */
-function register_anspress_breadcrumbs() {
-	register_widget( 'AnsPress_Breadcrumbs_Widget' );
+function register_platformpress_breadcrumbs() {
+	register_widget( 'PlatformPress_Breadcrumbs_Widget' );
 }
-add_action( 'widgets_init', 'register_anspress_breadcrumbs' );
+add_action( 'widgets_init', 'register_platformpress_breadcrumbs' );

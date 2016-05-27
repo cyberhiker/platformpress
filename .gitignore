@@ -10,7 +10,7 @@
 /theme/default/fonts/demo-files
 /theme/default/fonts/demo.html
 /phpdoc.dist.xml
-/tasks.TODO
+/tcomments.TODO
 /*.TODO
 /demo
 /theme/default/images/cover.psd
@@ -22,5 +22,5 @@ tests/_output/*
 tests/_output/*
 tests/_output/*
 /.travis.yml
-/anspress.sublime-project
-/anspress.sublime-workspace
+/platformpress.sublime-project
+/platformpress.sublime-workspace

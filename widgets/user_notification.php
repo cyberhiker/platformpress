@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPress user notifications widget
+ * PlatformPress user notifications widget
  *
- * @package AnsPress
- * @author  Rahul Aryan <support@anspress.io>
- * @license GPL 3+ GNU GPL licence above 3+
- * @link    http://anspress.io
- * @since   2.4
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -15,9 +14,9 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * AnsPress breadcrumbs widget.
+ * PlatformPress breadcrumbs widget.
  */
-class AnsPress_User_Notifications_Widget extends WP_Widget {
+class PlatformPress_User_Notifications_Widget extends WP_Widget {
 
 	/**
 	 * Initialize the class
@@ -25,8 +24,8 @@ class AnsPress_User_Notifications_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'ap_user_notifications_widget',
-			__( '(AnsPress) User Notifications', 'anspress-question-answer' ),
-			array( 'description' => __( 'Show logged in user notifications', 'anspress-question-answer' ) )
+			__( '(PlatformPress) User Notifications', 'platformpress' ),
+			array( 'description' => __( 'Show logged in user notifications', 'platformpress' ) )
 		);
 	}
 
@@ -50,7 +49,7 @@ class AnsPress_User_Notifications_Widget extends WP_Widget {
 /**
  * Register breadcrumbs widget
  */
-function register_anspress_user_notifications() {
-	register_widget( 'AnsPress_User_Notifications_Widget' );
+function register_platformpress_user_notifications() {
+	register_widget( 'PlatformPress_User_Notifications_Widget' );
 }
-add_action( 'widgets_init', 'register_anspress_user_notifications' );
+add_action( 'widgets_init', 'register_platformpress_user_notifications' );

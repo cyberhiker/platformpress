@@ -2,13 +2,16 @@
 /**
  * Handle all function related to voting system.
  *
- * @link http://anspress.io
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
- * AnsPress vote related class.
+ * PlatformPress vote related class.
  */
-class AnsPress_Vote
+class PlatformPress_Vote
 {
 	/**
 	 * Process voting button.
@@ -22,7 +25,7 @@ class AnsPress_Vote
 	    }
 
 	    $type = ap_sanitize_unslash( 'type', 'request' );
-	    $type = ($type == 'up' ? 'vote_up' : 'vote_down');
+	    $type = 'vote_up';
 
 	    $userid = get_current_user_id();
 
@@ -35,11 +38,7 @@ class AnsPress_Vote
 	        ap_ajax_json( $thing->get_error_code() );
 	    }
 
-	    if ( 'question' == $post->post_type && ap_opt( 'disable_down_vote_on_question' ) && 'vote_down' == $type ) {
-	        ap_ajax_json( 'voting_down_disabled' );
-	    } elseif ( 'answer' === $post->post_type && ap_opt( 'disable_down_vote_on_answer' ) && 'vote_down' === $type ) {
-	        ap_ajax_json( 'voting_down_disabled' );
-	    }
+	    ap_ajax_json( 'voting_down_disabled';
 
 	    $is_voted = ap_is_user_voted( $post_id, 'vote', $userid );
 
@@ -49,7 +48,7 @@ class AnsPress_Vote
 			    $counts = ap_remove_post_vote( $type, $userid, $post_id, $post->post_author );
 
 				// Update post meta.
-				update_post_meta( $post_id, ANSPRESS_VOTE_META, $counts['net_vote'] );
+				update_post_meta( $post_id, platformpress_VOTE_META, $counts['net_vote'] );
 
 			    do_action( 'ap_undo_vote', $post_id, $counts );
 			    do_action( 'ap_undo_'.$type, $post_id, $counts );
@@ -62,7 +61,7 @@ class AnsPress_Vote
 			   	) );
 			}
 
-			// Else ask user to undor their vote first.
+			// Else comment user to undor their vote first.
 			ap_ajax_json( 'undo_vote_your_vote' );
 	    }
 
@@ -129,7 +128,7 @@ function ap_add_post_vote( $current_userid, $type, $actionid, $receiving_userid,
 
 	if ( false !== $row ) {
 		$counts = ap_post_votes( $actionid );
-		update_post_meta( $actionid, ANSPRESS_VOTE_META, $counts['net_vote'] );
+		update_post_meta( $actionid, platformpress_VOTE_META, $counts['net_vote'] );
 
 		return $counts;
 	}
@@ -171,7 +170,7 @@ function ap_remove_post_vote( $type, $current_userid, $actionid, $receiving_user
 
 	if ( false !== $row ) {
 		$counts = ap_post_votes( $actionid );
-		update_post_meta( $actionid, ANSPRESS_VOTE_META, $counts['net_vote'] );
+		update_post_meta( $actionid, platformpress_VOTE_META, $counts['net_vote'] );
 
 		return $counts;
 	}
@@ -255,7 +254,7 @@ function ap_net_vote_meta($post_id = false) {
 		$post_id = get_the_ID();
 	}
 
-	$net = get_post_meta( $post_id, ANSPRESS_VOTE_META, true );
+	$net = get_post_meta( $post_id, platformpress_VOTE_META, true );
 
 	return $net ? $net : 0;
 }
@@ -360,13 +359,13 @@ function ap_vote_btn($post = false, $echo = true) {
 
 	$html = '';
 	$html .= '<div data-id="'.$post->ID.'" class="ap-vote net-vote" data-action="vote">';
-	$html .= '<a class="'.ap_icon( 'vote_up' ).' ap-tip vote-up'.($voted ? ' voted' : '').($type == 'vote_down' ? ' disable' : '').'" data-query="ap_ajax_action=vote&type=up&post_id='.$post->ID.'&__nonce='.$nonce.'" href="#" title="'.__( 'Up vote this post', 'anspress-question-answer' ).'"></a>';
+	$html .= '<a class="'.ap_icon( 'vote_up' ).' ap-tip vote-up'.($voted ? ' voted' : '').($type == 'vote_down' ? ' disable' : '').'" data-query="ap_ajax_action=vote&type=up&post_id='.$post->ID.'&__nonce='.$nonce.'" href="#" title="'.__( 'Up vote this post', 'platformpress' ).'"></a>';
 
 	$html .= '<span class="net-vote-count" data-view="ap-net-vote" itemprop="upvoteCount">'.ap_net_vote().'</span>';
 
 	if ( ('question' == $post->post_type && ! ap_opt( 'disable_down_vote_on_question' )) ||
 		('answer' == $post->post_type && ! ap_opt( 'disable_down_vote_on_answer' )) ) {
-		$html .= '<a data-tipposition="bottom center" class="'.ap_icon( 'vote_down' ).' ap-tip vote-down'.($voted ? ' voted' : '').($type == 'vote_up' ? ' disable' : '').'" data-query="ap_ajax_action=vote&type=down&post_id='.$post->ID.'&__nonce='.$nonce.'" href="#" title="'.__( 'Down vote this post', 'anspress-question-answer' ).'"></a>';
+		$html .= '<a data-tipposition="bottom center" class="'.ap_icon( 'vote_down' ).' ap-tip vote-down'.($voted ? ' voted' : '').($type == 'vote_up' ? ' disable' : '').'" data-query="ap_ajax_action=vote&type=down&post_id='.$post->ID.'&__nonce='.$nonce.'" href="#" title="'.__( 'Down vote this post', 'platformpress' ).'"></a>';
 	}
 
 	$html .= '</div>';
@@ -418,14 +417,14 @@ function ap_close_vote_html() {
 
 	global $post;
 	$nonce = wp_create_nonce( 'close_'.$post->ID );
-	$title = ( ! $post->voted_closed) ? (__( 'Vote for closing', 'anspress-question-answer' )) : (__( 'Undo your vote', 'anspress-question-answer' ));
+	$title = ( ! $post->voted_closed) ? (__( 'Vote for closing', 'platformpress' )) : (__( 'Undo your vote', 'platformpress' ));
 	?>
 		<a id="<?php echo 'close_'.$post->ID;
 	?>" data-action="close-question" class="close-btn<?php echo ($post->voted_closed) ? ' closed' : '';
 	?>" data-args="<?php echo $post->ID.'-'.$nonce;
 	?>" href="#" title="<?php echo $title;
 	?>">
-			<?php _e( 'Close ', 'anspress-question-answer' );
+			<?php _e( 'Close ', 'platformpress' );
 			echo($post->closed > 0 ? '<span>('.$post->closed.')</span>' : '');
 	?>
         </a>

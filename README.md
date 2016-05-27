@@ -1,8 +1,8 @@
-# AnsPress - Question and answer #
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/anspress/anspress/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/anspress/anspress/?branch=master) [![Build Status](https://travis-ci.org/anspress/anspress.svg?branch=master)](https://travis-ci.org/anspress/anspress) [![Download count](https://img.shields.io/badge/download-1.2k%2Fmonth-brightgreen.svg)](https://downloads.wordpress.org/plugin/anspress-question-answer.zip) [![Version](https://img.shields.io/badge/version-3.0.0.alpha2-blue.svg)]()
+# PlatformPress - Question and answer #
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/platformpress/platformpress/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/platformpress/platformpress/?branch=master) [![Build Status](https://travis-ci.org/platformpress/platformpress.svg?branch=master)](https://travis-ci.org/platformpress/platformpress) [![Download count](https://img.shields.io/badge/download-1.2k%2Fmonth-brightgreen.svg)](https://downloads.wordpress.org/plugin/platformpress.zip) [![Version](https://img.shields.io/badge/version-3.0.0.alpha2-blue.svg)]()
 
 **Contributors:** nerdaryan  
-**Donate link:** https://www.paypal.com/cgi-bin/webscr?business=rah12@live.com&cmd=_xclick&item_name=Donation%20to%20AnsPress%20development  
+**Donate link:** https://www.paypal.com/cgi-bin/webscr?business=rah12@live.com&cmd=_xclick&item_name=Donation%20to%20PlatformPress%20development  
 **Tags:** question, answer, q&a, forum, profile, stackoverflow, quora, buddypress  
 **Requires at least:** 4.2  
 **Tested up to:** 4.4  
@@ -13,21 +13,21 @@
 Free question and answer plugin for WordPress. Made with developers in mind, highly customizable.
 
 ## Description ##
-Demo & support forum: http://anspress.io/
-GitHub repo: [Git AnsPress](https://github.com/anspress/anspress/)
+Demo & support forum: http://platformpress.io/
+GitHub repo: [Git PlatformPress](https://github.com/platformpress/platformpress/)
 
 Easily add question and answer section like stackoverflow.com or quora.com in your WordPress.
-AnsPress is a most complete question and answer system for WordPress. AnsPress is made with developers in mind, highly customizable. AnsPress provide an easy to use override system for theme.
+PlatformPress is a most complete question and answer system for WordPress. PlatformPress is made with developers in mind, highly customizable. PlatformPress provide an easy to use override system for theme.
 
 Extensions:
 
-  * [AnsPress email notification](http://anspress.io/downloads/anspress-email/)
-  * [Categories for AnsPress](http://anspress.io/downloads/categories-for-anspress/)
-  * [Tags for AnsPress](http://anspress.io/downloads/tags-for-anspress/)
+  * [PlatformPress email notification](http://platformpress.io/downloads/platformpress-email/)
+  * [Categories for PlatformPress](http://platformpress.io/downloads/categories-for-platformpress/)
+  * [Tags for PlatformPress](http://platformpress.io/downloads/tags-for-platformpress/)
 
 Developers tool
 
-  * [AnsPress extension boilerplate builder](http://anspress.io/downloads/anspress-boilerplate-extension/)
+  * [PlatformPress extension boilerplate builder](http://platformpress.io/downloads/platformpress-boilerplate-extension/)
 
 List of features:
 
@@ -54,48 +54,48 @@ List of features:
 
 
 ### Help & Support ###
-For fast help and support, please post on our forum http://anspress.io/questions/
+For fast help and support, please post on our forum http://platformpress.io/questions/
 
 
 **Page Shortcodes**
 
-Use this shortcode in base to AnsPress work properly
-`[anspress]`
+Use this shortcode in base to PlatformPress work properly
+`[platformpress]`
 
 
 ## Installation ##
 
-Read full documentation here http://anspress.io/documents/
+Read full documentation here http://platformpress.io/documents/
 
 
-## Frequently Asked Questions ##
+## Frequently commented Questions ##
 
-Read full FAQ here http://anspress.io/documents/doc_page=faq
+Read full FAQ here http://platformpress.io/documents/doc_page=faq
 
 ## Screenshots ##
 
 ### 1. Question list page. ###
-![Question list page.](http://ps.w.org/anspress---question-and-answer/assets/screenshot-1.png)
+![Question list page.](http://ps.w.org/platformpress---question-and-answer/assets/screenshot-1.png)
 
 
 ### 2. Single question page. ###
-![Single question page.](http://ps.w.org/anspress---question-and-answer/assets/screenshot-2.png)
+![Single question page.](http://ps.w.org/platformpress---question-and-answer/assets/screenshot-2.png)
 
 
 ### 3. User profile ###
-![User profile](http://ps.w.org/anspress---question-and-answer/assets/screenshot-3.png)
+![User profile](http://ps.w.org/platformpress---question-and-answer/assets/screenshot-3.png)
 
 
 ### 4. User hover card ###
-![User hover card](http://ps.w.org/anspress---question-and-answer/assets/screenshot-4.png)
+![User hover card](http://ps.w.org/platformpress---question-and-answer/assets/screenshot-4.png)
 
 
 ### 5. Users directory ###
-![Users directory](http://ps.w.org/anspress---question-and-answer/assets/screenshot-5.png)
+![Users directory](http://ps.w.org/platformpress---question-and-answer/assets/screenshot-5.png)
 
 
 ### 6. Notifications ###
-![Notifications](http://ps.w.org/anspress---question-and-answer/assets/screenshot-6.png)
+![Notifications](http://ps.w.org/platformpress---question-and-answer/assets/screenshot-6.png)
 
 
 
@@ -113,7 +113,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
   * Fixed: notification pagination
   * Fixed comment edit
   * Load comments using JS templates
-  * Added filter to disable question suggestion while asking.
+  * Added filter to disable question suggestion while commenting.
   * FIX: Comment is not removed from DOM after delete
   * Deleted question does not return 404
   * Fix: Subscribe Widget fatal error
@@ -121,7 +121,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
   * Search page show wrong message if no results
   * Fix: wrong message when there is no question or answer in user profile
   * Delete lock for comment is not working
-  * Add sortby args in AnsPress shortcode
+  * Add sortby args in PlatformPress shortcode
   * Fix: Wrong comment count in user profile
   * Added ap_no_moderation cap
   * Add anonymous post for moderation
@@ -145,7 +145,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
   * Load notification and profile menu dropdown using ajax
   * Fixed license saving issue
   * Added search-form.php and improved list-head.php
-  * Load AnsPress assets in menu editor
+  * Load PlatformPress assets in menu editor
   * Improved filters
   * Improved sort filter
   * Improved list filter
@@ -170,12 +170,12 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
 
 ### 2.4.8 ### 
 
-* Fixed AnsPress menu not appearing in menu editor.
+* Fixed PlatformPress menu not appearing in menu editor.
 
 ### 2.4.7 ###
 
-  * Do not allow using [anspress] shortcode inside [anspress]
-  * Do not pass $this to class AnsPress_Common_Pages
+  * Do not allow using [platformpress] shortcode inside [platformpress]
+  * Do not pass $this to class PlatformPress_Common_Pages
   * Added filter ap_future_post_notice
   * Merged question and answer options.
   * Added option to show default date format.
@@ -184,8 +184,8 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
   * Added comment count in user profile
   * Fixed activation error
   * Added image uploader in test
-  * Load AnsPress in plugin_loaded hook
-  * Added before_loading_anspress action
+  * Load PlatformPress in plugin_loaded hook
+  * Added before_loading_platformpress action
   * Add "have-comments" class when load comment form
   * Fixed: overrides.css loading order
   * Updated test
@@ -207,7 +207,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
   * Improved: user_can check.
   * Fixed: title issue
   * Allow non-logged in to read questions
-  * Improved: AnsPress assets loading.
+  * Improved: PlatformPress assets loading.
   * Updated README.md
   * Improved: comment permissions
   * Improved: Answer permission.
@@ -254,7 +254,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
   * Fixed: answer description length
   * Replace exit and die with wp_die()
   * Removed unused $old_instance variable
-  * Added license interface for AnsPress products.
+  * Added license interface for PlatformPress products.
   * Tweak: Remove default rank option
   * New: Network activation and deactivation hooks tweak
   * Added RTL styles
@@ -297,7 +297,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
  * New: Added option to switch environment
  * Fix: widget deprecated notice
  * Language: Updated de_DE
- * Tweak: Add unique body class for anspress pages
+ * Tweak: Add unique body class for platformpress pages
  * Fix: Shows wrong user in notification for answer
  * Fix: Question widget sorting not working
  * Tweak: Improved flag button
@@ -316,9 +316,9 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
  * New: Added mention functionality
  * Fix: New lines are cleared on saving email options
  * Fix: missing version number in main plugin file
- * Tweak: Locate anspress directory in parent theme if not found in child
+ * Tweak: Locate platformpress directory in parent theme if not found in child
  * New: Added question shortcode
- * Fix: Asker can answer own question even if option is disabled.
+ * Fix: commenter can answer own question even if option is disabled.
  * New: Added option to switch user profile
  * New: Added an option in user profile so they can hide themselves from public
  * New: Added notification widget
@@ -333,28 +333,28 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
  * Tweak: Improved subscriber system
  * Tweak: When answer is posted as private ajax shows anonymous avatar
  * Fix: Hide suggestion if no related question found
- * Tweak: Improved anspress tooltip
+ * Tweak: Improved platformpress tooltip
  * Tweak: Wrap post time in anchor
  * New: Replaced history by activity
  * Fix: Set header as 404 if question id is false
  * New: Add link to cancel comment (add/edit)
  * Fix: Comment form not loading after once loaded
- * New: Add page attribute in anspresss shortcode
- * New: Tool to customize anspress capabilities
+ * New: Add page attribute in platformpresss shortcode
+ * New: Tool to customize platformpress capabilities
  * Tweak: Improved admin option page
  * Tweak: Removed extension specific functions
  * Fix: When Anonymous posting is activate, there is a Status option shown
  * Fix: breadcrumbs widget
  * Fix: If user page slug is anything other then "user" it gives 404 error
  * Tweak: Show a warning message if ajax does not return valid JSON
- * Tweak: Added #anspress before grid class
+ * Tweak: Added #platformpress before grid class
  * Fix: Duplicate query strings while sorting using ajax
  * Fix: Do not include trash post status in question query
  * New: overrides via a child-theme
  * Fix: Insert notification only if profile is active
  * Language: French translation update
  * Tweak: Removed span form avatar
- * Fix: Exclude anspress base page from "Front page" page list
+ * Fix: Exclude platformpress base page from "Front page" page list
  * Tweak: Improved CS for form
  * Tweak: Improved CS of class-user.php
  * Tweak: Improved CS of class-form.php
@@ -420,7 +420,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
 * Allow empty question description when limit is set to 0
 * Added a filter to disable logging IP for view count
 * Remove notification item after ajax delete
-* Fix for "anonymous ask" and "only admin can answer" option conflict
+* Fix for "anonymous comment" and "only admin can answer" option conflict
 * Multiple click on comments open more then one comment field
 * Added responsive styles for question page
 * Fix for Icon fonts are not rendering
@@ -465,7 +465,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
 * Notification as dropdown
 * Redirect user to login page if non loggedin user try to visit profile
 * Error message on description field is overlapped by upload field
-* How to ask tab
+* How to comment tab
 * Add category and tags filter in question list
 * Added category sorting
 * Improve category widget
@@ -544,7 +544,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
 * [fix] Format get cleared while editing
 * [fix] remove extra white space from contents
 * [fix] Editor toggle  in answer form
-* [fix] Switch editors not working in ask form, image upload in quick-tag editor
+* [fix] Switch editors not working in comment form, image upload in quick-tag editor
 * [fix] Buddypress hooks
 * [fix] Image upload not working
 * updated plugin.json
@@ -562,7 +562,7 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
 * Updated languages/ap.pot
 * Added about page
 * Updated dashboard
-* [option] label update: Asker can answer
+* [option] label update: commenter can answer
 * [fix] Form error message below input field
 * [fix] minor doc bug fixes
 * [fix] Minor and major issues
@@ -601,11 +601,11 @@ Read full FAQ here http://anspress.io/documents/doc_page=faq
 * Check comments as general user
 * Show question filter tab on Category and Tag pages
 * BuddyPress not working
-* Short category dropdown in ask form as defined
+* Short category dropdown in comment form as defined
 * Rename "voted" tab to vote
 * Unsolved also shows questions with selected answers
 * On Single Question page , Active | Voted | Newest | Oldest should be ajax based
-* Ask page title option not working
+* comment page title option not working
 * Dont let reputation to be negative
 * Improve UI of button
 * Add sticky answer navigation

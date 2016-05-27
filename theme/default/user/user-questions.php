@@ -15,7 +15,7 @@
 	<?php ap_questions_the_pagination(); ?>
 	<?php
 		else :
-			_e('No question asked by this user yet.', 'anspress-question-answer');
+			_e('No question commented by this user yet.', 'platformpress');
 		endif;
 	?>
 </div>

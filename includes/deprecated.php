@@ -2,11 +2,10 @@
 /**
  * Contain list of function which are deprecated
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http:/anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 if ( ! function_exists( '_deprecated_function' ) ) {
@@ -26,7 +25,7 @@ function ap_is_best_answer($post_id = false) {
 	if ( $post_id === false ) {
 		$post_id = get_the_ID(); }
 
-	$meta = get_post_meta( $post_id, ANSPRESS_BEST_META, true );
+	$meta = get_post_meta( $post_id, platformpress_BEST_META, true );
 	if ( $meta ) { return true; }
 
 	return false;
@@ -42,7 +41,7 @@ function ap_is_answer_selected($question_id = false) {
 	if ( $question_id === false ) {
 		$question_id = get_the_ID(); }
 
-	$meta = get_post_meta( $question_id, ANSPRESS_SELECTED_META, true );
+	$meta = get_post_meta( $question_id, platformpress_SELECTED_META, true );
 
 	if ( ! $meta ) {
 		return false; }
@@ -310,7 +309,7 @@ function ap_user_can_edit_ans( $post_id ) {
 }
 
 /**
- * Check if user can delete AnsPress posts
+ * Check if user can delete PlatformPress posts
  * @param  integer $post_id Question or answer ID.
  * @return boolean
  * @deprecated since 2.4.7

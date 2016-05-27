@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPress post types
+ * PlatformPress post types
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      https://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -14,7 +13,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class AnsPress_PostTypes
+class PlatformPress_PostTypes
 {
 
 	/**
@@ -44,19 +43,19 @@ class AnsPress_PostTypes
 
 		// question CPT labels
 		$labels = array(
-			'name'              => _x( 'Questions', 'Post Type General Name', 'anspress-question-answer' ),
-			'singular_name'     => _x( 'Question', 'Post Type Singular Name', 'anspress-question-answer' ),
-			'menu_name'         => __( 'Questions', 'anspress-question-answer' ),
-			'parent_item_colon' => __( 'Parent Question:', 'anspress-question-answer' ),
-			'all_items'         => __( 'All Questions', 'anspress-question-answer' ),
-			'view_item'         => __( 'View Question', 'anspress-question-answer' ),
-			'add_new_item'      => __( 'Add New Question', 'anspress-question-answer' ),
-			'add_new'           => __( 'New Question', 'anspress-question-answer' ),
-			'edit_item'         => __( 'Edit Question', 'anspress-question-answer' ),
-			'update_item'       => __( 'Update Question', 'anspress-question-answer' ),
-			'search_items'      => __( 'Search question', 'anspress-question-answer' ),
-			'not_found'         => __( 'No question found', 'anspress-question-answer' ),
-			'not_found_in_trash' => __( 'No questions found in Trash', 'anspress-question-answer' ),
+			'name'              => _x( 'Questions', 'Post Type General Name', 'platformpress' ),
+			'singular_name'     => _x( 'Question', 'Post Type Singular Name', 'platformpress' ),
+			'menu_name'         => __( 'Questions', 'platformpress' ),
+			'parent_item_colon' => __( 'Parent Question:', 'platformpress' ),
+			'all_items'         => __( 'All Questions', 'platformpress' ),
+			'view_item'         => __( 'View Question', 'platformpress' ),
+			'add_new_item'      => __( 'Add New Question', 'platformpress' ),
+			'add_new'           => __( 'New Question', 'platformpress' ),
+			'edit_item'         => __( 'Edit Question', 'platformpress' ),
+			'update_item'       => __( 'Update Question', 'platformpress' ),
+			'search_items'      => __( 'Search question', 'platformpress' ),
+			'not_found'         => __( 'No question found', 'platformpress' ),
+			'not_found_in_trash' => __( 'No questions found in Trash', 'platformpress' ),
 		);
 
 		/**
@@ -67,8 +66,8 @@ class AnsPress_PostTypes
 
 		// question CPT arguments
 		$args   = array(
-			'label' => __( 'question', 'anspress-question-answer' ),
-			'description' => __( 'Question', 'anspress-question-answer' ),
+			'label' => __( 'question', 'platformpress' ),
+			'description' => __( 'Question', 'platformpress' ),
 			'labels' => $labels,
 			'supports' => array(
 				'title',
@@ -86,7 +85,7 @@ class AnsPress_PostTypes
 			'show_in_menu' => false,
 			'show_in_nav_menus' => false,
 			'show_in_admin_bar' => true,
-			'menu_icon' => ANSPRESS_URL . '/assets/question.png',
+			'menu_icon' => platformpress_URL . '/assets/question.png',
 			'can_export' => true,
 			'has_archive' => true,
 			'exclude_from_search' => true,
@@ -114,19 +113,19 @@ class AnsPress_PostTypes
 	public function register_answer_cpt() {
 		// Answer CPT labels
 		$labels = array(
-			'name'          => _x( 'Answers', 'Post Type General Name', 'anspress-question-answer' ),
-			'singular_name' => _x( 'Answer', 'Post Type Singular Name', 'anspress-question-answer' ),
-			'menu_name' => __( 'Answers', 'anspress-question-answer' ),
-			'parent_item_colon' => __( 'Parent Answer:', 'anspress-question-answer' ),
-			'all_items' => __( 'All Answers', 'anspress-question-answer' ),
-			'view_item' => __( 'View Answer', 'anspress-question-answer' ),
-			'add_new_item' => __( 'Add New Answer', 'anspress-question-answer' ),
-			'add_new' => __( 'New answer', 'anspress-question-answer' ),
-			'edit_item' => __( 'Edit answer', 'anspress-question-answer' ),
-			'update_item' => __( 'Update answer', 'anspress-question-answer' ),
-			'search_items' => __( 'Search answer', 'anspress-question-answer' ),
-			'not_found' => __( 'No answer found', 'anspress-question-answer' ),
-			'not_found_in_trash' => __( 'No answer found in Trash', 'anspress-question-answer' ),
+			'name'          => _x( 'Answers', 'Post Type General Name', 'platformpress' ),
+			'singular_name' => _x( 'Answer', 'Post Type Singular Name', 'platformpress' ),
+			'menu_name' => __( 'Answers', 'platformpress' ),
+			'parent_item_colon' => __( 'Parent Answer:', 'platformpress' ),
+			'all_items' => __( 'All Answers', 'platformpress' ),
+			'view_item' => __( 'View Answer', 'platformpress' ),
+			'add_new_item' => __( 'Add New Answer', 'platformpress' ),
+			'add_new' => __( 'New answer', 'platformpress' ),
+			'edit_item' => __( 'Edit answer', 'platformpress' ),
+			'update_item' => __( 'Update answer', 'platformpress' ),
+			'search_items' => __( 'Search answer', 'platformpress' ),
+			'not_found' => __( 'No answer found', 'platformpress' ),
+			'not_found_in_trash' => __( 'No answer found in Trash', 'platformpress' ),
 		);
 
 		/**
@@ -137,8 +136,8 @@ class AnsPress_PostTypes
 
 		// Answers CPT arguments
 		$args   = array(
-			'label' => __( 'answer', 'anspress-question-answer' ),
-			'description' => __( 'Answer', 'anspress-question-answer' ),
+			'label' => __( 'answer', 'platformpress' ),
+			'description' => __( 'Answer', 'platformpress' ),
 			'labels' => $labels,
 			'supports' => array(
 				'editor',
@@ -153,8 +152,8 @@ class AnsPress_PostTypes
 			'show_in_menu' => false,
 			'show_in_nav_menus' => false,
 			'show_in_admin_bar' => false,
-			'menu_icon' => ANSPRESS_URL . '/assets/answer.png',
-			// 'show_in_menu' => 'anspress',
+			'menu_icon' => platformpress_URL . '/assets/answer.png',
+			// 'show_in_menu' => 'platformpress',
 			'can_export' => true,
 			'has_archive' => true,
 			'exclude_from_search' => true,
@@ -222,21 +221,21 @@ class AnsPress_PostTypes
 
 		$columns = array();
 		$columns['cb']          = '<input type="checkbox" />';
-		$columns['ap_author']      = __( 'Author', 'anspress-question-answer' );
-		$columns['title']       = __( 'Title', 'anspress-question-answer' );
+		$columns['ap_author']      = __( 'Author', 'platformpress' );
+		$columns['title']       = __( 'Title', 'platformpress' );
 
 		if ( taxonomy_exists( 'question_category' ) ) {
-			$columns['question_category']       = __( 'Category', 'anspress-question-answer' ); }
+			$columns['question_category']       = __( 'Category', 'platformpress' ); }
 
 		if ( taxonomy_exists( 'question_tag' ) ) {
-			$columns['question_tag']       = __( 'Tag', 'anspress-question-answer' ); }
+			$columns['question_tag']       = __( 'Tag', 'platformpress' ); }
 
-		$columns['status']      = __( 'Status', 'anspress-question-answer' );
-		$columns['answers']     = __( 'Ans', 'anspress-question-answer' );
-		$columns['comments']    = __( 'Comments', 'anspress-question-answer' );
-		$columns['vote']        = __( 'Vote', 'anspress-question-answer' );
-		$columns['flag']        = __( 'Flag', 'anspress-question-answer' );
-		$columns['date']        = __( 'Date', 'anspress-question-answer' );
+		$columns['status']      = __( 'Status', 'platformpress' );
+		$columns['answers']     = __( 'Ans', 'platformpress' );
+		$columns['comments']    = __( 'Comments', 'platformpress' );
+		$columns['vote']        = __( 'Vote', 'platformpress' );
+		$columns['flag']        = __( 'Flag', 'platformpress' );
+		$columns['date']        = __( 'Date', 'platformpress' );
 
 		return $columns;
 	}
@@ -259,26 +258,26 @@ class AnsPress_PostTypes
 			echo '<span class="post-status">';
 
 			if ( 'private_post' == $post->post_status ) {
-				echo __( 'Private', 'anspress-question-answer' ); } elseif ('closed' == $post->post_status)
-					echo __( 'Closed', 'anspress-question-answer' );
+				echo __( 'Private', 'platformpress' ); } elseif ('closed' == $post->post_status)
+					echo __( 'Closed', 'platformpress' );
 
 				elseif ('moderate' == $post->post_status)
-					echo __( 'Moderate', 'anspress-question-answer' );
+					echo __( 'Moderate', 'platformpress' );
 
 				elseif ('private' == $post->post_status)
-					echo __( 'Private', 'anspress-question-answer' );
+					echo __( 'Private', 'platformpress' );
 
 				elseif ('darft' == $post->post_status)
-					echo __( 'Draft', 'anspress-question-answer' );
+					echo __( 'Draft', 'platformpress' );
 
 				elseif ('pending' == $post->post_status)
-					echo __( 'Pending', 'anspress-question-answer' );
+					echo __( 'Pending', 'platformpress' );
 
 				elseif ('trash' == $post->post_status)
-					echo __( 'Trash', 'anspress-question-answer' );
+					echo __( 'Trash', 'platformpress' );
 
 			else {
-				echo __( 'Open', 'anspress-question-answer' ); }
+				echo __( 'Open', 'platformpress' ); }
 
 			echo '</span>';
 
@@ -294,7 +293,7 @@ class AnsPress_PostTypes
 				}
 				echo join( ', ', $out );
 			} else {
-				_e( '--', 'anspress-question-answer' );
+				_e( '--', 'platformpress' );
 			}
 		} elseif ( 'question_tag' == $column && taxonomy_exists( 'question_tag' ) ) {
 
@@ -312,7 +311,7 @@ class AnsPress_PostTypes
 
 				echo join( ', ', $out );
 			} else {
-				_e( '--', 'anspress-question-answer' );
+				_e( '--', 'platformpress' );
 			}
 		} elseif ( 'answers' == $column ) {
 			$a_count = ap_count_answer_meta();
@@ -320,13 +319,13 @@ class AnsPress_PostTypes
 			/* If terms were found. */
 			if ( ! empty( $a_count ) ) {
 
-				echo '<a class="ans-count" title="' . $a_count . __( 'answers', 'anspress-question-answer' ) . '" href="' . esc_url(add_query_arg(array(
+				echo '<a class="ans-count" title="' . $a_count . __( 'answers', 'platformpress' ) . '" href="' . esc_url(add_query_arg(array(
 					'post_type' => 'answer',
 					'post_parent' => $post->ID,
 				), 'edit.php')) . '">' . $a_count . '</a>';
 			} /* If no terms were found, output a default message. */
 			else {
-				echo '<a class="ans-count" title="0' . __( 'answers', 'anspress-question-answer' ) . '">0</a>';
+				echo '<a class="ans-count" title="0' . __( 'answers', 'platformpress' ) . '">0</a>';
 			}
 		} elseif ( 'parent_question' == $column ) {
 			echo '<a class="parent_question" href="' . esc_url(add_query_arg(array(
@@ -334,7 +333,7 @@ class AnsPress_PostTypes
 				'action' => 'edit',
 			), 'post.php')) . '"><strong>' . get_the_title( $post->post_parent ) . '</strong></a>';
 		} elseif ( 'vote' == $column ) {
-			$vote = get_post_meta( $post->ID, ANSPRESS_VOTE_META, true );
+			$vote = get_post_meta( $post->ID, platformpress_VOTE_META, true );
 			echo '<span class="vote-count' . ($vote ? ' zero' : '') . '">' .$vote . '</span>';
 		} elseif ( 'flag' == $column ) {
 			$total_flag = ap_post_flag_count();
@@ -351,13 +350,13 @@ class AnsPress_PostTypes
 
 		$columns = array(
 			'cb'                => '<input type="checkbox" />',
-			'ap_author'         => __( 'Author', 'anspress-question-answer' ),
-			'answer_content'    => __( 'Content', 'anspress-question-answer' ),
-			'status'            => __( 'Status', 'anspress-question-answer' ),
-			'comments'          => __( 'Comments', 'anspress-question-answer' ),
-			'vote'              => __( 'Vote', 'anspress-question-answer' ),
-			'flag'              => __( 'Flag', 'anspress-question-answer' ),
-			'date'              => __( 'Date', 'anspress-question-answer' ),
+			'ap_author'         => __( 'Author', 'platformpress' ),
+			'answer_content'    => __( 'Content', 'platformpress' ),
+			'status'            => __( 'Status', 'platformpress' ),
+			'comments'          => __( 'Comments', 'platformpress' ),
+			'vote'              => __( 'Vote', 'platformpress' ),
+			'flag'              => __( 'Flag', 'platformpress' ),
+			'date'              => __( 'Date', 'platformpress' ),
 		);
 		return $columns;
 	}
@@ -377,7 +376,7 @@ class AnsPress_PostTypes
 		$orderby = $query->get( 'orderby' );
 
 		if ( 'flag' == $orderby ) {
-			$query->set( 'meta_key', ANSPRESS_FLAG_META );
+			$query->set( 'meta_key', platformpress_FLAG_META );
 			$query->set( 'orderby', 'meta_value_num' );
 		}
 	}

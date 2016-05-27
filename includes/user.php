@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPress user
+ * PlatformPress user
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
@@ -19,7 +18,7 @@
  */
 
 function ap_register_user_page($page_slug, $page_title, $func, $show_in_menu = true, $public = true) {
-	anspress()->user_pages[$page_slug] = array( 'title' => $page_title, 'func' => $func, 'show_in_menu' => $show_in_menu, 'public' => $public );
+	platformpress()->user_pages[$page_slug] = array( 'title' => $page_title, 'func' => $func, 'show_in_menu' => $show_in_menu, 'public' => $public );
 }
 /**
  * Count user posts by post type
@@ -72,7 +71,7 @@ function ap_user_answer_count($userid) {
 function ap_user_best_answer_count($user_id) {
 
 	global $wpdb;
-	$query = $wpdb->prepare( "SELECT count(DISTINCT pm.post_id) FROM $wpdb->postmeta pm JOIN $wpdb->posts p ON (p.ID = pm.post_id) WHERE pm.meta_key = '".ANSPRESS_BEST_META."' AND pm.meta_value = 1 AND p.post_type = 'answer' AND p.post_author = %d", $user_id );
+	$query = $wpdb->prepare( "SELECT count(DISTINCT pm.post_id) FROM $wpdb->postmeta pm JOIN $wpdb->posts p ON (p.ID = pm.post_id) WHERE pm.meta_key = '".platformpress_BEST_META."' AND pm.meta_value = 1 AND p.post_type = 'answer' AND p.post_author = %d", $user_id );
 
 	$key = md5( $query );
 	$cache = wp_cache_get( $key, 'count' );
@@ -90,7 +89,7 @@ function ap_user_best_answer_count($user_id) {
 function ap_user_solved_answer_count($user_id) {
 
 	global $wpdb;
-	$query = $wpdb->prepare( "SELECT count(DISTINCT pm.post_id) FROM $wpdb->postmeta pm JOIN $wpdb->posts p ON (p.ID = pm.post_id) WHERE pm.meta_key = '".ANSPRESS_SELECTED_META."' AND pm.meta_value is not null AND pm.meta_value != 0 AND p.post_type = 'question' AND p.post_author = %d", $user_id );
+	$query = $wpdb->prepare( "SELECT count(DISTINCT pm.post_id) FROM $wpdb->postmeta pm JOIN $wpdb->posts p ON (p.ID = pm.post_id) WHERE pm.meta_key = '".platformpress_SELECTED_META."' AND pm.meta_value is not null AND pm.meta_value != 0 AND p.post_type = 'question' AND p.post_author = %d", $user_id );
 
 	$key = md5( $query );
 	$cache = wp_cache_get( $key, 'count' );
@@ -120,7 +119,7 @@ function ap_user_display_name($args = array()) {
 		'user_id'            => get_the_author_meta( 'ID' ),
 		'html'                => false,
 		'echo'                => false,
-		'anonymous_label'    => __( 'Anonymous', 'anspress-question-answer' ),
+		'anonymous_label'    => __( 'Anonymous', 'platformpress' ),
 	);
 
 	if ( ! is_array( $args ) ) {
@@ -151,7 +150,7 @@ function ap_user_display_name($args = array()) {
 			}
 		} else {
 			if ( $name != '' ) {
-				$return = '<span class="who">'.$name.__( ' (anonymous)', 'anspress-question-answer' ).'</span>';
+				$return = '<span class="who">'.$name.__( ' (anonymous)', 'platformpress' ).'</span>';
 			} else {
 				$return = '<span class="who">'.$anonymous_label.'</span>';
 			}
@@ -260,7 +259,7 @@ function ap_get_user_menu($user_id = false, $private = false) {
 		$user_id = ap_get_displayed_user_id();
 	}
 
-	$user_pages = anspress()->user_pages;
+	$user_pages = platformpress()->user_pages;
 
 	$menus = array();
 
@@ -348,7 +347,7 @@ function ap_get_current_user_page_template() {
  */
 function ap_user_page() {
 
-	$user_pages     = anspress()->user_pages;
+	$user_pages     = platformpress()->user_pages;
 	$user_id        = ap_get_displayed_user_id();
 	$user_page      = ap_active_user_page();
 	$callback       = @$user_pages[$user_page]['func'];
@@ -356,7 +355,7 @@ function ap_user_page() {
 	if ( $user_id > 0 && ((is_array( $callback ) && method_exists( $callback[0], $callback[1] )) || ( ! is_array( $callback ) && function_exists( $callback )) ) ) {
 		call_user_func( $callback );
 	} else {
-		echo '<div class="ap-page-template-404">'.__( 'Page not found or registered.', 'anspress-question-answer' ).'</div>';
+		echo '<div class="ap-page-template-404">'.__( 'Page not found or registered.', 'platformpress' ).'</div>';
 	}
 }
 
@@ -437,12 +436,12 @@ function ap_users_tab() {
 	?>
     <ul class="ap-questions-tab ap-ul-inline clearfix" role="tablist">
         <?php if ( ! ap_opt( 'disable_reputation' ) ) : ?>
-            <li class="<?php echo $active == 'reputation' ? ' active' : ''; ?>"><a href="<?php echo $link.'reputation'; ?>"><?php _e( 'Reputation', 'anspress-question-answer' ); ?></a></li>
+            <li class="<?php echo $active == 'reputation' ? ' active' : ''; ?>"><a href="<?php echo $link.'reputation'; ?>"><?php _e( 'Reputation', 'platformpress' ); ?></a></li>
         <?php endif; ?>
-        <li class="<?php echo $active == 'active' ? ' active' : ''; ?>"><a href="<?php echo $link.'active'; ?>"><?php _e( 'Active', 'anspress-question-answer' ); ?></a></li>
-        <li class="<?php echo $active == 'best_answer' ? ' active' : ''; ?>"><a href="<?php echo $link.'best_answer'; ?>"><?php _e( 'Best answer', 'anspress-question-answer' ); ?></a></li>
-        <li class="<?php echo $active == 'answer' ? ' active' : ''; ?>"><a href="<?php echo $link.'answer'; ?>"><?php _e( 'Answer', 'anspress-question-answer' ); ?></a></li>
-        <li class="<?php echo $active == 'newest' ? ' active' : ''; ?>"><a href="<?php echo $link.'newest'; ?>"><?php _e( 'Newest', 'anspress-question-answer' ); ?></a></li>
+        <li class="<?php echo $active == 'active' ? ' active' : ''; ?>"><a href="<?php echo $link.'active'; ?>"><?php _e( 'Active', 'platformpress' ); ?></a></li>
+        <li class="<?php echo $active == 'best_answer' ? ' active' : ''; ?>"><a href="<?php echo $link.'best_answer'; ?>"><?php _e( 'Best answer', 'platformpress' ); ?></a></li>
+        <li class="<?php echo $active == 'answer' ? ' active' : ''; ?>"><a href="<?php echo $link.'answer'; ?>"><?php _e( 'Answer', 'platformpress' ); ?></a></li>
+        <li class="<?php echo $active == 'newest' ? ' active' : ''; ?>"><a href="<?php echo $link.'newest'; ?>"><?php _e( 'Newest', 'platformpress' ); ?></a></li>
         <?php
 			/**
 			 * ACTION: ap_users_tab
@@ -510,10 +509,10 @@ function ap_user_top_posts_tab() {
 
 	$link = '?tab=';
 	?>
-	<?php printf( __( 'Top %s', 'anspress-question-answer' ), $active ); ?>
+	<?php printf( __( 'Top %s', 'platformpress' ), $active ); ?>
     <ul id="ap-user-posts-tab" class="ap-flat-tab ap-ul-inline clearfix" role="tablist">
-	<li class="<?php echo $active == 'answers' ? ' active' : ''; ?>"><a href="<?php echo $link.'answers'; ?>"><?php _e( 'Answers', 'anspress-question-answer' ); ?></a></li>
-	<li class="<?php echo $active == 'questions' ? ' active' : ''; ?>"><a href="<?php echo $link.'questions'; ?>"><?php _e( 'Questions', 'anspress-question-answer' ); ?></a></li>
+	<li class="<?php echo $active == 'answers' ? ' active' : ''; ?>"><a href="<?php echo $link.'answers'; ?>"><?php _e( 'Answers', 'platformpress' ); ?></a></li>
+	<li class="<?php echo $active == 'questions' ? ' active' : ''; ?>"><a href="<?php echo $link.'questions'; ?>"><?php _e( 'Questions', 'platformpress' ); ?></a></li>
 	<?php
 		/**
 		 * ACTION: ap_users_tab
@@ -536,11 +535,11 @@ function ap_user_subscription_tab() {
 
 	$link = '?tab=';
 
-	printf( __( 'My subscriptions', 'anspress-question-answer' ), $active );
+	printf( __( 'My subscriptions', 'platformpress' ), $active );
 
 	?>
     <ul id="ap-user-posts-tab" class="ap-flat-tab ap-ul-inline clearfix" role="tablist">
-	<li class="<?php echo $active == 'question' ? ' active' : ''; ?>"><a href="<?php echo $link.'question'; ?>"><?php _e( 'Questions', 'anspress-question-answer' ); ?></a></li>
+	<li class="<?php echo $active == 'question' ? ' active' : ''; ?>"><a href="<?php echo $link.'question'; ?>"><?php _e( 'Questions', 'platformpress' ); ?></a></li>
 	<?php
 		/**
 		 * ACTION: ap_user_subscription_tab
@@ -603,8 +602,8 @@ function ap_avatar_upload_form() {
 	if ( ap_user_can_upload_avatar() ) {
 		?>
             <form method="post" action="#" enctype="multipart/form-data" data-action="ap_upload_form" class="ap-avatar-upload-form">
-            <div class="ap-btn ap-upload-o <?php echo ap_icon( 'upload' ); ?>" title="<?php _e( 'Upload an avatar', 'anspress-question-answer' ); ?>">
-                <span><?php _e( 'Upload avatar', 'anspress-question-answer' ); ?></span>
+            <div class="ap-btn ap-upload-o <?php echo ap_icon( 'upload' ); ?>" title="<?php _e( 'Upload an avatar', 'platformpress' ); ?>">
+                <span><?php _e( 'Upload avatar', 'platformpress' ); ?></span>
                 <input type="file" name="thumbnail" class="ap-upload-input" data-action="ap_upload_field">
             </div>
             <input type='hidden' value='<?php echo wp_create_nonce( 'upload_avatar_'.get_current_user_id() ); ?>' name='__nonce' />
@@ -626,8 +625,8 @@ function ap_user_profile_tab() {
 	$link = ap_user_link( ap_get_displayed_user_id(), 'profile' );
 
 	$navs = array(
-	'basic' => array( 'link' => add_query_arg( array( 'group' => 'basic' ), $link ), 'title' => __( 'Basic', 'anspress-question-answer' ) ),
-	'account' => array( 'link' => add_query_arg( array( 'group' => 'account' ), $link ), 'title' => __( 'Account', 'anspress-question-answer' ) ),
+	'basic' => array( 'link' => add_query_arg( array( 'group' => 'basic' ), $link ), 'title' => __( 'Basic', 'platformpress' ) ),
+	'account' => array( 'link' => add_query_arg( array( 'group' => 'account' ), $link ), 'title' => __( 'Account', 'platformpress' ) ),
 	);
 
 	/**
@@ -655,7 +654,7 @@ function ap_user_profile_tab() {
  */
 function ap_is_my_profile($user_id = false) {
 	if ( false !== $user_id ) {
-		_deprecated_argument( __FUNCTION__, '2.4', __( 'Passing user_id in ap_is_my_profile is deprecated, function will check again currently logged in user.', 'anspress-question-answer' ) );
+		_deprecated_argument( __FUNCTION__, '2.4', __( 'Passing user_id in ap_is_my_profile is deprecated, function will check again currently logged in user.', 'platformpress' ) );
 	}
 
 	$user_id = get_current_user_id();
@@ -671,7 +670,7 @@ function ap_is_my_profile($user_id = false) {
  * @param string $page
  */
 function ap_is_user_page_public($page) {
-	$user_pages = anspress()->user_pages;
+	$user_pages = platformpress()->user_pages;
 
 	if ( isset( $user_pages[$page] ) && $user_pages[$page]['public'] ) {
 		return true; }
@@ -780,8 +779,8 @@ function ap_cover_upload_form() {
 	if ( ap_user_can_upload_cover() ) {
 		?>
             <form method="post" action="#" enctype="multipart/form-data" data-action="ap_upload_form" class="ap-avatar-upload-form">
-            <div class="ap-btn ap-upload-o <?php echo ap_icon( 'upload' ); ?>" title="<?php _e( 'Upload a cover photo', 'anspress-question-answer' ); ?>">
-                <span><?php _e( 'Upload cover', 'anspress-question-answer' ); ?></span>
+            <div class="ap-btn ap-upload-o <?php echo ap_icon( 'upload' ); ?>" title="<?php _e( 'Upload a cover photo', 'platformpress' ); ?>">
+                <span><?php _e( 'Upload cover', 'platformpress' ); ?></span>
                 <input type="file" name="image" class="ap-upload-input" data-action="ap_upload_field">
             </div>
             <input type='hidden' value='<?php echo wp_create_nonce( 'upload_cover_'.get_current_user_id() ); ?>' name='__nonce' />
@@ -850,17 +849,17 @@ function ap_user_link_avatar( $user_id, $size = 30 ) {
 }
 
 /**
- * Check if AnsPress profile is active.
- * @return boolean Return true if AnsPress profile is active.
+ * Check if PlatformPress profile is active.
+ * @return boolean Return true if PlatformPress profile is active.
  */
 function ap_is_profile_active() {
 	$option = ap_opt( 'user_profile' );
 
 	if ( empty( $option ) ) {
-		$option = 'anspress';
+		$option = 'platformpress';
 	}
 
-	return apply_filters( 'ap_user_profile_active', 'anspress' == $option );
+	return apply_filters( 'ap_user_profile_active', 'platformpress' == $option );
 }
 
 /**

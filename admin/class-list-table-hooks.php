@@ -26,7 +26,7 @@ class AP_List_Table_Hooks{
 		global $post_type_object;
 		$flagged_count = ap_total_posts_count($post_type_object->name, 'flag' );
 		$class = isset( $_GET['flagged'] ) ? 'class="current" ' : '';
-	    $views['flagged'] = '<a '.$class.'href="edit.php?flagged=true&#038;post_type='.$post_type_object->name.'">'.__('Flagged', 'anspress-question-answer' ).' <span class="count">('.$flagged_count->total.')</span></a>';
+	    $views['flagged'] = '<a '.$class.'href="edit.php?flagged=true&#038;post_type='.$post_type_object->name.'">'.__('Flagged', 'platformpress' ).' <span class="count">('.$flagged_count->total.')</span></a>';
 
 	    return $views;
 	}
@@ -36,7 +36,7 @@ class AP_List_Table_Hooks{
 		$vars = $query->query_vars;
 
 		if ( $pagenow == 'edit.php' && isset( $vars['post_type'] ) && ($vars['post_type'] == 'question' || $vars['post_type'] == 'answer') && isset( $_GET['flagged'] ) ) {
-			$query->set( 'meta_query', array( array( 'key' => ANSPRESS_FLAG_META, 'compare' => '>', 'value' => 0 ) ) );
+			$query->set( 'meta_query', array( array( 'key' => platformpress_FLAG_META, 'compare' => '>', 'value' => 0 ) ) );
 			$query->set( 'orderby', 'meta_value' );
 		}
 	}
@@ -75,32 +75,32 @@ class AP_List_Table_Hooks{
 			if ( 'trash' == $post->post_status ) {
 				$_wpnonce           = wp_create_nonce( 'untrash-post_' . $post_id );
 				$url                = admin_url( 'post.php?post=' . $post_id . '&action=untrash&_wpnonce=' . $_wpnonce );
-				$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash', 'anspress-question-answer' ) ) . "' href='" . $url . "'>" . __( 'Restore', 'anspress-question-answer' ) . '</a>';
+				$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash', 'platformpress' ) ) . "' href='" . $url . "'>" . __( 'Restore', 'platformpress' ) . '</a>';
 
 			} elseif ( EMPTY_TRASH_DAYS ) {
-				$actions['trash'] = "<a class='submitdelete' title='" . esc_attr( __( 'Move this item to the Trash', 'anspress-question-answer' ) ) . "' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash', 'anspress-question-answer' ) . '</a>';
+				$actions['trash'] = "<a class='submitdelete' title='" . esc_attr( __( 'Move this item to the Trash', 'platformpress' ) ) . "' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash', 'platformpress' ) . '</a>';
 			}
 
 			if ( 'trash' == $post->post_status || ! EMPTY_TRASH_DAYS ) {
-				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr( __( 'Delete this item permanently', 'anspress-question-answer' ) ) . "' href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete Permanently', 'anspress-question-answer' ) . '</a>';
+				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr( __( 'Delete this item permanently', 'platformpress' ) ) . "' href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete Permanently', 'platformpress' ) . '</a>';
 			}
 		}
 
 		if ( $can_edit_post ) {
-			$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, '', true ) . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'anspress-question-answer' ),$post->title ) ) . '" rel="permalink">' . __( 'Edit', 'anspress-question-answer' ) . '</a>';
+			$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, '', true ) . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'platformpress' ),$post->title ) ) . '" rel="permalink">' . __( 'Edit', 'platformpress' ) . '</a>';
 		}
 
 		// Actions to view/preview.
 		if ( in_array($post->post_status, array( 'pending', 'draft', 'future' ) ) && $can_edit_post ) {
 
-			$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'anspress-question-answer' ),$post->title ) ) . '" rel="permalink">' . __( 'Preview', 'anspress-question-answer' ) . '</a>';
+			$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'platformpress' ),$post->title ) ) . '" rel="permalink">' . __( 'Preview', 'platformpress' ) . '</a>';
 
 		} elseif ( 'trash' != $post->post_status ) {
-			$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( __( 'View &#8220;%s&#8221; question', 'anspress-question-answer' ) ) . '" rel="permalink">' . __( 'View', 'anspress-question-answer' ) . '</a>';
+			$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( __( 'View &#8220;%s&#8221; question', 'platformpress' ) ) . '" rel="permalink">' . __( 'View', 'platformpress' ) . '</a>';
 		}
 
 		if ( ap_flagged_post_meta( $post->ID ) ) {
-			$actions['flag'] = '<a href="#" data-query="ap_clear_flag::'. wp_create_nonce( 'clear_flag_'.$post->ID ) .'::'.$post->ID.'" class="ap-ajax-btn flag-clear" data-cb="afterFlagClear">'.__('Clear flag', 'anspress-question-answer' ).'</a>';
+			$actions['flag'] = '<a href="#" data-query="ap_clear_flag::'. wp_create_nonce( 'clear_flag_'.$post->ID ) .'::'.$post->ID.'" class="ap-ajax-btn flag-clear" data-cb="afterFlagClear">'.__('Clear flag', 'platformpress' ).'</a>';
 		}
 
 		// Echo the 'actions' HTML, let WP_List_Table do the hard work.
@@ -116,7 +116,7 @@ class AP_List_Table_Hooks{
 	public function add_question_flag_link($actions, $post) {
 
 		if ( ap_flagged_post_meta( $post->ID ) ) {
-			$actions['flag'] = '<a href="#" data-query="ap_clear_flag::'. wp_create_nonce( 'clear_flag_'.$post->ID ) .'::'.$post->ID.'" class="ap-ajax-btn flag-clear" data-cb="afterFlagClear">'.__('Clear flag', 'anspress-question-answer' ).'</a>';
+			$actions['flag'] = '<a href="#" data-query="ap_clear_flag::'. wp_create_nonce( 'clear_flag_'.$post->ID ) .'::'.$post->ID.'" class="ap-ajax-btn flag-clear" data-cb="afterFlagClear">'.__('Clear flag', 'platformpress' ).'</a>';
 		}
 
 		return $actions;

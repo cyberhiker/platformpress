@@ -2,10 +2,10 @@
 /**
  * Question list item template
  *
- * @link http://anspress.io
- * @since 0.1
- * @license GPL 2+
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 if(!ap_user_can_view_post(get_the_ID()))
@@ -16,7 +16,7 @@ $clearfix_class = array('ap-questions-item clearfix');
 
 ?>
 <div id="question-<?php ap_question_the_ID(); ?>" <?php post_class($clearfix_class); ?>>
-	<?php if(ap_is_featured_question()) echo '<i class="ap-questions-featured apicon-star ap-tip" title="'.__('Featured question', 'anspress-question-answer').'"></i>'; ?>
+	<?php if(ap_is_featured_question()) echo '<i class="ap-questions-featured apicon-star ap-tip" title="'.__('Featured question', 'platformpress').'"></i>'; ?>
 	<div class="ap-questions-inner">
 		<div class="ap-avatar ap-pull-left">
 			<a href="<?php ap_question_the_author_link() ; ?>"<?php ap_hover_card_attributes(ap_question_get_author_id()); ?>>

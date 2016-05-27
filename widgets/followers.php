@@ -1,12 +1,12 @@
 <?php
 /**
- * AnsPress followers widget.
+ * PlatformPress followers widget.
  * Register followers widget in WP.
  *
- * @link  	https://anspress.io
- * @since 	2.4
- * @author  Rahul Aryan <support@anspress.io>
- * @package AnsPress/AP_followers_Widget
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
@@ -20,8 +20,8 @@ class AP_followers_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'ap_followers_widget',
-			__( '(AnsPress) Followers', 'anspress-question-answer' ),
-			array( 'description' => __( 'Show followers of currently displayed user.', 'anspress-question-answer' ) )
+			__( '(PlatformPress) Followers', 'platformpress' ),
+			array( 'description' => __( 'Show followers of currently displayed user.', 'platformpress' ) )
 		);
 	}
 
@@ -42,10 +42,10 @@ class AP_followers_Widget extends WP_Widget {
 	            include ap_get_theme_location('widgets/followers.php');
 	        }
 	        else{
-	            _e('No followers yet', 'anspress-question-answer');
+	            _e('No followers yet', 'platformpress');
 	        }
 	    }else{
-	    	_e('This widget can only be used in user page.', 'anspress-question-answer');
+	    	_e('This widget can only be used in user page.', 'platformpress');
 	    }
 	    echo '</div>';
 
@@ -57,7 +57,7 @@ class AP_followers_Widget extends WP_Widget {
 			$title = $instance[ 'title' ];
 		}
 		else {
-			$title = __( 'Followers', 'anspress-question-answer' );
+			$title = __( 'Followers', 'platformpress' );
 		}
 		$avatar_size 		= 30;
 		$number 			= 20;
@@ -70,15 +70,15 @@ class AP_followers_Widget extends WP_Widget {
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'avatar_size' ); ?>"><?php _e( 'Avatar size:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'avatar_size' ); ?>"><?php _e( 'Avatar size:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'avatar_size' ); ?>" name="<?php echo $this->get_field_name( 'avatar_size' ); ?>" type="text" value="<?php echo esc_attr( $avatar_size ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Numbers of user to show:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Numbers of user to show:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo esc_attr( $number ); ?>">
 		</p>
 		<?php

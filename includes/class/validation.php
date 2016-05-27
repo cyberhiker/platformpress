@@ -1,13 +1,13 @@
 <?php
 /**
- * AnsPress form validation class
- * @link http://anspress.io
- * @since 2.0.1
- * @license GPL 2+
- * @package AnsPress
+ * PlatformPress form validation class
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
-class AnsPress_Validation
+class PlatformPress_Validation
 {
 	public $args = array();
 
@@ -67,7 +67,7 @@ class AnsPress_Validation
 	 */
 	public function required($field) {
 		if ( ! isset( $this->fields[$field] ) || '' == $this->fields[ $field ] ) {
-			$this->errors[ $field ] = __( 'This field is required', 'anspress-question-answer' );
+			$this->errors[ $field ] = __( 'This field is required', 'platformpress' );
 		}
 	}
 
@@ -97,7 +97,7 @@ class AnsPress_Validation
 		}
 
 		if ( $param != 0 && ( ! isset( $this->fields[$field] ) || mb_strlen( strip_tags( $this->fields[$field] ) ) <= $param ) ) {
-			$this->errors[$field] = sprintf( __( 'Its too short, it must be minimum %d characters', 'anspress-question-answer' ), $param );
+			$this->errors[$field] = sprintf( __( 'Its too short, it must be minimum %d characters', 'platformpress' ), $param );
 		}
 	}
 
@@ -117,10 +117,10 @@ class AnsPress_Validation
 			}
 
 			if ( count( $tags ) < $param ) {
-				$this->errors[$field] = sprintf( __( 'It must be minimum %d characters', 'anspress-question-answer' ), $param );
+				$this->errors[$field] = sprintf( __( 'It must be minimum %d characters', 'platformpress' ), $param );
 			}
 		} elseif ( $param > 0 ) {
-			$this->errors[$field] = sprintf( __( 'It must be minimum %d characters', 'anspress-question-answer' ), $param );
+			$this->errors[$field] = sprintf( __( 'It must be minimum %d characters', 'platformpress' ), $param );
 		}
 	}
 
@@ -132,7 +132,7 @@ class AnsPress_Validation
 		$email = is_email( $this->fields[$field] );
 
 		if ( ! $email ) {
-			$this->errors[$field] = __( 'Not a valid email address', 'anspress-question-answer' );
+			$this->errors[$field] = __( 'Not a valid email address', 'platformpress' );
 		} else {
 			$this->fields[$field] = $email;
 		}

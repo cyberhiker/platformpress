@@ -3,10 +3,10 @@
  * Activity item
  * Used to output each item for activities.
  *
- * @link   	http://anspress.io
+ * @link   	http://platformpress.io
  * @since  	2.4
- * @author 	Rahul Aryan <support@anspress.io>
- * @package AnsPress
+ * @author 	Rahul Aryan <support@platformpress.io>
+ * @package PlatformPress
  */	
 ?>
 

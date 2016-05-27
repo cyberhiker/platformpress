@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPresss admin class
+ * PlatformPresss admin class
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -18,10 +17,10 @@ if ( ! defined( 'WPINC' ) ) {
  * This class should ideally be used to work with the
  * administrative side of the WordPress site.
  *
- * @package AnsPress
- * @author  Rahul Aryan <support@anspress.io>
+ * @package PlatformPress
+ * @author  Rahul Aryan <support@platformpress.io>
  */
-class AnsPress_Admin
+class PlatformPress_Admin
 {
 
 	/**
@@ -37,10 +36,10 @@ class AnsPress_Admin
 	protected $plugin_screen_hook_suffix = null;
 
 	/**
-	 * AnsPress option key
+	 * PlatformPress option key
 	 * @var string
 	 */
-	protected $option_name = 'anspress_opt';
+	protected $option_name = 'platformpress_opt';
 
 
 	/**
@@ -50,7 +49,7 @@ class AnsPress_Admin
 	private function __construct() {
 		$this->includes();
 
-		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . 'anspress-question-answer.php' );
+		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . 'platformpress.php' );
 		add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'add_action_links' ) );
 		add_action( 'save_post', array( $this, 'ans_parent_post' ), 10, 2 );
 		// Load admin style sheet and JavaScript.
@@ -112,7 +111,7 @@ class AnsPress_Admin
 		if( !ap_load_admin_assets() ){
 			return;
 		}
-		wp_enqueue_style( 'ap-admin-css', ANSPRESS_URL.'assets/ap-admin.css' );
+		wp_enqueue_style( 'ap-admin-css', platformpress_URL.'assets/ap-admin.css' );
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_style( 'ap-fonts', ap_get_theme_url( 'fonts/style.css' ), array(), AP_VERSION );
 	}
@@ -130,8 +129,8 @@ class AnsPress_Admin
 
 		wp_enqueue_script( 'jquery-form', array( 'jquery' ), false, true );
 		wp_enqueue_script( 'ap-initial.js', ap_get_theme_url( 'js/initial.min.js' ), 'jquery', AP_VERSION );
-		wp_enqueue_script( 'ap-functions-js', ANSPRESS_URL.'assets/ap-functions.js', 'jquery', AP_VERSION );
-		wp_enqueue_script( 'ap-admin-js', ANSPRESS_URL.'assets/'.$dir.'/ap-admin'.$min.'.js' , array( 'wp-color-picker' ) );
+		wp_enqueue_script( 'ap-functions-js', platformpress_URL.'assets/ap-functions.js', 'jquery', AP_VERSION );
+		wp_enqueue_script( 'ap-admin-js', platformpress_URL.'assets/'.$dir.'/ap-admin'.$min.'.js' , array( 'wp-color-picker' ) );
 	}
 
 	/**
@@ -179,17 +178,17 @@ class AnsPress_Admin
 
 		$pos = $this->get_free_menu_position( 42.9 );
 
-		add_menu_page( 'AnsPress', 'AnsPress'.$counts['total'], 'delete_pages', 'anspress', array( $this, 'dashboard_page' ), ANSPRESS_URL . '/assets/answer.png', $pos );
+		add_menu_page( 'PlatformPress', 'PlatformPress'.$counts['total'], 'delete_pages', 'platformpress', array( $this, 'dashboard_page' ), platformpress_URL . '/assets/answer.png', $pos );
 
-		add_submenu_page( 'anspress', __( 'All Questions', 'anspress-question-answer' ), __( 'All Questions', 'anspress-question-answer' ).$counts['question'], 'delete_pages', 'edit.php?post_type=question', '' );
+		add_submenu_page( 'platformpress', __( 'All Questions', 'platformpress' ), __( 'All Questions', 'platformpress' ).$counts['question'], 'delete_pages', 'edit.php?post_type=question', '' );
 
-		add_submenu_page( 'anspress', __( 'New Question', 'anspress-question-answer' ), __( 'New Question', 'anspress-question-answer' ), 'delete_pages', 'post-new.php?post_type=question', '' );
+		add_submenu_page( 'platformpress', __( 'New Question', 'platformpress' ), __( 'New Question', 'platformpress' ), 'delete_pages', 'post-new.php?post_type=question', '' );
 
-		add_submenu_page( 'anspress', __( 'All Answers', 'anspress-question-answer' ), __( 'All Answers', 'anspress-question-answer' ).$counts['answer'], 'delete_pages', 'edit.php?post_type=answer', '' );
+		add_submenu_page( 'platformpress', __( 'All Answers', 'platformpress' ), __( 'All Answers', 'platformpress' ).$counts['answer'], 'delete_pages', 'edit.php?post_type=answer', '' );
 
-		add_submenu_page( 'anspress', __( 'Reputation', 'anspress-question-answer' ), __( 'Reputation', 'anspress-question-answer' ), 'manage_options', 'anspress_reputation', array( $this, 'display_reputation_page' ) );
+		add_submenu_page( 'platformpress', __( 'Reputation', 'platformpress' ), __( 'Reputation', 'platformpress' ), 'manage_options', 'platformpress_reputation', array( $this, 'display_reputation_page' ) );
 
-		add_submenu_page( 'ap_select_question', __( 'Select question', 'anspress-question-answer' ), __( 'Select question', 'anspress-question-answer' ), 'delete_pages', 'ap_select_question', array( $this, 'display_select_question' ) );
+		add_submenu_page( 'ap_select_question', __( 'Select question', 'platformpress' ), __( 'Select question', 'platformpress' ), 'delete_pages', 'ap_select_question', array( $this, 'display_select_question' ) );
 
 		/**
 		 * ACTION: ap_admin_menu
@@ -197,11 +196,11 @@ class AnsPress_Admin
 		 */
 		do_action( 'ap_admin_menu' );
 
-		add_submenu_page( 'anspress', __( 'AnsPress Options', 'anspress-question-answer' ), __( 'Options', 'anspress-question-answer' ), 'manage_options', 'anspress_options', array( $this, 'display_plugin_admin_page' ) );
+		add_submenu_page( 'platformpress', __( 'PlatformPress Options', 'platformpress' ), __( 'Options', 'platformpress' ), 'manage_options', 'platformpress_options', array( $this, 'display_plugin_admin_page' ) );
 
-		$submenu['anspress'][500] = array( 'Theme & Extensions', 'manage_options' , 'http://anspress.io/themes/' );
+		$submenu['platformpress'][500] = array( 'Theme & Extensions', 'manage_options' , 'http://platformpress.io/themes/' );
 
-		add_submenu_page( 'anspress', __( 'About AnsPress', 'anspress-question-answer' ), __( 'About AnsPress', 'anspress-question-answer' ), 'manage_options', 'anspress_about', array( $this, 'display_plugin_about_page' ) );
+		add_submenu_page( 'platformpress', __( 'About PlatformPress', 'platformpress' ), __( 'About PlatformPress', 'platformpress' ), 'manage_options', 'platformpress_about', array( $this, 'display_plugin_about_page' ) );
 
 	}
 
@@ -235,7 +234,7 @@ class AnsPress_Admin
 		$taxonomy = $current_screen->taxonomy;
 
 		if ( 'question_category' == $taxonomy || 'question_tags' == $taxonomy || 'question_label' == $taxonomy || 'rank' == $taxonomy || 'badge' == $taxonomy ) {
-			$parent_file = 'anspress';
+			$parent_file = 'platformpress';
 		}
 		return $parent_file;
 	}
@@ -266,7 +265,7 @@ class AnsPress_Admin
 	 */
 	public static function display_reputation_page() {
 		include_once( 'reputation.php' );
-		$reputation_table = @new AnsPress_Reputation_Table();
+		$reputation_table = @new PlatformPress_Reputation_Table();
 		$reputation_table->prepare_items();
 		include( 'views/reputation.php' );
 	}
@@ -295,7 +294,7 @@ class AnsPress_Admin
 	public function add_action_links($links) {
 		return array_merge(
 			array(
-				'settings' => '<a href="' . admin_url( 'admin.php?page=anspress_options' ) . '">' . __( 'Settings', 'anspress-question-answer' ) . '</a>',
+				'settings' => '<a href="' . admin_url( 'admin.php?page=platformpress_options' ) . '">' . __( 'Settings', 'platformpress' ) . '</a>',
 			),
 			$links
 		);
@@ -325,11 +324,11 @@ class AnsPress_Admin
 		$GLOBALS['wp']->add_query_var( 'post_parent' );
 
 		// Flush_rules if option updated.
-		if ( isset( $_GET['page'] ) && ('anspress_options' == $_GET['page']) && isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] ) {
+		if ( isset( $_GET['page'] ) && ('platformpress_options' == $_GET['page']) && isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] ) {
 			$options = ap_opt();
 			$page = get_page( ap_opt( 'base_page' ) );
 			$options['base_page_slug'] = $page->post_name;
-			update_option( 'anspress_opt', $options );
+			update_option( 'platformpress_opt', $options );
 			ap_opt( 'ap_flush', 'true' );
 		}
 
@@ -361,7 +360,7 @@ class AnsPress_Admin
 
 		global $menu;
 		global $submenu;
-		$submenu['anspress'][0][0] = 'AnsPress';
+		$submenu['platformpress'][0][0] = 'PlatformPress';
 	}
 
 	/**
@@ -378,12 +377,12 @@ class AnsPress_Admin
 
 			echo '<div class="ap-selected-question">';
 			if ( ! isset( $post_parent ) ) {
-				echo '<p class="no-q-selected">'.__( 'This question is orphan, no question is selected for this answer', 'anspress-question-answer' ).'</p>';
+				echo '<p class="no-q-selected">'.__( 'This question is orphan, no question is selected for this answer', 'platformpress' ).'</p>';
 			} else {
 				$q = get_post( $post_parent );
-				$answer = get_post_meta( $q->ID, ANSPRESS_ANS_META, true );
+				$answer = get_post_meta( $q->ID, platformpress_ANS_META, true );
 				echo '<a class="ap-q-title" href="'. get_permalink( $q->post_id ) .'">'. $q->post_title .'</a>';
-				echo '<div class="ap-q-meta"><span class="ap-a-count">'.sprintf( _n( '1 Answer', '%d Answer', $answer, 'anspress-question-answer' ), $answer ).'</span><span class="ap-edit-link">| <a href="'.get_edit_post_link( $q->ID ).'">'. __( 'Edit question', 'anspress-question-answer' ).'</a></span></div>';
+				echo '<div class="ap-q-meta"><span class="ap-a-count">'.sprintf( _n( '1 Answer', '%d Answer', $answer, 'platformpress' ), $answer ).'</span><span class="ap-edit-link">| <a href="'.get_edit_post_link( $q->ID ).'">'. __( 'Edit question', 'platformpress' ).'</a></span></div>';
 				echo '<div class="ap-q-content">'. $q->post_content .'</div><input type="hidden" name="post_parent" value="'.$post_parent.'" />';
 			}
 			echo '</div>';
@@ -457,15 +456,15 @@ class AnsPress_Admin
 	 * @since unknown
 	 */
 	public function ap_menu_metaboxes() {
-		add_meta_box( 'add-anspress', __( 'AnsPress Pages', 'anspress-question-answer' ), array( $this, 'wp_nav_menu_item_anspress_meta_box' ), 'nav-menus', 'side', 'high' );
+		add_meta_box( 'add-platformpress', __( 'PlatformPress Pages', 'platformpress' ), array( $this, 'wp_nav_menu_item_platformpress_meta_box' ), 'nav-menus', 'side', 'high' );
 	}
 
 	/**
-	 * Shows AnsPress menu meta box in WP menu editor
+	 * Shows PlatformPress menu meta box in WP menu editor
 	 * @return void
 	 * @since unknown
 	 */
-	public function wp_nav_menu_item_anspress_meta_box() {
+	public function wp_nav_menu_item_platformpress_meta_box() {
 		global $_nav_menu_placeholder, $nav_menu_selected_id;
 
 		$_nav_menu_placeholder = 0 > $_nav_menu_placeholder ? $_nav_menu_placeholder - 1 : -1;
@@ -474,23 +473,23 @@ class AnsPress_Admin
 		echo '<input type="hidden" value="custom" name="menu-item['.$_nav_menu_placeholder.'][menu-item-type]" />';
 		echo '<ul>';
 
-		$ap_pages = anspress()->pages;
+		$ap_pages = platformpress()->pages;
 
-		$ap_pages['profile']       = array( 'title' => __( 'User profile', 'anspress-question-answer' ), 'show_in_menu' => true );
-		$ap_pages['notification']  = array( 'title' => __( 'User notification', 'anspress-question-answer' ), 'show_in_menu' => true );
+		$ap_pages['profile']       = array( 'title' => __( 'User profile', 'platformpress' ), 'show_in_menu' => true );
+		$ap_pages['notification']  = array( 'title' => __( 'User notification', 'platformpress' ), 'show_in_menu' => true );
 
 		foreach ( $ap_pages as $k => $args ) {
 			if ( $args['show_in_menu'] ) {
 				echo '<li>';
 				echo '<label class="menu-item-title">';
-				echo '<input type="radio" value="" name="menu-item['.$_nav_menu_placeholder.'][menu-item-url]" class="menu-item-checkbox" data-url="'. strtoupper( 'ANSPRESS_PAGE_URL_'.$k ) .'" data-title="'.$args['title'].'"> '.$args['title'].'</label>';
+				echo '<input type="radio" value="" name="menu-item['.$_nav_menu_placeholder.'][menu-item-url]" class="menu-item-checkbox" data-url="'. strtoupper( 'platformpress_PAGE_URL_'.$k ) .'" data-title="'.$args['title'].'"> '.$args['title'].'</label>';
 				echo '</li>';
 			}
 		}
 
 		echo '</ul><p class="button-controls">
                     <span class="add-to-menu">
-						<input type="submit"'.wp_nav_menu_disabled_check( $nav_menu_selected_id ).' class="button-secondary submit-add-to-menu right" value="'.__( 'Add to Menu', 'anspress-question-answer' ).'" name="add-custom-menu-item" id="submit-aplinks" />
+						<input type="submit"'.wp_nav_menu_disabled_check( $nav_menu_selected_id ).' class="button-secondary submit-add-to-menu right" value="'.__( 'Add to Menu', 'platformpress' ).'" name="add-custom-menu-item" id="submit-aplinks" />
                         <span class="spinner"></span>
                     </span>
 				</p>';
@@ -504,7 +503,7 @@ class AnsPress_Admin
 		if ( get_option( 'ap_update_helper' ) ) {
 			?>
                 <div class="update-nag">
-			        <h3><?php printf(__('AnsPress update is not complete yet! click %shere%s to continue.','anspress-question-answer' ), '<a href="'.admin_url( 'admin.php?action=ap_update_helper&__nonce'.wp_create_nonce( 'ap_update_help' ) ).'">', '</a>' ); ?></h3>
+			        <h3><?php printf(__('PlatformPress update is not complete yet! click %shere%s to continue.','platformpress' ), '<a href="'.admin_url( 'admin.php?action=ap_update_helper&__nonce'.wp_create_nonce( 'ap_update_help' ) ).'">', '</a>' ); ?></h3>
                 </div>
 		    <?php
 		}
@@ -517,8 +516,8 @@ class AnsPress_Admin
 		}
 		?>
         <div class="error">
-	        <p><strong><?php printf( __( 'Is your existing question tags are not appearing ? click here to fix it %s', 'anspress-question-answer' ), '<a class="ap-rename-taxo" href="#">'.__( 'Fix question tags', 'anspress-question-answer' ).'</a>' ); ?></strong></p>
-	        <p><?php printf( __( 'Hide message %s', 'anspress-question-answer' ), '<a class="ap-rename-taxo" href="#">'.__( 'dismiss', 'anspress-question-answer' ).'</a>' ); ?></p>
+	        <p><strong><?php printf( __( 'Is your existing question tags are not appearing ? click here to fix it %s', 'platformpress' ), '<a class="ap-rename-taxo" href="#">'.__( 'Fix question tags', 'platformpress' ).'</a>' ); ?></strong></p>
+	        <p><?php printf( __( 'Hide message %s', 'platformpress' ), '<a class="ap-rename-taxo" href="#">'.__( 'dismiss', 'platformpress' ).'</a>' ); ?></p>
         </div>
 	    <?php
 	}
@@ -567,7 +566,7 @@ class AnsPress_Admin
 	 * @since 2.4
 	 */
 	public function comment_flag_column($columns) {
-		$columns['comment_flag'] = __( 'Flag', 'anspress-question-answer' );
+		$columns['comment_flag'] = __( 'Flag', 'platformpress' );
 		return $columns;
 	}
 
@@ -579,7 +578,7 @@ class AnsPress_Admin
 	 */
 	public function comment_flag_column_data($column, $comment_ID) {
 		if ( 'comment_flag' == $column ) {
-			$count = get_comment_meta( $comment_ID, ANSPRESS_FLAG_META, true );
+			$count = get_comment_meta( $comment_ID, platformpress_FLAG_META, true );
 
 			if ( $count ) {
 				echo '<span class="ap-comment-col-flag">';
@@ -595,7 +594,7 @@ class AnsPress_Admin
 	 * @return array
 	 */
 	public function comment_flag_view( $views ) {
-		$views['flagged'] = '<a href="edit-comments.php?show_flagged=true"'.(isset( $_GET['show_flagged'] ) ? ' class="current"' : '').'>'.__( 'Flagged','anspress-question-answer' ).'</a>';
+		$views['flagged'] = '<a href="edit-comments.php?show_flagged=true"'.(isset( $_GET['show_flagged'] ) ? ' class="current"' : '').'>'.__( 'Flagged','platformpress' ).'</a>';
 		return $views;
 	}
 
@@ -675,7 +674,7 @@ class AnsPress_Admin
 	}
 
 	public function update_helper() {
-		require_once(ANSPRESS_DIR.'admin/update.php' );
+		require_once(platformpress_DIR.'admin/update.php' );
 
 		$ap_update_helper = new AP_Update_Helper;
 
@@ -684,7 +683,7 @@ class AnsPress_Admin
 			$ap_update_helper->move_subscribers();
 		}
 		delete_option( 'ap_update_helper' );
-		wp_redirect( 'admin.php?page=anspress' );
+		wp_redirect( 'admin.php?page=platformpress' );
 		wp_die();
 	}
 }

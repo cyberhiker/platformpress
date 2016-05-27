@@ -2,10 +2,10 @@
 /**
  * Control the output of question select
  *
- * @link http://anspress.io
- * @since 2.0.0-alpha2
- * @author Rahul Aryan <support@anspress.io>
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -17,8 +17,8 @@ if (! defined('WPINC')) {
 <div id="ap-admin-dashboard" class="wrap">
 	<?php do_action('ap_before_admin_page_title') ?>
 
-	<h2><?php _e('Select a question for new answer', 'anspress-question-answer') ?></h2>
-	<p><?php _e('Slowly type for question suggestion and then click select button right to question title.', 'anspress-question-answer') ?></p>
+	<h2><?php _e('Select a question for new answer', 'platformpress') ?></h2>
+	<p><?php _e('Slowly type for question suggestion and then click select button right to question title.', 'platformpress') ?></p>
 
 	<?php do_action('ap_after_admin_page_title') ?>
 

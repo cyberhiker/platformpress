@@ -2,11 +2,10 @@
 /**
  * Register all ajax hooks.
  *
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
- * @package   AnsPress/ajax
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
@@ -15,7 +14,7 @@
 class AP_Notification
 {
 	/**
-	 * AnsPress main class
+	 * PlatformPress main class
 	 * @var [type]
 	 */
 	protected $ap;
@@ -23,7 +22,7 @@ class AP_Notification
 	/**
 	 * Initialize the plugin by setting localization and loading public scripts
 	 * and styles.
-	 * @param AnsPress $ap Parent class object.
+	 * @param PlatformPress $ap Parent class object.
 	 */
 	public function __construct($ap) {
 	    $ap->add_action( 'ap_added_follower', $this, 'notify_user_about_follower', 10, 2 );

@@ -1,18 +1,17 @@
 <?php
 /**
- * Class for AnsPress embed question shortcode
+ * Class for PlatformPress embed question shortcode
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
- * Class for AnsPress base page shortcode
+ * Class for PlatformPress base page shortcode
  */
-class AnsPress_Question_Shortcode {
+class PlatformPress_Question_Shortcode {
 
 	protected static $instance = null;
 
@@ -30,14 +29,14 @@ class AnsPress_Question_Shortcode {
 	 * @return string
 	 * @since 2.0.0-beta
 	 */
-	public function anspress_question_sc( $atts, $content='' ) {
+	public function platformpress_question_sc( $atts, $content='' ) {
 
 		ob_start();
-		echo '<div id="anspress" class="ap-eq">';
+		echo '<div id="platformpress" class="ap-eq">';
 
 		/**
 		 * ACTION: ap_before_question_shortcode
-		 * Action is fired before loading AnsPress body.
+		 * Action is fired before loading PlatformPress body.
 		 */
 		do_action( 'ap_before_question_shortcode' );
 
@@ -61,4 +60,3 @@ class AnsPress_Question_Shortcode {
 	}
 
 }
-

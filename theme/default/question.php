@@ -1,11 +1,12 @@
 <?php
 /**
  * This file is responsible for displaying question page
- * This file can be overridden by creating a anspress directory in active theme folder.
+ * This file can be overridden by creating a platformpress directory in active theme folder.
  *
- * @package    AnsPress
- * @license    http://opensource.org/licenses/gpl-license.php  GNU Public License
- * @author    Rahul Aryan <support@anspress.io>
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 ?>
@@ -93,9 +94,9 @@
 		<?php if ( is_active_sidebar( 'ap-qsidebar' ) || ap_opt('show_question_sidebar' ) ) { ?>
             <div class="ap-question-right col-md-4">
 				<?php if ( ap_opt('show_question_sidebar' ) ) : ?>
-					<?php the_widget( 'AnsPress_Subscribe_Widget' ); ?>
-					<h3 class="ap-widget-title"><?php _e('Question stats', 'anspress-question-answer' ); ?></h3>
-					<?php the_widget('AnsPress_Stats_Widget' ); ?>
+					<?php the_widget( 'PlatformPress_Subscribe_Widget' ); ?>
+					<h3 class="ap-widget-title"><?php _e('Question stats', 'platformpress' ); ?></h3>
+					<?php the_widget('PlatformPress_Stats_Widget' ); ?>
 				<?php endif; ?>
                 <div class="ap-question-info">
 					<?php dynamic_sidebar( 'ap-qsidebar' ); ?>

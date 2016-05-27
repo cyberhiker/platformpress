@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPress answer loop related functions and classes
+ * PlatformPress answer loop related functions and classes
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -70,7 +69,7 @@ if ( ! class_exists( 'Answers_Query' ) ) :
 			if ( isset( $this->args['only_best_answer'] ) && $this->args['only_best_answer'] ) {
 				$this->args['meta_query'] = array(
 					array(
-						'key'           => ANSPRESS_BEST_META,
+						'key'           => platformpress_BEST_META,
 						'type'          => 'BOOLEAN',
 						'compare'       => '=',
 						'value'         => '1',
@@ -102,7 +101,7 @@ if ( ! class_exists( 'Answers_Query' ) ) :
 					$this->args['meta_query']  = array(
 						'relation' => 'AND',
 						array(
-							'key'       => ANSPRESS_VOTE_META,
+							'key'       => platformpress_VOTE_META,
 						)
 					);
 				break;
@@ -119,11 +118,11 @@ if ( ! class_exists( 'Answers_Query' ) ) :
 
 				default:
 					$this->args['orderby'] = 'meta_value';
-					$this->args['meta_key'] = ANSPRESS_UPDATED_META;
+					$this->args['meta_key'] = platformpress_UPDATED_META;
 					$this->args['meta_query']  = array(
 						'relation' => 'AND',
 						array(
-							'key' => ANSPRESS_UPDATED_META,
+							'key' => platformpress_UPDATED_META,
 						)
 					);
 				break;
@@ -131,7 +130,7 @@ if ( ! class_exists( 'Answers_Query' ) ) :
 
 			if ( ! $this->args['include_best_answer'] ) {
 				$this->args['meta_query'][] = array(
-				'key'           => ANSPRESS_BEST_META,
+				'key'           => platformpress_BEST_META,
 				'type'          => 'BOOLEAN',
 				'compare'       => '!=',
 				'value'         => '1',
@@ -298,7 +297,7 @@ function ap_answer_user_can_view() {
 function ap_answer_is_best($answer_id = false) {
 	$answer_id = ap_parameter_empty( $answer_id, @ap_answer_get_the_answer_id() );
 
-	$meta = get_post_meta( $answer_id, ANSPRESS_BEST_META, true );
+	$meta = get_post_meta( $answer_id, platformpress_BEST_META, true );
 
 	if ( $meta ) { return true; }
 
@@ -417,7 +416,7 @@ function ap_answer_the_net_vote() {
 		?>
             <span class="ap-questions-count ap-questions-vcount">
 				<span><?php echo ap_answer_get_the_net_vote(); ?></span>
-				<?php  esc_attr_e( 'votes', 'anspress-question-answer' ); ?>
+				<?php  esc_attr_e( 'votes', 'platformpress' ); ?>
             </span>
 		<?php
 	}
@@ -538,7 +537,7 @@ function ap_count_answer_meta($post_id = false) {
 	if ( ! $post_id ) {
 		$post_id = get_the_ID();
 	}
-	$count = get_post_meta( $post_id, ANSPRESS_ANS_META, true );
+	$count = get_post_meta( $post_id, platformpress_ANS_META, true );
 
 	return $count ? $count : 0;
 }

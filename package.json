@@ -1,7 +1,7 @@
 {
-  "name": "AnsPress",
-  "version": "3.0.0-alpha.2",
-  "description": "Question And answer plugin for WordPress",
+  "name": "PlatformPress",
+  "version": "0.1-alpha",
+  "description": "Political Platform Devlopment plugin for WordPress",
   "main": "Gruntfile.js",
   "private": true,
   "devDependencies": {
@@ -21,7 +21,7 @@
     "grunt-version": "",
     "grunt-wp-i18n": "",
     "grunt-wp-readme-to-markdown": "",
-    "load-grunt-tasks": "",
+    "load-grunt-tcomments": "",
     "time-grunt": "",
     "grunt-phpdocumentor": ""
   },

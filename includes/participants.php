@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPress participants functions.
+ * PlatformPress participants functions.
  *
- * @package   AnsPress
- * @author    Rahul Aryan <admin@rahularyan.com>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 
@@ -17,11 +16,11 @@
 function ap_add_parti($post_id, $user_id, $action, $param = false){
 	if(is_user_logged_in()){
 		$rows = ap_add_meta($user_id, 'parti', $post_id, $action, $param);
-		
+
 		/* Update the meta only if successfully created */
 		if($rows !== false){
 			$current_parti = ap_get_parti($post_id, true);
-			update_post_meta($post_id, ANSPRESS_PARTI_META, $current_parti);
+			update_post_meta($post_id, platformpress_PARTI_META, $current_parti);
 		}
 	}
 }
@@ -29,27 +28,27 @@ function ap_add_parti($post_id, $user_id, $action, $param = false){
 /* Remove particpants from db when user delete its post or comment */
 function ap_remove_parti($post_id, $user_id = false, $value = false){
 	$where = array('apmeta_type' => 'parti', 'apmeta_actionid' => $post_id, 'apmeta_userid' => $user_id);
-	
+
 	if($value !== false)
 		$where['apmeta_value'] = $value;
-	
+
 	$rows = ap_delete_meta($where);
-	
+
 	/* Update the meta only if successfully deleted */
 	if($rows !== false){
 		$current_parti = ap_get_parti($post_id, true);
-		update_post_meta($post_id, ANSPRESS_PARTI_META, $current_parti );
+		update_post_meta($post_id, platformpress_PARTI_META, $current_parti );
 	}
 }
 
 function ap_get_parti($post_id = false, $count = false, $param = false){
 	global $wpdb;
-	if($count){		
+	if($count){
 		return ap_meta_total_count('parti', $post_id, false, 'apmeta_userid');
 	}else{
 
 		$where = array(
-			'apmeta_type' => array('value' => 'parti', 'compare' => '=', 'relation' => 'AND'), 
+			'apmeta_type' => array('value' => 'parti', 'compare' => '=', 'relation' => 'AND'),
 		);
 
 		if($post_id !== false)
@@ -76,27 +75,27 @@ function ap_get_parti($post_id = false, $count = false, $param = false){
 function ap_get_all_parti($avatar_size = 40, $post_id = false){
 	if(!$post_id)
 		$post_id = get_question_id();
-		
+
 	$parti = ap_get_parti($post_id);
 
-	echo '<span class="ap-widget-title">'. sprintf( _n('<span>1</span> Participant', '<span>%d</span> Participants', count($parti), 'anspress-question-answer'), count($parti)) .'</span>';
-	
-	echo '<div class="ap-participants-list clearfix">';	
+	echo '<span class="ap-widget-title">'. sprintf( _n('<span>1</span> Participant', '<span>%d</span> Participants', count($parti), 'platformpress'), count($parti)) .'</span>';
+
+	echo '<div class="ap-participants-list clearfix">';
 	foreach($parti as $p){
 		echo'<a title="'.ap_user_display_name($p->apmeta_userid, true).'" href="'.ap_user_link($p->apmeta_userid).'" class="ap-avatar">';
 		echo get_avatar($p->apmeta_userid, $avatar_size);
 		echo'</a>';
-	}	
+	}
 	echo '</div>';
-	
+
 }
 
 function ap_get_parti_emails($post_id){
 	$parti = ap_get_parti($post_id);
-	
+
 	if(!$parti)
 		return false;
-	
+
 	$emails = array();
 	foreach ($parti as $p){
 		$email = get_the_author_meta( 'user_email', $p->apmeta_userid);
@@ -105,4 +104,3 @@ function ap_get_parti_emails($post_id){
 	}
 	return $emails;
 }
-

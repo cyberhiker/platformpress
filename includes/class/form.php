@@ -2,16 +2,16 @@
 /**
  * Form class
  *
- * @package  	AnsPress
- * @license  	http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
- * @link     	http://anspress.io
- * @since 		2.0
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
- * AnsPress HTML form handler
+ * PlatformPress HTML form handler
  */
-class AnsPress_Form {
+class PlatformPress_Form {
 
 	/**
 	 * Name of the form
@@ -56,7 +56,7 @@ class AnsPress_Form {
 			'is_ajaxified'      => false,
 			'class'             => 'ap-form',
 			'multipart'         => false,
-			'submit_button'     => __( 'Submit', 'anspress-question-answer' ),
+			'submit_button'     => __( 'Submit', 'platformpress' ),
 		);
 
 		// Merge defaults args.
@@ -85,7 +85,7 @@ class AnsPress_Form {
 			if ( ! is_array( $field ) ) {
 				return;
 			}
-			
+
 			if ( ! isset( $field['order'] ) ) {
 				$this->args['fields'][ $k ]['order'] = 10;
 			}
@@ -184,7 +184,7 @@ class AnsPress_Form {
 		$this->output .= '<button type="submit" class="ap-btn ap-btn-submit">'.$this->args['submit_button'].'</button>';
 
 		if ( isset( $this->args['show_cancel'] ) && true === $this->args['show_cancel'] ) {
-			$this->output .= '<button type="button" class="ap-btn ap-btn-cancel">'.__( 'Cancel', 'anspress-question-answer' ).'</button>';
+			$this->output .= '<button type="button" class="ap-btn ap-btn-cancel">'.__( 'Cancel', 'platformpress' ).'</button>';
 		}
 
 		$this->output .= '</form>';
@@ -270,23 +270,23 @@ class AnsPress_Form {
 			$this->output .= '<input id="'. @$field['name'] .'" type="'.$type.'" class="ap-form-control" value="'. @$field['value'] .'" name="'. @$field['name'] .'"'.$placeholder.' '. $this->attr( $field ) .$autocomplete.' />';
 
 			if ( $type == 'password' ) {
-				$this->output .= '<input id="'. @$field['name'] .'-1" type="'.$type.'" class="ap-form-control" value="'. @$field['value'] .'" name="'. @$field['name'] .'-1" placeholder="'.__( 'Repeat your password', 'anspress-question-answer' ).'" '. $this->attr( $field ) .$autocomplete.' />';
+				$this->output .= '<input id="'. @$field['name'] .'-1" type="'.$type.'" class="ap-form-control" value="'. @$field['value'] .'" name="'. @$field['name'] .'-1" placeholder="'.__( 'Repeat your password', 'platformpress' ).'" '. $this->attr( $field ) .$autocomplete.' />';
 			}
 		} else {
 			if ( ! empty( $field['value'] ) && is_array( $field['value'] ) ) {
 				$this->output .= '<div id="ap-repeat-c-'. @$field['name'] .'" class="ap-repeatbable-field">';
 				foreach ( $field['value'] as $k => $rep_f ) {
 					$this->output .= '<div id="ap_text_rep_'. @$field['name'] .'_'.$k.'" class="ap-repeatbable-field"><input id="'. @$field['name'] .'_'.$k.'" type="text" class="ap-form-control ap-repeatable-text" value="'. @$rep_f .'" name="'. @$field['name'] .'['.$k.']"'.$placeholder.' '. $this->attr( $field ) .$autocomplete.' />';
-					$this->output .= '<button data-action="ap_delete_field" type="button" data-toggle="'. @$field['name'] .'_'.$k.'">'.__( 'Delete', 'anspress-question-answer' ).'</button>';
+					$this->output .= '<button data-action="ap_delete_field" type="button" data-toggle="'. @$field['name'] .'_'.$k.'">'.__( 'Delete', 'platformpress' ).'</button>';
 					$this->output .= '</div>';
 				}
 				$this->output .= '</div>';
 
 				$this->output .= '<div id="ap-repeatbable-field-'. @$field['name'] .'" class="ap-reapt-field-copy">';
 				$this->output .= '<div id="ap_text_rep_'. @$field['name'] .'_#" class="ap-repeatbable-field"><input id="'. @$field['name'] .'_#" type="text" class="ap-form-control ap-repeatable-text" value="" name="'. @$field['name'] .'[#]"'.$placeholder.' '. $this->attr( $field ) .$autocomplete.' />';
-				$this->output .= '<button data-action="ap_delete_field" type="button" data-toggle="'. @$field['name'] .'_#">'.__( 'Delete', 'anspress-question-answer' ).'</button>';
+				$this->output .= '<button data-action="ap_delete_field" type="button" data-toggle="'. @$field['name'] .'_#">'.__( 'Delete', 'platformpress' ).'</button>';
 				$this->output .= '</div></div>';
-				$this->output .= '<button data-action="ap_add_field" type="button" data-field="ap-repeat-c-'. @$field['name'] .'" data-copy="ap-repeatbable-field-'. @$field['name'] .'">'.__( 'Add more', 'anspress-question-answer' ).'</button>';
+				$this->output .= '<button data-action="ap_add_field" type="button" data-field="ap-repeat-c-'. @$field['name'] .'" data-copy="ap-repeatbable-field-'. @$field['name'] .'">'.__( 'Add more', 'platformpress' ).'</button>';
 			}
 		}
 
@@ -420,7 +420,7 @@ class AnsPress_Form {
 		if ( isset( $field['label'] ) ) {
 			$this->label(); }
 		$this->output .= '<div class="ap-form-fields-in">';
-		$this->output .= wp_dropdown_pages( array( 'show_option_none' => __( 'Select a page', 'anspress-question-answer' ), 'selected' => @$field['value'], 'name' => @$field['name'], 'post_type' => 'page', 'echo' => false ) );
+		$this->output .= wp_dropdown_pages( array( 'show_option_none' => __( 'Select a page', 'platformpress' ), 'selected' => @$field['value'], 'name' => @$field['name'], 'post_type' => 'page', 'echo' => false ) );
 		$this->error_messages();
 		if ( ! $this->field['show_desc_tip'] ) {
 			$this->desc(); }
@@ -443,14 +443,14 @@ class AnsPress_Form {
 		if ( isset( $field['label'] ) ) {
 			$this->label();
 		}
-		
+
 		$this->output .= '<div class="ap-form-fields-in">';
 		$placeholder = $this->placeholder();
-		
+
 		$this->output .= '<textarea id="'. $field['name'] .'" rows="'. $field['rows'] .'" class="ap-form-control" name="'. $field['name'] .'"'.$placeholder.' '. $this->attr( $field ) .'>'. $field['value'] .'</textarea>';
-		
+
 		$this->error_messages();
-		
+
 		if ( ! $this->field['show_desc_tip'] ) {
 			$this->desc();
 		}
@@ -656,7 +656,7 @@ class AnsPress_Form {
 	public function get_form() {
 
 		if ( empty( $this->args['fields'] ) ) {
-			return __( 'No fields found', 'anspress-question-answer' ); }
+			return __( 'No fields found', 'platformpress' ); }
 
 		$this->build();
 

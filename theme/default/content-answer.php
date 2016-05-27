@@ -2,10 +2,10 @@
 	/**
 	 * Display answer in user page
 	 *
-	 * @link http://anspress.io 	
-	 * @since 2.3
-	 *
-	 * @package AnsPress
+     * @package     PlatformPress
+     * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+     * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+     * @since       0.1
 	 */
 	if(!ap_user_can_view_post(get_the_ID()))
 	return;
@@ -13,9 +13,9 @@
 	global $post;
 ?>
 
-				
+
 <div class="ap-answer-post clearfix">
-	<a class="ap-vote-count ap-tip" href="#" title="<?php _e('Total votes', 'anspress-question-answer') ?>"><span><?php echo ap_net_vote() ?></span><?php _e('Votes', 'anspress-question-answer') ?></a>	
+	<a class="ap-vote-count ap-tip" href="#" title="<?php _e('Total votes', 'platformpress') ?>"><span><?php echo ap_net_vote() ?></span><?php _e('Votes', 'platformpress') ?></a>
 	<div class="ap-ans-content no-overflow">
 
 		<a class="ap-answer-link" href="<?php echo get_permalink() ?>"><?php echo ap_truncate_chars(strip_tags(get_the_content()), 150) ?></a>

@@ -1,8 +1,9 @@
 /**
- * Contain general JavaScript functions used in AnsPress
- * @author Rahul Aryan
- * @license GPL 2+
- * @since 2.0
+ * Contain general JavaScript functions used in PlatformPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
  ;(function($){
 
@@ -74,7 +75,7 @@
  			tip.addClass('x-'+ setpos[0] +' y-'+setpos[1]);
 
  			var s = $(document).scrollTop();
- 			
+
  			// Keep it inside window.
  			if( y < 0 )	y = 5;
  			if( s > x )	x = offset.top + width;
@@ -83,7 +84,7 @@
 
  			if( x > inside_x )
  				x = x - tip.outerHeight();
- 			
+
  			tip.css({
  				overflow: 'absolute',
  				top: x,
@@ -101,7 +102,7 @@
             var id = elm.data('userid') || elm.data('catid') || false;
             var action = elm.data('action') || false;
             var tipquery = elm.data('tipquery') || false;
-            
+
  	 		if( id && !tipquery ){
  	 			var is_term = elm.data('catid') || false;
  	 			is_term = is_term? '&type=cat' : '';
@@ -111,7 +112,7 @@
 
 	 		if( tipquery !== false )
 	 			config.ajax = tipquery;
-	 		
+
  			altertitle(el);
 
  			if(config.title == ''){
@@ -139,11 +140,11 @@
 
 					        //Parse response text JSON
 					        var textJSON = dataText.filter('#ap-response').html();
-					 
+
 					        if( typeof textJSON !== 'undefined' && textJSON.length > 2 )
 					            data = JSON.parse(textJSON);
 					            if( (data.apTemplate||false) && 'object' === typeof data.apTemplate )
-					            
+
 					            apLoadTemplate(data.apTemplate.name, data.apTemplate.template, function(template){
 				            		var html = $(Ta.render(template, data.apData));
 				            		console.log(html);
@@ -153,10 +154,10 @@
 				                	elm.attr('data-ajax', '.'+plug.data_id);
 				                    $('body').append(html.clone());
 				                    tip.find('.ap-tooltip-in').html(html.show());
-				                    position(el);						                    	
+				                    position(el);
 					            });
-	                    	
-	                    	
+
+
 	                        plug.ajax_running = false;
 	                    }
 	                });
@@ -189,7 +190,7 @@
 						showtip(item);
 					}, config.delay);
 				}else{
-					showtip(this);					
+					showtip(this);
 				}
 
 			}).mouseleave(function(){
@@ -323,10 +324,10 @@
 	}
 
 	$.fn.apAjaxQueryString = function () {
-		var query = $(this).data('query').split("::");		
-		
+		var query = $(this).data('query').split("::");
+
 		var newQuery = {};
-	
+
 		newQuery['action'] = 'ap_ajax';
 		newQuery['ap_ajax_action'] = query[0];
 		newQuery['__nonce'] = query[1];
@@ -337,7 +338,7 @@
 			if(i != 0 && i != 1){
 		   		newQuery['args'][newi] = query[i];
 		   		newi++;
-			}		   
+			}
 		});
 
 		return newQuery;
@@ -422,7 +423,7 @@ function apIsJsonString(str) {
 }
 
 function apLoadTemplate(name, template, cb) {
-	cb = cb || false;	
+	cb = cb || false;
 	if(jQuery('#template-'+name).length === 0){
 		jQuery.get(template, function(data) {
 			jQuery('<script id="template-'+name+'" type="text/html">'+ data +'</script>').appendTo('body');
@@ -430,7 +431,7 @@ function apLoadTemplate(name, template, cb) {
 			if(cb) cb(data);
 		});
 	}else{
-		if(cb) 
+		if(cb)
 			cb(jQuery('#template-'+name).html());
 	}
 }
@@ -438,10 +439,10 @@ function apLoadTemplate(name, template, cb) {
 function apParseAjaxResponse(data){
 	if(apIsJsonString(data))
 		return {};
-	
-    data = jQuery(data);    
+
+    data = jQuery(data);
     if( typeof data.filter('#ap-response') === 'undefined' ){
-        console.log('Not a valid AnsPress ajax response.');
+        console.log('Not a valid PlatformPress ajax response.');
         return {};
     }
 
@@ -496,7 +497,3 @@ function apMergeObj(obj1,obj2){
 
   return obj1;
 }
-
-
-
-

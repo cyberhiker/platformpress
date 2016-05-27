@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPress user actions and filters
+ * PlatformPress user actions and filters
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-3.0+
- * @link      https://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -16,28 +15,28 @@ if ( ! defined( 'WPINC' ) ) {
 
 $user_pages = array();
 
-class AnsPress_User
+class PlatformPress_User
 {
 	/**
 	 * Actions to do in init
 	 */
 	public static function init_actions() {
-		// Register AnsPress pages.
-		ap_register_page( ap_opt( 'users_page_slug' ), __( 'Users', 'anspress-question-answer' ), array( __CLASS__, 'users_page' ) );
-		ap_register_page( ap_opt( 'user_page_slug' ), __( 'User', 'anspress-question-answer' ), array( __CLASS__, 'user_page' ), false );
-		ap_register_user_page( 'about', __( 'About', 'anspress-question-answer' ), array( __CLASS__, 'about_page' ) );
-		ap_register_user_page( 'activity-feed', __( 'Activity Feed', 'anspress-question-answer' ), array( __CLASS__, 'feed_page' ), true );
-		ap_register_user_page( 'notification', __( 'Notification', 'anspress-question-answer' ), array( __CLASS__, 'notification_page' ), true, false );
-		ap_register_user_page( 'profile', __( 'Profile', 'anspress-question-answer' ), array( __CLASS__, 'profile_page' ), true, false );
-		ap_register_user_page( 'questions', __( 'Questions', 'anspress-question-answer' ), array( __CLASS__, 'questions_page' ) );
-		ap_register_user_page( 'answers', __( 'Answers', 'anspress-question-answer' ), array( __CLASS__, 'answers_page' ) );
-		ap_register_user_page( 'followers', __( 'Followers', 'anspress-question-answer' ), array( __CLASS__, 'followers_page' ) );
-		ap_register_user_page( 'following', __( 'Following', 'anspress-question-answer' ), array( __CLASS__, 'following_page' ) );
+		// Register PlatformPress pages.
+		ap_register_page( ap_opt( 'users_page_slug' ), __( 'Users', 'platformpress' ), array( __CLASS__, 'users_page' ) );
+		ap_register_page( ap_opt( 'user_page_slug' ), __( 'User', 'platformpress' ), array( __CLASS__, 'user_page' ), false );
+		ap_register_user_page( 'about', __( 'About', 'platformpress' ), array( __CLASS__, 'about_page' ) );
+		ap_register_user_page( 'activity-feed', __( 'Activity Feed', 'platformpress' ), array( __CLASS__, 'feed_page' ), true );
+		ap_register_user_page( 'notification', __( 'Notification', 'platformpress' ), array( __CLASS__, 'notification_page' ), true, false );
+		ap_register_user_page( 'profile', __( 'Profile', 'platformpress' ), array( __CLASS__, 'profile_page' ), true, false );
+		ap_register_user_page( 'questions', __( 'Questions', 'platformpress' ), array( __CLASS__, 'questions_page' ) );
+		ap_register_user_page( 'answers', __( 'Answers', 'platformpress' ), array( __CLASS__, 'answers_page' ) );
+		ap_register_user_page( 'followers', __( 'Followers', 'platformpress' ), array( __CLASS__, 'followers_page' ) );
+		ap_register_user_page( 'following', __( 'Following', 'platformpress' ), array( __CLASS__, 'following_page' ) );
 		add_filter( 'ap_page_title', array( __CLASS__, 'ap_page_title' ) );
 	}
 
 	/**
-	 * Register users directory page in AnsPress
+	 * Register users directory page in PlatformPress
 	 */
 	public static function users_page() {
 		if ( ap_opt( 'enable_users_directory' ) ) {
@@ -46,12 +45,12 @@ class AnsPress_User
 			include ap_get_theme_location( 'users/users.php' );
 
 		} else {
-			_e( 'User directory is disabled.', 'anspress-question-answer' );
+			_e( 'User directory is disabled.', 'platformpress' );
 		}
 	}
 
 	/**
-	 * Register user page in AnsPress
+	 * Register user page in PlatformPress
 	 */
 	public static function user_page() {
 		// Return if user profile is not active.
@@ -71,7 +70,7 @@ class AnsPress_User
 		if ( $ap_user_query->has_users() ) {
 			include ap_get_theme_location( 'user/user.php' );
 		} else {
-			_e( 'No user found', 'anspress-question-answer' );
+			_e( 'No user found', 'platformpress' );
 		}
 	}
 
@@ -166,13 +165,13 @@ class AnsPress_User
 		if ( $followers->has_users() ) {
 			include ap_get_theme_location( 'user/followers.php' );
 		} else {
-			esc_attr_e( 'No followers found', 'anspress-question-answer' );
+			esc_attr_e( 'No followers found', 'platformpress' );
 		}
 
 	}
 
 	/**
-	 * Register followers page in AnsPress
+	 * Register followers page in PlatformPress
 	 */
 	public static function following_page() {
 		$following = ap_has_users( array( 'user_id' => ap_get_displayed_user_id(), 'sortby' => 'following' ) );
@@ -180,13 +179,13 @@ class AnsPress_User
 		if ( $following->has_users() ) {
 			include ap_get_theme_location( 'user/following.php' );
 		} else {
-			esc_attr_e( 'You are not following anyone.', 'anspress-question-answer' );
+			esc_attr_e( 'You are not following anyone.', 'platformpress' );
 		}
 	}
 
 
 	/**
-	 * Filter AnsPress page title for user sub pages
+	 * Filter PlatformPress page title for user sub pages
 	 * @param  string $title Title.
 	 * @return string
 	 */
@@ -195,18 +194,18 @@ class AnsPress_User
 			$active = ap_active_user_page();
 			$name = ap_user_get_the_display_name();
 			$my = ap_is_my_profile();
-			$user_pages = anspress()->user_pages;
+			$user_pages = platformpress()->user_pages;
 
 			$titles = array(
-				'activity' => $my ?  __( 'My activity', 'anspress-question-answer' ) : sprintf( __( '%s\'s activity', 'anspress-question-answer' ), $name ),
-				'profile' => $my ?  __( 'My profile', 'anspress-question-answer' ) : sprintf( __( '%s\'s profile', 'anspress-question-answer' ), $name ),
-				'questions' => $my ?  __( 'My questions', 'anspress-question-answer' ) : sprintf( __( '%s\'s questions', 'anspress-question-answer' ), $name ),
-				'answers' => $my ?  __( 'My answers', 'anspress-question-answer' ) : sprintf( __( '%s\'s answers', 'anspress-question-answer' ), $name ),
-				'about' => $my ?  __( 'About me', 'anspress-question-answer' ) : sprintf( __( '%s', 'anspress-question-answer' ), $name ),
-				'followers' => $my ?  __( 'My followers', 'anspress-question-answer' ) : sprintf( __( '%s\'s followers', 'anspress-question-answer' ), $name ),
-				'following' => __( 'Following', 'anspress-question-answer' ),
-				'subscription' => __( 'My subscriptions', 'anspress-question-answer' ),
-				'notification' => __( 'My notification', 'anspress-question-answer' ),
+				'activity' => $my ?  __( 'My activity', 'platformpress' ) : sprintf( __( '%s\'s activity', 'platformpress' ), $name ),
+				'profile' => $my ?  __( 'My profile', 'platformpress' ) : sprintf( __( '%s\'s profile', 'platformpress' ), $name ),
+				'questions' => $my ?  __( 'My questions', 'platformpress' ) : sprintf( __( '%s\'s questions', 'platformpress' ), $name ),
+				'answers' => $my ?  __( 'My answers', 'platformpress' ) : sprintf( __( '%s\'s answers', 'platformpress' ), $name ),
+				'about' => $my ?  __( 'About me', 'platformpress' ) : sprintf( __( '%s', 'platformpress' ), $name ),
+				'followers' => $my ?  __( 'My followers', 'platformpress' ) : sprintf( __( '%s\'s followers', 'platformpress' ), $name ),
+				'following' => __( 'Following', 'platformpress' ),
+				'subscription' => __( 'My subscriptions', 'platformpress' ),
+				'notification' => __( 'My notification', 'platformpress' ),
 			);
 
 			foreach ( (array) $titles as $page => $user_title ) {
@@ -307,7 +306,7 @@ class AnsPress_User
 	 */
 	public static function upload_photo($file_name) {
 		if ( $_FILES[ $file_name ]['size'] > ap_opt( 'max_upload_size' ) ) {
-			new WP_Error( 'avatar_upload_error', sprintf( __( 'File cannot be uploaded, size is bigger then %d Byte', 'anspress-question-answer' ), ap_opt( 'max_upload_size' ) ) );
+			new WP_Error( 'avatar_upload_error', sprintf( __( 'File cannot be uploaded, size is bigger then %d Byte', 'platformpress' ), ap_opt( 'max_upload_size' ) ) );
 		}
 
 		require_once ABSPATH.'wp-admin/includes/image.php';
@@ -329,7 +328,7 @@ class AnsPress_User
 
 			if ( empty( $photo[ 'file' ] ) || isset( $photo['error'] ) ) {
 				// Handle failures.
-				return new WP_Error( 'avatar_upload_error', __( 'There was an error while uploading avatar, please check your image', 'anspress-question-answer' ) );
+				return new WP_Error( 'avatar_upload_error', __( 'There was an error while uploading avatar, please check your image', 'platformpress' ) );
 			}
 
 			return $photo;
@@ -390,14 +389,14 @@ class AnsPress_User
 			ap_ajax_json( array(
 				'action' 	=> 'cover_uploaded',
 				'status' 	=> true,
-				'message' 	=> __( 'Cover photo uploaded successfully.', 'anspress-question-answer' ),
+				'message' 	=> __( 'Cover photo uploaded successfully.', 'platformpress' ),
 				'user_id' 	=> $userid,
 				'image' 	=> ap_get_cover_src( $userid ),
 			) );
 		}
 
 		ap_ajax_json( array(
-			'message' => __( 'There was an error while uploading cover photo, please check your image and try again.', 'anspress-question-answer' ),
+			'message' => __( 'There was an error while uploading cover photo, please check your image and try again.', 'platformpress' ),
 			'message_type' => 'error',
 		) );
 	}
@@ -456,26 +455,26 @@ class AnsPress_User
 				'status' 	=> true,
 				'action' 	=> 'avatar_uploaded',
 				'user_id' 	=> $userid,
-				'message' 	=> __( 'Avatar uploaded successfully.', 'anspress-question-answer' ),
+				'message' 	=> __( 'Avatar uploaded successfully.', 'platformpress' ),
 				'html' 		=> get_avatar( $userid, 150 ),
 			) );
 		}
 
 		ap_ajax_json( array(
-			'message' 		=> __( 'There was an error while uploading avatar, please check your image', 'anspress-question-answer' ),
+			'message' 		=> __( 'There was an error while uploading avatar, please check your image', 'platformpress' ),
 			'message_type' 	=> 'error',
 		) );
 
 	}
 
 	/**
-	 * Add AnsPress avtar in Wp discussion setting
+	 * Add PlatformPress avtar in Wp discussion setting
 	 * @param  array $avatar_defaults Avatar types.
 	 * @return array
 	 */
 	public static function default_avatar($avatar_defaults) {
-		$new_avatar = 'ANSPRESS_AVATAR_SRC';
-		$avatar_defaults[$new_avatar] = 'AnsPress';
+		$new_avatar = 'platformpress_AVATAR_SRC';
+		$avatar_defaults[$new_avatar] = 'PlatformPress';
 
 		return $avatar_defaults;
 	}
@@ -522,9 +521,9 @@ class AnsPress_User
 		}
 
 		// Set default avatar url.
-		if ( empty( $args['url'] ) && 'ANSPRESS_AVATAR_SRC' == get_option( 'avatar_default' ) ) {
+		if ( empty( $args['url'] ) && 'platformpress_AVATAR_SRC' == get_option( 'avatar_default' ) ) {
 			$display_name = substr( ap_user_display_name( array( 'user_id' => $id_or_email ) ), 0, 2 );
-			$args['url'] = 'http://ANSPRESS_AVATAR_SRC::'.$display_name;
+			$args['url'] = 'http://platformpress_AVATAR_SRC::'.$display_name;
 		}
 
 		return $args;
@@ -532,7 +531,7 @@ class AnsPress_User
 
 	/**
 	 * Set icon class for user menus
-	 * @param  array $menus AnsPress user menu.
+	 * @param  array $menus PlatformPress user menu.
 	 * @return array
 	 * @since 2.0.1
 	 */
@@ -617,11 +616,11 @@ class AnsPress_User
 		$ap_activities = ap_get_activities( $notification_args );
 
 		$ap_data = array(
-			'title'	=> __('Notifications', 'anspress-question-answer' ),
-			'mark_all_read'	=> [ 'label' => __('Mark all as read', 'anspress-question-answer' ), 'nonce' => wp_create_nonce( 'ap_markread_notification_'.get_current_user_id() ) ],
+			'title'	=> __('Notifications', 'platformpress' ),
+			'mark_all_read'	=> [ 'label' => __('Mark all as read', 'platformpress' ), 'nonce' => wp_create_nonce( 'ap_markread_notification_'.get_current_user_id() ) ],
 			'all_link' 		=> ap_user_link(get_current_user_id(), 'notification' ),
-			'view_all_text' => __('View all notifications', 'anspress-question-answer' ),
-			'no_item' => __('No notification', 'anspress-question-answer' ),
+			'view_all_text' => __('View all notifications', 'platformpress' ),
+			'no_item' => __('No notification', 'platformpress' ),
 			'notifications'	=> array(),
 			'have_notifications'	=> ap_has_activities(),
 		);
@@ -658,4 +657,3 @@ class AnsPress_User
 	}
 
 }
-

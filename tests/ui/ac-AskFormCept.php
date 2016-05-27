@@ -1,24 +1,24 @@
 <?php
 /**
- * AnsPress ask form
+ * PlatformPress comment form
  */
 
 $I = new UITester($scenario );
-$I->wantTo('Check AnsPress form error message' );
+$I->wantTo('Check PlatformPress form error message' );
 $I->loginAs('user1', 'user1' );
-$I->amOnPage( '/questions/ask/' );
-$I->seeElement('#ask_form' );
+$I->amOnPage( '/questions/comment/' );
+$I->seeElement('#comment_form' );
 
-$I->click('#ask_form .ap-btn-submit' );
+$I->click('#comment_form .ap-btn-submit' );
 
 $I->waitForText('This field is required', 30 );
 $I->wantTo('Submit new question' );
 $I->fillField([ 'name' => 'title' ], $I->questions['question1'] );
 $I->fillTinyMceEditorById('description', 'Fusce iaculis condimentum nisi, nec commodo eros molestie at. Nullam libero erat, sollicitudin eu condimentum sit amet, rhoncus ut lacus. Integer vulputate nibh et diam sagittis in dictum mauris dapibus. ' );
 
-$I->click('#ask_form .ap-btn-submit' );
+$I->click('#comment_form .ap-btn-submit' );
 $I->waitForJS( 'return jQuery.active == 0;',60 );
-//$I->makeScreenshot('ask_form' );
+//$I->makeScreenshot('comment_form' );
 $I->wantTo('Check if new question is showing' );
 $I->amOnPage( '/questions/' );
 $I->see( $I->questions['question1'] );

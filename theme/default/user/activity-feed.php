@@ -4,10 +4,10 @@
  *
  * This template is used to display site feed to user.
  *
- * @link http://anspress.io
+ * @link http://platformpress.io
  * @since 2.4
  *
- * @package AnsPress
+ * @package PlatformPress
  */
 ?>
 

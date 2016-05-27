@@ -1,12 +1,11 @@
 <?php
 /**
- * All function related to AnsPress meta
+ * All function related to PlatformPress meta
  *
- * @package   AnsPress
- * @author    Rahul Aryan <admin@rahularyan.com>
- * @license   GPL-2.0+
- * @link      http:/wp3.in
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
@@ -60,7 +59,7 @@ function ap_add_meta($userid=false, $type=null, $actionid =null, $value=null, $p
 }
 
 /**
- * Update anspress meta values
+ * Update platformpress meta values
  * @param  array $data
  * @param  array $where
  * @return false|integer
@@ -132,7 +131,7 @@ function ap_meta_key($where) {
 }
 
 /**
- * Get AnsPress meta from DB.
+ * Get PlatformPress meta from DB.
  * @param  array $where Array of where claues.
  * @return array|false
  */

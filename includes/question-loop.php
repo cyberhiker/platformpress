@@ -2,11 +2,10 @@
 /**
  * Question class
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      https://anspress.io/
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -83,20 +82,20 @@ if ( ! class_exists( 'Question_Query' ) ) :
 			switch ( $this->args[ 'sortby' ] ) {
 				case 'answers' :
 					$this->args[ 'orderby' ] = 'meta_value_num';
-					$this->args[ 'meta_key' ] = ANSPRESS_ANS_META;
+					$this->args[ 'meta_key' ] = platformpress_ANS_META;
 				break;
 				case 'unanswered' :
 					$this->args[ 'orderby' ] = 'meta_value_num date';
-					$this->args[ 'meta_key' ] = ANSPRESS_ANS_META ;
+					$this->args[ 'meta_key' ] = platformpress_ANS_META ;
 					$this->args[ 'meta_value' ] = 0 ;
 				break;
 				case 'voted' :
 					$this->args['orderby'] = 'meta_value_num';
-					$this->args['meta_key'] = ANSPRESS_VOTE_META;
+					$this->args['meta_key'] = platformpress_VOTE_META;
 				break;
 				case 'unsolved' :
 					$this->args['orderby'] = 'meta_value_num date';
-					$this->args['meta_key'] = ANSPRESS_SELECTED_META;
+					$this->args['meta_key'] = platformpress_SELECTED_META;
 					$this->args['meta_compare'] = '=';
 					$this->args['meta_value'] = false;
 
@@ -107,16 +106,16 @@ if ( ! class_exists( 'Question_Query' ) ) :
 				break;
 				case 'active' :
 					$this->args['orderby'] = 'meta_value';
-					$this->args['meta_key'] = ANSPRESS_UPDATED_META;
+					$this->args['meta_key'] = platformpress_UPDATED_META;
 					$this->args['meta_query']  = array(
 					'relation' => 'OR',
 					array(
-						'key' => ANSPRESS_UPDATED_META,
+						'key' => platformpress_UPDATED_META,
 					),
 					);
 				break;
 
-				// TOOD: Add more orderby like most viewed, and user order like 'answered by user_id', 'asked_by_user_id'
+				// TOOD: Add more orderby like most viewed, and user order like 'answered by user_id', 'commented_by_user_id'
 			}
 
 		}
@@ -311,7 +310,7 @@ function ap_question_get_the_author_avatar($size = 45) {
 
 function ap_question_the_answer_count() {
 	$count = ap_question_get_the_answer_count();
-	echo '<a class="ap-questions-count ap-questions-acount" href="'.ap_answers_link().'">'. sprintf( _n( '%s ans', '%s ans', $count, 'anspress-question-answer' ), '<span>'.$count.'</span>' ).'</a>';
+	echo '<a class="ap-questions-count ap-questions-acount" href="'.ap_answers_link().'">'. sprintf( _n( '%s ans', '%s ans', $count, 'platformpress' ), '<span>'.$count.'</span>' ).'</a>';
 }
 
 /**
@@ -333,7 +332,7 @@ function ap_question_the_net_vote() {
 		?>
             <span class="ap-questions-count ap-questions-vcount">
                 <span><?php echo ap_question_get_the_net_vote(); ?></span>
-                <?php  _e( 'votes', 'anspress-question-answer' ); ?>
+                <?php  _e( 'votes', 'platformpress' ); ?>
             </span>
         <?php
 	}
@@ -390,10 +389,10 @@ function ap_question_the_vote_button() {
 	 */
 function ap_question_the_status() {
 	if ( ap_question_the_object()->post_status == 'private_post' ) {
-		echo '<span class="ap-post-type private ap-notice gray">'.__( 'Private', 'anspress-question-answer' ).'</span>'; } elseif (ap_question_the_object()->post_status == 'moderate')
-	echo '<span class="ap-post-type moderate ap-notice yellow">'.__( 'Moderate', 'anspress-question-answer' ).'</span>';
+		echo '<span class="ap-post-type private ap-notice gray">'.__( 'Private', 'platformpress' ).'</span>'; } elseif (ap_question_the_object()->post_status == 'moderate')
+	echo '<span class="ap-post-type moderate ap-notice yellow">'.__( 'Moderate', 'platformpress' ).'</span>';
 	elseif (ap_question_the_object()->post_status == 'closed')
-	echo '<span class="ap-post-type closed ap-notice red">'.__( 'Closed', 'anspress-question-answer' ).'</span>';
+	echo '<span class="ap-post-type closed ap-notice red">'.__( 'Closed', 'platformpress' ).'</span>';
 }
 
 	/**
@@ -496,7 +495,7 @@ function ap_question_best_answer_selected($question_id = false) {
 	}
 
 	// Get question post meta.
-	$meta = get_post_meta( $question_id, ANSPRESS_SELECTED_META, true );
+	$meta = get_post_meta( $question_id, platformpress_SELECTED_META, true );
 
 	if ( ! $meta ) {
 		return false;
@@ -521,7 +520,7 @@ function ap_question_get_the_active_time($question_id = false) {
  */
 function ap_question_the_time($question_id = false, $format = 'U') {
 	$question_id = ap_parameter_empty( $question_id, ap_question_get_the_ID() );
-	printf( __( '%s %s', 'anspress-question-answer' ), '<time itemprop="datePublished" datetime="'.ap_question_get_the_time( $question_id, 'c' ).'">'.ap_human_time( ap_question_get_the_time( $question_id, $format ) ), '</time>' );
+	printf( __( '%s %s', 'platformpress' ), '<time itemprop="datePublished" datetime="'.ap_question_get_the_time( $question_id, 'c' ).'">'.ap_human_time( ap_question_get_the_time( $question_id, $format ) ), '</time>' );
 }
 
 function ap_question_get_the_time($question_id = false, $format = '') {

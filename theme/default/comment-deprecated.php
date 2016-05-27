@@ -2,8 +2,10 @@
 /**
  * This template is used for displaying single comment item.
  *
- * @link http://anspress.io
- * @since 2.4
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 $class = '0' == $comment->comment_approved ? ' unapproved' : '';
 ?>
@@ -39,7 +41,7 @@ $class = '0' == $comment->comment_approved ? ' unapproved' : '';
 			do_action('ap_after_comment_content', $comment );
 		?>
 		<?php if ( '0' == $comment->comment_approved ) : ?>
-			<p class="comment-awaiting-moderation"><?php _e('This comment is awaiting moderation.', 'anspress-question-answer' ); ?></p>
+			<p class="comment-awaiting-moderation"><?php _e('This comment is awaiting moderation.', 'platformpress' ); ?></p>
 		<?php endif; ?>
 	</div><!-- close .ap-comment-content -->
 </div><!-- close #comment-* -->

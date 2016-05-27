@@ -7,13 +7,13 @@
         </div>
         <div class="ap-a-cells ap-form-c clearfix">
             <div class="ap-minimal-placeholder"  data-action="ajax_btn" data-query="load_tinymce_assets::<?php echo wp_create_nonce( 'ap_ajax_nonce' ); ?>::answer" data-cb="apAppendEditor" data-loadclass="ripple-loading">
-				<?php _e('Write your answer..', 'anspress-question-answer' ); ?>
+				<?php _e('Write your answer..', 'platformpress' ); ?>
             </div>
             <div class="ap-form-head">
                 <ul class="ap-form-head-tab ap-ul-inline clearfix ap-tab-nav">
-					<li class="active"><a href="#ap-form-main"><?php _e('Write', 'anspress-question-answer' ); ?></a></li>
+					<li class="active"><a href="#ap-form-main"><?php _e('Write', 'platformpress' ); ?></a></li>
 					<?php if ( ap_opt('answer_help_page' ) != '' ) : ?>
-						<li><a href="#ap-form-help"><?php _e('How to answer', 'anspress-question-answer' ); ?></a></li>
+						<li><a href="#ap-form-help"><?php _e('How to answer', 'platformpress' ); ?></a></li>
 					<?php endif; ?>
                 </ul>
             </div>

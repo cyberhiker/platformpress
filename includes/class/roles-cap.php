@@ -2,15 +2,14 @@
 /**
  * Roles and Capabilities
  *
- * @package     AnsPress
- * @subpackage  Classes/Roles
- * @copyright   Copyright (c) 2013, Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.8
+ * @since       0.1
  */
 
 /**
- * AnsPress user role helper
+ * PlatformPress user role helper
  */
 class AP_Roles
 {
@@ -52,12 +51,12 @@ class AP_Roles
 	 */
 	public function add_roles() {
 
-		add_role( 'ap_moderator', __( 'AnsPress Moderator', 'anspress-question-answer' ), array(
+		add_role( 'ap_moderator', __( 'PlatformPress Moderator', 'platformpress' ), array(
 			'read' => true,
 		) );
 
-		add_role( 'ap_participant', __( 'AnsPress Participants', 'anspress-question-answer' ), array( 'read' => true ) );
-		add_role( 'ap_banned', __( 'AnsPress Banned', 'anspress-question-answer' ), array( 'read' => true ) );
+		add_role( 'ap_participant', __( 'PlatformPress Participants', 'platformpress' ), array( 'read' => true ) );
+		add_role( 'ap_banned', __( 'PlatformPress Banned', 'platformpress' ), array( 'read' => true ) );
 	}
 
 	/**
@@ -98,7 +97,7 @@ class AP_Roles
 	}
 
 	/**
-	 * Remove an AnsPress role
+	 * Remove an PlatformPress role
 	 */
 	public function remove_roles() {
 		global $wp_roles;
@@ -117,12 +116,12 @@ class AP_Roles
 
 
 /**
- * Check if a user can ask a question.
+ * Check if a user can comment a question.
  * @param  integer|boolean $user_id User_id.
  * @return boolean
  * @since  2.4.6 Added new argument `$user_id`.
  */
-function ap_user_can_ask( $user_id = false ) {
+function ap_user_can_comment( $user_id = false ) {
 	if ( false === $user_id ) {
 		$user_id = get_current_user_id();
 	}
@@ -132,13 +131,13 @@ function ap_user_can_ask( $user_id = false ) {
 	}
 
 	/**
-	 * Filter to hijack ap_user_can_ask function.
+	 * Filter to hijack ap_user_can_comment function.
 	 * @param  boolean|string 	$filter 	Apply this filter, empty string by default.
 	 * @param  integer 			$user_id 	User ID.
 	 * @return boolean
 	 * @since  2.4.6
 	 */
-	$filter = apply_filters( 'ap_user_can_ask', '', $user_id );
+	$filter = apply_filters( 'ap_user_can_comment', '', $user_id );
 	if ( true === $filter ) {
 		return true;
 	} elseif ( false === $filter ) {
@@ -388,7 +387,7 @@ function ap_user_can_change_label() {
 }
 
 /**
- * Check if user can comment on AnsPress posts
+ * Check if user can comment on PlatformPress posts
  * @param boolean|integer $post_id Post ID.
  * @param boolean|integer $user_id User ID.
  * @return boolean
@@ -514,7 +513,7 @@ function ap_user_can_delete_comment($comment_id, $user_id = false) {
 }
 
 /**
- * Check if user can delete AnsPress posts.
+ * Check if user can delete PlatformPress posts.
  * @param  integer         $post_id    Question or answer ID.
  * @param  integer|boolean $post_id    User ID.
  * @return boolean
@@ -587,7 +586,7 @@ function ap_user_can_delete_answer( $answer, $user_id = false ) {
 }
 
 /**
- * Check if user can permanently delete a AnsPress posts
+ * Check if user can permanently delete a PlatformPress posts
  * @return boolean
  */
 function ap_user_can_permanent_delete() {
@@ -905,7 +904,7 @@ function ap_show_captcha_to_user( $user_id = false ) {
 }
 
 /**
- * Get AnsPress role capabilities by role key.
+ * Get PlatformPress role capabilities by role key.
  * @param  string $role Role key.
  * @return array|false
  * @since 2.4.6
@@ -1016,13 +1015,13 @@ function ap_user_can_read_post( $post_id, $user_id = false, $post_type = false )
 			return false;
 		}
 	}
-	
+
 	if ( 'private_post' == $post_o->post_status && ! ap_user_can_view_private_post( $post_id, $user_id ) ) {
 		return false;
 	} elseif ( 'moderate' == $post_o->post_status && ! ap_user_can_view_moderate_post( $post_id, $user_id ) ) {
 		return false;
-	}	
-		
+	}
+
 	if ( ! ap_opt('only_logged_in' ) && 'question' == $post_type ) {
 		return true;
 	}
@@ -1101,7 +1100,7 @@ function ap_user_can_vote_on_post( $post_id, $type, $user_id = false, $wp_error 
 	// Do not allow post author to vote on self posts.
 	if ( $post_o->post_author == $user_id ) {
 		if ( $wp_error ) {
-			return new WP_Error('cannot_vote_own_post', __('Voting on own\'s post is not allowed.', 'anspress-question-answer' ) );
+			return new WP_Error('cannot_vote_own_post', __('Voting on own\'s post is not allowed.', 'platformpress' ) );
 		}
 		return false;
 	}
@@ -1109,7 +1108,7 @@ function ap_user_can_vote_on_post( $post_id, $type, $user_id = false, $wp_error 
 	// Check if user can read question/answer, if not then they are not allowed to vote.
 	if ( ! ap_user_can_read_post( $post_id, $user_id ) ) {
 		if ( $wp_error ) {
-			return new WP_Error('you_cannot_vote_on_restricted', __( 'Voting on restricted posts are not allowed.', 'anspress-question-answer' ) );
+			return new WP_Error('you_cannot_vote_on_restricted', __( 'Voting on restricted posts are not allowed.', 'platformpress' ) );
 		}
 		return false;
 	}
@@ -1119,7 +1118,7 @@ function ap_user_can_vote_on_post( $post_id, $type, $user_id = false, $wp_error 
 	}
 
 	if ( $wp_error ) {
-		return new WP_Error('no_permission', __('Its look like you do not have permission to vote.', 'anspress-question-answer' ) );
+		return new WP_Error('no_permission', __('Its look like you do not have permission to vote.', 'platformpress' ) );
 	}
 
 	return false;

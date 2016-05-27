@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPresss admin ajax class
+ * PlatformPresss admin ajax class
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -18,23 +17,23 @@ if ( ! defined( 'WPINC' ) ) {
  * This class should ideally be used to work with the
  * administrative side of the WordPress site.
  *
- * @package AnsPress
- * @author  Rahul Aryan <support@anspress.io>
+ * @package PlatformPress
+ * @author  Rahul Aryan <support@platformpress.io>
  */
-class AnsPress_Admin_Ajax
+class PlatformPress_Admin_Ajax
 {
 	/**
 	 * Initialize admin ajax
 	 */
 	public function __construct() {
-		anspress()->add_action( 'wp_ajax_ap_edit_reputation', $this, 'ap_edit_reputation' );
-		anspress()->add_action( 'wp_ajax_ap_save_reputation', $this, 'ap_save_reputation' );
-		anspress()->add_action( 'wp_ajax_ap_new_reputation_form', $this, 'ap_new_reputation_form' );
-		anspress()->add_action( 'wp_ajax_ap_delete_reputation', $this, 'ap_delete_reputation' );
-		anspress()->add_action( 'wp_ajax_ap_taxo_rename', $this, 'ap_taxo_rename' );
-		anspress()->add_action( 'wp_ajax_ap_delete_flag', $this, 'ap_delete_flag' );
-		anspress()->add_action( 'ap_ajax_ap_clear_flag', $this, 'clear_flag' );
-		anspress()->add_action( 'ap_ajax_ap_admin_vote', $this, 'ap_admin_vote' );
+		platformpress()->add_action( 'wp_ajax_ap_edit_reputation', $this, 'ap_edit_reputation' );
+		platformpress()->add_action( 'wp_ajax_ap_save_reputation', $this, 'ap_save_reputation' );
+		platformpress()->add_action( 'wp_ajax_ap_new_reputation_form', $this, 'ap_new_reputation_form' );
+		platformpress()->add_action( 'wp_ajax_ap_delete_reputation', $this, 'ap_delete_reputation' );
+		platformpress()->add_action( 'wp_ajax_ap_taxo_rename', $this, 'ap_taxo_rename' );
+		platformpress()->add_action( 'wp_ajax_ap_delete_flag', $this, 'ap_delete_flag' );
+		platformpress()->add_action( 'ap_ajax_ap_clear_flag', $this, 'clear_flag' );
+		platformpress()->add_action( 'ap_ajax_ap_admin_vote', $this, 'ap_admin_vote' );
 	}
 
 	/**
@@ -50,31 +49,31 @@ class AnsPress_Admin_Ajax
                     <form method="POST" data-action="ap-save-reputation">
                         <table class="form-table">
                             <tr valign="top">
-								<th scope="row"><label for="title">'. __( 'Title', 'anspress-question-answer' ).'</label></th>
+								<th scope="row"><label for="title">'. __( 'Title', 'platformpress' ).'</label></th>
                                 <td>
 									<input id="title" type="text" name="title" value="'.$reputation['title'].'" />
                                 </td>
                             </tr>
                             <tr valign="top">
-								<th scope="row"><label for="description">'. __( 'Description', 'anspress-question-answer' ).'</label></th>
+								<th scope="row"><label for="description">'. __( 'Description', 'platformpress' ).'</label></th>
                                 <td>
 									<textarea cols="50" id="description" name="description">'.$reputation['description'].'</textarea>
                                 </td>
                             </tr>
                             <tr valign="top">
-								<th scope="row"><label for="reputation">'. __( 'Points', 'anspress-question-answer' ).'</label></th>
+								<th scope="row"><label for="reputation">'. __( 'Points', 'platformpress' ).'</label></th>
                                 <td>
 									<input id="reputation" type="text" name="reputation" value="'.$reputation['reputation'].'" />
                                 </td>
                             </tr>
                             <tr valign="top">
-								<th scope="row"><label for="event">'. __( 'Event', 'anspress-question-answer' ).'</label></th>
+								<th scope="row"><label for="event">'. __( 'Event', 'platformpress' ).'</label></th>
                                 <td>
 									<input type="text" name="event" value="'.$reputation['event'].'" />
                                 </td>
                             </tr>
                         </table>
-						<input class="button-primary" type="submit" value="'.__( 'Save Point', 'anspress-question-answer' ).'">
+						<input class="button-primary" type="submit" value="'.__( 'Save Point', 'platformpress' ).'">
 						<input type="hidden" name="id" value="'.$reputation['id'].'">
                         <input type="hidden" name="action" value="ap_save_reputation">
 						<input type="hidden" name="nonce" value="'.wp_create_nonce( 'ap_save_reputation' ).'">
@@ -109,7 +108,7 @@ class AnsPress_Admin_Ajax
 				}
 
 				ob_start();
-				AnsPress_Admin::display_reputation_page();
+				PlatformPress_Admin::display_reputation_page();
 				$html = ob_get_clean();
 
 				$result = array(
@@ -135,31 +134,31 @@ class AnsPress_Admin_Ajax
                     <form method="POST" data-action="ap-save-reputation">
                         <table class="form-table">
                             <tr valign="top">
-								<th scope="row"><label for="title">'. __( 'Title', 'anspress-question-answer' ).'</label></th>
+								<th scope="row"><label for="title">'. __( 'Title', 'platformpress' ).'</label></th>
                                 <td>
                                     <input id="title" type="text" name="title" value="" />
                                 </td>
                             </tr>
                             <tr valign="top">
-								<th scope="row"><label for="description">'. __( 'Description', 'anspress-question-answer' ).'</label></th>
+								<th scope="row"><label for="description">'. __( 'Description', 'platformpress' ).'</label></th>
                                 <td>
                                     <textarea cols="50" id="description" name="description"></textarea>
                                 </td>
                             </tr>
                             <tr valign="top">
-								<th scope="row"><label for="reputation">'. __( 'Points', 'anspress-question-answer' ).'</label></th>
+								<th scope="row"><label for="reputation">'. __( 'Points', 'platformpress' ).'</label></th>
                                 <td>
                                     <input id="reputation" type="text" name="reputation" value="" />
                                 </td>
                             </tr>
                             <tr valign="top">
-								<th scope="row"><label for="event">'. __( 'Event', 'anspress-question-answer' ).'</label></th>
+								<th scope="row"><label for="event">'. __( 'Event', 'platformpress' ).'</label></th>
                                 <td>
                                     <input type="text" name="event" value="" />
                                 </td>
                             </tr>
                         </table>
-						<input class="button-primary" type="submit" value="'.__( 'Save Point', 'anspress-question-answer' ).'">
+						<input class="button-primary" type="submit" value="'.__( 'Save Point', 'platformpress' ).'">
                         <input type="hidden" name="action" value="ap_save_reputation">
 						<input type="hidden" name="nonce" value="'.wp_create_nonce( 'ap_save_reputation' ).'">
                     </form>
@@ -227,7 +226,7 @@ class AnsPress_Admin_Ajax
 		$args = $_POST['args'];
 		if ( current_user_can( 'manage_options' ) && wp_verify_nonce( $_POST['__nonce'], 'clear_flag_'. $args[0] ) ) {
 			ap_delete_all_post_flags( $args[0] );
-			delete_post_meta( $args[0], ANSPRESS_FLAG_META );
+			delete_post_meta( $args[0], platformpress_FLAG_META );
 			die( _e('0' ) );
 		}
 		die();

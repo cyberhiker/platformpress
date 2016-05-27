@@ -2,11 +2,10 @@
 /**
  * Register all ajax hooks.
  *
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
- * @package   AnsPress/ajax
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -16,52 +15,52 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Register all ajax callback
  */
-class AnsPress_Ajax
+class PlatformPress_Ajax
 {
 	/**
 	 * Initialize the plugin by setting localization and loading public scripts
 	 * and styles.
 	 */
 	public function __construct() {
-	    anspress()->add_action( 'ap_ajax_suggest_similar_questions', $this, 'suggest_similar_questions' );
-	    anspress()->add_action( 'ap_ajax_load_comments', 'AnsPress_Comment_Hooks', 'load_comments' );
-	    anspress()->add_action( 'ap_ajax_edit_comment_form', 'AnsPress_Comment_Hooks', 'edit_comment_form' );
-	    anspress()->add_action( 'ap_ajax_delete_comment', 'AnsPress_Comment_Hooks', 'delete_comment' );
-	    anspress()->add_action( 'ap_ajax_select_best_answer', $this, 'select_best_answer' );
-	    anspress()->add_action( 'ap_ajax_delete_post', $this, 'delete_post' );
-	    anspress()->add_action( 'ap_ajax_permanent_delete_post', $this, 'permanent_delete_post' );
-	    anspress()->add_action( 'ap_ajax_restore_post', $this, 'restore_post' );
-	    anspress()->add_action( 'ap_ajax_change_post_status', 'AnsPress_Post_Status', 'change_post_status' );
-	    anspress()->add_action( 'ap_ajax_set_featured', $this, 'set_featured' );
-	    anspress()->add_action( 'ap_ajax_follow', $this, 'follow' );
-	    anspress()->add_action( 'ap_ajax_hover_card', $this, 'hover_card' );
-	    anspress()->add_action( 'ap_ajax_delete_notification', $this, 'delete_notification' );
-	    anspress()->add_action( 'ap_ajax_markread_notification', $this, 'markread_notification' );
-	    anspress()->add_action( 'ap_ajax_set_notifications_as_read', $this, 'set_notifications_as_read' );
+	    platformpress()->add_action( 'ap_ajax_suggest_similar_questions', $this, 'suggest_similar_questions' );
+	    platformpress()->add_action( 'ap_ajax_load_comments', 'PlatformPress_Comment_Hooks', 'load_comments' );
+	    platformpress()->add_action( 'ap_ajax_edit_comment_form', 'PlatformPress_Comment_Hooks', 'edit_comment_form' );
+	    platformpress()->add_action( 'ap_ajax_delete_comment', 'PlatformPress_Comment_Hooks', 'delete_comment' );
+	    platformpress()->add_action( 'ap_ajax_select_best_answer', $this, 'select_best_answer' );
+	    platformpress()->add_action( 'ap_ajax_delete_post', $this, 'delete_post' );
+	    platformpress()->add_action( 'ap_ajax_permanent_delete_post', $this, 'permanent_delete_post' );
+	    platformpress()->add_action( 'ap_ajax_restore_post', $this, 'restore_post' );
+	    platformpress()->add_action( 'ap_ajax_change_post_status', 'PlatformPress_Post_Status', 'change_post_status' );
+	    platformpress()->add_action( 'ap_ajax_set_featured', $this, 'set_featured' );
+	    platformpress()->add_action( 'ap_ajax_follow', $this, 'follow' );
+	    platformpress()->add_action( 'ap_ajax_hover_card', $this, 'hover_card' );
+	    platformpress()->add_action( 'ap_ajax_delete_notification', $this, 'delete_notification' );
+	    platformpress()->add_action( 'ap_ajax_markread_notification', $this, 'markread_notification' );
+	    platformpress()->add_action( 'ap_ajax_set_notifications_as_read', $this, 'set_notifications_as_read' );
 
-	    anspress()->add_action( 'ap_ajax_subscribe', 'AnsPress_Subscriber_Hooks', 'subscribe' );
-	    anspress()->add_action( 'ap_ajax_vote', 'AnsPress_Vote', 'vote' );
+	    platformpress()->add_action( 'ap_ajax_subscribe', 'PlatformPress_Subscriber_Hooks', 'subscribe' );
+	    platformpress()->add_action( 'ap_ajax_vote', 'PlatformPress_Vote', 'vote' );
 
 	    // Flag ajax callbacks.
-	    anspress()->add_action( 'ap_ajax_flag_post', 'AnsPress_Flag', 'flag_post' );
-	    anspress()->add_action( 'ap_ajax_flag_comment', 'AnsPress_Flag', 'flag_comment' );
+	    platformpress()->add_action( 'ap_ajax_flag_post', 'PlatformPress_Flag', 'flag_post' );
+	    platformpress()->add_action( 'ap_ajax_flag_comment', 'PlatformPress_Flag', 'flag_comment' );
 
-	    anspress()->add_action( 'ap_ajax_delete_activity', $this, 'delete_activity' );
-	    anspress()->add_action( 'ap_ajax_submit_comment', 'AnsPress_Comment_Hooks','submit_comment' );
-	    anspress()->add_action( 'ap_ajax_approve_comment', 'AnsPress_Comment_Hooks','approve_comment' );
-	    anspress()->add_action( 'ap_hover_card_user', __CLASS__, 'hover_card_user' );
-	    anspress()->add_action( 'ap_ajax_post_actions_dp', 'AnsPress_Theme', 'post_actions_dp' );
-	    anspress()->add_action( 'ap_ajax_user_dp', 'AnsPress_User', 'user_dp' );
-	    anspress()->add_action( 'ap_ajax_list_filter', 'AnsPress_Theme', 'list_filter' );
-	    anspress()->add_action( 'ap_ajax_load_tinymce_assets', __CLASS__, 'load_tinymce_assets' );
-	    anspress()->add_action( 'wp_ajax_ap_cover_upload', 'AnsPress_User', 'cover_upload' );
-		anspress()->add_action( 'wp_ajax_ap_avatar_upload', 'AnsPress_User', 'avatar_upload' );
-		anspress()->add_action( 'ap_ajax_filter_search', __CLASS__, 'filter_search' );
-		
+	    platformpress()->add_action( 'ap_ajax_delete_activity', $this, 'delete_activity' );
+	    platformpress()->add_action( 'ap_ajax_submit_comment', 'PlatformPress_Comment_Hooks','submit_comment' );
+	    platformpress()->add_action( 'ap_ajax_approve_comment', 'PlatformPress_Comment_Hooks','approve_comment' );
+	    platformpress()->add_action( 'ap_hover_card_user', __CLASS__, 'hover_card_user' );
+	    platformpress()->add_action( 'ap_ajax_post_actions_dp', 'PlatformPress_Theme', 'post_actions_dp' );
+	    platformpress()->add_action( 'ap_ajax_user_dp', 'PlatformPress_User', 'user_dp' );
+	    platformpress()->add_action( 'ap_ajax_list_filter', 'PlatformPress_Theme', 'list_filter' );
+	    platformpress()->add_action( 'ap_ajax_load_tinymce_assets', __CLASS__, 'load_tinymce_assets' );
+	    platformpress()->add_action( 'wp_ajax_ap_cover_upload', 'PlatformPress_User', 'cover_upload' );
+		platformpress()->add_action( 'wp_ajax_ap_avatar_upload', 'PlatformPress_User', 'avatar_upload' );
+		platformpress()->add_action( 'ap_ajax_filter_search', __CLASS__, 'filter_search' );
+
 	}
 
 	/**
-	 * Show similar questions while asking a question.
+	 * Show similar questions while commenting a question.
 	 * @since 2.0.1
 	 */
 	public function suggest_similar_questions() {
@@ -86,8 +85,8 @@ class AnsPress_Ajax
 
 	    if ( $questions ) {
 	        $items = '<div class="ap-similar-questions-head">';
-	        $items .= '<h3>'.ap_icon( 'check', true ).sprintf( __( '%d similar questions found', 'anspress-question-answer' ), count( $questions ) ).'</h3>';
-	        $items .= '<p>'.__( 'We\'ve found similar questions that have already been asked, click to read them.', 'anspress-question-answer' ).'</p>';
+	        $items .= '<h3>'.ap_icon( 'check', true ).sprintf( __( '%d similar questions found', 'platformpress' ), count( $questions ) ).'</h3>';
+	        $items .= '<p>'.__( 'We\'ve found similar questions that have already been commented, click to read them.', 'platformpress' ).'</p>';
 	        $items .= '</div>';
 
 		    $items .= '<div class="ap-similar-questions">';
@@ -96,9 +95,9 @@ class AnsPress_Ajax
 	            $p->post_title = ap_highlight_words( $p->post_title, $keyword );
 
 	            if ( $is_admin ) {
-	            	$items .= '<div class="ap-q-suggestion-item clearfix"><a class="select-question-button button button-primary button-small" href="'.add_query_arg( array( 'post_type' => 'answer', 'post_parent' => $p->ID ), admin_url( 'post-new.php' ) ).'">'.__( 'Select', 'anspress-question-answer' ).'</a><span class="question-title">'.$p->post_title.'</span><span class="acount">'.sprintf( _n( '1 Answer', '%d Answers', $count, 'anspress-question-answer' ), $count ).'</span></div>';
+	            	$items .= '<div class="ap-q-suggestion-item clearfix"><a class="select-question-button button button-primary button-small" href="'.add_query_arg( array( 'post_type' => 'answer', 'post_parent' => $p->ID ), admin_url( 'post-new.php' ) ).'">'.__( 'Select', 'platformpress' ).'</a><span class="question-title">'.$p->post_title.'</span><span class="acount">'.sprintf( _n( '1 Answer', '%d Answers', $count, 'platformpress' ), $count ).'</span></div>';
 	            } else {
-		            $items .= '<a class="ap-sqitem clearfix" target="_blank" href="'.get_permalink( $p->ID ).'"><span class="acount">'.sprintf( _n( '1 Answer', '%d Answers', $count, 'anspress-question-answer' ), $count ).'</span><span class="ap-title">'.$p->post_title.'</span></a>';
+		            $items .= '<a class="ap-sqitem clearfix" target="_blank" href="'.get_permalink( $p->ID ).'"><span class="acount">'.sprintf( _n( '1 Answer', '%d Answers', $count, 'platformpress' ), $count ).'</span><span class="ap-title">'.$p->post_title.'</span></a>';
 		        }
 	        }
 
@@ -106,7 +105,7 @@ class AnsPress_Ajax
 
 	        $result = array( 'status' => true, 'html' => $items );
 	    } else {
-	        $result = array( 'status' => false, 'message' => __( 'No related questions found', 'anspress-question-answer' ) );
+	        $result = array( 'status' => false, 'message' => __( 'No related questions found', 'platformpress' ) );
 	    }
 
 	    ap_ajax_json( $result );
@@ -129,9 +128,9 @@ class AnsPress_Ajax
 	    if ( ap_question_best_answer_selected( $post->post_parent ) ) {
 	        do_action( 'ap_unselect_answer', $post->post_author, $post->post_parent, $post->ID );
 
-	        update_post_meta( $post->ID, ANSPRESS_BEST_META, 0 );
-	        update_post_meta( $post->post_parent, ANSPRESS_SELECTED_META, false );
-	        update_post_meta( $post->post_parent, ANSPRESS_UPDATED_META, current_time( 'mysql' ) );
+	        update_post_meta( $post->ID, platformpress_BEST_META, 0 );
+	        update_post_meta( $post->post_parent, platformpress_SELECTED_META, false );
+	        update_post_meta( $post->post_parent, platformpress_UPDATED_META, current_time( 'mysql' ) );
 
 	        if ( ap_opt( 'close_selected' ) ) {
 	            wp_update_post( array( 'ID' => $post->post_parent, 'post_status' => 'publish' ) );
@@ -156,9 +155,9 @@ class AnsPress_Ajax
 	     */
 		do_action( 'ap_select_answer', $post->post_author, $post->post_parent, $post->ID );
 
-		update_post_meta( $post->ID, ANSPRESS_BEST_META, 1 );
-		update_post_meta( $post->post_parent, ANSPRESS_SELECTED_META, $post->ID );
-		update_post_meta( $post->post_parent, ANSPRESS_UPDATED_META, current_time( 'mysql' ) );
+		update_post_meta( $post->ID, platformpress_BEST_META, 1 );
+		update_post_meta( $post->post_parent, platformpress_SELECTED_META, $post->ID );
+		update_post_meta( $post->post_parent, platformpress_UPDATED_META, current_time( 'mysql' ) );
 
 		if ( ap_opt( 'close_selected' ) ) {
 			wp_update_post( array( 'ID' => $post->post_parent, 'post_status' => 'closed' ) );
@@ -194,7 +193,7 @@ class AnsPress_Ajax
 
 			ap_ajax_json( array(
 				'message_type' => 'warning',
-				'message' => sprintf( __( 'This post was created %s, hence you cannot delete it.','anspress-question-answer' ), ap_human_time( get_the_time( 'U', $post->ID ) ) ),
+				'message' => sprintf( __( 'This post was created %s, hence you cannot delete it.','platformpress' ), ap_human_time( get_the_time( 'U', $post->ID ) ) ),
 			) );
 		}
 
@@ -216,9 +215,9 @@ class AnsPress_Ajax
 		}
 
 		do_action( 'ap_wp_trash_answer', $post_id );
-		
+
 		$current_ans = ap_count_published_answers( $post->post_parent );
-		$count_label = sprintf( _n( '1 Answer', '%d Answers', $current_ans, 'anspress-question-answer' ), $current_ans );
+		$count_label = sprintf( _n( '1 Answer', '%d Answers', $current_ans, 'platformpress' ), $current_ans );
 		ap_ajax_json(array(
 			'action' 		=> 'delete_answer',
 			'div_id' 		=> '#answer_'.$post_id,
@@ -274,7 +273,7 @@ class AnsPress_Ajax
 		}
 
 		$current_ans = ap_count_published_answers( $post->post_parent );
-		$count_label = sprintf( _n( '1 Answer', '%d Answers', $current_ans, 'anspress-question-answer' ), $current_ans );
+		$count_label = sprintf( _n( '1 Answer', '%d Answers', $current_ans, 'platformpress' ), $current_ans );
 
 		ap_ajax_json(array(
 			'action' 		=> 'delete_answer',
@@ -310,7 +309,7 @@ class AnsPress_Ajax
 		ap_ajax_json(array(
 			'action' 		=> 'restore_post',
 			'do' 			=> [ 'removeClass' => [ '.post-'.$post->ID, 'status-trash' ], 'remove_if_exists' => '.post-'.$post->ID.' .ap-notice' ],
-			'message' 		=> __( 'Post restored successfully', 'anspress-question-answer' ),
+			'message' 		=> __( 'Post restored successfully', 'platformpress' ),
 			'message_type' => 'success'
 		));
 	}
@@ -330,7 +329,7 @@ class AnsPress_Ajax
 
 		// Do nothing if post type is not question.
 		if ( $post->post_type != 'question' ) {
-			ap_ajax_json( __('Only question can be set as featured', 'anspress-question-answer') );
+			ap_ajax_json( __('Only question can be set as featured', 'platformpress') );
 		}
 
 		// Check if current question ID is in featured question array.
@@ -347,7 +346,7 @@ class AnsPress_Ajax
 				'action' 		=> 'unset_featured_question',
 				'message' 		=> 'unset_featured_question',
 				'do' 			=> array( 'updateHtml' => '#set_featured_'.$post->ID ),
-				'html' 			=> __( 'Set as featured', 'anspress-question-answer' ),
+				'html' 			=> __( 'Set as featured', 'platformpress' ),
 			));
 		}
 
@@ -363,7 +362,7 @@ class AnsPress_Ajax
 			'action' 		=> 'set_featured_question',
 			'message' 		=> 'set_featured_question',
 			'do' 			=> array( 'updateHtml' => '#set_featured_'.$post->ID ),
-			'html' 			=> __( 'Unset as featured', 'anspress-question-answer' ),
+			'html' 			=> __( 'Unset as featured', 'platformpress' ),
 		));
 
 		$this->something_wrong();
@@ -396,7 +395,7 @@ class AnsPress_Ajax
 			$this->send( array(
 				'message' 		=> 'unfollow',
 				'action' 		=> 'unfollow',
-				'do' 			=> array( 'updateText' => array( $elm, __( 'Follow', 'anspress-question-answer' ) ), 'toggle_active_class' => $elm ),
+				'do' 			=> array( 'updateText' => array( $elm, __( 'Follow', 'platformpress' ) ), 'toggle_active_class' => $elm ),
 			) );
 		} else {
 			ap_add_follower( $current_user_id, $user_to_follow );
@@ -404,7 +403,7 @@ class AnsPress_Ajax
 			$this->send( array(
 				'message' 		=> 'follow',
 				'action' 		=> 'follow',
-				'do' 			=> array( 'updateText' => array( '#follow_'.$user_to_follow, __( 'Unfollow', 'anspress-question-answer' ) ), 'toggle_active_class' => $elm ),
+				'do' 			=> array( 'updateText' => array( '#follow_'.$user_to_follow, __( 'Unfollow', 'platformpress' ) ), 'toggle_active_class' => $elm ),
 			) );
 		}
 	}
@@ -462,14 +461,14 @@ class AnsPress_Ajax
 						'signature' 	=> ap_get_user_signature(),
 						'reputation' 	=> ap_user_get_the_reputation(),
 						'stats'			=> array(
-							[ 'label' => __('Answers', 'anspress-question-answer' ), 'count' => ap_user_get_the_meta('__total_answers' ) ],
-							[ 'label' => __('Best', 'anspress-question-answer' ), 'count' => ap_user_get_the_meta('__best_answers' ) ],
-							[ 'label' => __('Question', 'anspress-question-answer' ), 'count' => ap_user_get_the_meta('__total_questions' ) ],
-							[ 'label' => __('comments', 'anspress-question-answer' ), 'count' => ap_user_comment_count() ],
-							[ 'label' => __('Followers', 'anspress-question-answer' ), 'count' => ap_user_get_the_meta('__total_followers' ) ],
-							[ 'label' => __('Following', 'anspress-question-answer' ), 'count' => ap_user_get_the_meta('__total_following' ) ],
+							[ 'label' => __('Answers', 'platformpress' ), 'count' => ap_user_get_the_meta('__total_answers' ) ],
+							[ 'label' => __('Best', 'platformpress' ), 'count' => ap_user_get_the_meta('__best_answers' ) ],
+							[ 'label' => __('Question', 'platformpress' ), 'count' => ap_user_get_the_meta('__total_questions' ) ],
+							[ 'label' => __('comments', 'platformpress' ), 'count' => ap_user_comment_count() ],
+							[ 'label' => __('Followers', 'platformpress' ), 'count' => ap_user_get_the_meta('__total_followers' ) ],
+							[ 'label' => __('Following', 'platformpress' ), 'count' => ap_user_get_the_meta('__total_following' ) ],
 						),
-						'active' 		=> sprintf( __( 'Last seen %s', 'anspress-question-answer' ), ap_human_time( ap_user_get_the_meta( '__last_active' ), false ) ),
+						'active' 		=> sprintf( __( 'Last seen %s', 'platformpress' ), ap_human_time( ap_user_get_the_meta( '__last_active' ), false ) ),
 					),
 				);
 				/**
@@ -548,7 +547,7 @@ class AnsPress_Ajax
 					) );
 				}
 			}
-		} 
+		}
 
 		// If no id the mark all notifications as read.
 		else {
@@ -691,7 +690,7 @@ class AnsPress_Ajax
 				$comment_author_email = wp_slash( $user->user_email );
 				$comment_author_url = wp_slash( $user->user_url );
 				$comment_content = trim( $_POST['comment'] );
-				$comment_type = 'anspress';
+				$comment_type = 'platformpress';
 
 			} else {
 				$this->send( 'no_permission' );
@@ -723,7 +722,7 @@ class AnsPress_Ajax
 				ap_comment( $comment );
 				$html = ob_get_clean();
 				$count = get_comment_count( $comment->comment_post_ID );
-				$this->send( array( 'action' => 'new_comment', 'status' => true, 'comment_ID' => $comment->comment_ID, 'comment_post_ID' => $comment->comment_post_ID, 'comment_content' => $comment->comment_content, 'html' => $html, 'message' => 'comment_success', 'view' => array( 'comments_count_'.$comment->comment_post_ID => '('.$count['approved'].')', 'comment_count_label_'.$comment->comment_post_ID => sprintf( _n( 'One comment', '%d comments', $count['approved'], 'anspress-question-answer' ), $count['approved'] ) ) ) );
+				$this->send( array( 'action' => 'new_comment', 'status' => true, 'comment_ID' => $comment->comment_ID, 'comment_post_ID' => $comment->comment_post_ID, 'comment_content' => $comment->comment_content, 'html' => $html, 'message' => 'comment_success', 'view' => array( 'comments_count_'.$comment->comment_post_ID => '('.$count['approved'].')', 'comment_count_label_'.$comment->comment_post_ID => sprintf( _n( 'One comment', '%d comments', $count['approved'], 'platformpress' ), $count['approved'] ) ) ) );
 			}
 		}
 	}

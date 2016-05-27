@@ -1,11 +1,11 @@
 <?php
 /**
- * Form and controls of ask form
+ * Form and controls of comment form
  *
- * @link http://anspress.io
- * @since 2.0.1
- * @license GPL2+
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -14,12 +14,12 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Get all ask form fields.
+ * Get all comment form fields.
  * @param  integer|boolean $post_id Post ID.
  * @return array
  * @since  3.0.0
  */
-function ap_get_ask_form_fields( $post_id = false ) {
+function ap_get_comment_form_fields( $post_id = false ) {
 	global $editing_post;
 	$editing = false;
 
@@ -37,10 +37,10 @@ function ap_get_ask_form_fields( $post_id = false ) {
 	$fields = array(
 		array(
 			'name' => 'title',
-			'label' => __( 'Title', 'anspress-question-answer' ),
+			'label' => __( 'Title', 'platformpress' ),
 			'type'  => 'text',
-			'placeholder'  => __( 'Question in one sentence', 'anspress-question-answer' ),
-			'desc'  => __( 'Write a meaningful title for the question.', 'anspress-question-answer' ),
+			'placeholder'  => __( 'Question in one sentence', 'platformpress' ),
+			'desc'  => __( 'Write a meaningful title for the question.', 'platformpress' ),
 			'value' => ( $editing ? $editing_post->post_title : ap_isset_post_value( 'title', '' ) ),
 			'order' => 5,
 			'attr' => 'data-action="suggest_similar_questions"',
@@ -56,9 +56,9 @@ function ap_get_ask_form_fields( $post_id = false ) {
 		),
 		array(
 			'name' => 'description',
-			'label' => __( 'Description', 'anspress-question-answer' ),
+			'label' => __( 'Description', 'platformpress' ),
 			'type'  => 'editor',
-			'desc'  => __( 'Write description for the question.', 'anspress-question-answer' ),
+			'desc'  => __( 'Write description for the question.', 'platformpress' ),
 			'value' => ( $editing ? apply_filters( 'the_content', $editing_post->post_content ) : ap_isset_post_value( 'description', '' )  ),
 			'settings' => ap_tinymce_editor_settings('answer' ),
 			'sanitize' => array( 'sanitize_description' ),
@@ -83,9 +83,9 @@ function ap_get_ask_form_fields( $post_id = false ) {
 	if ( ! is_user_logged_in() && ap_opt( 'allow_anonymous' ) ) {
 		$fields[] = array(
 			'name'      => 'name',
-			'label'     => __( 'Name', 'anspress-question-answer' ),
+			'label'     => __( 'Name', 'platformpress' ),
 			'type'      => 'text',
-			'placeholder'  => __( 'Enter your name to display', 'anspress-question-answer' ),
+			'placeholder'  => __( 'Enter your name to display', 'platformpress' ),
 			'value'     => ap_isset_post_value( 'name', '' ),
 			'order'     => 12,
 			'sanitize' => array( 'strip_tags', 'sanitize_text_field' ),
@@ -97,7 +97,7 @@ function ap_get_ask_form_fields( $post_id = false ) {
 		$fields[] = array(
 			'name' => 'is_private',
 			'type'  => 'checkbox',
-			'desc'  => __( 'Only visible to admin and moderator.', 'anspress-question-answer' ),
+			'desc'  => __( 'Only visible to admin and moderator.', 'platformpress' ),
 			'value' => $is_private,
 			'order' => 12,
 			'show_desc_tip' => false,
@@ -108,7 +108,7 @@ function ap_get_ask_form_fields( $post_id = false ) {
 	if ( ap_show_captcha_to_user() ) {
 		// Show recpatcha if key exists and enabled.
 		if ( ap_opt( 'recaptcha_site_key' ) == '' ) {
-			$reCaptcha_html = '<div class="ap-notice red">'.__( 'reCaptach keys missing, please add keys', 'anspress-question-answer' ).'</div>';
+			$reCaptcha_html = '<div class="ap-notice red">'.__( 'reCaptach keys missing, please add keys', 'platformpress' ).'</div>';
 		} else {
 
 			$reCaptcha_html = '<div class="g-recaptcha" id="recaptcha" data-sitekey="'.ap_opt( 'recaptcha_site_key' ).'"></div>';
@@ -142,45 +142,45 @@ function ap_get_ask_form_fields( $post_id = false ) {
 	}
 
 	/**
-	 * FILTER: ap_ask_form_fields
+	 * FILTER: ap_comment_form_fields
 	 * Filter for modifying $args
-	 * @param 	array 	$fields 	Ask form fields.
+	 * @param 	array 	$fields 	comment form fields.
 	 * @param 	bool 	$editing 	Currently editing form.
 	 * @since  	2.0
 	 */
-	$fields = apply_filters( 'ap_ask_form_fields', array( 'fields' => $fields ), $editing );
+	$fields = apply_filters( 'ap_comment_form_fields', array( 'fields' => $fields ), $editing );
 
 	return $fields['fields'];
 }
 
 /**
- * Generate ask form
+ * Generate comment form
  * @param  boolean $editing True if post is being edited.
  * @return void
  */
-function ap_ask_form( $editing = false ) {
+function ap_comment_form( $editing = false ) {
 	$post_id = $editing ? (int) $_REQUEST['edit_post_id'] : false;
-	// Ask form arguments.
+	// comment form arguments.
 	$args = array(
-		'name'              => 'ask_form',
+		'name'              => 'comment_form',
 		'is_ajaxified'      => true,
 		'multipart'         => true,
-		'submit_button'     => ($editing ? __( 'Update question', 'anspress-question-answer' ) : __( 'Post question', 'anspress-question-answer' )),
-		'fields'            => ap_get_ask_form_fields( $post_id ),
+		'submit_button'     => ($editing ? __( 'Update question', 'platformpress' ) : __( 'Post question', 'platformpress' )),
+		'fields'            => ap_get_comment_form_fields( $post_id ),
 	);
 
-	$form = new AnsPress_Form( $args );
+	$form = new PlatformPress_Form( $args );
 	echo $form->get_form();
 	echo ap_post_upload_hidden_form();
 }
 
 /**
- * Generate edit question form, this is a wrapper of ap_ask_form()
+ * Generate edit question form, this is a wrapper of ap_comment_form()
  * @return void
  * @since 2.0.1
  */
 function ap_edit_question_form() {
-	ap_ask_form( true );
+	ap_comment_form( true );
 }
 
 /**
@@ -189,7 +189,7 @@ function ap_edit_question_form() {
  * @since  3.0.0
  */
 function ap_check_recaptcha() {
-	require_once( ANSPRESS_DIR. 'includes/recaptcha.php' );
+	require_once( platformpress_DIR. 'includes/recaptcha.php' );
 	$reCaptcha = new gglcptch_ReCaptcha( ap_opt( 'recaptcha_secret_key' ) );
 
 	$gglcptch_remote_addr = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
@@ -269,7 +269,7 @@ function ap_save_question($args, $wp_error = false) {
 	// Check if question title is empty.
 	if ( empty( $args['post_title'] ) ) {
 		if ( true === $wp_error ) {
-			return new WP_Error('question_title_empty', __('Question title cannot be blank', 'anspress-question-answer' ) );
+			return new WP_Error('question_title_empty', __('Question title cannot be blank', 'platformpress' ) );
 		}
 		return false;
 	}
@@ -367,7 +367,7 @@ function ap_tinymce_editor_settings( $type = 'question' ) {
 }
 
 /**
- * Sanitize AnsPress question and answer description field for database.
+ * Sanitize PlatformPress question and answer description field for database.
  * @param  string $content Post content.
  * @return string          Sanitised post content
  * @since  3.0.0

@@ -2,28 +2,27 @@
 /**
  * Class for base page
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-3.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
- * Handle output of all default pages of AnsPress
+ * Handle output of all default pages of PlatformPress
  */
-class AnsPress_Common_Pages
+class PlatformPress_Common_Pages
 {
 	/**
-	 * Register all pages of AnsPress
+	 * Register all pages of PlatformPress
 	 */
 	public static function register_common_pages() {
 		ap_register_page( 'base', ap_opt( 'base_page_title' ), array( __CLASS__, 'base_page' ) );
-		ap_register_page( ap_opt( 'question_page_slug' ), __( 'Question', 'anspress-question-answer' ), array( __CLASS__, 'question_page' ), false );
-		ap_register_page( ap_opt( 'ask_page_slug' ), __( 'Ask', 'anspress-question-answer' ), array( __CLASS__, 'ask_page' ) );
-		ap_register_page( 'edit', __( 'Edit', 'anspress-question-answer' ), array( __CLASS__, 'edit_page' ), false );
-		ap_register_page( 'search', __( 'Search', 'anspress-question-answer' ), array( __CLASS__, 'search_page' ), false );
-		ap_register_page( 'activity', __( 'Activity feed', 'anspress-question-answer' ), array( __CLASS__, 'activity_page' ) );
+		ap_register_page( ap_opt( 'question_page_slug' ), __( 'Question', 'platformpress' ), array( __CLASS__, 'question_page' ), false );
+		ap_register_page( ap_opt( 'comment_page_slug' ), __( 'comment', 'platformpress' ), array( __CLASS__, 'comment_page' ) );
+		ap_register_page( 'edit', __( 'Edit', 'platformpress' ), array( __CLASS__, 'edit_page' ), false );
+		ap_register_page( 'search', __( 'Search', 'platformpress' ), array( __CLASS__, 'search_page' ), false );
+		ap_register_page( 'activity', __( 'Activity feed', 'platformpress' ), array( __CLASS__, 'activity_page' ) );
 	}
 
 	/**
@@ -68,7 +67,7 @@ class AnsPress_Common_Pages
 		if ( ! ap_user_can_read_question( get_question_id() ) ) {
 			printf(
 				'<div class="ap-no-permission">%s</div>',
-				__('Sorry! you are not allowed to read this question.', 'anspress-question-answer' )
+				__('Sorry! you are not allowed to read this question.', 'platformpress' )
 			);
 
 			return;
@@ -101,9 +100,9 @@ class AnsPress_Common_Pages
 				 */
 				$notice = apply_filters( 'ap_future_post_notice', false, $post );
 				if ( false === $notice ) {
-					$time_to_publish = sprintf( _x( '%s', '%s = human-readable time difference', 'anspress-question-answer' ), human_time_diff( strtotime( $post->post_date ), current_time( 'timestamp', true ) ) );
-					echo '<strong>' .sprintf(__('Question will be publish in %s', 'anspress-question-answer' ), $time_to_publish ).'</strong>';
-					echo '<p>' .__('This question is in waiting queue and is not accessible by anyone until it get published.', 'anspress-question-answer' ).'</p>';
+					$time_to_publish = sprintf( _x( '%s', '%s = human-readable time difference', 'platformpress' ), human_time_diff( strtotime( $post->post_date ), current_time( 'timestamp', true ) ) );
+					echo '<strong>' .sprintf(__('Question will be publish in %s', 'platformpress' ), $time_to_publish ).'</strong>';
+					echo '<p>' .__('This question is in waiting queue and is not accessible by anyone until it get published.', 'platformpress' ).'</p>';
 				} else {
 					echo $notice;
 				}
@@ -121,10 +120,10 @@ class AnsPress_Common_Pages
 	}
 
 	/**
-	 * Output ask page template
+	 * Output comment page template
 	 */
-	public static function ask_page() {
-		include ap_get_theme_location( 'ask.php' );
+	public static function comment_page() {
+		include ap_get_theme_location( 'comment.php' );
 	}
 
 	/**
@@ -133,7 +132,7 @@ class AnsPress_Common_Pages
 	public static function edit_page() {
 		$post_id = (int) get_query_var( 'edit_post_id' );
 		if ( ! ap_user_can_edit_question( $post_id ) ) {
-				echo '<p>'.esc_attr__( 'You don\'t have permission to access this page.', 'anspress-question-answer' ).'</p>';
+				echo '<p>'.esc_attr__( 'You don\'t have permission to access this page.', 'platformpress' ).'</p>';
 				return;
 		} else {
 			global $editing_post;
@@ -182,4 +181,3 @@ class AnsPress_Common_Pages
 		include ap_get_theme_location( 'not-found.php' );
 	}
 }
-

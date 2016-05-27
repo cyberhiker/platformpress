@@ -1,11 +1,11 @@
 <?php
 /**
  * This file is responsible for displaying question page
- * This file can be overridden by creating a anspress directory in active theme folder.
+ * This file can be overridden by creating a platformpress directory in active theme folder.
  *
- * @package    AnsPress
+ * @package    PlatformPress
  * @license    http://opensource.org/licenses/gpl-license.php  GNU Public License
- * @author    Rahul Aryan <support@anspress.io>
+ * @author    Rahul Aryan <support@platformpress.io>
  */
 ?>
 <div id="ap-single" class="ap-q clearfix" itemtype="http://schema.org/Question" itemscope="">
@@ -65,7 +65,7 @@
 				</div>
 			</div>
 			<a class="ap-eq-view-ans" href="<?php echo get_the_permalink() ?>">
-				<?php _e('View all answers', 'anspress-question-answer'); ?>
+				<?php _e('View all answers', 'platformpress'); ?>
 			</a>
 		</div>
 

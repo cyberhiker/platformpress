@@ -3,10 +3,10 @@
 /**
  * Post status related codes
  *
- * @link http://anspress.io
- * @since 2.0.1
- * @license GPL2+
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -14,7 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class AnsPress_Post_Status
+class PlatformPress_Post_Status
 {
 
 	/**
@@ -23,27 +23,27 @@ class AnsPress_Post_Status
 	public static function register_post_status() {
 
 		register_post_status( 'closed', array(
-			  'label'                     => __( 'Closed', 'anspress-question-answer' ),
+			  'label'                     => __( 'Closed', 'platformpress' ),
 			  'public'                    => true,
 			  'show_in_admin_all_list'    => false,
 			  'show_in_admin_status_list' => true,
-			  'label_count'               => _n_noop( 'Closed <span class="count">(%s)</span>', 'Moderate <span class="count">(%s)</span>', 'anspress-question-answer' ),
+			  'label_count'               => _n_noop( 'Closed <span class="count">(%s)</span>', 'Moderate <span class="count">(%s)</span>', 'platformpress' ),
 		 ) );
 
 		 register_post_status( 'moderate', array(
-			  'label'                     => __( 'Moderate', 'anspress-question-answer' ),
+			  'label'                     => __( 'Moderate', 'platformpress' ),
 			  'public'                    => true,
 			  'show_in_admin_all_list'    => false,
 			  'show_in_admin_status_list' => true,
-			  'label_count'               => _n_noop( 'Moderate <span class="count">(%s)</span>', 'Moderate <span class="count">(%s)</span>', 'anspress-question-answer' ),
+			  'label_count'               => _n_noop( 'Moderate <span class="count">(%s)</span>', 'Moderate <span class="count">(%s)</span>', 'platformpress' ),
 		 ) );
 
 		 register_post_status( 'private_post', array(
-			  'label'                     => __( 'Private Post', 'anspress-question-answer' ),
+			  'label'                     => __( 'Private Post', 'platformpress' ),
 			  'public'                    => true,
 			  'show_in_admin_all_list'    => false,
 			  'show_in_admin_status_list' => true,
-			  'label_count'               => _n_noop( 'Private Post <span class="count">(%s)</span>', 'Private Post <span class="count">(%s)</span>', 'anspress-question-answer' ),
+			  'label_count'               => _n_noop( 'Private Post <span class="count">(%s)</span>', 'Private Post <span class="count">(%s)</span>', 'platformpress' ),
 		 ) );
 	}
 
@@ -121,16 +121,16 @@ function ap_post_change_status_btn_html( $post_id = false ) {
 		$action = 'change_post_status_'.$post_id;
 		$nonce = wp_create_nonce( $action );
 
-		$status = apply_filters( 'ap_change_status_dropdown', array( 
-			'closed' 		=> __( 'Close', 'anspress-question-answer' ),
-			'publish' 		=> __( 'Open', 'anspress-question-answer' ),
-			'moderate' 		=> __( 'Moderate', 'anspress-question-answer' ),
-			'private_post' 	=> __( 'Private', 'anspress-question-answer' )
+		$status = apply_filters( 'ap_change_status_dropdown', array(
+			'closed' 		=> __( 'Close', 'platformpress' ),
+			'publish' 		=> __( 'Open', 'platformpress' ),
+			'moderate' 		=> __( 'Moderate', 'platformpress' ),
+			'private_post' 	=> __( 'Private', 'platformpress' )
 		) );
 
 		$output = '<div class="ap-dropdown">
-			<a class="ap-tip ap-dropdown-toggle" title="'.__( 'Change status of post', 'anspress-question-answer' ).'" href="#">
-				'.__( 'Status', 'anspress-question-answer' ).' <i class="caret"></i>
+			<a class="ap-tip ap-dropdown-toggle" title="'.__( 'Change status of post', 'platformpress' ).'" href="#">
+				'.__( 'Status', 'platformpress' ).' <i class="caret"></i>
             </a>
 			<ul id="ap_post_status_toggle_'.$post_id.'" class="ap-dropdown-menu" role="menu">';
 
@@ -163,40 +163,40 @@ function ap_post_change_status_btn_html( $post_id = false ) {
  */
 function ap_post_status_description($post_id = false) {
 	$post = get_post( $post_id );
-	$post_type = $post->post_type == 'question' ? __( 'Question', 'anspress-question-answer' ) : __( 'Answer', 'anspress-question-answer' );
+	$post_type = $post->post_type == 'question' ? __( 'Question', 'platformpress' ) : __( 'Answer', 'platformpress' );
 
 
 	if ( ap_have_parent_post( $post_id ) && $post->post_type != 'answer' ) : ?>
         <div id="ap_post_status_desc_<?php echo $post_id; ?>" class="ap-notice blue clearfix">
             <?php echo ap_icon( 'link', true ) ?>
-            <span><?php printf( __( 'Question is asked for %s.', 'anspress-question-answer' ), '<a href="'.get_permalink( ap_question_get_the_post_parent() ).'">'.get_the_title( ap_question_get_the_post_parent() ).'</a>' ); ?></span>
+            <span><?php printf( __( 'Question is commented for %s.', 'platformpress' ), '<a href="'.get_permalink( ap_question_get_the_post_parent() ).'">'.get_the_title( ap_question_get_the_post_parent() ).'</a>' ); ?></span>
         </div>
     <?php endif;
 
 	if ( is_private_post( $post_id ) ) : ?>
         <div id="ap_post_status_desc_<?php echo $post_id; ?>" class="ap-notice gray clearfix">
             <i class="apicon-lock"></i>
-            <span><?php printf( __( '%s is marked as a private, only admin and post author can see.', 'anspress-question-answer' ), $post_type ); ?></span>
+            <span><?php printf( __( '%s is marked as a private, only admin and post author can see.', 'platformpress' ), $post_type ); ?></span>
         </div>
     <?php endif;
 
 	if ( is_post_waiting_moderation( $post_id ) ) : ?>
         <div id="ap_post_status_desc_<?php echo $post_id; ?>" class="ap-notice yellow clearfix">
-            <i class="apicon-info"></i><span><?php printf( __( '%s is waiting for approval by moderator.', 'anspress-question-answer' ), $post_type ); ?></span>
+            <i class="apicon-info"></i><span><?php printf( __( '%s is waiting for approval by moderator.', 'platformpress' ), $post_type ); ?></span>
         </div>
     <?php endif;
 
 	if ( is_post_closed( $post_id ) && $post->post_type != 'answer' ) : ?>
         <div id="ap_post_status_desc_<?php echo $post_id; ?>" class="ap-notice red clearfix">
             <?php echo ap_icon( 'cross', true ) ?>
-            <span><?php printf( __( '%s is closed, new answer are not accepted.', 'anspress-question-answer' ), $post_type ); ?></span>
+            <span><?php printf( __( '%s is closed, new answer are not accepted.', 'platformpress' ), $post_type ); ?></span>
         </div>
     <?php endif;
 
 	if ( $post->post_status == 'trash' ) : ?>
         <div id="ap_post_status_desc_<?php echo $post_id; ?>" class="ap-notice red clearfix">
             <?php echo ap_icon( 'cross', true ) ?>
-            <span><?php printf( __( '%s has been trashed, you can delete it permanently from wp-admin.', 'anspress-question-answer' ), $post_type ); ?></span>
+            <span><?php printf( __( '%s has been trashed, you can delete it permanently from wp-admin.', 'platformpress' ), $post_type ); ?></span>
         </div>
     <?php endif;
 }

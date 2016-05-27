@@ -2,10 +2,10 @@
 /**
  * Answer list item template
  *
- * @link http://anspress.io
- * @since 0.1
- * @license GPL 2+
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 if(!ap_user_can_view_post(get_the_ID()))
@@ -18,7 +18,7 @@ $clearfix_class = array('ap-questions-item clearfix');
 <div id="answer-<?php the_ID(); ?>" <?php post_class($clearfix_class); ?>>
 	<?php if ( is_private_post()) : ?>
 		<div class="private-question-label clearfix">
-			<span><?php _e( 'Private Answer', 'anspress-question-answer' ); ?></span>
+			<span><?php _e( 'Private Answer', 'platformpress' ); ?></span>
 		</div>
 	<?php endif; ?>
 	<div class="ap-questions-inner">
@@ -32,7 +32,7 @@ $clearfix_class = array('ap-questions-item clearfix');
 			<?php if(!ap_opt('disable_voting_on_question')){ ?>
 				<span class="ap-questions-count ap-questions-vcount">
 					<span><?php echo ap_net_vote() ?></span>
-					<?php  _e('votes', 'anspress-question-answer'); ?>
+					<?php  _e('votes', 'platformpress'); ?>
 				</span>
 			<?php } ?>
 		</div>

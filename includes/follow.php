@@ -1,8 +1,9 @@
 <?php
 /**
- * Functions and handler for follow
- * @author Rahul Aryan <support@anspress.io>
- * @since 2.3
+* @package     PlatformPress
+* @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+* @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+* @since       0.1
  */
 
 
@@ -33,7 +34,7 @@ function ap_follow_button($user_to_follow , $text = false){
 		$following = ap_is_user_following($user_to_follow, $current_user);
 
 		if(false === $text)
-			$title =  $following ? __('Unfollow', 'anspress-question-answer') : __('Follow', 'anspress-question-answer');
+			$title =  $following ? __('Unfollow', 'platformpress') : __('Follow', 'platformpress');
 		else
 			$title =  $following ? $text[0] : $text[1];
 

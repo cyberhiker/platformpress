@@ -1,11 +1,11 @@
 <?php
 /**
- * Form and controls of ask form
+ * Form and controls of comment form
  *
- * @link http://anspress.io
- * @since 2.0.1
- * @license GPL2+
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -39,7 +39,7 @@ function ap_get_answer_form_fields( $question_id = false, $answer_id = false ) {
 			'name'          => 'description',
 			'type'          => is_question() ? 'textarea' : 'editor',
 			'value'         => ( $editing ? apply_filters( 'the_content', $editing_post->post_content ) : wp_kses_post( ap_isset_post_value('description', '' ) ) ),
-			'placeholder'  => __( 'Your answer..', 'anspress-question-answer' ),
+			'placeholder'  => __( 'Your answer..', 'platformpress' ),
 			'settings' => ap_tinymce_editor_settings('answer'),
 			'sanitize' => array( 'sanitize_description' ),
 			'validate' => array( 'required' => true, 'length_check' => ap_opt( 'minimum_ans_length' ) ),
@@ -56,9 +56,9 @@ function ap_get_answer_form_fields( $question_id = false, $answer_id = false ) {
 	if ( ! is_user_logged_in() && ap_opt( 'allow_anonymous' ) ) {
 		$fields[] = array(
 			'name'      => 'name',
-			'label'     => __( 'Name', 'anspress-question-answer' ),
+			'label'     => __( 'Name', 'platformpress' ),
 			'type'      => 'text',
-			'placeholder'  => __( 'Enter your name to display', 'anspress-question-answer' ),
+			'placeholder'  => __( 'Enter your name to display', 'platformpress' ),
 			'value'     => ap_isset_post_value( 'name', '' ),
 			'order'     => 12,
 			'sanitize' => array( 'strip_tags', 'sanitize_text_field' ),
@@ -70,7 +70,7 @@ function ap_get_answer_form_fields( $question_id = false, $answer_id = false ) {
 		$fields[] = array(
 			'name' => 'is_private',
 			'type'  => 'checkbox',
-			'desc'  => __( 'Only visible to admin and moderator.', 'anspress-question-answer' ),
+			'desc'  => __( 'Only visible to admin and moderator.', 'platformpress' ),
 			'value' => $is_private,
 			'order' => 12,
 			'show_desc_tip' => false,
@@ -81,7 +81,7 @@ function ap_get_answer_form_fields( $question_id = false, $answer_id = false ) {
 	if ( ap_show_captcha_to_user() ) {
 		// Show recpatcha if key exists and enabled.
 		if ( ap_opt( 'recaptcha_site_key' ) == '' ) {
-			$reCaptcha_html = '<div class="ap-notice red">'.__( 'reCaptach keys missing, please add keys', 'anspress-question-answer' ).'</div>';
+			$reCaptcha_html = '<div class="ap-notice red">'.__( 'reCaptach keys missing, please add keys', 'platformpress' ).'</div>';
 		} else {
 
 			$reCaptcha_html = '<div class="g-recaptcha" id="recaptcha" data-sitekey="'.ap_opt( 'recaptcha_site_key' ).'"></div>';
@@ -158,14 +158,14 @@ function ap_answer_form($question_id, $editing = false) {
 	$args = array(
 		'name'              => 'answer_form',
 		'is_ajaxified'      => true,
-		'submit_button'     => ($editing ? __( 'Update answer', 'anspress-question-answer' ) : __( 'Post answer', 'anspress-question-answer' )),
+		'submit_button'     => ($editing ? __( 'Update answer', 'platformpress' ) : __( 'Post answer', 'platformpress' )),
 		'nonce_name'        => 'nonce_answer_'.$question_id,
 		'fields'            => ap_get_answer_form_fields( $question_id, $answer_id ),
 	);
 
-	anspress()->form = new AnsPress_Form( $args );
+	platformpress()->form = new PlatformPress_Form( $args );
 
-	echo anspress()->form->get_form();
+	echo platformpress()->form->get_form();
 
 	// Post image upload form.
 	echo ap_post_upload_hidden_form();
@@ -302,7 +302,7 @@ function ap_answer_post_ajax_response( $question_id, $answer_id ){
 
 	$html = ob_get_clean();
 
-	$count_label = sprintf( _n( '1 Answer', '%d Answers', $current_ans, 'anspress-question-answer' ), $current_ans );
+	$count_label = sprintf( _n( '1 Answer', '%d Answers', $current_ans, 'platformpress' ), $current_ans );
 
 	$result = array(
 		'postid' 		=> $answer_id,

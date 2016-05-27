@@ -1,12 +1,12 @@
 <?php
 /**
  * Mention functionality
- * Handle AnsPress mention functionality.
+ * Handle PlatformPress mention functionality.
  *
- * @link 	https://anspress.io/
- * @since 	2.4
- * @author  Rahul Aryan <support@anspress.io>
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -24,11 +24,11 @@ class AP_Mentions_Hooks{
 	 * @since 2.4.8 Removed `$ap` args.
 	 */
 	public function __construct() {
-		anspress()->add_filter( 'ap_pre_insert_question', __CLASS__, 'linkyfy_mentions' );
-		anspress()->add_filter( 'ap_pre_insert_answer', __CLASS__, 'linkyfy_mentions' );
-		anspress()->add_filter( 'ap_pre_update_question', __CLASS__, 'linkyfy_mentions' );
-		anspress()->add_filter( 'ap_pre_update_answer', __CLASS__, 'linkyfy_mentions' );
-		anspress()->add_action( 'ap_ajax_search_mentions', __CLASS__, 'search_mentions' );
+		platformpress()->add_filter( 'ap_pre_insert_question', __CLASS__, 'linkyfy_mentions' );
+		platformpress()->add_filter( 'ap_pre_insert_answer', __CLASS__, 'linkyfy_mentions' );
+		platformpress()->add_filter( 'ap_pre_update_question', __CLASS__, 'linkyfy_mentions' );
+		platformpress()->add_filter( 'ap_pre_update_answer', __CLASS__, 'linkyfy_mentions' );
+		platformpress()->add_action( 'ap_ajax_search_mentions', __CLASS__, 'search_mentions' );
 	}
 
 	/**

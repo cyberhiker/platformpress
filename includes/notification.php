@@ -1,19 +1,18 @@
 <?php
 /**
- * AnsPress notification functions.
+ * PlatformPress notification functions.
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
  * Notification class
  * @deprecated 2.4
  */
-class AnsPress_Notifications
+class PlatformPress_Notifications
 {
 	var $args = array();
 	var $current = -1;
@@ -179,10 +178,10 @@ class AnsPress_Notifications
 /**
  * Return notification class query
  * @param  string|array $args Notification query arguments.
- * @return AnsPress_Notifications       Notification query object
+ * @return PlatformPress_Notifications       Notification query object
  */
 function ap_get_user_notifications($args = '') {
-	return new AnsPress_Notifications( $args );
+	return new PlatformPress_Notifications( $args );
 }
 
 /**
@@ -197,7 +196,7 @@ function ap_new_notification( $activity_id, $user_id = false, $status = '0', $da
 	global $wpdb;
 
 	if( !is_integer($activity_id) ){
-		return new WP_Error('not_integer', __('$activity_id is not a valid integer.', 'anspress-question-answer'));
+		return new WP_Error('not_integer', __('$activity_id is not a valid integer.', 'platformpress'));
 	}
 
 	$user_ids = array();
@@ -296,7 +295,7 @@ function ap_get_notification_icon($type) {
 function ap_get_the_total_unread_notification($user_id = false, $echo = false) {
 	$count = ap_get_total_unread_notification();
 
-	$count = $count >= 10 ? __( '9+', 'anspress-question-answer' ) : $count;
+	$count = $count >= 10 ? __( '9+', 'platformpress' ) : $count;
 	$count = $count != 0 ? '<span class="counter" data-view="notification_count">'.$count.'</span>' : '';
 
 	if ( $echo ) {
@@ -339,10 +338,10 @@ function ap_get_total_unread_notification($user_id = false) {
  * @param  boolean|integer $current_user_id  User iD.
  * @param  boolean|string $affected_user_id Affected user ID.
  * @param  boolean|string $type             Notification type.
- * @return boolean|integer                  
+ * @return boolean|integer
  */
 function ap_delete_notification($noti_id = false, $current_user_id = false, $affected_user_id = false, $type = false) {
-	global $wpdb;	
+	global $wpdb;
 	$row = $wpdb->query(
 		$wpdb->prepare(
 			'DELETE FROM '.$wpdb->ap_notifications.' WHERE noti_id = %d',

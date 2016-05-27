@@ -1,14 +1,14 @@
 <?php
-class AP_Askform_Widget extends WP_Widget {
+class AP_commentform_Widget extends WP_Widget {
 
 	/**
 	 * Initialize the class
 	 */
 	public function __construct() {
 		parent::__construct(
-			'ap_askform_widget',
-			__( '(AnsPress) Ask form', 'anspress-question-answer' ),
-			array( 'description' => __( 'Shows ask form.', 'anspress-question-answer' ) )
+			'ap_commentform_widget',
+			__( '(PlatformPress) comment form', 'platformpress' ),
+			array( 'description' => __( 'Shows comment form.', 'platformpress' ) )
 		);
 	}
 
@@ -21,7 +21,7 @@ class AP_Askform_Widget extends WP_Widget {
 		}
 		?>
             <div class="ap-widget-inner">
-				<?php ap_ask_form(); ?>
+				<?php ap_comment_form(); ?>
             </div>
 		<?php
 		echo $args['after_widget'];
@@ -31,11 +31,11 @@ class AP_Askform_Widget extends WP_Widget {
 		if ( isset( $instance[ 'title' ] ) ) {
 			$title = $instance[ 'title' ];
 		} else {
-			$title = __( 'Ask questions', 'anspress-question-answer' );
+			$title = __( 'comment questions', 'platformpress' );
 		}
 		?>
         <p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
 		<?php
@@ -56,8 +56,8 @@ class AP_Askform_Widget extends WP_Widget {
 	}
 }
 
-function ap_quickask_register_widgets() {
-	register_widget( 'AP_Askform_Widget' );
+function ap_quickcomment_register_widgets() {
+	register_widget( 'AP_commentform_Widget' );
 }
 
-add_action( 'widgets_init', 'ap_quickask_register_widgets' );
+add_action( 'widgets_init', 'ap_quickcomment_register_widgets' );

@@ -1,14 +1,11 @@
 <?php
 /**
- * AnsPress theme and template handling.
+ * PlatformPress theme and template handling.
  *
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- *
- * @link      http://anspress.io
- *
- * @copyright 2014 Rahul Aryan
- * @package AnsPress/theme
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -22,32 +19,32 @@ if ( ! defined( 'WPINC' ) ) {
  */
 function ap_page_title() {
 
-	$pages = anspress()->pages;
+	$pages = platformpress()->pages;
 
 	$current_page = ap_current_page();
 
 	if ( is_question() ) {
 		if ( ! ap_user_can_read_question( get_question_id() ) ) {
-			$new_title = __('No permission', 'anspress-question-answer' );
+			$new_title = __('No permission', 'platformpress' );
 		} else {
 			$new_title = ap_question_title_with_solved_prefix();
 		}
 	} elseif ( is_ap_edit() ) {
-		$new_title = __( 'Edit post', 'anspress-question-answer' );
+		$new_title = __( 'Edit post', 'platformpress' );
 	} elseif ( is_ap_search() ) {
 		$new_title = sprintf( ap_opt( 'search_page_title' ), sanitize_text_field( get_query_var( 'ap_s' ) ) );
-	} elseif ( is_ask() ) {
-		$new_title = ap_opt( 'ask_page_title' );
+	} elseif ( is_comment() ) {
+		$new_title = ap_opt( 'comment_page_title' );
 	} elseif ( is_ap_users() ) {
 		$new_title = ap_opt( 'users_page_title' );
 	} elseif ( '' == $current_page && ! is_question() && '' == get_query_var( 'question_name' ) ) {
 		$new_title = ap_opt( 'base_page_title' );
 	} elseif ( get_query_var( 'parent' ) != '' ) {
-		$new_title = sprintf( __( 'Discussion on "%s"', 'anspress-question-answer' ), get_the_title( get_query_var( 'parent' ) ) );
+		$new_title = sprintf( __( 'Discussion on "%s"', 'platformpress' ), get_the_title( get_query_var( 'parent' ) ) );
 	} elseif ( isset( $pages[ $current_page ]['title'] ) ) {
 		$new_title = $pages[ $current_page ]['title'];
 	} else {
-		$new_title = __( 'Error 404', 'anspress-question-answer' );
+		$new_title = __( 'Error 404', 'platformpress' );
 	}
 
 	$new_title = apply_filters( 'ap_page_title', $new_title );
@@ -60,7 +57,7 @@ function ap_page_title() {
  * @return integer|false
  */
 function ap_edit_post_id() {
-	if ( is_anspress() && get_query_var( 'edit_post_id' ) ) {
+	if ( is_platformpress() && get_query_var( 'edit_post_id' ) ) {
 		return get_query_var( 'edit_post_id' );
 	}
 
@@ -72,7 +69,7 @@ function ap_edit_post_id() {
  * @return boolean
  */
 function is_ap_edit() {
-	if ( is_anspress() && get_query_var( 'edit_post_id' ) ) {
+	if ( is_platformpress() && get_query_var( 'edit_post_id' ) ) {
 		return true;
 	}
 
@@ -84,7 +81,7 @@ function is_ap_edit() {
  * @return boolean
  */
 function is_ap_revision() {
-	if ( is_anspress() && get_query_var( 'ap_page' ) == 'revision' ) {
+	if ( is_platformpress() && get_query_var( 'ap_page' ) == 'revision' ) {
 		return true;
 	}
 
@@ -92,11 +89,11 @@ function is_ap_revision() {
 }
 
 /**
- * Check if current page is AnsPress search page
+ * Check if current page is PlatformPress search page
  * @return boolean
  */
 function is_ap_search() {
-	if ( is_anspress() && get_query_var( 'ap_page' ) == 'search' ) {
+	if ( is_platformpress() && get_query_var( 'ap_page' ) == 'search' ) {
 		return true;
 	}
 
@@ -116,15 +113,15 @@ function is_ap_followers() {
 }
 
 /**
- * Return current AnsPress page
+ * Return current PlatformPress page
  * @return string|false
  */
 function ap_current_page_is() {
-	if ( is_anspress() ) {
+	if ( is_platformpress() ) {
 		if ( is_question() ) {
 			$template = 'question';
-		} elseif ( is_ask() ) {
-			$template = 'ask';
+		} elseif ( is_comment() ) {
+			$template = 'comment';
 		} elseif ( is_question_categories() ) {
 			$template = 'categories';
 		} elseif ( is_question_cat() ) {
@@ -158,7 +155,7 @@ function ap_current_page_is() {
  * @return string template file name.
  */
 function ap_get_current_page_template() {
-	if ( is_anspress() ) {
+	if ( is_platformpress() ) {
 		$template = ap_current_page_is();
 
 		return apply_filters( 'ap_current_page_template', $template.'.php' );
@@ -243,7 +240,7 @@ function ap_have_parent_post($post_id = false) {
 }
 
 /**
- * Anspress pagination
+ * platformpress pagination
  * Uses paginate_links.
  *
  * @param float  $current Current paged, if not set then get_query_var('paged') is used.
@@ -313,11 +310,11 @@ function ap_display_question_metas($question_id = false) {
 	$metas = array();
 	if ( ! is_question() ) {
 		if ( ap_question_best_answer_selected() ) {
-			$metas['solved'] = '<span class="ap-best-answer-label ap-tip" title="'.__( 'answer accepted', 'anspress-question-answer' ).'">'.__( 'Solved', 'anspress-question-answer' ).'</span>';
+			$metas['solved'] = '<span class="ap-best-answer-label ap-tip" title="'.__( 'answer accepted', 'platformpress' ).'">'.__( 'Solved', 'platformpress' ).'</span>';
 		}
 
 		$view_count = ap_get_qa_views();
-		$metas['views'] = sprintf( __( '<i>%d views</i>', 'anspress-question-answer' ), $view_count );
+		$metas['views'] = sprintf( __( '<i>%d views</i>', 'platformpress' ), $view_count );
 		$metas['history'] = ap_latest_post_activity_html( $question_id, ! is_question() );
 	}
 
@@ -338,7 +335,7 @@ function ap_display_question_metas($question_id = false) {
 }
 
 /**
- * Return font icons class of AnsPress.
+ * Return font icons class of PlatformPress.
  * All font icons should be called using this function so that it can be overridden.
  * @param string $name Name or class of font icon.
  * @param bool   $html return icon class wrapped by i tag.
@@ -399,17 +396,17 @@ function ap_icon($name, $html = false) {
 }
 
 /**
- * Register anspress pages.
+ * Register platformpress pages.
  *
  * @param string   $page_slug    slug for links.
  * @param string   $page_title   Page title.
  * @param callable $func         Hook to run when shortcode is found.
- * @param bool     $show_in_menu User can add this pages to their WordPress menu from appearance->menu->AnsPress.
+ * @param bool     $show_in_menu User can add this pages to their WordPress menu from appearance->menu->PlatformPress.
  *
  * @since 2.0.1
  */
 function ap_register_page($page_slug, $page_title, $func, $show_in_menu = true) {
-	anspress()->pages[ $page_slug ] = array(
+	platformpress()->pages[ $page_slug ] = array(
 		'title' 		=> $page_title,
 		'func' 			=> $func,
 		'show_in_menu' 	=> $show_in_menu,
@@ -417,11 +414,11 @@ function ap_register_page($page_slug, $page_title, $func, $show_in_menu = true) 
 }
 
 /**
- * Output current AnsPress page.
+ * Output current PlatformPress page.
  * @since 2.0.0-beta
  */
 function ap_page() {
-	$pages = anspress()->pages;
+	$pages = platformpress()->pages;
 	$current_page = ap_current_page();
 
 	if ( is_question() ) {
@@ -531,7 +528,7 @@ function ap_post_actions_buttons($disable = array()) {
 		if ( ! empty( $actions['dropdown'] ) ) {
 			echo '<li class="ap-post-action dropdown">';
 			echo '<div id="ap_post_action_'.esc_attr($post->ID ).'" class="ap-dropdown">';
-			echo '<a class="apicon-ellipsis more-actions ap-tip ap-dropdown-toggle" title="'.__( 'More action', 'anspress-question-answer' ).'" href="#" data-query="post_actions_dp::'. wp_create_nonce( 'ap_ajax_nonce' ) .'::'. esc_attr($post->ID ) .'" data-action="ajax_btn"></a>';
+			echo '<a class="apicon-ellipsis more-actions ap-tip ap-dropdown-toggle" title="'.__( 'More action', 'platformpress' ).'" href="#" data-query="post_actions_dp::'. wp_create_nonce( 'ap_ajax_nonce' ) .'::'. esc_attr($post->ID ) .'" data-action="ajax_btn"></a>';
 			echo '</div>';
 			echo '</li>';
 		}
@@ -561,17 +558,17 @@ function ap_get_question_sorting( $current_url = '' ) {
 	$link = add_query_arg( $param, $current_url );
 
 	$navs = array(
-		[ 'key' => 'active','title' => __( 'Active', 'anspress-question-answer' ) ],
-		[ 'key' => 'newest', 'title' => __( 'Newest', 'anspress-question-answer' ) ],
+		[ 'key' => 'active','title' => __( 'Active', 'platformpress' ) ],
+		[ 'key' => 'newest', 'title' => __( 'Newest', 'platformpress' ) ],
 	);
 
 	if ( ! ap_opt( 'disable_voting_on_question' ) ) {
-		$navs[] = [ 'key' => 'voted', 'title' => __( 'Voted', 'anspress-question-answer' ) ];
+		$navs[] = [ 'key' => 'voted', 'title' => __( 'Voted', 'platformpress' ) ];
 	}
 
-	$navs[] = [ 'key' => 'answers','title' => __( 'Answered', 'anspress-question-answer' ) ];
-	$navs[] = [ 'key' => 'unanswered', 'title' => __( 'Unanswered', 'anspress-question-answer' ) ];
-	$navs[] = [ 'key' => 'unsolved', 'title' => __( 'Unsolved', 'anspress-question-answer' ) ];
+	$navs[] = [ 'key' => 'answers','title' => __( 'Answered', 'platformpress' ) ];
+	$navs[] = [ 'key' => 'unanswered', 'title' => __( 'Unanswered', 'platformpress' ) ];
+	$navs[] = [ 'key' => 'unsolved', 'title' => __( 'Unsolved', 'platformpress' ) ];
 
 	$active_sort = 'active';
 	if ( isset($_GET['ap_filter'], $_GET['ap_filter']['sort'] ) ) {
@@ -607,15 +604,15 @@ function ap_answers_tab($base = false) {
 	}
 
 	$navs = array(
-		'active' => array( 'link' => add_query_arg( array( 'ap_sort' => 'active' ), $base ), 'title' => __( 'Active', 'anspress-question-answer' ) ),
+		'active' => array( 'link' => add_query_arg( array( 'ap_sort' => 'active' ), $base ), 'title' => __( 'Active', 'platformpress' ) ),
 	);
 
 	if ( ! ap_opt( 'disable_voting_on_answer' ) ) {
-		$navs['voted'] = array( 'link' => add_query_arg( array( 'ap_sort' => 'voted' ), $base ), 'title' => __( 'Voted', 'anspress-question-answer' ) );
+		$navs['voted'] = array( 'link' => add_query_arg( array( 'ap_sort' => 'voted' ), $base ), 'title' => __( 'Voted', 'platformpress' ) );
 	}
 
-	$navs['newest'] = array( 'link' => add_query_arg( array( 'ap_sort' => 'newest' ), $base ), 'title' => __( 'Newest', 'anspress-question-answer' ) );
-	$navs['oldest'] = array( 'link' => add_query_arg( array( 'ap_sort' => 'oldest' ), $base ), 'title' => __( 'Oldest', 'anspress-question-answer' ) );
+	$navs['newest'] = array( 'link' => add_query_arg( array( 'ap_sort' => 'newest' ), $base ), 'title' => __( 'Newest', 'platformpress' ) );
+	$navs['oldest'] = array( 'link' => add_query_arg( array( 'ap_sort' => 'oldest' ), $base ), 'title' => __( 'Oldest', 'platformpress' ) );
 
 	echo '<ul class="ap-answers-tab ap-ul-inline clearfix">';
 	foreach ( $navs as $k => $nav ) {
@@ -637,7 +634,7 @@ function ap_display_answer_metas($answer_id = false) {
 
 	$metas = array();
 	if ( ap_answer_is_best( $answer_id ) ) {
-		$metas['best_answer'] = '<span class="ap-best-answer-label">'.__( 'Best answer', 'anspress-question-answer' ).'</span>';
+		$metas['best_answer'] = '<span class="ap-best-answer-label">'.__( 'Best answer', 'platformpress' ).'</span>';
 	}
 
 	$metas['history'] = ap_last_active_time( $answer_id );
@@ -660,20 +657,20 @@ function ap_display_answer_metas($answer_id = false) {
 }
 
 /**
- * Echo ask button.
+ * Echo comment button.
  * @since 2.1
  */
-function ap_ask_btn() {
-	echo ap_get_ask_btn();
+function ap_comment_btn() {
+	echo ap_get_comment_btn();
 }
 
 /**
- * Return the ask button. *
- * @return string Ask button HTML
+ * Return the comment button. *
+ * @return string comment button HTML
  * @since 2.1
  */
-function ap_get_ask_btn() {
-	return '<a class="ap-btn-ask" href="'.ap_get_link_to( 'ask' ).'">'.__( 'Ask question', 'anspress-question-answer' ).'</a>';
+function ap_get_comment_btn() {
+	return '<a class="ap-btn-comment" href="'.ap_get_link_to( 'comment' ).'">'.__( 'comment question', 'platformpress' ).'</a>';
 }
 
 /**
@@ -689,9 +686,9 @@ function ap_get_template_part($file) {
  * Output the contents of help page.
  * @since 2.2
  */
-function ap_how_to_ask() {
+function ap_how_to_comment() {
 
-	$content = ap_get_how_to_ask();
+	$content = ap_get_how_to_comment();
 
 	if ( false !== $content ) {
 		echo $content;
@@ -703,7 +700,7 @@ function ap_how_to_ask() {
  * @return string|false
  * @since 2.2
  */
-function ap_get_how_to_ask() {
+function ap_get_how_to_comment() {
 	if ( ap_opt( 'question_help_page' ) != '' ) {
 		$help = get_post( (int) ap_opt( 'question_help_page' ) );
 		if ( $help ) {
@@ -742,7 +739,7 @@ function ap_get_how_to_answer() {
 }
 
 /**
- * Output AnsPress breadcrumbs
+ * Output PlatformPress breadcrumbs
  */
 function ap_breadcrumbs() {
 
@@ -783,13 +780,13 @@ function ap_get_breadcrumbs() {
 	$a['base'] = array( 'title' => ap_opt( 'base_page_title' ), 'link' => ap_base_page_link(), 'order' => 0 );
 
 	if ( is_question() ) {
-		$a['page'] = array( 'title' => substr( $title, 0, 30 ).(strlen( $title ) > 30 ? __( '..', 'anspress-question-answer' ) : ''), 'link' => get_permalink( get_question_id() ), 'order' => 10 );
+		$a['page'] = array( 'title' => substr( $title, 0, 30 ).(strlen( $title ) > 30 ? __( '..', 'platformpress' ) : ''), 'link' => get_permalink( get_question_id() ), 'order' => 10 );
 	} elseif ( 'base' != $current_page && '' != $current_page ) {
 		if ( 'user' == $current_page ) {
-			$a['page'] = array( 'title' => __( 'User', 'anspress-question-answer' ), 'link' => ap_user_link( ap_get_displayed_user_id() ), 'order' => 10 );
-			$a['user_page'] = array( 'title' => substr( $title, 0, 30 ).(strlen( $title ) > 30 ? __( '..', 'anspress-question-answer' ) : ''), 'link' => ap_user_link( ap_get_displayed_user_id(), get_query_var( 'user_page' ) ), 'order' => 10 );
+			$a['page'] = array( 'title' => __( 'User', 'platformpress' ), 'link' => ap_user_link( ap_get_displayed_user_id() ), 'order' => 10 );
+			$a['user_page'] = array( 'title' => substr( $title, 0, 30 ).(strlen( $title ) > 30 ? __( '..', 'platformpress' ) : ''), 'link' => ap_user_link( ap_get_displayed_user_id(), get_query_var( 'user_page' ) ), 'order' => 10 );
 		} else {
-			$a['page'] = array( 'title' => substr( $title, 0, 30 ).(strlen( $title ) > 30 ? __( '..', 'anspress-question-answer' ) : ''), 'link' => ap_get_link_to( $current_page ), 'order' => 10 );
+			$a['page'] = array( 'title' => substr( $title, 0, 30 ).(strlen( $title ) > 30 ? __( '..', 'platformpress' ) : ''), 'link' => ap_get_link_to( $current_page ), 'order' => 10 );
 		}
 	}
 
@@ -799,7 +796,7 @@ function ap_get_breadcrumbs() {
 }
 
 /**
- * Return current AnsPress page
+ * Return current PlatformPress page
  * @return string
  */
 function ap_current_page() {
@@ -813,7 +810,7 @@ function ap_current_page() {
 }
 
 /**
- * AnsPress CSS and JS.
+ * PlatformPress CSS and JS.
  * @return array
  */
 function ap_assets( ) {
@@ -833,12 +830,12 @@ function ap_assets( ) {
 	);
 
 	if ( ap_env_dev() ) {
-		$assets['js']['anspress-functions'] = array( 'src' => ANSPRESS_URL.'assets/js/ap-functions.js', 'dep' => array( 'jquery', 'jquery-form' ) );
-		$assets['js']['anspress-js'] = array( 'src' => ANSPRESS_URL.'assets/js/anspress_site.js', 'dep' => array( 'jquery', 'jquery-form' ) );
-		$assets['js']['ap-theme-js'] = array( 'src' => ap_get_theme_url( 'js/ap.js' ), 'dep' => array( 'jquery', 'anspress-js' ) );
+		$assets['js']['platformpress-functions'] = array( 'src' => platformpress_URL.'assets/js/ap-functions.js', 'dep' => array( 'jquery', 'jquery-form' ) );
+		$assets['js']['platformpress-js'] = array( 'src' => platformpress_URL.'assets/js/platformpress_site.js', 'dep' => array( 'jquery', 'jquery-form' ) );
+		$assets['js']['ap-theme-js'] = array( 'src' => ap_get_theme_url( 'js/ap.js' ), 'dep' => array( 'jquery', 'platformpress-js' ) );
 	} else {
-		$assets['js']['anspress-js'] = array( 'src' => ANSPRESS_URL.'assets/min/anspress.min.js', 'dep' => array( 'jquery', 'jquery-form' ) );
-		$assets['js']['ap-theme-js'] = array( 'src' => ap_get_theme_url( 'min/anspress-theme.min.js' ), 'dep' => array( 'jquery', 'anspress-js' ) );
+		$assets['js']['platformpress-js'] = array( 'src' => platformpress_URL.'assets/min/platformpress.min.js', 'dep' => array( 'jquery', 'jquery-form' ) );
+		$assets['js']['ap-theme-js'] = array( 'src' => ap_get_theme_url( 'min/platformpress-theme.min.js' ), 'dep' => array( 'jquery', 'platformpress-js' ) );
 	}
 
 	// Load mention JS.
@@ -858,7 +855,7 @@ function ap_assets( ) {
 }
 
 /**
- * Enqueue AnsPress assets.
+ * Enqueue PlatformPress assets.
  * @since 2.4.6
  */
 function ap_enqueue_scripts() {
@@ -895,7 +892,7 @@ function ap_get_list_filters( $current_url = '' ) {
 
 	$filters = array(
 		'sort' => array(
-			'title' => __( 'Sort', 'anspress-question-answer' ),
+			'title' => __( 'Sort', 'platformpress' ),
 			'items' => ap_get_question_sorting(),
 		),
 	);

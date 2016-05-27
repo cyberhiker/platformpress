@@ -1,10 +1,10 @@
 <?php
 /**
  * Update related funtion.
- * @link 	http://anspress.io/
- * @since   2.4
- * @author  Rahul Aryan <support@anspress.io>
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 class AP_Update_Helper
@@ -52,7 +52,7 @@ class AP_Update_Helper
 		$count = $wpdb->get_var( "SELECT count(*) FROM {$wpdb->prefix}ap_meta WHERE apmeta_type = 'subscriber' " );
 
 		if ( $count < 1 ) {
-			update_option( 'ap_subscribers_moved', true );			
+			update_option( 'ap_subscribers_moved', true );
 		}
 	}
 }

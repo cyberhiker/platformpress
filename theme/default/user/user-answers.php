@@ -13,7 +13,7 @@
 	<?php ap_answers_the_pagination(); ?>
 	<?php
 		else : 
-			_e('No answer posted by this user yet.', 'anspress-question-answer');
+			_e('No answer posted by this user yet.', 'platformpress');
 		endif; 
 	?>	
 </div>

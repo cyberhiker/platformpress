@@ -18,7 +18,7 @@
 				<?php
 			}
 		} else {
-			_e('No users found.', 'anspress-question-answer');
+			_e('No users found.', 'platformpress');
 		} 
 	?>	
 </div>

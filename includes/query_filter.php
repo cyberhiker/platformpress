@@ -2,15 +2,13 @@
 /**
  * Filter for post query
  *
- * @package   AnsPress
- * @author    Rahul Aryan <admin@rahularyan.com>
- * @license   GPL-2.0+
- * @link      http://rahularyan.com
- * @copyright 2014 Rahul Aryan
- * @since 2.0.1
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
-class AnsPress_Query_Filter
+class PlatformPress_Query_Filter
 {
 
 	/**
@@ -45,7 +43,7 @@ class AnsPress_Query_Filter
 	public function ans_notice() {
 
 		echo '<div class="error">
-           <p>' . __('Please fill parent question field, Answer was not saved!', 'anspress-question-answer' ) . '</p>
+           <p>' . __('Please fill parent question field, Answer was not saved!', 'platformpress' ) . '</p>
         </div>';
 	}
 
@@ -58,7 +56,7 @@ class AnsPress_Query_Filter
 	public function answer_sort($sql, $query) {
 		global $wpdb;
 		if ( isset($query->query['ap_query'] ) && $query->query['ap_query'] == 'answer_sort_newest' ) {
-			$sql['orderby'] = 'IF('.$wpdb->prefix.'postmeta.meta_key = "'.ANSPRESS_BEST_META.'" AND '.$wpdb->prefix.'postmeta.meta_value = 1, 0, 1), '.$sql['orderby'];
+			$sql['orderby'] = 'IF('.$wpdb->prefix.'postmeta.meta_key = "'.platformpress_BEST_META.'" AND '.$wpdb->prefix.'postmeta.meta_value = 1, 0, 1), '.$sql['orderby'];
 		} elseif ( isset($query->query['ap_query'] ) && $query->query['ap_query'] == 'answer_sort_voted' ) {
 			$sql['orderby'] = 'IF(mt1.meta_value = 1, 0, 1), '.$sql['orderby'];
 		} elseif ( isset($query->query['ap_query'] ) && $query->query['ap_query'] == 'order_answer_to_top' ) {
@@ -84,22 +82,22 @@ class AnsPress_Query_Filter
 		if ( $post->post_type == 'question' || $post->post_type == 'answer' ) {
 			if ( $post->post_status == 'moderate' ) {
 				 $complete = ' selected=\'selected\'';
-				 $label = '<span id=\'post-status-display\'>'.__('Moderate', 'anspress-question-answer' ).'</span>';
+				 $label = '<span id=\'post-status-display\'>'.__('Moderate', 'platformpress' ).'</span>';
 			} elseif ( $post->post_status == 'private_post' ) {
 				 $complete = ' selected=\'selected\'';
-				 $label = '<span id=\'post-status-display\'>'.__('Private Post', 'anspress-question-answer' ).'</span>';
+				 $label = '<span id=\'post-status-display\'>'.__('Private Post', 'platformpress' ).'</span>';
 			} elseif ( $post->post_status == 'closed' ) {
 				 $complete = ' selected=\'selected\'';
-				 $label = '<span id=\'post-status-display\'>'.__('Closed', 'anspress-question-answer' ).'</span>';
+				 $label = '<span id=\'post-status-display\'>'.__('Closed', 'platformpress' ).'</span>';
 			}
 				?>
 
 				<?php
 				echo '<script>
                       jQuery(document).ready(function(){
-						   jQuery("select#post_status").append("<option value=\'moderate\' '.$complete.'>'.__('Moderate', 'anspress-question-answer' ).'</option>");
-						   jQuery("select#post_status").append("<option value=\'private_post\' '.$complete.'>'.__('Private Post', 'anspress-question-answer' ).'</option>");
-						   jQuery("select#post_status").append("<option value=\'closed\' '.$complete.'>'.__('Closed', 'anspress-question-answer' ).'</option>");
+						   jQuery("select#post_status").append("<option value=\'moderate\' '.$complete.'>'.__('Moderate', 'platformpress' ).'</option>");
+						   jQuery("select#post_status").append("<option value=\'private_post\' '.$complete.'>'.__('Private Post', 'platformpress' ).'</option>");
+						   jQuery("select#post_status").append("<option value=\'closed\' '.$complete.'>'.__('Closed', 'platformpress' ).'</option>");
 						   jQuery(".misc-pub-section label").append("'.$label.'");
                       });
 			  </script>';
@@ -221,9 +219,9 @@ class AnsPress_Query_Filter
 		foreach ( (array) $posts as $key => $p ) {
 			if ( $p->post_type == 'answer' && ! ap_user_can_read_answer( $p ) ) {
 				$message = array(
-					'private_post' => __('Answer is private, only moderator and participants can read.', 'anspress-question-answer' ),
-					'moderate' => __('Answer is pending approval by moderator. ', 'anspress-question-answer' ),
-					'publish' => __('You do not have permission to read this answer. ', 'anspress-question-answer' ),
+					'private_post' => __('Answer is private, only moderator and participants can read.', 'platformpress' ),
+					'moderate' => __('Answer is pending approval by moderator. ', 'platformpress' ),
+					'publish' => __('You do not have permission to read this answer. ', 'platformpress' ),
 				);
 				$calss = $p->post_status == 'moderate' ? 'yellow' : 'gray';
 				$posts[$key]->post_content = sprintf('<div class="ap-notice %s clearfix"><i class="apicon-lock"></i><span>%s</span></div>', $calss, $message[ $p->post_status ] );

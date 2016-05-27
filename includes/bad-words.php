@@ -1,13 +1,11 @@
 <?php
 /**
- * AnsPress bad words filter
+ * PlatformPress bad words filter
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
- * @since     2.4.5
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -32,12 +30,12 @@ class AP_Bad_words
 			return;
 		}
 
-		anspress()->add_action( 'ap_before_inserting_question', $this, 'before_inserting_question', 10, 2 );
-		anspress()->add_action( 'ap_before_updating_question', $this, 'before_inserting_question', 10, 2 );
-		anspress()->add_action( 'ap_before_inserting_answer', $this, 'before_inserting_question', 10, 2 );
-		anspress()->add_action( 'ap_before_updating_answer', $this, 'before_inserting_question', 10, 2 );
-		anspress()->add_action( 'ap_before_inserting_comment', $this, 'before_inserting_question', 10, 2 );
-		anspress()->add_action( 'ap_before_updating_comment', $this, 'before_inserting_question', 10, 2 );
+		platformpress()->add_action( 'ap_before_inserting_question', $this, 'before_inserting_question', 10, 2 );
+		platformpress()->add_action( 'ap_before_updating_question', $this, 'before_inserting_question', 10, 2 );
+		platformpress()->add_action( 'ap_before_inserting_answer', $this, 'before_inserting_question', 10, 2 );
+		platformpress()->add_action( 'ap_before_updating_answer', $this, 'before_inserting_question', 10, 2 );
+		platformpress()->add_action( 'ap_before_inserting_comment', $this, 'before_inserting_question', 10, 2 );
+		platformpress()->add_action( 'ap_before_updating_comment', $this, 'before_inserting_question', 10, 2 );
 	}
 
 	/**
@@ -57,7 +55,7 @@ class AP_Bad_words
 		return array(
 			'form' 			=> esc_attr( $_POST['ap_form_action'] ),
 			'message_type' 	=> 'error',
-			'message'		=> __( 'Don’t use foul or abusive language. Let everything you say be good and helpful.', 'anspress-question-answer' ),
+			'message'		=> __( 'Don’t use foul or abusive language. Let everything you say be good and helpful.', 'platformpress' ),
 			'action'		=> 'bad_word_detected',
 		);
 
@@ -116,4 +114,3 @@ function ap_find_bad_words( $str ) {
 
 	return false;
 }
-

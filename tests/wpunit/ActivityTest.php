@@ -52,7 +52,7 @@ class ActivityTest extends \Codeception\TestCase\WPTestCase
 			'status'            => 'publish',
 			'question_id'       => $question_id,
 			'answer_id'         => 5,
-			'content'           => sprintf( __( '%s answered on %s', 'anspress-question-answer' ), ap_activity_user_name( get_current_user_id() ), $question->post_title ),
+			'content'           => sprintf( __( '%s answered on %s', 'platformpress' ), ap_activity_user_name( get_current_user_id() ), $question->post_title ),
 		);
 
 		$activity_id = ap_new_activity( $activity_arr );

@@ -20,7 +20,7 @@ class CptTest extends \Codeception\TestCase\WPTestCase
 
 	public function test_question_post_type() {
 		global $wp_post_types;
-		$this->assertArrayHasKey( 'question', $wp_post_types );
+		$this->assertArrayHcommentey( 'question', $wp_post_types );
 	}
 
 	public function test_question_post_type_labels() {
@@ -44,7 +44,7 @@ class CptTest extends \Codeception\TestCase\WPTestCase
 
 	public function test_answer_post_type() {
 		global $wp_post_types;
-		$this->assertArrayHasKey( 'answer', $wp_post_types );
+		$this->assertArrayHcommentey( 'answer', $wp_post_types );
 	}
 
 	public function test_answer_post_type_labels() {
@@ -66,7 +66,7 @@ class CptTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	public function test_register_post_statuses() {
-		AnsPress_Post_Status::register_post_status();
+		PlatformPress_Post_Status::register_post_status();
 
 		global $wp_post_statuses;
 

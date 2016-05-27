@@ -1,17 +1,17 @@
 <?php
 /**
- * AnsPress process form
- * @link http://anspress.io
- * @since 2.0.1
- * @license GPL 2+
- * @package AnsPress
+ * PlatformPress process form
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class AnsPress_Process_Form
+class PlatformPress_Process_Form
 {
 	private $fields;
 
@@ -64,7 +64,7 @@ class AnsPress_Process_Form
 	}
 
 	/**
-	 * Handle all anspress ajax requests
+	 * Handle all platformpress ajax requests
 	 * @return void
 	 * @since 2.0.1
 	 */
@@ -103,8 +103,8 @@ class AnsPress_Process_Form
 	public function process_form() {
 		$action = sanitize_text_field( $_POST['ap_form_action'] );
 		switch ( $action ) {
-			case 'ask_form':
-				$this->process_ask_form();
+			case 'comment_form':
+				$this->process_comment_form();
 				break;
 
 			case 'answer_form':
@@ -131,13 +131,13 @@ class AnsPress_Process_Form
 	}
 
 	/**
-	 * Process ask form
+	 * Process comment form
 	 * @return void
 	 * @since 2.0.1
 	 */
-	public function process_ask_form() {
+	public function process_comment_form() {
 		// Do security check, if fails then return.
-		if ( ! ap_user_can_ask() || ! isset( $_POST['__nonce'] ) || ! wp_verify_nonce( $_POST['__nonce'], 'ask_form' ) ) {
+		if ( ! ap_user_can_comment() || ! isset( $_POST['__nonce'] ) || ! wp_verify_nonce( $_POST['__nonce'], 'comment_form' ) ) {
 			ap_ajax_json('no_permission' );
 		}
 
@@ -148,14 +148,14 @@ class AnsPress_Process_Form
 		$editing_post_id = ap_isset_post_value( 'edit_post_id', false );
 
 		/**
-		 * FILTER: ap_ask_fields_validation
-		 * Filter can be used to modify ask question fields.
-		 * @param array $args Ask form validation arguments.
+		 * FILTER: ap_comment_fields_validation
+		 * Filter can be used to modify comment question fields.
+		 * @param array $args comment form validation arguments.
 		 * @since 2.0.1
 		 */
-		$args = apply_filters( 'ap_ask_fields_validation', ap_get_ask_form_fields( $editing_post_id ) );
+		$args = apply_filters( 'ap_comment_fields_validation', ap_get_comment_form_fields( $editing_post_id ) );
 
-		$validate = new AnsPress_Validation( $args );
+		$validate = new PlatformPress_Validation( $args );
 
 		// If error in form then bail.
 		ap_form_validation_error_response( $validate );
@@ -174,7 +174,7 @@ class AnsPress_Process_Form
 			ap_ajax_json( array(
 				'form' 			=> $_POST['ap_form_action'],
 				'message_type' 	=> 'error',
-				'message'		=> __( 'This seems to be a duplicate question. A question with same content already exists.', 'anspress-question-answer' ),
+				'message'		=> __( 'This seems to be a duplicate question. A question with same content already exists.', 'platformpress' ),
 			) );
 		}
 
@@ -194,7 +194,7 @@ class AnsPress_Process_Form
 			'post_content' 		=> $fields['description'],
 			'attach_uploads' 	=> true,
 		);
-		
+
 		$question_array['post_status'] = ap_new_edit_post_status( $user_id, 'question', false );
 
 		if ( $this->fields['is_private'] ) {
@@ -313,7 +313,7 @@ class AnsPress_Process_Form
 		 */
 		$args = apply_filters( 'ap_answer_fields_validation', ap_get_answer_form_fields( $question->ID, $editing_post_id ) );
 
-		$validate = new AnsPress_Validation( $args );
+		$validate = new PlatformPress_Validation( $args );
 
 		// Bail if there is error in validating form.
 		ap_form_validation_error_response( $validate );
@@ -331,7 +331,7 @@ class AnsPress_Process_Form
 			ap_ajax_json( array(
 				'form' 			=> $_POST['ap_form_action'],
 				'message_type' 	=> 'error',
-				'message'		=> __( 'This seems to be a duplicate answer. An answer with same content already exists.', 'anspress-question-answer' ),
+				'message'		=> __( 'This seems to be a duplicate answer. An answer with same content already exists.', 'platformpress' ),
 			) );
 		}
 
@@ -350,7 +350,7 @@ class AnsPress_Process_Form
 			'post_content' 		=> $fields['description'],
 			'attach_uploads' 	=> true,
 		);
-		
+
 		$answer_array['post_status'] = ap_new_edit_post_status( $user_id, 'answer', false );
 
 		if ( $this->fields['is_private'] ) {
@@ -434,7 +434,7 @@ class AnsPress_Process_Form
 
 		$user_fields = ap_get_user_fields( $group, $user_id );
 
-		$validate = new AnsPress_Validation( $user_fields );
+		$validate = new PlatformPress_Validation( $user_fields );
 
 		$ap_errors = $validate->get_errors();
 
@@ -443,7 +443,7 @@ class AnsPress_Process_Form
 			ap_ajax_json( array(
 				'form' 			=> $_POST['ap_form_action'],
 				'message_type' 	=> 'error',
-				'message'		=> __( 'Check missing fields and then re-submit.', 'anspress-question-answer' ),
+				'message'		=> __( 'Check missing fields and then re-submit.', 'platformpress' ),
 				'errors'		=> $ap_errors,
 			) );
 		}
@@ -491,7 +491,7 @@ class AnsPress_Process_Form
 		$file = $_FILES['post_upload_image'];
 
 		if ( $file['size'] > ap_opt( 'max_upload_size' ) ) {
-			$this->result  = array( 'message_type' => 'error', 'message' => sprintf( __( 'File cannot be uploaded, size is bigger then %d Byte', 'anspress-question-answer' ), ap_opt( 'max_upload_size' ) ) );
+			$this->result  = array( 'message_type' => 'error', 'message' => sprintf( __( 'File cannot be uploaded, size is bigger then %d Byte', 'platformpress' ), ap_opt( 'max_upload_size' ) ) );
 			return;
 		}
 
@@ -550,7 +550,7 @@ function ap_form_validation_error_response( $validate ) {
 		ap_ajax_json( array(
 			'form' 			=> $_POST['ap_form_action'],
 			'message_type' 	=> 'error',
-			'message'		=> __( 'Check missing fields and then re-submit.', 'anspress-question-answer' ),
+			'message'		=> __( 'Check missing fields and then re-submit.', 'platformpress' ),
 			'errors'		=> $validate->get_errors(),
 		) );
 	}
@@ -565,7 +565,7 @@ function ap_captcha_verification_response() {
 		ap_ajax_json( array(
 			'form' 			=> $_POST['ap_form_action'],
 			'message'		=> 'captcha_error',
-			'errors'		=> array( 'captcha' => __( 'Bot verification failed.', 'anspress-question-answer' ) ),
+			'errors'		=> array( 'captcha' => __( 'Bot verification failed.', 'platformpress' ) ),
 		) );
 	}
 }

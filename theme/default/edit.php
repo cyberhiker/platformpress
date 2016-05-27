@@ -3,10 +3,10 @@
 /**
  * Edit page
  *
- * @link http://anspress.io
- * @since 2.0.1
- * @license GPL 2+
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 if($editing_post->post_type == 'question')

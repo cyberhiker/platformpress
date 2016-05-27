@@ -1,28 +1,28 @@
 <?php
 /**
- * The WordPress Question and Answer Plugin.
+ * Political Platform Development Plugin.
  *
  * The most advance community question and answer system for WordPress
  *
- * @author    Rahul Aryan <support@rahularyan.com>
- * @copyright 2014 WP3.in & Rahul Aryan
- * @license   GPL-2.0+ http://www.gnu.org/licenses/gpl-2.0.txt *
- * @link      http://anspress.io
- * @package   AnsPress
+ * @contributor Rahul Aryan <support@rahularyan.com>
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
+
  *
  * @wordpress-plugin
- * Plugin Name:       AnsPress
- * Plugin URI:        http://anspress.io
- * Description:       The most advance community question and answer system for WordPress
- * Donate link: 	  https://goo.gl/ffainr
- * Version:           3.0.0-alpha.2
- * Author:            Rahul Aryan
- * Author URI:        http://anspress.io
- * Text Domain:       anspress-question-answer
- * License:           GPL-3.0+
+ * Plugin Name:       PlatformPress
+ * Plugin URI:        http://platformpress.io
+ * Description:       A political platform devevelopment tool for WordPress
+ * Version:           1.0-alpha
+ * Contributor:       Rahul Aryan
+ * Contributor URI:   http://anspress.io
+ * Text Domain:       platformpress
+ * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
- * GitHub Plugin URI: anspress/anspress
+ * GitHub Plugin URI: platformpress/platformpress
  */
 
 // If this file is called directly, abort.
@@ -34,23 +34,23 @@ if ( ! defined( 'WPINC' ) ) {
 if ( version_compare(PHP_VERSION, '5.5.0' ) < 0 ) {
 	function ap_admin_php_version__error() {
 		$class = 'notice notice-error';
-		$message = '<strong>'. __('AnsPress is not running!', 'anspress-question-answer' ) .'</strong><br />';
-		$message .= sprintf( __( 'Irks! At least PHP version 5.5 is required to run AnsPress. Current PHP version is %s. Please ask hosting provider to update your PHP version.', 'anspress-question-answer' ), PHP_VERSION );
+		$message = '<strong>'. __('PlatformPress is not running!', 'platformpress' ) .'</strong><br />';
+		$message .= sprintf( __( 'Irks! At least PHP version 5.5 is required to run PlatformPress. Current PHP version is %s. Please comment hosting provider to update your PHP version.', 'platformpress' ), PHP_VERSION );
 		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 	}
 	add_action( 'admin_notices', 'ap_admin_php_version__error' );
 	return;
 }
 
-if ( ! class_exists( 'AnsPress' ) ) {
+if ( ! class_exists( 'PlatformPress' ) ) {
 
 	/**
-	 * Main AnsPress class.
+	 * Main PlatformPress class.
 	 */
-	class AnsPress
+	class PlatformPress
 	{
 		/**
-		 * AnsPress version
+		 * PlatformPress version
 		 * @var string
 		 */
 	    private $_plugin_version = '3.0.0-alpha.2';
@@ -62,62 +62,62 @@ if ( ! class_exists( 'AnsPress' ) ) {
 	    public static $instance = null;
 
 	    /**
-	     * AnsPress hooks
-	     * @var object Register all AnsPress hooks
+	     * PlatformPress hooks
+	     * @var object Register all PlatformPress hooks
 	     */
-	    public $anspress_hooks;
+	    public $platformpress_hooks;
 
 	    /**
-	     * AnsPress ajax
-	     * @var object Register all AnsPress ajax hooks
+	     * PlatformPress ajax
+	     * @var object Register all PlatformPress ajax hooks
 	     */
-	    public $anspress_ajax;
+	    public $platformpress_ajax;
 	    public $admin_ajax;
 
 	    /**
-	     * AnsPress pages
-	     * @var array All AnsPress pages
+	     * PlatformPress pages
+	     * @var array All PlatformPress pages
 	     */
 	    public $pages;
 
 	    /**
-	     * AnsPress users pages
-	     * @var array AnsPress user pages
+	     * PlatformPress users pages
+	     * @var array PlatformPress user pages
 	     */
 	    public $user_pages;
 
 	    /**
-	     * AnsPress user
-	     * @var object AnsPress users loop
+	     * PlatformPress user
+	     * @var object PlatformPress users loop
 	     */
 	    public $users;
 
 	    /**
-	     * AnsPress menu
-	     * @var array AnsPress menu
+	     * PlatformPress menu
+	     * @var array PlatformPress menu
 	     */
 	    public $menu;
 
 	    /**
-	     * AnsPress question loop
-	     * @var object AnsPress question query loop
+	     * PlatformPress question loop
+	     * @var object PlatformPress question query loop
 	     */
 	    public $questions;
 
 	    /**
-	     * AnsPress answers loop
+	     * PlatformPress answers loop
 	     * @var object Answer query loop
 	     */
 	    public $answers;
 
 	    /**
-	     * AnsPress form
-	     * @var object AnsPress form
+	     * PlatformPress form
+	     * @var object PlatformPress form
 	     */
 	    public $form;
 
 	    /**
-	     * AnsPress reputation
+	     * PlatformPress reputation
 	     * @var object
 	     */
 	    public $reputations;
@@ -140,23 +140,23 @@ if ( ! class_exists( 'AnsPress' ) ) {
 		 * Filter object.
 		 * @var object
 		 */
-		public $anspress_query_filter;
+		public $platformpress_query_filter;
 
 		/**
 		 * Post type object.
 		 * @var object
 		 * @since 2.0.1
 		 */
-		public $anspress_cpt;
+		public $platformpress_cpt;
 
 		/**
-		 * AnsPress form object
+		 * PlatformPress form object
 		 * @var object
 		 */
-	    public $anspress_forms;
+	    public $platformpress_forms;
 
-	    public $anspress_reputation;
-	    public $anspress_bp;
+	    public $platformpress_reputation;
+	    public $platformpress_bp;
 	    public $third_party;
 	    public $history_class;
 	    public $mention_hooks;
@@ -188,16 +188,16 @@ if ( ! class_exists( 'AnsPress' ) ) {
 		        self::$instance->ajax_hooks();
 		        self::$instance->site_include();
 
-		        self::$instance->anspress_forms 		= new AnsPress_Process_Form();
-		        self::$instance->anspress_query_filter 	= new AnsPress_Query_Filter();
-		        self::$instance->anspress_cpt 			= new AnsPress_PostTypes();
-		        self::$instance->anspress_reputation 	= new AP_Reputation();
+		        self::$instance->platformpress_forms 		= new PlatformPress_Process_Form();
+		        self::$instance->platformpress_query_filter 	= new PlatformPress_Query_Filter();
+		        self::$instance->platformpress_cpt 			= new PlatformPress_PostTypes();
+		        self::$instance->platformpress_reputation 	= new AP_Reputation();
 
 				/*
-                 * ACTION: anspress_loaded
-                 * Hooks for extension to load their codes after AnsPress is leaded
+                 * ACTION: platformpress_loaded
+                 * Hooks for extension to load their codes after PlatformPress is leaded
 				 */
-				do_action( 'anspress_loaded' );
+				do_action( 'platformpress_loaded' );
 
 		        self::$instance->setup_hooks();
 		    }
@@ -215,21 +215,21 @@ if ( ! class_exists( 'AnsPress' ) ) {
 				'DS' 						=> DIRECTORY_SEPARATOR,
 				'AP_VERSION' 				=> $this->_plugin_version,
 				'AP_DB_VERSION' 			=> 19,
-				'ANSPRESS_DIR' 				=> plugin_dir_path( __FILE__ ),
-				'ANSPRESS_URL' 				=> plugin_dir_url( __FILE__ ),
-				'ANSPRESS_WIDGET_DIR' 		=> plugin_dir_path( __FILE__ ).'widgets'.DIRECTORY_SEPARATOR,
-				'ANSPRESS_THEME_DIR' 		=> plugin_dir_path( __FILE__ ).'theme',
-				'ANSPRESS_THEME_URL' 		=> plugin_dir_url( __FILE__ ).'theme',
-				'ANSPRESS_VOTE_META' 		=> '_ap_vote',
-				'ANSPRESS_SUBSCRIBER_META' 	=> '_ap_subscriber',
-				'ANSPRESS_CLOSE_META' 		=> '_ap_close',
-				'ANSPRESS_FLAG_META' 		=> '_ap_flag',
-				'ANSPRESS_VIEW_META' 		=> '_views',
-				'ANSPRESS_UPDATED_META' 	=> '_ap_updated',
-				'ANSPRESS_ANS_META' 		=> '_ap_answers',
-				'ANSPRESS_SELECTED_META' 	=> '_ap_selected',
-				'ANSPRESS_BEST_META' 		=> '_ap_best_answer',
-				'ANSPRESS_PARTI_META' 		=> '_ap_participants',
+				'platformpress_DIR' 				=> plugin_dir_path( __FILE__ ),
+				'platformpress_URL' 				=> plugin_dir_url( __FILE__ ),
+				'platformpress_WIDGET_DIR' 		=> plugin_dir_path( __FILE__ ).'widgets'.DIRECTORY_SEPARATOR,
+				'platformpress_THEME_DIR' 		=> plugin_dir_path( __FILE__ ).'theme',
+				'platformpress_THEME_URL' 		=> plugin_dir_url( __FILE__ ).'theme',
+				'platformpress_VOTE_META' 		=> '_ap_vote',
+				'platformpress_SUBSCRIBER_META' 	=> '_ap_subscriber',
+				'platformpress_CLOSE_META' 		=> '_ap_close',
+				'platformpress_FLAG_META' 		=> '_ap_flag',
+				'platformpress_VIEW_META' 		=> '_views',
+				'platformpress_UPDATED_META' 	=> '_ap_updated',
+				'platformpress_ANS_META' 		=> '_ap_answers',
+				'platformpress_SELECTED_META' 	=> '_ap_selected',
+				'platformpress_BEST_META' 		=> '_ap_best_answer',
+				'platformpress_PARTI_META' 		=> '_ap_participants',
 			);
 
 		    foreach ( $constants as $k => $val ) {
@@ -246,70 +246,70 @@ if ( ! class_exists( 'AnsPress' ) ) {
 		private function includes() {
 		    global $ap_options;
 
-		    require_once ANSPRESS_DIR.'includes/class/form.php';
-		    require_once ANSPRESS_DIR.'includes/class/validation.php';
-		    require_once ANSPRESS_DIR.'includes/class/roles-cap.php';
-		    require_once ANSPRESS_DIR.'includes/class/activity.php';
+		    require_once platformpress_DIR.'includes/class/form.php';
+		    require_once platformpress_DIR.'includes/class/validation.php';
+		    require_once platformpress_DIR.'includes/class/roles-cap.php';
+		    require_once platformpress_DIR.'includes/class/activity.php';
 
-		    require_once ANSPRESS_DIR.'includes/common-pages.php';
-		    require_once ANSPRESS_DIR.'includes/class-user.php';
-		    require_once ANSPRESS_DIR.'includes/class-theme.php';
-		    require_once ANSPRESS_DIR.'admin/anspress-admin.php';
-		    require_once ANSPRESS_DIR.'admin/ajax.php';
-		    require_once ANSPRESS_DIR.'includes/options.php';
-		    require_once ANSPRESS_DIR.'includes/functions.php';
-		    require_once ANSPRESS_DIR.'includes/hooks.php';
-		    require_once ANSPRESS_DIR.'includes/ajax-hooks.php';
+		    require_once platformpress_DIR.'includes/common-pages.php';
+		    require_once platformpress_DIR.'includes/class-user.php';
+		    require_once platformpress_DIR.'includes/class-theme.php';
+		    require_once platformpress_DIR.'admin/platformpress-admin.php';
+		    require_once platformpress_DIR.'admin/ajax.php';
+		    require_once platformpress_DIR.'includes/options.php';
+		    require_once platformpress_DIR.'includes/functions.php';
+		    require_once platformpress_DIR.'includes/hooks.php';
+		    require_once platformpress_DIR.'includes/ajax-hooks.php';
 
-		    require_once ANSPRESS_DIR.'includes/question-loop.php';
-		    require_once ANSPRESS_DIR.'includes/answer-loop.php';
+		    require_once platformpress_DIR.'includes/question-loop.php';
+		    require_once platformpress_DIR.'includes/answer-loop.php';
 
-		    require_once ANSPRESS_DIR.'includes/post_types.php';
-		    require_once ANSPRESS_DIR.'includes/query_filter.php';
-		    require_once ANSPRESS_DIR.'includes/post_status.php';
-		    require_once ANSPRESS_DIR.'includes/meta.php';
-		    require_once ANSPRESS_DIR.'includes/vote.php';
-		    require_once ANSPRESS_DIR.'includes/view.php';
-		    require_once ANSPRESS_DIR.'includes/theme.php';
-		    require_once ANSPRESS_DIR.'includes/form.php';
-		    require_once ANSPRESS_DIR.'includes/participants.php';
-		    require_once ANSPRESS_DIR.'includes/activity-hooks.php';
-		    require_once ANSPRESS_DIR.'includes/shortcode-basepage.php';
+		    require_once platformpress_DIR.'includes/post_types.php';
+		    require_once platformpress_DIR.'includes/query_filter.php';
+		    require_once platformpress_DIR.'includes/post_status.php';
+		    require_once platformpress_DIR.'includes/meta.php';
+		    require_once platformpress_DIR.'includes/vote.php';
+		    require_once platformpress_DIR.'includes/view.php';
+		    require_once platformpress_DIR.'includes/theme.php';
+		    require_once platformpress_DIR.'includes/form.php';
+		    require_once platformpress_DIR.'includes/participants.php';
+		    require_once platformpress_DIR.'includes/activity-hooks.php';
+		    require_once platformpress_DIR.'includes/shortcode-basepage.php';
 
-		    require_once ANSPRESS_DIR.'includes/process-form.php';
-		    require_once ANSPRESS_DIR.'includes/ask-form.php';
-		    require_once ANSPRESS_DIR.'includes/answer-form.php';
-		    require_once ANSPRESS_DIR.'widgets/search.php';
-		    require_once ANSPRESS_DIR.'widgets/subscribe.php';
-		    require_once ANSPRESS_DIR.'widgets/question_stats.php';
-		    require_once ANSPRESS_DIR.'widgets/related_questions.php';
-		    require_once ANSPRESS_DIR.'widgets/questions.php';
-		    require_once ANSPRESS_DIR.'widgets/breadcrumbs.php';
-		    require_once ANSPRESS_DIR.'widgets/followers.php';
-		    require_once ANSPRESS_DIR.'widgets/user_notification.php';
-		    require_once ANSPRESS_DIR.'widgets/users.php';
-		    require_once ANSPRESS_DIR.'includes/rewrite.php';
-		    require_once ANSPRESS_DIR.'includes/reputation.php';
-		    require_once ANSPRESS_DIR.'includes/bad-words.php';
+		    require_once platformpress_DIR.'includes/process-form.php';
+		    require_once platformpress_DIR.'includes/comment-form.php';
+		    require_once platformpress_DIR.'includes/answer-form.php';
+		    require_once platformpress_DIR.'widgets/search.php';
+		    require_once platformpress_DIR.'widgets/subscribe.php';
+		    require_once platformpress_DIR.'widgets/question_stats.php';
+		    require_once platformpress_DIR.'widgets/related_questions.php';
+		    require_once platformpress_DIR.'widgets/questions.php';
+		    require_once platformpress_DIR.'widgets/breadcrumbs.php';
+		    require_once platformpress_DIR.'widgets/followers.php';
+		    require_once platformpress_DIR.'widgets/user_notification.php';
+		    require_once platformpress_DIR.'widgets/users.php';
+		    require_once platformpress_DIR.'includes/rewrite.php';
+		    require_once platformpress_DIR.'includes/reputation.php';
+		    require_once platformpress_DIR.'includes/bad-words.php';
 
-		    require_once ANSPRESS_DIR.'includes/user.php';
-		    require_once ANSPRESS_DIR.'includes/users-loop.php';
-		    require_once ANSPRESS_DIR.'includes/deprecated.php';
-		    require_once ANSPRESS_DIR.'includes/user-fields.php';
-		    require_once ANSPRESS_DIR.'includes/subscriber.php';
-		    require_once ANSPRESS_DIR.'includes/follow.php';
-		    require_once ANSPRESS_DIR.'includes/notification.php';
-		    require_once ANSPRESS_DIR.'widgets/user.php';
-		    require_once ANSPRESS_DIR.'widgets/ask-form.php';
-		    require_once ANSPRESS_DIR.'includes/3rd-party.php';
-		    require_once ANSPRESS_DIR.'includes/flag.php';
+		    require_once platformpress_DIR.'includes/user.php';
+		    require_once platformpress_DIR.'includes/users-loop.php';
+		    require_once platformpress_DIR.'includes/deprecated.php';
+		    require_once platformpress_DIR.'includes/user-fields.php';
+		    require_once platformpress_DIR.'includes/subscriber.php';
+		    require_once platformpress_DIR.'includes/follow.php';
+		    require_once platformpress_DIR.'includes/notification.php';
+		    require_once platformpress_DIR.'widgets/user.php';
+		    require_once platformpress_DIR.'widgets/comment-form.php';
+		    require_once platformpress_DIR.'includes/3rd-party.php';
+		    require_once platformpress_DIR.'includes/flag.php';
 
-		    require_once ANSPRESS_DIR.'includes/subscriber-hooks.php';
-		    require_once ANSPRESS_DIR.'includes/shortcode-question.php';
-		    require_once ANSPRESS_DIR.'includes/mention.php';
-		    require_once ANSPRESS_DIR.'includes/akismet.php';
-		    require_once ANSPRESS_DIR.'includes/comments.php';
-		    //require_once ANSPRESS_DIR.'includes/api.php';
+		    require_once platformpress_DIR.'includes/subscriber-hooks.php';
+		    require_once platformpress_DIR.'includes/shortcode-question.php';
+		    require_once platformpress_DIR.'includes/mention.php';
+		    require_once platformpress_DIR.'includes/akismet.php';
+		    require_once platformpress_DIR.'includes/comments.php';
+		    //require_once platformpress_DIR.'includes/api.php';
 		}
 
 		/**
@@ -317,13 +317,13 @@ if ( ! class_exists( 'AnsPress' ) ) {
 		 * @since 2.0.1
 		 */
 		public function load_textdomain() {
-		    $locale = apply_filters( 'plugin_locale', get_locale(), 'anspress-question-answer' );
-		    $loaded = load_textdomain( 'anspress-question-answer', trailingslashit( WP_LANG_DIR ).'anspress-question-answer'.'/'.'anspress-question-answer'.'-'.$locale.'.mo' );
+		    $locale = apply_filters( 'plugin_locale', get_locale(), 'platformpress' );
+		    $loaded = load_textdomain( 'platformpress', trailingslashit( WP_LANG_DIR ).'platformpress'.'/'.'platformpress'.'-'.$locale.'.mo' );
 
 		    if ( $loaded ) {
 		        return $loaded;
 		    } else {
-		        load_plugin_textdomain( 'anspress-question-answer', false, basename( dirname( __FILE__ ) ).'/languages/' );
+		        load_plugin_textdomain( 'platformpress', false, basename( dirname( __FILE__ ) ).'/languages/' );
 		    }
 		}
 
@@ -333,8 +333,8 @@ if ( ! class_exists( 'AnsPress' ) ) {
 		public function ajax_hooks() {
 			// Load ajax hooks only if DOING_AJAX defined.
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-		    	self::$instance->anspress_ajax = new AnsPress_Ajax( );
-		    	self::$instance->admin_ajax = new AnsPress_Admin_Ajax( );
+		    	self::$instance->platformpress_ajax = new PlatformPress_Ajax( );
+		    	self::$instance->admin_ajax = new PlatformPress_Admin_Ajax( );
 			}
 		}
 
@@ -342,8 +342,8 @@ if ( ! class_exists( 'AnsPress' ) ) {
 		 * Include all public classes
 		 */
 		public function site_include() {
-		    self::$instance->anspress_hooks 	= AnsPress_Hooks::init();
-	    	self::$instance->history_class 		= new AnsPress_Activity_Hook( );
+		    self::$instance->platformpress_hooks 	= PlatformPress_Hooks::init();
+	    	self::$instance->history_class 		= new PlatformPress_Activity_Hook( );
 	    	self::$instance->mention_hooks 		= new AP_Mentions_Hooks( );
 	    	self::$instance->views_class 		= new AP_Views( );
 	    	self::$instance->bad_words_class 	= new AP_Bad_words( );
@@ -357,8 +357,8 @@ if ( ! class_exists( 'AnsPress' ) ) {
 	            return;
 	        }
 
-	        require_once ANSPRESS_DIR.'includes/bp.php';
-	        self::$instance->anspress_bp = new AnsPress_BP();
+	        require_once platformpress_DIR.'includes/bp.php';
+	        self::$instance->platformpress_bp = new PlatformPress_BP();
 	    }
 
 		/**
@@ -436,29 +436,29 @@ if ( ! class_exists( 'AnsPress' ) ) {
 }
 
 /**
- * Run AnsPress thingy
+ * Run PlatformPress thingy
  * @return object
  */
-if ( ! function_exists('anspress' ) ) {
-	function anspress() {
-		return AnsPress::instance();
+if ( ! function_exists('platformpress' ) ) {
+	function platformpress() {
+		return PlatformPress::instance();
 	}
 }
 
-if ( ! class_exists( 'AnsPress_Init' ) ) {
-	class AnsPress_Init{
-		public static function load_anspress() {
+if ( ! class_exists( 'PlatformPress_Init' ) ) {
+	class PlatformPress_Init{
+		public static function load_platformpress() {
 			/*
-             * ACTION: before_loading_anspress
-             * Action before loading AnsPress.
+             * ACTION: before_loading_platformpress
+             * Action before loading PlatformPress.
              * @since 2.4.7
 			 */
-			do_action( 'before_loading_anspress' );
-			anspress();
+			do_action( 'before_loading_platformpress' );
+			platformpress();
 		}
 
 		/**
-		 * Delete a cpt posts. Used by AnsPress uninstaller.
+		 * Delete a cpt posts. Used by PlatformPress uninstaller.
 		 * @param  string $type Accepted args question or answer.
 		 * @since  3.0.0
 		 */
@@ -479,9 +479,9 @@ if ( ! class_exists( 'AnsPress_Init' ) ) {
 		}
 
 		/**
-		 * Plugin un-installation hook, called by WP while removing AnsPress
+		 * Plugin un-installation hook, called by WP while removing PlatformPress
 		 */
-		public static function anspress_uninstall() {
+		public static function platformpress_uninstall() {
 			if ( ! current_user_can( 'activate_plugins' ) ) {
 				return;
 			}
@@ -508,7 +508,7 @@ if ( ! class_exists( 'AnsPress_Init' ) ) {
 			$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}ap_subscribers" );
 
 			// remove option
-			delete_option( 'anspress_opt' );
+			delete_option( 'platformpress_opt' );
 			delete_option( 'ap_reputation' );
 
 			// Remove user roles
@@ -521,7 +521,7 @@ if ( ! class_exists( 'AnsPress_Init' ) ) {
 		 */
 		public static function activation_redirect($plugin) {
 			if ( $plugin == plugin_basename( __FILE__ ) ) {
-				add_option('anspress_do_installation_redirect', true );
+				add_option('platformpress_do_installation_redirect', true );
 			}
 		}
 
@@ -564,31 +564,31 @@ if ( ! class_exists( 'AnsPress_Init' ) ) {
 		}
 
 		/**
-		 * Redirect to about AnsPress page after activating AnsPress.
+		 * Redirect to about PlatformPress page after activating PlatformPress.
 		 * @since 3.0.0
 		 */
 		public static function redirect_to_about_page() {
-			if ( get_option( 'anspress_do_installation_redirect' ) ) {
-				delete_option( 'anspress_do_installation_redirect' );
-				exit( wp_redirect( admin_url( 'admin.php?page=anspress_about' ) ) );
+			if ( get_option( 'platformpress_do_installation_redirect' ) ) {
+				delete_option( 'platformpress_do_installation_redirect' );
+				exit( wp_redirect( admin_url( 'admin.php?page=platformpress_about' ) ) );
 			}
 		}
 	}
 }
 
 
-add_action( 'plugins_loaded', [ 'AnsPress_Init', 'load_anspress' ] );
-add_action( 'activated_plugin', [ 'AnsPress_Init', 'activation_redirect' ] );
-add_action( 'wpmu_new_blog', [ 'AnsPress_Init', 'create_blog' ], 10, 6 );
-add_filter( 'wpmu_drop_tables', [ 'AnsPress_Init', 'drop_blog_tables' ], 10, 2 );
-add_filter( 'admin_init', [ 'AnsPress_Init', 'redirect_to_about_page' ] );
-//add_action( 'rest_api_init', ['AnsPress_API', 'register'] );
+add_action( 'plugins_loaded', [ 'PlatformPress_Init', 'load_platformpress' ] );
+add_action( 'activated_plugin', [ 'PlatformPress_Init', 'activation_redirect' ] );
+add_action( 'wpmu_new_blog', [ 'PlatformPress_Init', 'create_blog' ], 10, 6 );
+add_filter( 'wpmu_drop_tables', [ 'PlatformPress_Init', 'drop_blog_tables' ], 10, 2 );
+add_filter( 'admin_init', [ 'PlatformPress_Init', 'redirect_to_about_page' ] );
+//add_action( 'rest_api_init', ['PlatformPress_API', 'register'] );
 
 /*
  * Dashboard and Administrative Functionality
  */
 if ( is_admin() ) {
-	add_action( 'plugins_loaded', [ 'AnsPress_Admin', 'get_instance' ] );
+	add_action( 'plugins_loaded', [ 'PlatformPress_Admin', 'get_instance' ] );
 }
 
 
@@ -598,4 +598,4 @@ if ( is_admin() ) {
  */
 require_once dirname(__FILE__ ).'/activate.php';
 register_activation_hook( __FILE__, [ 'AP_Activate', 'get_instance' ] );
-register_uninstall_hook( __FILE__, [ 'AnsPress_Init', 'anspress_uninstall' ] );
+register_uninstall_hook( __FILE__, [ 'PlatformPress_Init', 'platformpress_uninstall' ] );

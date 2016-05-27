@@ -53,7 +53,7 @@ vhost(){
 	sudo echo "<VirtualHost *:80>
 	        DocumentRoot /var/www/$HOST/
 	        ServerName $HOST.localhost
-	        ServerAlias wptest.anspress.io
+	        ServerAlias wptest.platformpress.io
 	        <Directory /var/www/$HOST/>
                 Options +Indexes +FollowSymLinks +MultiViews +Includes
                 AllowOverride All
@@ -180,21 +180,21 @@ install_db() {
 	mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA
 }
 
-copy_anspress(){
+copy_platformpress(){
 	whoami
-	NEW_ANSPRESS_DIR="$WP_CORE_DIR/wp-content/plugins/anspress-question-answer"
+	NEW_platformpress_DIR="$WP_CORE_DIR/wp-content/plugins/platformpress"
 	
-	rm -rf "$NEW_ANSPRESS_DIR"
+	rm -rf "$NEW_platformpress_DIR"
 	rm -rf "$WP_CORE_DIR/wp-config.php"
-	sudo mkdir -p "$NEW_ANSPRESS_DIR"
-	sudo chown -R travis:travis $NEW_ANSPRESS_DIR
-	cd $NEW_ANSPRESS_DIR
+	sudo mkdir -p "$NEW_platformpress_DIR"
+	sudo chown -R travis:travis $NEW_platformpress_DIR
+	cd $NEW_platformpress_DIR
 	git init
-	git remote add origin "https://github.com/anspress/anspress.git"
+	git remote add origin "https://github.com/platformpress/platformpress.git"
 	git fetch origin
 	sudo git reset --hard origin/master
-	#cp -r "../../"* "$NEW_ANSPRESS_DIR/"
-	#sed -i -e '2i include "'$TRAVIS_BUILD_DIR'/c3.php"; define("MY_APP_STARTED", true);\ ' anspress-question-answer.php
+	#cp -r "../../"* "$NEW_platformpress_DIR/"
+	#sed -i -e '2i include "'$TRAVIS_BUILD_DIR'/c3.php"; define("MY_APP_STARTED", true);\ ' platformpress.php
 	#cd $TRAVIS_BUILD_DIR	
 	#wget https://raw.github.com/Codeception/c3/2.0/c3.php
 }
@@ -206,13 +206,13 @@ core_install(){
   	sudo chown -R travis:travis $WP_CORE_DIR
 
 	wp core config --dbname=$DB_NAME --dbuser=$DB_USER --dbpass="$DB_PASS" --allow-root
-	wp core install --url='http://wptest.localhost/' --title='AnsPress_test' --admin_user='admin' --admin_password='admin' --admin_email=support@wptest.localhost --allow-root
+	wp core install --url='http://wptest.localhost/' --title='PlatformPress_test' --admin_user='admin' --admin_password='admin' --admin_email=support@wptest.localhost --allow-root
 	wp rewrite structure '/%postname%/' --hard --allow-root
-	wp plugin activate anspress-question-answer --allow-root
-	wp plugin install categories-for-anspress --activate --allow-root
-	wp plugin install tags-for-anspress --activate --allow-root
-	wp plugin install tags-for-anspress --activate --allow-root
-	wp plugin install anspress-email --activate --allow-root
+	wp plugin activate platformpress --allow-root
+	wp plugin install categories-for-platformpress --activate --allow-root
+	wp plugin install tags-for-platformpress --activate --allow-root
+	wp plugin install tags-for-platformpress --activate --allow-root
+	wp plugin install platformpress-email --activate --allow-root
 	wp theme install twentytwelve --activate --allow-root
 	wp user create user1 user1@localhost.com --user_pass='user1' --allow-root
 	wp user create user2 user2@localhost.com --user_pass='user2' --allow-root
@@ -227,5 +227,5 @@ install_wpcli
 install_wp
 install_test_suite
 install_db
-copy_anspress
+copy_platformpress
 core_install

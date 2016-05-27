@@ -1,45 +1,44 @@
 <?php
 /**
- * AnsPress history hooks and functions.
+ * PlatformPress history hooks and functions.
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
- * AnsPress activity hooks
+ * PlatformPress activity hooks
  */
-class AnsPress_Activity_Hook
+class PlatformPress_Activity_Hook
 {
 	/**
 	 * Construct class
 	 */
 	public function __construct() {
-		anspress()->add_action( 'ap_after_new_question', $this, 'new_question' );
-		anspress()->add_action( 'ap_after_new_answer', $this, 'new_answer' );
-		anspress()->add_action( 'ap_after_update_question', $this, 'edit_question' );
-		anspress()->add_action( 'ap_after_update_answer', $this, 'edit_answer' );
-		anspress()->add_action( 'ap_publish_comment', $this, 'new_comment' );
-		anspress()->add_action( 'ap_select_answer', $this, 'select_answer', 10, 3 );
-		anspress()->add_action( 'ap_unselect_answer', $this, 'unselect_answer', 10, 3 );
-		anspress()->add_action( 'ap_trash_answer', $this, 'trash_post' );
-		anspress()->add_action( 'ap_untrash_answer', $this, 'untrash_post' );
-		anspress()->add_action( 'ap_before_delete_answer', $this, 'delete_post' );
-		anspress()->add_action( 'ap_trash_question', $this, 'trash_post' );
-		anspress()->add_action( 'ap_untrash_question', $this, 'untrash_post' );
-		anspress()->add_action( 'ap_before_delete_question', $this, 'delete_post' );
-		anspress()->add_action( 'trashed_comment', $this, 'trash_comment' );
-		anspress()->add_action( 'comment_trash_to_approved', $this, 'comment_approved' );
-		anspress()->add_action( 'delete_comment', $this, 'delete_comment' );
-		anspress()->add_action( 'edit_comment', $this, 'edit_comment' );
-		anspress()->add_action( 'ap_added_follower', $this, 'follower', 10, 2 );
-		// anspress()->add_action( 'ap_vote_casted', $this, 'notify_upvote', 10, 4 );
-		// anspress()->add_action( 'ap_added_reputation', $this, 'ap_added_reputation', 10, 4 );
-		anspress()->add_action( 'transition_post_status',  $this, 'change_activity_status', 10, 3 );
-		anspress()->add_action( 'ap_after_deleting_activity', __CLASS__, 'after_deleting_activity', 10, 2 );
+		platformpress()->add_action( 'ap_after_new_question', $this, 'new_question' );
+		platformpress()->add_action( 'ap_after_new_answer', $this, 'new_answer' );
+		platformpress()->add_action( 'ap_after_update_question', $this, 'edit_question' );
+		platformpress()->add_action( 'ap_after_update_answer', $this, 'edit_answer' );
+		platformpress()->add_action( 'ap_publish_comment', $this, 'new_comment' );
+		platformpress()->add_action( 'ap_select_answer', $this, 'select_answer', 10, 3 );
+		platformpress()->add_action( 'ap_unselect_answer', $this, 'unselect_answer', 10, 3 );
+		platformpress()->add_action( 'ap_trash_answer', $this, 'trash_post' );
+		platformpress()->add_action( 'ap_untrash_answer', $this, 'untrash_post' );
+		platformpress()->add_action( 'ap_before_delete_answer', $this, 'delete_post' );
+		platformpress()->add_action( 'ap_trash_question', $this, 'trash_post' );
+		platformpress()->add_action( 'ap_untrash_question', $this, 'untrash_post' );
+		platformpress()->add_action( 'ap_before_delete_question', $this, 'delete_post' );
+		platformpress()->add_action( 'trashed_comment', $this, 'trash_comment' );
+		platformpress()->add_action( 'comment_trash_to_approved', $this, 'comment_approved' );
+		platformpress()->add_action( 'delete_comment', $this, 'delete_comment' );
+		platformpress()->add_action( 'edit_comment', $this, 'edit_comment' );
+		platformpress()->add_action( 'ap_added_follower', $this, 'follower', 10, 2 );
+		// platformpress()->add_action( 'ap_vote_casted', $this, 'notify_upvote', 10, 4 );
+		// platformpress()->add_action( 'ap_added_reputation', $this, 'ap_added_reputation', 10, 4 );
+		platformpress()->add_action( 'transition_post_status',  $this, 'change_activity_status', 10, 3 );
+		platformpress()->add_action( 'ap_after_deleting_activity', __CLASS__, 'after_deleting_activity', 10, 2 );
 	}
 
 
@@ -79,7 +78,7 @@ class AnsPress_Activity_Hook
 			'type' 				=> 'new_question',
 			'question_id' 		=> $question_id,
 			'permalink' 		=> wp_get_shortlink( $question_id ),
-			'content'			=> sprintf( __( '%s asked question %s', 'anspress-question-answer' ), ap_activity_user_name( $question->post_author ), $question_title ),
+			'content'			=> sprintf( __( '%s commented question %s', 'platformpress' ), ap_activity_user_name( $question->post_author ), $question_title ),
 			'term_ids'			=> $term_ids,
 		);
 
@@ -88,7 +87,7 @@ class AnsPress_Activity_Hook
 		// Add question activity meta.
 		ap_update_post_activity_meta( $question_id, 'new_question', $question->post_author );
 
-		$this->check_mentions( $question_id, $question->post_content, $question_title, $question->post_author, __( 'question', 'anspress-question-answer' ) );
+		$this->check_mentions( $question_id, $question->post_content, $question_title, $question->post_author, __( 'question', 'platformpress' ) );
 
 		// Notify users.
 		// ap_new_notification($activity_id, $question->post_author);
@@ -112,7 +111,7 @@ class AnsPress_Activity_Hook
 			'question_id' 		=> $answer->post_parent,
 			'answer_id' 		=> $answer_id,
 			'permalink' 		=> wp_get_shortlink( $answer_id ),
-			'content'			=> sprintf( __( '%s answered on %s', 'anspress-question-answer' ), ap_activity_user_name( $answer->post_author ), $answer_title ),
+			'content'			=> sprintf( __( '%s answered on %s', 'platformpress' ), ap_activity_user_name( $answer->post_author ), $answer_title ),
 		);
 
 		$activity_id = ap_new_activity( $activity_arr );
@@ -131,7 +130,7 @@ class AnsPress_Activity_Hook
 			ap_new_notification( $activity_id, $subscribers );
 		}
 
-		$this->check_mentions( $answer->post_parent, $answer->post_content, $answer_title, $question->post_author, __( 'answer', 'anspress-question-answer' ), $answer_id );
+		$this->check_mentions( $answer->post_parent, $answer->post_content, $answer_title, $question->post_author, __( 'answer', 'platformpress' ), $answer_id );
 	}
 
 	/**
@@ -149,7 +148,7 @@ class AnsPress_Activity_Hook
 			'question_id'		=> $post_id,
 			'status'			=> $question->post_status,
 			'permalink' 		=> wp_get_shortlink( $post_id ),
-			'content' 			=> sprintf( __( '%s edited question %s', 'anspress-question-answer' ), ap_activity_user_name( get_current_user_id() ), $question_title ),
+			'content' 			=> sprintf( __( '%s edited question %s', 'platformpress' ), ap_activity_user_name( get_current_user_id() ), $question_title ),
 		);
 
 		$activity_id = ap_new_activity( $activity_arr );
@@ -184,7 +183,7 @@ class AnsPress_Activity_Hook
 			'question_id'		=> $answer->post_parent,
 			'answer_id' 		=> $post_id,
 			'permalink' 		=> wp_get_shortlink( $post_id ),
-			'content'			=> sprintf( __( '%s edited answer %s', 'anspress-question-answer' ), ap_activity_user_name( $answer->post_author ), $answer_title ),
+			'content'			=> sprintf( __( '%s edited answer %s', 'platformpress' ), ap_activity_user_name( $answer->post_author ), $answer_title ),
 		);
 
 		$activity_id = ap_new_activity( $activity_arr );
@@ -229,12 +228,12 @@ class AnsPress_Activity_Hook
 		if ( $post->post_type == 'question' ) {
 			$activity_arr['type'] = 'new_comment';
 			$activity_arr['question_id'] = $comment->comment_post_ID;
-			$activity_arr['content'] = sprintf( __( '%s commented on question %s %s', 'anspress-question-answer' ), $user, $post_title, $comment_excerpt );
+			$activity_arr['content'] = sprintf( __( '%s commented on question %s %s', 'platformpress' ), $user, $post_title, $comment_excerpt );
 		} else {
 			$activity_arr['type'] = 'new_comment_answer';
 			$activity_arr['question_id'] = $post->post_parent;
 			$activity_arr['answer_id'] = $comment->comment_post_ID;
-			$activity_arr['content'] = sprintf( __( '%s commented on answer %s %s', 'anspress-question-answer' ), $user, $post_title, $comment_excerpt );
+			$activity_arr['content'] = sprintf( __( '%s commented on answer %s %s', 'platformpress' ), $user, $post_title, $comment_excerpt );
 		}
 
 		$activity_id = ap_new_activity( $activity_arr );
@@ -275,7 +274,7 @@ class AnsPress_Activity_Hook
 			'question_id'		=> $question_id,
 			'answer_id' 		=> $answer_id,
 			'permalink' 		=> wp_get_shortlink( $answer_id ),
-			'content' 			=> sprintf( __( '%s selected best answer for %s', 'anspress-question-answer' ), ap_activity_user_name( $user_id ), $question_title ),
+			'content' 			=> sprintf( __( '%s selected best answer for %s', 'platformpress' ), ap_activity_user_name( $user_id ), $question_title ),
 		);
 
 		$activity_id = ap_new_activity( $activity_arr );
@@ -314,7 +313,7 @@ class AnsPress_Activity_Hook
 			'question_id'		=> $question_id,
 			'answer_id' 		=> $answer_id,
 			'permalink' 		=> wp_get_shortlink( $answer_id ),
-			'content' 			=> sprintf( __( '%s unselected best answer for question %s', 'anspress-question-answer' ), ap_activity_user_name( $user_id ), $question_title ),
+			'content' 			=> sprintf( __( '%s unselected best answer for question %s', 'platformpress' ), ap_activity_user_name( $user_id ), $question_title ),
 		);
 
 		ap_new_activity( $activity_arr );
@@ -433,7 +432,7 @@ class AnsPress_Activity_Hook
 			'item_id' 			=> $user_to_follow,
 			'parent_type' 		=> 'user',
 			'permalink' 		=> ap_user_link( $user_to_follow ),
-			'content' 			=> sprintf( __( '%s started following %s', 'anspress-question-answer' ), ap_activity_user_name( $current_user_id ), ap_activity_user_name( $user_to_follow ) ),
+			'content' 			=> sprintf( __( '%s started following %s', 'platformpress' ), ap_activity_user_name( $current_user_id ), ap_activity_user_name( $user_to_follow ) ),
 		);
 
 		$activity_id = ap_new_activity( $activity_arr );
@@ -511,12 +510,12 @@ class AnsPress_Activity_Hook
 		if ( $post->post_type == 'question' ) {
 			$activity_arr['type'] = 'edit_comment';
 			$activity_arr['question_id'] = $comment->comment_post_ID;
-			$activity_arr['content'] = sprintf( __( '%s commented on question %s %s', 'anspress-question-answer' ), $user, $post_title, $comment_excerpt );
+			$activity_arr['content'] = sprintf( __( '%s commented on question %s %s', 'platformpress' ), $user, $post_title, $comment_excerpt );
 		} else {
 			$activity_arr['type'] = 'edit_comment_answer';
 			$activity_arr['question_id'] = $post->post_parent;
 			$activity_arr['answer_id'] = $comment->comment_post_ID;
-			$activity_arr['content'] = sprintf( __( '%s commented on answer %s %s', 'anspress-question-answer' ), $user, $post_title, $comment_excerpt );
+			$activity_arr['content'] = sprintf( __( '%s commented on answer %s %s', 'platformpress' ), $user, $post_title, $comment_excerpt );
 		}
 
 		$activity_id = ap_new_activity( $activity_arr );
@@ -556,7 +555,7 @@ class AnsPress_Activity_Hook
 						'question_id' 		=> $question_id,
 						'answer_id' 		=> $answer_id,
 						'permalink' 		=> wp_get_shortlink( $question_id ),
-						'content'			=> sprintf( __( '%s mentioned you in %s %s', 'anspress-question-answer' ), $user_title, $type, $title ),
+						'content'			=> sprintf( __( '%s mentioned you in %s %s', 'platformpress' ), $user_title, $type, $title ),
 					);
 
 					$activity_id = ap_new_activity( $activity_arr );
@@ -604,4 +603,3 @@ class AnsPress_Activity_Hook
 	}
 
 }
-

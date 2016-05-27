@@ -1,6 +1,6 @@
 <?php
 /**
- * AnsPress users widget.
+ * PlatformPress users widget.
  * Display list of users sorting by reputation, date of registration etc.
  *
  * @since  3.0.0  Fixed bug, when page is paginated users list disappear.
@@ -13,8 +13,8 @@ class AP_Users_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'ap_users_widget',
-			__( '(AnsPress) Users', 'anspress-question-answer' ),
-			array( 'description' => __( 'Shows users based on selected order.', 'anspress-question-answer' ) )
+			__( '(PlatformPress) Users', 'platformpress' ),
+			array( 'description' => __( 'Shows users based on selected order.', 'platformpress' ) )
 		);
 	}
 
@@ -52,7 +52,7 @@ class AP_Users_Widget extends WP_Widget {
 		if ( isset( $instance[ 'title' ] ) ) {
 			$title = $instance[ 'title' ];
 		} else {
-			$title = __( 'Users', 'anspress-question-answer' );
+			$title = __( 'Users', 'platformpress' );
 		}
 
 		$avatar_size 		= 30;
@@ -73,19 +73,19 @@ class AP_Users_Widget extends WP_Widget {
 
 		?>
         <p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
         <p>
-			<label for="<?php echo $this->get_field_id( 'avatar_size' ); ?>"><?php _e( 'Avatar:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'avatar_size' ); ?>"><?php _e( 'Avatar:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'avatar_size' ); ?>" name="<?php echo $this->get_field_name( 'avatar_size' ); ?>" type="text" value="<?php echo esc_attr( $avatar_size ); ?>">
         </p>
         <p>
-			<label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Show', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Show', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo esc_attr( $number ); ?>">
         </p>
         <p>
-			<label for="<?php echo $this->get_field_id( 'sortby' ); ?>"><?php _e( 'Sort by', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'sortby' ); ?>"><?php _e( 'Sort by', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'sortby' ); ?>" name="<?php echo $this->get_field_name( 'sortby' ); ?>" type="text" value="<?php echo esc_attr( $sortby ); ?>">
         </p>
 		<?php

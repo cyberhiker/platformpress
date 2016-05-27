@@ -1,9 +1,9 @@
 <?php
 /**
- * Display AnsPress user page
+ * Display PlatformPress user page
  *
- * @link http://anspress.io
- * @package AnsPress
+ * @link http://platformpress.io
+ * @package PlatformPress
  * @since 2.0.1
  * @since 2.4.7 Added comment count
  */
@@ -24,7 +24,7 @@
 					<?php
 					if ( ! ap_opt('disable_reputation' ) ) {
 						echo '<span class="ap-user-reputation">';
-						printf(__('%s Rep.', 'anspress-question-answer' ), ap_user_get_the_reputation() );
+						printf(__('%s Rep.', 'platformpress' ), ap_user_get_the_reputation() );
 						echo '</span>';
 					}
 					?>
@@ -56,12 +56,12 @@
                 </div>
 				<a class="ap-user-name" href="<?php ap_user_the_link(); ?>"><?php ap_user_the_display_name(); ?></a>
                 <div class="ap-user-mini-status">
-					<span><?php printf(__('%s Rep.', 'anspress-question-answer' ), ap_user_get_the_reputation() ); ?></span>
-					<span><?php printf(__('%d Answers', 'anspress-question-answer' ), ap_user_get_the_meta('__total_answers' ) ); ?></span>
-					<span><?php printf(__('%d Questions', 'anspress-question-answer' ), ap_user_get_the_meta('__total_questions' ) ); ?></span>
-					<span><?php printf(__('%d Followers', 'anspress-question-answer' ), ap_user_get_the_meta('__total_followers' ) ); ?></span>
-					<span><?php printf(__('%d Following', 'anspress-question-answer' ), ap_user_get_the_meta('__total_following' ) ); ?></span>
-					<span><?php printf(__('%d Comments', 'anspress-question-answer' ), ap_user_comment_count(ap_get_displayed_user_id() ) ); ?></span>
+					<span><?php printf(__('%s Rep.', 'platformpress' ), ap_user_get_the_reputation() ); ?></span>
+					<span><?php printf(__('%d Answers', 'platformpress' ), ap_user_get_the_meta('__total_answers' ) ); ?></span>
+					<span><?php printf(__('%d Questions', 'platformpress' ), ap_user_get_the_meta('__total_questions' ) ); ?></span>
+					<span><?php printf(__('%d Followers', 'platformpress' ), ap_user_get_the_meta('__total_followers' ) ); ?></span>
+					<span><?php printf(__('%d Following', 'platformpress' ), ap_user_get_the_meta('__total_following' ) ); ?></span>
+					<span><?php printf(__('%d Comments', 'platformpress' ), ap_user_comment_count(ap_get_displayed_user_id() ) ); ?></span>
                 </div>
 				<?php if ( ap_user_meta_exists('description' ) ) : ?>
                     <div class="ap-user-dscription">
@@ -89,7 +89,7 @@
 				<?php ap_user_page(); ?>
             </div>
 
-			<?php if ( is_active_sidebar( 'ap-user' ) && is_anspress() ) { ?>
+			<?php if ( is_active_sidebar( 'ap-user' ) && is_platformpress() ) { ?>
                 <div class="ap-user-right col-md-3">
 					<?php dynamic_sidebar( 'ap-user' ); ?>
                 </div>

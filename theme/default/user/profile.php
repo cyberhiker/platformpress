@@ -4,7 +4,7 @@
  *
  * @link http://wp3.in
  * @since unknown
- * @package AnsPress
+ * @package PlatformPress
  */
 ?>
 <div class="ap-profile-box clearfix">

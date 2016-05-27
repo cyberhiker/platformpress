@@ -1,14 +1,13 @@
 <?php
 /**
- * AnsPress users loop functions
+ * PlatformPress users loop functions
  *
- * Helper functions for AnsPress users loop
+ * Helper functions for PlatformPress users loop
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 class AP_user_query
@@ -457,7 +456,7 @@ function ap_user_get_the_meta($key = false, $user_id = false) {
 		'__best_answers',
 	);
 
-	// Set the default value for anspress meta
+	// Set the default value for platformpress meta
 	foreach ( $ap_metas as $ap_meta ) {
 		if ( ! isset( $meta[$ap_meta] ) ) {
 			$meta[$ap_meta] = 0; }
@@ -535,13 +534,13 @@ function ap_user_get_member_for() {
 	$time = '';
 
 	if ( $diff->y > 0 ) {
-		$time .= sprintf( __( '%d years, ', 'anspress-question-answer' ), $diff->y ); }
+		$time .= sprintf( __( '%d years, ', 'platformpress' ), $diff->y ); }
 
 	if ( $diff->m > 0 ) {
-		$time .= sprintf( __( '%d months, ', 'anspress-question-answer' ), $diff->m ); }
+		$time .= sprintf( __( '%d months, ', 'platformpress' ), $diff->m ); }
 
 	if ( $diff->d > 0 ) {
-		$time .= sprintf( __( '%d days', 'anspress-question-answer' ), $diff->d ); }
+		$time .= sprintf( __( '%d days', 'platformpress' ), $diff->d ); }
 
 	return $time;
 }

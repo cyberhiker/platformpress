@@ -4,15 +4,15 @@
 	 *
 	 * This template is used in base page, category, tag , etc
 	 *
-	 * @link http://anspress.io
-	 * @since unknown
-	 *
-	 * @package AnsPress
+     * @package     PlatformPress
+     * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+     * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+     * @since       0.1
 	 */
 ?>
 <?php dynamic_sidebar( 'ap-top' ); ?>
 <div class="row">
-	<div id="ap-lists" class="<?php echo is_active_sidebar( 'ap-sidebar' ) && is_anspress() ? 'col-md-9' : 'col-md-12' ?>">
+	<div id="ap-lists" class="<?php echo is_active_sidebar( 'ap-sidebar' ) && is_platformpress() ? 'col-md-9' : 'col-md-12' ?>">
 		<?php if( !get_query_var( 'ap_hide_list_head' ) ): ?>
 			<?php ap_get_template_part('list-head'); ?>
 		<?php endif; ?>
@@ -33,11 +33,9 @@
 			endif;
 		?>
 	</div>
-	<?php if ( is_active_sidebar( 'ap-sidebar' ) && is_anspress()){ ?>
+	<?php if ( is_active_sidebar( 'ap-sidebar' ) && is_platformpress()){ ?>
 		<div class="ap-question-right col-md-3">
 			<?php dynamic_sidebar( 'ap-sidebar' ); ?>
 		</div>
 	<?php } ?>
 </div>
-
-

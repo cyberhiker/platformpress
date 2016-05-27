@@ -1,11 +1,11 @@
 <?php
 /**
- * AnsPress common functions.
+ * PlatformPress common functions.
  *
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-3.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
@@ -33,7 +33,7 @@ function ap_base_page_slug() {
 
 /**
  * Retrive permalink to base page
- * @return string URL to AnsPress base page
+ * @return string URL to PlatformPress base page
  * @since 2.0.0
  * @since 3.0.0 Return link to questions page if base page not selected.
  */
@@ -45,12 +45,12 @@ function ap_base_page_link() {
 }
 
 /**
- * Get all theme names from AnsPress themes directory.
+ * Get all theme names from PlatformPress themes directory.
  * @return array
  */
 function ap_theme_list() {
 	$themes = array();
-	$dirs = array_filter( glob( ANSPRESS_THEME_DIR.'/*' ), 'is_dir' );
+	$dirs = array_filter( glob( platformpress_THEME_DIR.'/*' ), 'is_dir' );
 	foreach ( $dirs as $dir ) {
 		$themes[basename( $dir )] = basename( $dir );
 	}
@@ -59,7 +59,7 @@ function ap_theme_list() {
 }
 
 /**
- * Get currently active theme of AnsPress. If no theme is
+ * Get currently active theme of PlatformPress. If no theme is
  * selected then return `default`.
  * @return string
  */
@@ -74,17 +74,17 @@ function ap_get_theme() {
 
 /**
  * Get location to a file. First file is being searched in child theme and then active theme
- * and last fall back to AnsPress theme directory.
+ * and last fall back to PlatformPress theme directory.
  * @param 	string $file   file name.
- * @param 	mixed  $plugin Plugin path. File is search inside AnsPress extension.
+ * @param 	mixed  $plugin Plugin path. File is search inside PlatformPress extension.
  * @return 	string
  * @since 	0.1
  * @since   2.4.7 Added filter `ap_get_theme_location`
  */
 function ap_get_theme_location($file, $plugin = false) {
 
-	$child_path = get_stylesheet_directory().'/anspress/'.$file;
-	$parent_path = get_template_directory().'/anspress/'.$file;
+	$child_path = get_stylesheet_directory().'/platformpress/'.$file;
+	$parent_path = get_template_directory().'/platformpress/'.$file;
 
 	// Checks if the file exists in the theme first,
 	// Otherwise serve the file from the plugin.
@@ -95,11 +95,11 @@ function ap_get_theme_location($file, $plugin = false) {
 	} elseif ( false !== $plugin ) {
 	    $template_path = $plugin.'/theme/'.$file;
 	} else {
-	    $template_path = ANSPRESS_THEME_DIR.'/'.ap_get_theme().'/'.$file;
+	    $template_path = platformpress_THEME_DIR.'/'.ap_get_theme().'/'.$file;
 	}
 
 	/**
-	 * Filter AnsPress template file.
+	 * Filter PlatformPress template file.
 	 * @param string $template_path Path to template file.
 	 * @since 2.4.7
 	 */
@@ -111,25 +111,25 @@ function ap_get_theme_location($file, $plugin = false) {
  * Used for enqueue CSS or JS.
  *
  * @param  string $file   File name.
- * @param  mixed  $plugin Plugin path, if calling from AnsPress extension.
+ * @param  mixed  $plugin Plugin path, if calling from PlatformPress extension.
  * @return string
  * @since  2.0
  */
 function ap_get_theme_url($file, $plugin = false) {
 
-	$child_path = get_stylesheet_directory().'/anspress/'.$file;
-	$parent_path = get_template_directory().'/anspress/'.$file;
+	$child_path = get_stylesheet_directory().'/platformpress/'.$file;
+	$parent_path = get_template_directory().'/platformpress/'.$file;
 
 	// Checks if the file exists in the theme first.
 	// Otherwise serve the file from the plugin.
 	if ( file_exists( $child_path ) ) {
-	    $template_url = get_stylesheet_directory_uri().'/anspress/'.$file;
+	    $template_url = get_stylesheet_directory_uri().'/platformpress/'.$file;
 	} elseif ( file_exists( $parent_path ) ) {
-	    $template_url = get_template_directory_uri().'/anspress/'.$file;
+	    $template_url = get_template_directory_uri().'/platformpress/'.$file;
 	} elseif ( $plugin !== false ) {
 	    $template_url = $plugin.'theme/'.$file;
 	} else {
-	    $template_url = ANSPRESS_THEME_URL.'/'.ap_get_theme().'/'.$file;
+	    $template_url = platformpress_THEME_URL.'/'.ap_get_theme().'/'.$file;
 	}
 
 	return apply_filters( 'ap_theme_url', $template_url.'?v='.AP_VERSION );
@@ -151,11 +151,11 @@ function ap_question_content() {
 }
 
 /**
- * Check if current page is AnsPress. Also check if showing question or
+ * Check if current page is PlatformPress. Also check if showing question or
  * answer page in buddypress.
  * @return boolean
  */
-function is_anspress() {
+function is_platformpress() {
 	$queried_object = get_queried_object();
 
 	// If buddypress installed.
@@ -182,7 +182,7 @@ function is_anspress() {
  * @return boolean
  */
 function is_question() {
-	if ( is_anspress() && 'question' == ap_current_page() ) {
+	if ( is_platformpress() && 'question' == ap_current_page() ) {
 		return true;
 	}
 
@@ -190,11 +190,11 @@ function is_question() {
 }
 
 /**
- * Is ask page.
+ * Is comment page.
  * @return boolean
  */
-function is_ask() {
-	if ( is_anspress() && ap_current_page() == ap_get_ask_page_slug() ) {
+function is_comment() {
+	if ( is_platformpress() && ap_current_page() == ap_get_comment_page_slug() ) {
 		return true;
 	}
 
@@ -202,21 +202,21 @@ function is_ask() {
 }
 
 /**
- * Ask page slug.
+ * comment page slug.
  * @return string
  */
-function ap_get_ask_page_slug() {
-	$opt = ap_opt( 'ask_page_slug' );
+function ap_get_comment_page_slug() {
+	$opt = ap_opt( 'comment_page_slug' );
 
 	if ( $opt ) {
 		return $opt;
 	}
 
-	return 'ask';
+	return 'comment';
 }
 
 function is_ap_users() {
-	if ( is_anspress() && ap_current_page() == ap_get_users_page_slug() ) {
+	if ( is_platformpress() && ap_current_page() == ap_get_users_page_slug() ) {
 		return true;
 	}
 
@@ -242,7 +242,7 @@ function ap_get_users_page_slug() {
  * @return boolean
  */
 function is_ap_user() {
-	if ( is_anspress() && ap_current_page() == ap_get_user_page_slug() ) {
+	if ( is_platformpress() && ap_current_page() == ap_get_user_page_slug() ) {
 		return true;
 	}
 
@@ -293,7 +293,7 @@ function ap_human_time($time, $unix = true, $show_full_date = 604800, $format = 
 
 	if ( $time ) {
 		if ( $show_full_date + $time > current_time( 'timestamp', true ) ) {
-			return sprintf( _x( '%s ago', '%s = human-readable time difference', 'anspress-question-answer' ), human_time_diff( $time, current_time( 'timestamp', true ) ) );
+			return sprintf( _x( '%s ago', '%s = human-readable time difference', 'platformpress' ), human_time_diff( $time, current_time( 'timestamp', true ) ) );
 		} else {
 			return date_i18n( $format, $time );
 		}
@@ -342,7 +342,7 @@ function ap_last_active($post_id = false) {
 		$post_id = get_the_ID();
 	}
 
-	$date = get_post_meta( $post_id, ANSPRESS_UPDATED_META, true );
+	$date = get_post_meta( $post_id, platformpress_UPDATED_META, true );
 
 	if ( ! empty( $date ) ) {
 		return get_gmt_from_date( $date );
@@ -410,9 +410,9 @@ function ap_edit_post_link_html($echo = false, $post_id_or_object = false) {
 	$output = '';
 
 	if ( $post->post_type == 'question' && ap_user_can_edit_question( $post->ID ) ) {
-		$output = "<a href='$edit_link' data-button='ap-edit-post' title='".__( 'Edit this question', 'anspress-question-answer' )."' class='apEditBtn'>".__( 'Edit', 'anspress-question-answer' ).'</a>';
+		$output = "<a href='$edit_link' data-button='ap-edit-post' title='".__( 'Edit this question', 'platformpress' )."' class='apEditBtn'>".__( 'Edit', 'platformpress' ).'</a>';
 	} elseif ( $post->post_type == 'answer' && ap_user_can_edit_answer( $post->ID ) ) {
-		$output = "<a href='$edit_link' data-button='ap-edit-post' title='".__( 'Edit this answer', 'anspress-question-answer' )."' class='apEditBtn'>".__( 'Edit', 'anspress-question-answer' ).'</a>';
+		$output = "<a href='$edit_link' data-button='ap-edit-post' title='".__( 'Edit this answer', 'platformpress' )."' class='apEditBtn'>".__( 'Edit', 'platformpress' ).'</a>';
 	}
 
 	if ( $echo ) {
@@ -431,7 +431,7 @@ function ap_edit_a_btn_html($echo = false) {
 	$post_id = get_edit_answer_id();
 	if ( ap_user_can_edit_answer( $post_id ) ) {
 		$edit_link = ap_answer_edit_link();
-		$output .= "<a href='$edit_link.' class='edit-btn ' data-button='ap-edit-post' title='".__( 'Edit Answer', 'anspress-question-answer' )."'>".__( 'Edit', 'anspress-question-answer' ).'</a>';
+		$output .= "<a href='$edit_link.' class='edit-btn ' data-button='ap-edit-post' title='".__( 'Edit Answer', 'platformpress' )."'>".__( 'Edit', 'platformpress' ).'</a>';
 	}
 	if ( $echo ) {
 		echo $output;
@@ -444,7 +444,7 @@ function ap_post_edited_time() {
 
 	if ( get_the_time( 's' ) != get_the_modified_time( 's' ) ) {
 		printf('<span class="edited-text">%1$s</span> <span class="edited-time">%2$s</span>',
-			__( 'Edited on', 'anspress-question-answer' ),
+			__( 'Edited on', 'platformpress' ),
 			get_the_modified_time()
 		);
 	}
@@ -518,15 +518,15 @@ function ap_ans_list_tab() {
     <ul class="ap-ans-tab ap-tabs clearfix" role="tablist">
 		<li class="<?php echo $order == 'newest' ? ' active' : '';
 	?>"><a href="<?php echo $link.'newest';
-	?>"><?php _e( 'Newest', 'anspress-question-answer' );
+	?>"><?php _e( 'Newest', 'platformpress' );
 	?></a></li>
 		<li class="<?php echo $order == 'oldest' ? ' active' : '';
 	?>"><a href="<?php echo $link.'oldest';
-	?>"><?php _e( 'Oldest', 'anspress-question-answer' );
+	?>"><?php _e( 'Oldest', 'platformpress' );
 	?></a></li>
 		<li class="<?php echo $order == 'voted' ? ' active' : '';
 	?>"><a href="<?php echo $link.'voted';
-	?>"><?php _e( 'Voted', 'anspress-question-answer' );
+	?>"><?php _e( 'Voted', 'platformpress' );
 	?></a></li>
     </ul>
 	<?php
@@ -563,7 +563,7 @@ function ap_selected_answer($post_id = false) {
 		$post_id = get_the_ID();
 	}
 
-	return get_post_meta( $post_id, ANSPRESS_SELECTED_META, true );
+	return get_post_meta( $post_id, platformpress_SELECTED_META, true );
 }
 
 /**
@@ -582,9 +582,9 @@ function ap_select_answer_btn_html($post_id) {
 	$nonce = wp_create_nonce( $action );
 
 	if ( ! ap_question_best_answer_selected( $ans->post_parent ) ) {
-		return '<a href="#" class="ap-btn-select ap-sicon '.ap_icon( 'check' ).' ap-tip" data-action="select_answer" data-query="answer_id='.$post_id.'&__nonce='.$nonce.'&ap_ajax_action=select_best_answer" title="'.__( 'Select this answer as best', 'anspress-question-answer' ).'">'.__( 'Select', 'anspress-question-answer' ).'</a>';
+		return '<a href="#" class="ap-btn-select ap-sicon '.ap_icon( 'check' ).' ap-tip" data-action="select_answer" data-query="answer_id='.$post_id.'&__nonce='.$nonce.'&ap_ajax_action=select_best_answer" title="'.__( 'Select this answer as best', 'platformpress' ).'">'.__( 'Select', 'platformpress' ).'</a>';
 	} elseif ( ap_question_best_answer_selected( $ans->post_parent ) && ap_answer_is_best( $ans->ID ) ) {
-		return '<a href="#" class="ap-btn-select ap-sicon '.ap_icon( 'cross' ).' active ap-tip" data-action="select_answer" data-query="answer_id='.$post_id.'&__nonce='.$nonce.'&ap_ajax_action=select_best_answer" title="'.__( 'Unselect this answer', 'anspress-question-answer' ).'">'.__( 'Unselect', 'anspress-question-answer' ).'</a>';
+		return '<a href="#" class="ap-btn-select ap-sicon '.ap_icon( 'cross' ).' active ap-tip" data-action="select_answer" data-query="answer_id='.$post_id.'&__nonce='.$nonce.'&ap_ajax_action=select_best_answer" title="'.__( 'Unselect this answer', 'platformpress' ).'">'.__( 'Unselect', 'platformpress' ).'</a>';
 	}
 }
 
@@ -605,7 +605,7 @@ function ap_post_delete_btn_html($post_id = false, $echo = false) {
 		$action = 'delete_post_'.$post_id;
 		$nonce = wp_create_nonce( $action );
 
-		$output = '<a href="#" class="delete-btn" data-action="ap_delete_post" data-query="post_id='.$post_id.'&__nonce='.$nonce.'&ap_ajax_action=delete_post" title="'.__( 'Delete', 'anspress-question-answer' ).'">'.__( 'Delete', 'anspress-question-answer' ).'</a>';
+		$output = '<a href="#" class="delete-btn" data-action="ap_delete_post" data-query="post_id='.$post_id.'&__nonce='.$nonce.'&ap_ajax_action=delete_post" title="'.__( 'Delete', 'platformpress' ).'">'.__( 'Delete', 'platformpress' ).'</a>';
 
 		if ( $echo ) {
 			echo $output;
@@ -624,7 +624,7 @@ function ap_post_restore_btn_html($post_id = false, $echo = false) {
 		$action = 'restore_'.$post_id;
 		$nonce = wp_create_nonce( $action );
 
-		$output = '<a href="#" class="delete-btn" data-action="ajax_btn" data-query="restore_post::'.$nonce.'::'.$post_id.'" title="'.__( 'Restore post', 'anspress-question-answer' ).'">'.__( 'Restore', 'anspress-question-answer' ).'</a>';
+		$output = '<a href="#" class="delete-btn" data-action="ajax_btn" data-query="restore_post::'.$nonce.'::'.$post_id.'" title="'.__( 'Restore post', 'platformpress' ).'">'.__( 'Restore', 'platformpress' ).'</a>';
 
 		if ( $echo ) {
 			echo $output;
@@ -643,7 +643,7 @@ function ap_post_permanent_delete_btn_html($post_id = false, $echo = false) {
 		$action = 'delete_post_'.$post_id;
 		$nonce = wp_create_nonce( $action );
 
-		$output = '<a href="#" class="delete-btn" data-action="ap_delete_post" data-query="post_id='.$post_id.'&__nonce='.$nonce.'&ap_ajax_action=permanent_delete_post" title="'.__( 'Delete permanently', 'anspress-question-answer' ).'">'.__( 'Delete permanently', 'anspress-question-answer' ).'</a>';
+		$output = '<a href="#" class="delete-btn" data-action="ap_delete_post" data-query="post_id='.$post_id.'&__nonce='.$nonce.'&ap_ajax_action=permanent_delete_post" title="'.__( 'Delete permanently', 'platformpress' ).'">'.__( 'Delete permanently', 'platformpress' ).'</a>';
 
 		if ( $echo ) {
 			echo $output;
@@ -837,50 +837,50 @@ function ap_highlight_words($text, $words) {
 function ap_responce_message($id, $only_message = false) {
 
 	$msg = array(
-		'success' => array( 'type' => 'success', 'message' => __( 'Success', 'anspress-question-answer' ) ),
-		'please_login' => array( 'type' => 'warning', 'message' => __( 'You need to login before doing this action.', 'anspress-question-answer' ) ),
-		'something_wrong' => array( 'type' => 'error', 'message' => __( 'Something went wrong, last action failed.', 'anspress-question-answer' ) ),
-		'no_permission' => array( 'type' => 'warning', 'message' => __( 'You do not have permission to do this action.', 'anspress-question-answer' ) ),
-		'draft_comment_not_allowed' => array( 'type' => 'warning', 'message' => __( 'You are commenting on a draft post.', 'anspress-question-answer' ) ),
-		'comment_success' => array( 'type' => 'success', 'message' => __( 'Comment successfully posted.', 'anspress-question-answer' ) ),
-		'comment_edit_success' => array( 'type' => 'success', 'message' => __( 'Comment updated successfully.', 'anspress-question-answer' ) ),
-		'comment_delete_success' => array( 'type' => 'success', 'message' => __( 'Comment deleted successfully.', 'anspress-question-answer' ) ),
-		'subscribed' => array( 'type' => 'success', 'message' => __( 'You are following this question.', 'anspress-question-answer' ) ),
-		'unsubscribed' => array( 'type' => 'success', 'message' => __( 'Successfully unfollowed.', 'anspress-question-answer' ) ),
-		'question_submitted' => array( 'type' => 'success', 'message' => __( 'Question submitted successfully', 'anspress-question-answer' ) ),
-		'question_updated' => array( 'type' => 'success', 'message' => __( 'Question updated successfully', 'anspress-question-answer' ) ),
-		'answer_submitted' => array( 'type' => 'success', 'message' => __( 'Answer submitted successfully', 'anspress-question-answer' ) ),
-		'answer_updated' => array( 'type' => 'success', 'message' => __( 'Answer updated successfully', 'anspress-question-answer' ) ),
-		'voted' => array( 'type' => 'success', 'message' => __( 'Thank you for voting.', 'anspress-question-answer' ) ),
-		'undo_vote' => array( 'type' => 'success', 'message' => __( 'Your vote has been removed.', 'anspress-question-answer' ) ),
-		'undo_vote_your_vote' => array( 'type' => 'warning', 'message' => __( 'Undo your vote first.', 'anspress-question-answer' ) ),
-		'cannot_vote_own_post' => array( 'type' => 'warning', 'message' => __( 'You cannot vote on your own question or answer.', 'anspress-question-answer' ) ),
-		'unselected_the_answer' => array( 'type' => 'success', 'message' => __( 'Best answer is unselected for your question.', 'anspress-question-answer' ) ),
-		'selected_the_answer' => array( 'type' => 'success', 'message' => __( 'Best answer is selected for your question.', 'anspress-question-answer' ) ),
-		'question_moved_to_trash' => array( 'type' => 'success', 'message' => __( 'Question moved to trash.', 'anspress-question-answer' ) ),
-		'answer_moved_to_trash' => array( 'type' => 'success', 'message' => __( 'Answer moved to trash.', 'anspress-question-answer' ) ),
-		'no_permission_to_view_private' => array( 'type' => 'warning', 'message' => __( 'You dont have permission to view private posts.', 'anspress-question-answer' ) ),
-		'flagged' => array( 'type' => 'success', 'message' => __( 'Thank you for reporting this post.', 'anspress-question-answer' ) ),
-		'already_flagged' => array( 'type' => 'warning', 'message' => __( 'You have already reported this post.', 'anspress-question-answer' ) ),
-		'captcha_error' => array( 'type' => 'error', 'message' => __( 'Please check captcha field and resubmit it again.', 'anspress-question-answer' ) ),
-		'comment_content_empty' => array( 'type' => 'error', 'message' => __( 'Comment content is empty.', 'anspress-question-answer' ) ),
-		'status_updated' => array( 'type' => 'success', 'message' => __( 'Post status updated successfully', 'anspress-question-answer' ) ),
-		'post_image_uploaded' => array( 'type' => 'success', 'message' => __( 'Image uploaded successfully', 'anspress-question-answer' ) ),
-		'question_deleted_permanently' => array( 'type' => 'success', 'message' => __( 'Question has been deleted permanently', 'anspress-question-answer' ) ),
-		'answer_deleted_permanently' => array( 'type' => 'success', 'message' => __( 'Answer has been deleted permanently', 'anspress-question-answer' ) ),
-		'set_featured_question' => array( 'type' => 'success', 'message' => __( 'Question is marked as featured.', 'anspress-question-answer' ) ),
-		'unset_featured_question' => array( 'type' => 'success', 'message' => __( 'Question is unmarked as featured.', 'anspress-question-answer' ) ),
-		'upload_limit_crossed' => array( 'type' => 'warning', 'message' => __( 'You have already attached maximum numbers of allowed uploads.', 'anspress-question-answer' ) ),
-		'profile_updated_successfully' => array( 'type' => 'success', 'message' => __( 'Your profile has been updated successfully.', 'anspress-question-answer' ) ),
-		'unfollow' => array( 'type' => 'success', 'message' => __( 'Successfully unfollowed.', 'anspress-question-answer' ) ),
-		'follow' => array( 'type' => 'success', 'message' => __( 'Successfully followed.', 'anspress-question-answer' ) ),
-		'cannot_follow_yourself' => array( 'type' => 'warning', 'message' => __( 'You cannot follow yourself.', 'anspress-question-answer' ) ),
-		'delete_notification' => array( 'type' => 'success', 'message' => __( 'Notification deleted successfully.', 'anspress-question-answer' ) ),
-		'mark_read_notification' => array( 'type' => 'success', 'message' => __( 'Notification is marked as read.', 'anspress-question-answer' ) ),
-		'voting_down_disabled' => array( 'type' => 'warning', 'message' => __( 'Voting down is disabled.', 'anspress-question-answer' ) ),
-		'flagged_comment' => array( 'type' => 'success', 'message' => __( 'This comment has been reported to site moderator', 'anspress-question-answer' ) ),
-		'already_flagged_comment' => array( 'type' => 'warning', 'message' => __( 'You have already reported this comment', 'anspress-question-answer' ) ),
-		'you_cannot_vote_on_restricted' => array( 'type' => 'warning', 'message' => __( 'You cannot vote on restricted posts', 'anspress-question-answer' ) ),
+		'success' => array( 'type' => 'success', 'message' => __( 'Success', 'platformpress' ) ),
+		'please_login' => array( 'type' => 'warning', 'message' => __( 'You need to login before doing this action.', 'platformpress' ) ),
+		'something_wrong' => array( 'type' => 'error', 'message' => __( 'Something went wrong, last action failed.', 'platformpress' ) ),
+		'no_permission' => array( 'type' => 'warning', 'message' => __( 'You do not have permission to do this action.', 'platformpress' ) ),
+		'draft_comment_not_allowed' => array( 'type' => 'warning', 'message' => __( 'You are commenting on a draft post.', 'platformpress' ) ),
+		'comment_success' => array( 'type' => 'success', 'message' => __( 'Comment successfully posted.', 'platformpress' ) ),
+		'comment_edit_success' => array( 'type' => 'success', 'message' => __( 'Comment updated successfully.', 'platformpress' ) ),
+		'comment_delete_success' => array( 'type' => 'success', 'message' => __( 'Comment deleted successfully.', 'platformpress' ) ),
+		'subscribed' => array( 'type' => 'success', 'message' => __( 'You are following this question.', 'platformpress' ) ),
+		'unsubscribed' => array( 'type' => 'success', 'message' => __( 'Successfully unfollowed.', 'platformpress' ) ),
+		'question_submitted' => array( 'type' => 'success', 'message' => __( 'Question submitted successfully', 'platformpress' ) ),
+		'question_updated' => array( 'type' => 'success', 'message' => __( 'Question updated successfully', 'platformpress' ) ),
+		'answer_submitted' => array( 'type' => 'success', 'message' => __( 'Answer submitted successfully', 'platformpress' ) ),
+		'answer_updated' => array( 'type' => 'success', 'message' => __( 'Answer updated successfully', 'platformpress' ) ),
+		'voted' => array( 'type' => 'success', 'message' => __( 'Thank you for voting.', 'platformpress' ) ),
+		'undo_vote' => array( 'type' => 'success', 'message' => __( 'Your vote has been removed.', 'platformpress' ) ),
+		'undo_vote_your_vote' => array( 'type' => 'warning', 'message' => __( 'Undo your vote first.', 'platformpress' ) ),
+		'cannot_vote_own_post' => array( 'type' => 'warning', 'message' => __( 'You cannot vote on your own question or answer.', 'platformpress' ) ),
+		'unselected_the_answer' => array( 'type' => 'success', 'message' => __( 'Best answer is unselected for your question.', 'platformpress' ) ),
+		'selected_the_answer' => array( 'type' => 'success', 'message' => __( 'Best answer is selected for your question.', 'platformpress' ) ),
+		'question_moved_to_trash' => array( 'type' => 'success', 'message' => __( 'Question moved to trash.', 'platformpress' ) ),
+		'answer_moved_to_trash' => array( 'type' => 'success', 'message' => __( 'Answer moved to trash.', 'platformpress' ) ),
+		'no_permission_to_view_private' => array( 'type' => 'warning', 'message' => __( 'You dont have permission to view private posts.', 'platformpress' ) ),
+		'flagged' => array( 'type' => 'success', 'message' => __( 'Thank you for reporting this post.', 'platformpress' ) ),
+		'already_flagged' => array( 'type' => 'warning', 'message' => __( 'You have already reported this post.', 'platformpress' ) ),
+		'captcha_error' => array( 'type' => 'error', 'message' => __( 'Please check captcha field and resubmit it again.', 'platformpress' ) ),
+		'comment_content_empty' => array( 'type' => 'error', 'message' => __( 'Comment content is empty.', 'platformpress' ) ),
+		'status_updated' => array( 'type' => 'success', 'message' => __( 'Post status updated successfully', 'platformpress' ) ),
+		'post_image_uploaded' => array( 'type' => 'success', 'message' => __( 'Image uploaded successfully', 'platformpress' ) ),
+		'question_deleted_permanently' => array( 'type' => 'success', 'message' => __( 'Question has been deleted permanently', 'platformpress' ) ),
+		'answer_deleted_permanently' => array( 'type' => 'success', 'message' => __( 'Answer has been deleted permanently', 'platformpress' ) ),
+		'set_featured_question' => array( 'type' => 'success', 'message' => __( 'Question is marked as featured.', 'platformpress' ) ),
+		'unset_featured_question' => array( 'type' => 'success', 'message' => __( 'Question is unmarked as featured.', 'platformpress' ) ),
+		'upload_limit_crossed' => array( 'type' => 'warning', 'message' => __( 'You have already attached maximum numbers of allowed uploads.', 'platformpress' ) ),
+		'profile_updated_successfully' => array( 'type' => 'success', 'message' => __( 'Your profile has been updated successfully.', 'platformpress' ) ),
+		'unfollow' => array( 'type' => 'success', 'message' => __( 'Successfully unfollowed.', 'platformpress' ) ),
+		'follow' => array( 'type' => 'success', 'message' => __( 'Successfully followed.', 'platformpress' ) ),
+		'cannot_follow_yourself' => array( 'type' => 'warning', 'message' => __( 'You cannot follow yourself.', 'platformpress' ) ),
+		'delete_notification' => array( 'type' => 'success', 'message' => __( 'Notification deleted successfully.', 'platformpress' ) ),
+		'mark_read_notification' => array( 'type' => 'success', 'message' => __( 'Notification is marked as read.', 'platformpress' ) ),
+		'voting_down_disabled' => array( 'type' => 'warning', 'message' => __( 'Voting down is disabled.', 'platformpress' ) ),
+		'flagged_comment' => array( 'type' => 'success', 'message' => __( 'This comment has been reported to site moderator', 'platformpress' ) ),
+		'already_flagged_comment' => array( 'type' => 'warning', 'message' => __( 'You have already reported this comment', 'platformpress' ) ),
+		'you_cannot_vote_on_restricted' => array( 'type' => 'warning', 'message' => __( 'You cannot vote on restricted posts', 'platformpress' ) ),
 		);
 
 	/*
@@ -1048,7 +1048,7 @@ function ap_do_event() {
 }
 
 /**
- * Echo anspress links.
+ * Echo platformpress links.
  *
  * @since 2.1
  */
@@ -1058,19 +1058,19 @@ function ap_link_to($sub) {
 }
 
 	/**
-	 * Return link to AnsPress pages.
+	 * Return link to PlatformPress pages.
 	 *
 	 * @param string|array $sub
 	 */
 function ap_get_link_to($sub) {
 
 	/**
-	 * Define default AnsPress page slugs
+	 * Define default PlatformPress page slugs
 	 * @var array
 	 */
 	$default_pages = array(
 		'question' 	=> ap_opt( 'question_page_slug' ),
-		'ask' 		=> ap_opt( 'ask_page_slug' ),
+		'comment' 		=> ap_opt( 'comment_page_slug' ),
 		'users' 	=> ap_opt( 'users_page_slug' ),
 		'user' 		=> ap_opt( 'user_page_slug' ),
 	);
@@ -1246,7 +1246,7 @@ function ap_get_sort() {
 }
 
 /**
- * Register AnsPress menu.
+ * Register PlatformPress menu.
  *
  * @param string $slug
  * @param string $title
@@ -1254,7 +1254,7 @@ function ap_get_sort() {
  */
 function ap_register_menu($slug, $title, $link) {
 
-	anspress()->menu[$slug] = array( 'title' => $title, 'link' => $link );
+	platformpress()->menu[$slug] = array( 'title' => $title, 'link' => $link );
 }
 
 /**
@@ -1281,20 +1281,20 @@ function ap_post_upload_form($post_id = false) {
 	$html = '
     <div class="ap-post-upload-form">
         <div class="ap-btn ap-upload-o '.ap_icon( 'image' ).'">
-        	<span>'.__( 'Add image to editor', 'anspress-question-answer' ).'</span>';
+        	<span>'.__( 'Add image to editor', 'platformpress' ).'</span>';
 	if ( ap_user_can_upload_image() ) {
 		$html .= '
                 <a class="ap-upload-link" href="#" data-action="ap_post_upload_field">
-	            	'.__( 'upload', 'anspress-question-answer' ).'
+	            	'.__( 'upload', 'platformpress' ).'
 
-	            </a> '.__( 'or', 'anspress-question-answer' );
+	            </a> '.__( 'or', 'platformpress' );
 	}
 
 	$html .= '<span class="ap-upload-remote-link">
-            	'.__( 'add image from link', 'anspress-question-answer' ).'
+            	'.__( 'add image from link', 'platformpress' ).'
             </span>
             <div class="ap-upload-link-rc">
-        		<input type="text" name="post_remote_image" class="ap-form-control" placeholder="'.__( 'Enter images link', 'anspress-question-answer' ).'" data-action="post_remote_image">
+        		<input type="text" name="post_remote_image" class="ap-form-control" placeholder="'.__( 'Enter images link', 'platformpress' ).'" data-action="post_remote_image">
                 <a data-action="post_image_ok" class="apicon-check ap-btn" href="#"></a>
                 <a data-action="post_image_close" class="apicon-x ap-btn" href="#"></a>
             </div>
@@ -1394,7 +1394,7 @@ function ap_featured_post_btn($post_id = false) {
 	}
 
 	if ( is_super_admin() ) {
-		$output = '<a href="#" class="ap-btn-set-featured" id="set_featured_'.$post_id.'" data-action="set_featured" data-query="ap_ajax_action=set_featured&post_id='.$post_id.'&__nonce='.wp_create_nonce( 'set_featured_'.$post_id ).'" title="'.__( 'Make this question featured', 'anspress-question-answer' ).'">'.(ap_is_featured_question( $post_id ) ? __( 'Unset as featured', 'anspress-question-answer' ) : __( 'Set as featured', 'anspress-question-answer' )).'</a>';
+		$output = '<a href="#" class="ap-btn-set-featured" id="set_featured_'.$post_id.'" data-action="set_featured" data-query="ap_ajax_action=set_featured&post_id='.$post_id.'&__nonce='.wp_create_nonce( 'set_featured_'.$post_id ).'" title="'.__( 'Make this question featured', 'platformpress' ).'">'.(ap_is_featured_question( $post_id ) ? __( 'Unset as featured', 'platformpress' ) : __( 'Set as featured', 'platformpress' )).'</a>';
 	}
 
 	return $output;
@@ -1473,12 +1473,12 @@ function ap_user_upload_limit_crossed($user_id) {
 }
 
 /**
- * Create base page for AnsPress.
+ * Create base page for PlatformPress.
  *
  * This function is called in plugin activation. This function checks if base page already exists,
  * if not then it create a new one and update the option.
  *
- * @see anspress_activate
+ * @see platformpress_activate
  * @since 2.3
  */
 function ap_create_base_page() {
@@ -1490,9 +1490,9 @@ function ap_create_base_page() {
 	if ( ! $post ) {
 		$args = array();
 		$args['post_type'] = 'page';
-		$args['post_content'] = '[anspress]';
+		$args['post_content'] = '[platformpress]';
 		$args['post_status'] = 'publish';
-		$args['post_title'] = __('Questions', 'anspress-question-answer' );
+		$args['post_title'] = __('Questions', 'platformpress' );
 		$args['post_name'] = 'questions';
 		$args['comment_status'] = 'closed';
 
@@ -1505,7 +1505,7 @@ function ap_create_base_page() {
 			ap_opt( 'base_page_id', $page->post_name );
 		}
 	} else {
-		if ( $post->post_title == 'ANSPRESS_TITLE' ) {
+		if ( $post->post_title == 'platformpress_TITLE' ) {
 			wp_update_post( array( 'ID' => $page->ID, 'post_title' => ap_opt('base_page_title' ) ) );
 		}
 	}
@@ -1560,7 +1560,7 @@ function ap_question_title_with_solved_prefix($question_id = false) {
 	$solved = ap_question_best_answer_selected( $question_id );
 
 	if ( ap_opt( 'show_solved_prefix' ) ) {
-		return get_the_title( $question_id ).' '.($solved ? __( '[Solved] ', 'anspress-question-answer' ) : '');
+		return get_the_title( $question_id ).' '.($solved ? __( '[Solved] ', 'platformpress' ) : '');
 	}
 
 	return get_the_title( $question_id );
@@ -1648,7 +1648,7 @@ function ap_parse_search_string($str) {
 }
 
 /**
- * Send properly formatted AnsPress json string.
+ * Send properly formatted PlatformPress json string.
  * @param  array|string $response Response array or string.
  */
 function ap_ajax_json( $response ) {
@@ -1661,7 +1661,7 @@ function ap_ajax_json( $response ) {
  * @return boolean
  */
 function ap_is_notification_menu($menu) {
-	return in_array( 'anspress-page-notification', $menu->classes );
+	return in_array( 'platformpress-page-notification', $menu->classes );
 }
 
 /**
@@ -1670,7 +1670,7 @@ function ap_is_notification_menu($menu) {
  * @return boolean
  */
 function ap_is_profile_menu($menu) {
-	return in_array( 'anspress-page-profile', $menu->classes );
+	return in_array( 'platformpress-page-profile', $menu->classes );
 }
 
 /**
@@ -1695,11 +1695,11 @@ function ap_whitelist_array( $master_keys, $array ) {
 }
 
 /**
- * Read env file of AnsPress
+ * Read env file of PlatformPress
  * @return string
  */
 function ap_read_env() {
-	$file = ANSPRESS_DIR.'/env';
+	$file = platformpress_DIR.'/env';
 	$cache = wp_cache_get( 'ap_env', 'ap' );
 	if ( false !== $cache ) {
 		return $cache;
@@ -1716,7 +1716,7 @@ function ap_read_env() {
 }
 
 /**
- * Check if anspress environment is development.
+ * Check if platformpress environment is development.
  * @return boolean
  */
 function ap_env_dev() {
@@ -1749,7 +1749,7 @@ ap_append_table_names();
  */
 function ap_remove_stop_words( $str ) {
 	// EEEEEEK Stop words
-	$commonWords = array( 'a','able','about','above','abroad','according','accordingly','across','actually','adj','after','afterwards','again','against','ago','ahead','ain\'t','all','allow','allows','almost','alone','along','alongside','already','also','although','always','am','amid','amidst','among','amongst','an','and','another','any','anybody','anyhow','anyone','anything','anyway','anyways','anywhere','apart','appear','appreciate','appropriate','are','aren\'t','around','as','a\'s','aside','ask','asking','associated','at','available','away','awfully','b','back','backward','backwards','be','became','because','become','becomes','becoming','been','before','beforehand','begin','behind','being','believe','below','beside','besides','best','better','between','beyond','both','brief','but','by','c','came','can','cannot','cant','can\'t','caption','cause','causes','certain','certainly','changes','clearly','c\'mon','co','co.','com','come','comes','concerning','consequently','consider','considering','contain','containing','contains','corresponding','could','couldn\'t','course','c\'s','currently','d','dare','daren\'t','definitely','described','despite','did','didn\'t','different','directly','do','does','doesn\'t','doing','done','don\'t','down','downwards','during','e','each','edu','eg','eight','eighty','either','else','elsewhere','end','ending','enough','entirely','especially','et','etc','even','ever','evermore','every','everybody','everyone','everything','everywhere','ex','exactly','example','except','f','fairly','far','farther','few','fewer','fifth','first','five','followed','following','follows','for','forever','former','formerly','forth','forward','found','four','from','further','furthermore','g','get','gets','getting','given','gives','go','goes','going','gone','got','gotten','greetings','h','had','hadn\'t','half','happens','hardly','has','hasn\'t','have','haven\'t','having','he','he\'d','he\'ll','hello','help','hence','her','here','hereafter','hereby','herein','here\'s','hereupon','hers','herself','he\'s','hi','him','himself','his','hither','hopefully','how','howbeit','however','hundred','i','i\'d','ie','if','ignored','i\'ll','i\'m','immediate','in','inasmuch','inc','inc.','indeed','indicate','indicated','indicates','inner','inside','insofar','instead','into','inward','is','isn\'t','it','it\'d','it\'ll','its','it\'s','itself','i\'ve','j','just','k','keep','keeps','kept','know','known','knows','l','last','lately','later','latter','latterly','least','less','lest','let','let\'s','like','liked','likely','likewise','little','look','looking','looks','low','lower','ltd','m','made','mainly','make','makes','many','may','maybe','mayn\'t','me','mean','meantime','meanwhile','merely','might','mightn\'t','mine','minus','miss','more','moreover','most','mostly','mr','mrs','much','must','mustn\'t','my','myself','n','name','namely','nd','near','nearly','necessary','need','needn\'t','needs','neither','never','neverf','neverless','nevertheless','new','next','nine','ninety','no','nobody','non','none','nonetheless','noone','no-one','nor','normally','not','nothing','notwithstanding','novel','now','nowhere','o','obviously','of','off','often','oh','ok','okay','old','on','once','one','ones','one\'s','only','onto','opposite','or','other','others','otherwise','ought','oughtn\'t','our','ours','ourselves','out','outside','over','overall','own','p','particular','particularly','past','per','perhaps','placed','please','plus','possible','presumably','probably','provided','provides','q','que','quite','qv','r','rather','rd','re','really','reasonably','recent','recently','regarding','regardless','regards','relatively','respectively','right','round','s','said','same','saw','say','saying','says','second','secondly','see','seeing','seem','seemed','seeming','seems','seen','self','selves','sensible','sent','serious','seriously','seven','several','shall','shan\'t','she','she\'d','she\'ll','she\'s','should','shouldn\'t','since','six','so','some','somebody','someday','somehow','someone','something','sometime','sometimes','somewhat','somewhere','soon','sorry','specified','specify','specifying','still','sub','such','sup','sure','t','take','taken','taking','tell','tends','th','than','thank','thanks','thanx','that','that\'ll','thats','that\'s','that\'ve','the','their','theirs','them','themselves','then','thence','there','thereafter','thereby','there\'d','therefore','therein','there\'ll','there\'re','theres','there\'s','thereupon','there\'ve','these','they','they\'d','they\'ll','they\'re','they\'ve','thing','things','think','third','thirty','this','thorough','thoroughly','those','though','three','through','throughout','thru','thus','till','to','together','too','took','toward','towards','tried','tries','truly','try','trying','t\'s','twice','two','u','un','under','underneath','undoing','unfortunately','unless','unlike','unlikely','until','unto','up','upon','upwards','us','use','used','useful','uses','using','usually','v','value','various','versus','very','via','viz','vs','w','want','wants','was','wasn\'t','way','we','we\'d','welcome','well','we\'ll','went','were','we\'re','weren\'t','we\'ve','what','whatever','what\'ll','what\'s','what\'ve','when','whence','whenever','where','whereafter','whereas','whereby','wherein','where\'s','whereupon','wherever','whether','which','whichever','while','whilst','whither','who','who\'d','whoever','whole','who\'ll','whom','whomever','who\'s','whose','why','will','willing','wish','with','within','without','wonder','won\'t','would','wouldn\'t','x','y','yes','yet','you','you\'d','you\'ll','your','you\'re','yours','yourself','yourselves','you\'ve','z','zero' );
+	$commonWords = array( 'a','able','about','above','abroad','according','accordingly','across','actually','adj','after','afterwards','again','against','ago','ahead','ain\'t','all','allow','allows','almost','alone','along','alongside','already','also','although','always','am','amid','amidst','among','amongst','an','and','another','any','anybody','anyhow','anyone','anything','anyway','anyways','anywhere','apart','appear','appreciate','appropriate','are','aren\'t','around','as','a\'s','aside','comment','commenting','associated','at','available','away','awfully','b','back','backward','backwards','be','became','because','become','becomes','becoming','been','before','beforehand','begin','behind','being','believe','below','beside','besides','best','better','between','beyond','both','brief','but','by','c','came','can','cannot','cant','can\'t','caption','cause','causes','certain','certainly','changes','clearly','c\'mon','co','co.','com','come','comes','concerning','consequently','consider','considering','contain','containing','contains','corresponding','could','couldn\'t','course','c\'s','currently','d','dare','daren\'t','definitely','described','despite','did','didn\'t','different','directly','do','does','doesn\'t','doing','done','don\'t','down','downwards','during','e','each','edu','eg','eight','eighty','either','else','elsewhere','end','ending','enough','entirely','especially','et','etc','even','ever','evermore','every','everybody','everyone','everything','everywhere','ex','exactly','example','except','f','fairly','far','farther','few','fewer','fifth','first','five','followed','following','follows','for','forever','former','formerly','forth','forward','found','four','from','further','furthermore','g','get','gets','getting','given','gives','go','goes','going','gone','got','gotten','greetings','h','had','hadn\'t','half','happens','hardly','has','hasn\'t','have','haven\'t','having','he','he\'d','he\'ll','hello','help','hence','her','here','hereafter','hereby','herein','here\'s','hereupon','hers','herself','he\'s','hi','him','himself','his','hither','hopefully','how','howbeit','however','hundred','i','i\'d','ie','if','ignored','i\'ll','i\'m','immediate','in','inasmuch','inc','inc.','indeed','indicate','indicated','indicates','inner','inside','insofar','instead','into','inward','is','isn\'t','it','it\'d','it\'ll','its','it\'s','itself','i\'ve','j','just','k','keep','keeps','kept','know','known','knows','l','last','lately','later','latter','latterly','least','less','lest','let','let\'s','like','liked','likely','likewise','little','look','looking','looks','low','lower','ltd','m','made','mainly','make','makes','many','may','maybe','mayn\'t','me','mean','meantime','meanwhile','merely','might','mightn\'t','mine','minus','miss','more','moreover','most','mostly','mr','mrs','much','must','mustn\'t','my','myself','n','name','namely','nd','near','nearly','necessary','need','needn\'t','needs','neither','never','neverf','neverless','nevertheless','new','next','nine','ninety','no','nobody','non','none','nonetheless','noone','no-one','nor','normally','not','nothing','notwithstanding','novel','now','nowhere','o','obviously','of','off','often','oh','ok','okay','old','on','once','one','ones','one\'s','only','onto','opposite','or','other','others','otherwise','ought','oughtn\'t','our','ours','ourselves','out','outside','over','overall','own','p','particular','particularly','past','per','perhaps','placed','please','plus','possible','presumably','probably','provided','provides','q','que','quite','qv','r','rather','rd','re','really','reasonably','recent','recently','regarding','regardless','regards','relatively','respectively','right','round','s','said','same','saw','say','saying','says','second','secondly','see','seeing','seem','seemed','seeming','seems','seen','self','selves','sensible','sent','serious','seriously','seven','several','shall','shan\'t','she','she\'d','she\'ll','she\'s','should','shouldn\'t','since','six','so','some','somebody','someday','somehow','someone','something','sometime','sometimes','somewhat','somewhere','soon','sorry','specified','specify','specifying','still','sub','such','sup','sure','t','take','taken','taking','tell','tends','th','than','thank','thanks','thanx','that','that\'ll','thats','that\'s','that\'ve','the','their','theirs','them','themselves','then','thence','there','thereafter','thereby','there\'d','therefore','therein','there\'ll','there\'re','theres','there\'s','thereupon','there\'ve','these','they','they\'d','they\'ll','they\'re','they\'ve','thing','things','think','third','thirty','this','thorough','thoroughly','those','though','three','through','throughout','thru','thus','till','to','together','too','took','toward','towards','tried','tries','truly','try','trying','t\'s','twice','two','u','un','under','underneath','undoing','unfortunately','unless','unlike','unlikely','until','unto','up','upon','upwards','us','use','used','useful','uses','using','usually','v','value','various','versus','very','via','viz','vs','w','want','wants','was','wasn\'t','way','we','we\'d','welcome','well','we\'ll','went','were','we\'re','weren\'t','we\'ve','what','whatever','what\'ll','what\'s','what\'ve','when','whence','whenever','where','whereafter','whereas','whereby','wherein','where\'s','whereupon','wherever','whether','which','whichever','while','whilst','whither','who','who\'d','whoever','whole','who\'ll','whom','whomever','who\'s','whose','why','will','willing','wish','with','within','without','wonder','won\'t','would','wouldn\'t','x','y','yes','yet','you','you\'d','you\'ll','your','you\'re','yours','yourself','yourselves','you\'ve','z','zero' );
 
 	return preg_replace('/\b('.implode('|',$commonWords ).')\b/','',$str );
 }
@@ -1820,7 +1820,7 @@ function ap_sanitize_unslash( $str, $from = false, $default = '' ) {
 }
 
 /**
- * Return post status based on AnsPress options.
+ * Return post status based on PlatformPress options.
  * @param  boolean|integer $user_id    ID of user creating question.
  * @param  string          $post_type  Post type, question or answer.
  * @param  boolean         $edit       Is editing post.

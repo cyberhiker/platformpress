@@ -1,8 +1,8 @@
 <?php
 
-class AnsPress_API {
+class PlatformPress_API {
 	public static function register(){
-		register_rest_route( 'anspress', '/user/avatar', array( 'methods' => 'GET', 'callback' => [ 'AnsPress_API', 'avatar' ] ) );
+		register_rest_route( 'platformpress', '/user/avatar', array( 'methods' => 'GET', 'callback' => [ 'PlatformPress_API', 'avatar' ] ) );
 	}
 
 	public static function avatar( $request ){
@@ -12,6 +12,6 @@ class AnsPress_API {
 			$avatar = get_avatar_url( (int) $args['id'], $size );
 			return new WP_REST_Response( $avatar, 200 );
 		}
-		return new WP_Error( 'wrongData', __( 'Wrong data supplied', 'anspress-question-answer' ) );
+		return new WP_Error( 'wrongData', __( 'Wrong data supplied', 'platformpress' ) );
 	}
 }

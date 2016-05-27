@@ -1,11 +1,11 @@
 <?php
 /**
- * AnsPress activity handler
+ * PlatformPress activity handler
  *
- * @package  	AnsPress
- * @license  	http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
- * @link     	http://anspress.io
- * @since 		2.0
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -15,9 +15,9 @@ if ( ! defined( 'WPINC' ) ) {
 
 
 /**
- * AnsPress activity handler
+ * PlatformPress activity handler
  */
-class AnsPress_Activity_Query
+class PlatformPress_Activity_Query
 {
 	/**
 	 * The loop iterator.
@@ -448,7 +448,7 @@ class AnsPress_Activity_Query
 }
 
 /**
- * Set AnsPress tables in $wpdb if not already set.
+ * Set PlatformPress tables in $wpdb if not already set.
  */
 function ap_wpdb_tables() {
 	global $wpdb;
@@ -465,7 +465,7 @@ function ap_wpdb_tables() {
 }
 
 /**
- * Insert and update AnsPress activity
+ * Insert and update PlatformPress activity
  * If id is passed then existing activity will be updated.
  *
  * @param  array $args {
@@ -595,30 +595,30 @@ function ap_get_activity_action_title($args) {
 		case 'edit_comment':
 			$comment = '<a class="ap-c-link" href="'. get_comment_link( $args['item_id'] ) .'">'. get_comment_excerpt( $args['item_id'] ) .'</a>';
 			$question_title = '<a class="ap-q-link" href="'. get_permalink( $args['question_id'] ) .'">'. get_the_title( $args['question_id'] ) .'</a>';
-			$content .= sprintf( __( '%s edited comment on %s %s', 'anspress-question-answer' ), $user, $question_title, $comment );
+			$content .= sprintf( __( '%s edited comment on %s %s', 'platformpress' ), $user, $question_title, $comment );
 			break;
 
 		case 'status_updated':
 			$title = '<a class="ap-q-link" href="'. get_permalink( $args['question_id'] ) .'">'. get_the_title( $args['question_id'] ) .'</a>';
-			$content .= sprintf( __( '%s updated status of question %s', 'anspress-question-answer' ), $user, $title );
+			$content .= sprintf( __( '%s updated status of question %s', 'platformpress' ), $user, $title );
 			break;
 
 		case 'status_updated_answer':
 			$title = '<a class="ap-q-link" href="'. get_permalink( $args['item_id'] ) .'">'. get_the_title( $args['item_id'] ) .'</a>';
-			$content .= sprintf( __( '%s updated status of answer %s', 'anspress-question-answer' ), $user, $title );
+			$content .= sprintf( __( '%s updated status of answer %s', 'platformpress' ), $user, $title );
 			break;
 
 		case 'vote_up':
 			$post = get_post( $args['item_id'] );
-			$cpt_type = $post->post_type == 'question' ? __( 'question', 'anspress-question-answer' ) : __( 'answer', 'anspress-question-answer' );
+			$cpt_type = $post->post_type == 'question' ? __( 'question', 'platformpress' ) : __( 'answer', 'platformpress' );
 			$title = '<a class="ap-q-link" href="'. $args['permalink'] .'">'. $post->post_title .'</a>';
-			$content .= sprintf( __( '%s voted up on %s %s', 'anspress-question-answer' ), $user, $cpt_type, $title );
+			$content .= sprintf( __( '%s voted up on %s %s', 'platformpress' ), $user, $cpt_type, $title );
 			break;
 
 		case 'reputation_gain':
 			$post = get_post( $args['item_id'] );
 			$title = '<a class="ap-q-link" href="'. $args['permalink'] .'">'. $post->post_title .'</a>';
-			$content .= sprintf( __( '%s received %d reputation on %s', 'anspress-question-answer' ), $user, $args['reputation'], $title );
+			$content .= sprintf( __( '%s received %d reputation on %s', 'platformpress' ), $user, $args['reputation'], $title );
 			break;
 	}
 
@@ -706,19 +706,19 @@ function ap_post_activity_meta( $post_id = false, $answer_activities = false ) {
  */
 function ap_activity_short_title( $type ) {
 	$title = array(
-		'new_question' 		=> __( 'asked', 'anspress-question-answer' ),
-		'new_answer' 		=> __( 'answered', 'anspress-question-answer' ),
-		'new_comment' 		=> __( 'commented', 'anspress-question-answer' ),
-		'new_comment_answer' => __( 'commented on answer', 'anspress-question-answer' ),
-		'edit_question' 	=> __( 'edited question', 'anspress-question-answer' ),
-		'edit_answer' 		=> __( 'edited answer', 'anspress-question-answer' ),
-		'edit_comment' 		=> __( 'edited comment', 'anspress-question-answer' ),
-		'edit_comment_answer' => __( 'edited comment on answer', 'anspress-question-answer' ),
-		'answer_selected' 	=> __( 'selected answer', 'anspress-question-answer' ),
-		'answer_unselected' => __( 'unselected answer', 'anspress-question-answer' ),
-		'status_updated' 	=> __( 'updated status', 'anspress-question-answer' ),
-		'best_answer' 		=> __( 'selected as best answer', 'anspress-question-answer' ),
-		'unselected_best_answer' 	=> __( 'unselected as best answer', 'anspress-question-answer' ),
+		'new_question' 		=> __( 'commented', 'platformpress' ),
+		'new_answer' 		=> __( 'answered', 'platformpress' ),
+		'new_comment' 		=> __( 'commented', 'platformpress' ),
+		'new_comment_answer' => __( 'commented on answer', 'platformpress' ),
+		'edit_question' 	=> __( 'edited question', 'platformpress' ),
+		'edit_answer' 		=> __( 'edited answer', 'platformpress' ),
+		'edit_comment' 		=> __( 'edited comment', 'platformpress' ),
+		'edit_comment_answer' => __( 'edited comment on answer', 'platformpress' ),
+		'answer_selected' 	=> __( 'selected answer', 'platformpress' ),
+		'answer_unselected' => __( 'unselected answer', 'platformpress' ),
+		'status_updated' 	=> __( 'updated status', 'platformpress' ),
+		'best_answer' 		=> __( 'selected as best answer', 'platformpress' ),
+		'unselected_best_answer' 	=> __( 'unselected as best answer', 'platformpress' ),
 	);
 
 	$title = apply_filters( 'ap_activity_short_title', $title );
@@ -757,9 +757,9 @@ function ap_post_active_time($post_id = false, $html = true, $answer_activities 
 	}
 
 	$title = ap_activity_short_title( $activity['type'] );
-	$title = esc_html( '<span class="ap-post-history">'.sprintf( __( '%s %s %s', 'anspress-question-answer' ), ap_user_display_name( $activity['user_id'] ), $title, '<time datetime="'. mysql2date( 'c', $activity['date'] ) .'">'.ap_human_time( mysql2date( 'U', $activity['date'] ) ).'</time>' ).'</span>' );
+	$title = esc_html( '<span class="ap-post-history">'.sprintf( __( '%s %s %s', 'platformpress' ), ap_user_display_name( $activity['user_id'] ), $title, '<time datetime="'. mysql2date( 'c', $activity['date'] ) .'">'.ap_human_time( mysql2date( 'U', $activity['date'] ) ).'</time>' ).'</span>' );
 
-	return sprintf( __( 'Active %s', 'anspress-question-answer' ), '<a class="ap-tip" href="#" title="'. $title .'"><time datetime="'. mysql2date( 'c', $activity['date'] ) .'">'.ap_human_time( mysql2date( 'U', $activity['date'] ) ) ).'</time></a>';
+	return sprintf( __( 'Active %s', 'platformpress' ), '<a class="ap-tip" href="#" title="'. $title .'"><time datetime="'. mysql2date( 'c', $activity['date'] ) .'">'.ap_human_time( mysql2date( 'U', $activity['date'] ) ) ).'</time></a>';
 }
 
 /**
@@ -791,7 +791,7 @@ function ap_latest_post_activity_html($post_id = false, $answer_activities = fal
 		$title = ap_activity_short_title( $activity['type'] );
 
 		$html .= '<span class="ap-post-history">';
-		$html .= sprintf( __( ' %s %s %s', 'anspress-question-answer' ),
+		$html .= sprintf( __( ' %s %s %s', 'platformpress' ),
 			ap_user_link_anchor($activity['user_id'], false ),
 			$title,
 			'<a href="'. get_permalink( $post ) .'"><time datetime="'. mysql2date( 'c', $activity['date'] ) .'">'. ap_human_time( $activity['date'], false ) .'</time></a>'
@@ -809,11 +809,11 @@ function ap_latest_post_activity_html($post_id = false, $answer_activities = fal
 /**
  * Get activities query
  * @param  string|array $args Arguments.
- * @return AnsPress_Activity_Query
+ * @return PlatformPress_Activity_Query
  * @since  2.4
  */
 function ap_get_activities( $args = '' ) {
-	return new AnsPress_Activity_Query( $args );
+	return new PlatformPress_Activity_Query( $args );
 }
 
 /**
@@ -971,7 +971,7 @@ function ap_delete_activity($id) {
 	 * @param object  $activity Deleted activity object.
 	 */
 	do_action( 'ap_before_deleting_activity', $activity );
-	
+
 	$row = $wpdb->delete( $wpdb->ap_activity, array( 'id' => $id ), array( '%d' ) );
 
 	if ( false !== $row ) {
@@ -985,7 +985,7 @@ function ap_delete_activity($id) {
 
 		// Delete notifiactions.
 		ap_delete_notification_by_activity_id( $id );
-		
+
 		return $row;
 	}
 
@@ -1187,7 +1187,7 @@ function ap_activity_pagination( $base = false) {
  */
 function ap_activity_delete_btn() {
 	if ( is_super_admin( ) ) {
-		return '<a href="#" class="ap-activity-delete" data-action="ajax_btn" data-query="delete_activity::'. wp_create_nonce( 'ap_delete_activity' ).'::'.ap_activity_id().'">'.__('Delete', 'anspress-question-answer' ).'</a>';
+		return '<a href="#" class="ap-activity-delete" data-action="ajax_btn" data-query="delete_activity::'. wp_create_nonce( 'ap_delete_activity' ).'::'.ap_activity_id().'">'.__('Delete', 'platformpress' ).'</a>';
 	}
 }
 
@@ -1236,10 +1236,10 @@ function ap_update_post_activity_timestamp( $post ) {
 	$post = get_post( $post );
 
 	if ( 'answer' == $post->post_type ) {
-		update_post_meta( $post->post_parent, ANSPRESS_UPDATED_META, current_time( 'mysql' ) );
-		update_post_meta( $post->ID, ANSPRESS_UPDATED_META, current_time( 'mysql' ) );
+		update_post_meta( $post->post_parent, platformpress_UPDATED_META, current_time( 'mysql' ) );
+		update_post_meta( $post->ID, platformpress_UPDATED_META, current_time( 'mysql' ) );
 	} else {
-		update_post_meta( $post->ID, ANSPRESS_UPDATED_META, current_time( 'mysql' ) );
+		update_post_meta( $post->ID, platformpress_UPDATED_META, current_time( 'mysql' ) );
 	}
 }
 
@@ -1256,9 +1256,8 @@ function ap_get_latest_post_activity( $field = 'question_id',  $value ) {
 	}
 
 	$query = ap_get_activities( [ $field => (int) $value, 'number' => 1 ] );
-	
+
 	if ( $query->has_activities() ) {
 		return $query->activities[0];
 	}
 }
-

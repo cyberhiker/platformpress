@@ -1,12 +1,11 @@
 <?php
 /**
- * AnsPress.
+ * PlatformPress.
  *
- * @package   AnsPress
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -24,7 +23,7 @@ class AP_Views {
 	 * @since 2.4.8 Removed `$ap` args.
 	 */
 	public function __construct( ) {
-		anspress()->add_action( 'template_redirect', $this, 'insert_views' );
+		platformpress()->add_action( 'template_redirect', $this, 'insert_views' );
 	}
 
 	/**
@@ -48,7 +47,7 @@ class AP_Views {
 }
 
 /**
- * Insert view data in ap_meta table and update post meta ANSPRESS_VIEW_META
+ * Insert view data in ap_meta table and update post meta platformpress_VIEW_META
  * @param  integer $data_id
  * @param  string  $type
  * @return boolean
@@ -77,7 +76,7 @@ function ap_insert_views($data_id, $type) {
 
 		$view = $view + 1;
 
-		update_post_meta( $data_id, ANSPRESS_VIEW_META, apply_filters('ap_insert_views', $view ) );
+		update_post_meta( $data_id, platformpress_VIEW_META, apply_filters('ap_insert_views', $view ) );
 
 		do_action('after_insert_views', $data_id, $view );
 
@@ -114,7 +113,7 @@ function ap_get_qa_views( $id = false ) {
 		$id = get_the_ID();
 	}
 
-	$views = (int) get_post_meta( $id, ANSPRESS_VIEW_META, true );
+	$views = (int) get_post_meta( $id, platformpress_VIEW_META, true );
 	$views = empty($views ) ? 1 : $views;
 
 	/**

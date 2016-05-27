@@ -2,10 +2,10 @@
 /**
  * Template for displaying user subscription page
  *
- * @link http://anspress.io
+ * @link http://platformpress.io
  * @since unknown
  *
- * @package AnsPress
+ * @package PlatformPress
  */
 ?>
 <?php $active = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'question'; ?>
@@ -29,7 +29,7 @@
 
 		<?php else: ?>
 
-			<?php _e('Not following any question yet!', 'anspress-question-answer'); ?>
+			<?php _e('Not following any question yet!', 'platformpress'); ?>
 
 		<?php endif; ?>
 

@@ -2,11 +2,10 @@
 /**
  * Subscribers hooks.
  *
- * @author    Rahul Aryan <support@anspress.io>
- * @license   GPL-2.0+
- * @link      http://anspress.io
- * @copyright 2014 Rahul Aryan
- * @package   AnsPress/AnsPress_Subscriber_Hooks
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -17,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Register subscriber hooks
  */
-class AnsPress_Subscriber_Hooks
+class PlatformPress_Subscriber_Hooks
 {
 	/**
 	 * Update question subscribers count.
@@ -32,7 +31,7 @@ class AnsPress_Subscriber_Hooks
 		$counts = ap_subscribers_count( $item_id, $activity );
 
 		if ( in_array( $activity, $q_activity ) ) {
-			update_post_meta( $item_id, ANSPRESS_SUBSCRIBER_META, $counts );
+			update_post_meta( $item_id, platformpress_SUBSCRIBER_META, $counts );
 		}
 	}
 
@@ -65,7 +64,7 @@ class AnsPress_Subscriber_Hooks
 
 		$type = 'q_post';
 		$question_id = $post->ID;
-		
+
 		if ( 'answer' == $post->post_type ) {
 			$type = 'a_all';
 			$question_id = $post->post_parent;
@@ -156,7 +155,7 @@ class AnsPress_Subscriber_Hooks
 					'action' 		=> 'unsubscribed',
 					'do' 			=> array( 'updateHtml' => $elm.' .text', 'toggle_active_class' => $elm ),
 					'count' 		=> $count,
-					'html' 			=> __( 'Follow', 'anspress-question-answer' ),
+					'html' 			=> __( 'Follow', 'platformpress' ),
 					'view' 			=> array( 'subscribe_'.$action_id => $count ),
 				) );
 			}
@@ -172,7 +171,7 @@ class AnsPress_Subscriber_Hooks
 				'action' 		=> 'subscribed',
 				'do' 			=> array( 'updateHtml' => '#subscribe_'.$action_id.' .text', 'toggle_active_class' => $elm ),
 				'count' 		=> $count,
-				'html' 			=> __( 'Unfollow', 'anspress-question-answer' ),
+				'html' 			=> __( 'Unfollow', 'platformpress' ),
 				'view' 			=> array( 'subscribe_'.$action_id => $count ),
 			) );
 		}

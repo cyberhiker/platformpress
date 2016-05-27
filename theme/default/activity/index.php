@@ -4,15 +4,15 @@
 	 *
 	 * This template is used in base page, category, tag , etc
 	 *
-	 * @link http://anspress.io
+	 * @link http://platformpress.io
 	 * @since unknown
 	 *
-	 * @package AnsPress
+	 * @package PlatformPress
 	 */
 ?>
 <?php dynamic_sidebar( 'ap-top' ); ?>
 <div class="row">
-	<div id="ap-activity" class="<?php echo is_active_sidebar( 'ap-activity' ) && is_anspress() ? 'col-md-9' : 'col-md-12' ?>">
+	<div id="ap-activity" class="<?php echo is_active_sidebar( 'ap-activity' ) && is_platformpress() ? 'col-md-9' : 'col-md-12' ?>">
 		<?php if ( ap_has_activities() ) : ?>
 			<div class="ap-activities">
 				<?php
@@ -29,7 +29,7 @@
 			endif;
 		?>
 	</div>
-	<?php if ( is_active_sidebar( 'ap-activity' ) && is_anspress()){ ?>
+	<?php if ( is_active_sidebar( 'ap-activity' ) && is_platformpress()){ ?>
 		<div class="ap-question-right col-md-3">
 			<?php dynamic_sidebar( 'ap-activity' ); ?>
 		</div>

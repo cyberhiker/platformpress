@@ -31,27 +31,27 @@ class WidgetTest extends \Codeception\TestCase\WPTestCase
 	public function test_register_widget() {
 		do_action('widget_init');
 		$widgets = array_keys( $GLOBALS['wp_widget_factory']->widgets );
-		$this->assertContains( 'AP_Askform_Widget', $widgets );
-		$this->assertContains( 'AnsPress_Breadcrumbs_Widget', $widgets );
+		$this->assertContains( 'AP_commentform_Widget', $widgets );
+		$this->assertContains( 'PlatformPress_Breadcrumbs_Widget', $widgets );
 		$this->assertContains( 'AP_followers_Widget', $widgets );
 		$this->assertContains( 'AP_Questions_Widget', $widgets );
 		$this->assertContains( 'AP_Related_questions', $widgets );
 		$this->assertContains( 'AP_Search_Widget', $widgets );
 		//$this->assertContains( 'ap_subscribe_widget', $widgets );
 		$this->assertContains( 'AP_Users_Widget', $widgets );
-		$this->assertContains( 'AnsPress_User_Notifications_Widget', $widgets );
+		$this->assertContains( 'PlatformPress_User_Notifications_Widget', $widgets );
 		$this->assertContains( 'AP_User_Widget', $widgets );
 	}
 
 	/**
 	 * Test that the cart widget exists with the right properties.
 	 */
-	public function test_askform_widget() {
+	public function test_commentform_widget() {
 		$widgets = $GLOBALS['wp_widget_factory']->widgets;
-		$askform_widget = $widgets['AP_Askform_Widget'];
-		$this->assertInstanceOf( 'AP_Askform_Widget', $askform_widget );
-		$this->assertEquals( 'ap_askform_widget', $askform_widget->id_base );
-		$this->assertEquals( '(AnsPress) Ask form', $askform_widget->name );
+		$commentform_widget = $widgets['AP_commentform_Widget'];
+		$this->assertInstanceOf( 'AP_commentform_Widget', $commentform_widget );
+		$this->assertEquals( 'ap_commentform_widget', $commentform_widget->id_base );
+		$this->assertEquals( '(PlatformPress) comment form', $commentform_widget->name );
 	}
 
 }

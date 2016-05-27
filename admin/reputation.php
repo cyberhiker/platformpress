@@ -9,7 +9,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 /**
  * Create a new table class that will extend the WP_List_Table
  */
-class AnsPress_Reputation_Table extends WP_List_Table
+class PlatformPress_Reputation_Table extends WP_List_Table
 {
     /**
      * Prepare the items for the table to process
@@ -48,9 +48,9 @@ class AnsPress_Reputation_Table extends WP_List_Table
     public function get_columns()
     {
         $columns = array(
-            'title'       	=> __('Title', 'anspress-question-answer'),
-            'reputation'    => __('Points', 'anspress-question-answer'),
-            'event'    		=> __('Event', 'anspress-question-answer')
+            'title'       	=> __('Title', 'platformpress'),
+            'reputation'    => __('Points', 'platformpress'),
+            'event'    		=> __('Event', 'platformpress')
         );
  
         return $columns;
@@ -149,8 +149,8 @@ class AnsPress_Reputation_Table extends WP_List_Table
 		$nonce = wp_create_nonce( 'delete_reputation' );
 		return '<a class="row-title" href="#">'.$reputation['title'].'</a><div>'.$reputation['description'].'<div>
 		<div class="row-actions">
-			<span class="edit"><a title="'.__('Delete this reputation', 'anspress-question-answer').'" href="'.$reputation['id'].'" data-action="ap-edit-reputation">'.__('Edit', 'anspress-question-answer').'</a> | </span>
-			<span class="edit"><a title="'.__('Delete this reputation', 'anspress-question-answer').'" href="'.$reputation['id'].'" data-button="ap-delete-reputation" data-args="'.$reputation['id'].'-'.$nonce.'">'.__('Delete', 'anspress-question-answer').'</a></span>
+			<span class="edit"><a title="'.__('Delete this reputation', 'platformpress').'" href="'.$reputation['id'].'" data-action="ap-edit-reputation">'.__('Edit', 'platformpress').'</a> | </span>
+			<span class="edit"><a title="'.__('Delete this reputation', 'platformpress').'" href="'.$reputation['id'].'" data-button="ap-delete-reputation" data-args="'.$reputation['id'].'-'.$nonce.'">'.__('Delete', 'platformpress').'</a></span>
 		</div>';
 	}
 	

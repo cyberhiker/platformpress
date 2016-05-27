@@ -1,11 +1,11 @@
 <?php
 /**
- * Common AnsPress admin functions
+ * Common PlatformPress admin functions
  *
- * @link http://anspress.io
- * @since unknown
- *
- * @package AnsPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -24,7 +24,7 @@ function ap_flagged_posts_count() {
 
 
 /**
- * Register anspress option tab and fields
+ * Register platformpress option tab and fields
  * @param  string $group_slug     slug for links
  * @param  string $group_title    Page title
  * @param  array  $fields         fields array.
@@ -34,7 +34,7 @@ function ap_flagged_posts_count() {
 function ap_register_option_group($group_slug, $group_title, $fields, $form = true) {
 	global $ap_option_tabs;
 	$fields = apply_filters( 'ap_option_group_'.$group_slug, $fields );
-	
+
 	ap_append_to_global_var( 'ap_option_tabs', $group_slug , array( 'title' => $group_title, 'fields' => $fields, 'form' => $form ) );
 }
 
@@ -50,7 +50,7 @@ function ap_options_nav() {
 	$menus = array();
 
 	foreach ( (array) $groups as $k => $args ) {
-		$link 		= admin_url( "admin.php?page=anspress_options&option_page={$k}" );
+		$link 		= admin_url( "admin.php?page=platformpress_options&option_page={$k}" );
 		$menus[$k] 	= array( 'title' => $args['title'], 'link' => $link );
 	}
 
@@ -72,7 +72,7 @@ function ap_options_nav() {
 }
 
 /**
- * Display fields group options. Uses AnsPress_Form to renders fields.
+ * Display fields group options. Uses PlatformPress_Form to renders fields.
  * @return void
  * @since 2.0.0
  */
@@ -91,12 +91,12 @@ function ap_option_group_fields() {
 		$args = array(
 			'name'              => 'options_form',
 			'is_ajaxified'      => false,
-			'submit_button'     => __( 'Save options', 'anspress-question-answer' ),
+			'submit_button'     => __( 'Save options', 'platformpress' ),
 			'nonce_name'        => 'nonce_option_form',
 			'fields'            => $fields,
 		);
 
-		$form = new AnsPress_Form( $args );
+		$form = new PlatformPress_Form( $args );
 
 		echo '<div class="ap-optionform-title">';
 		echo '<strong>'. $groups[ $active ]['title'] .'</strong>';
@@ -148,14 +148,14 @@ function ap_get_option_groups() {
 }
 
 /**
- * Check if AnsPress admin assets need to be loaded.
+ * Check if PlatformPress admin assets need to be loaded.
  * @return boolean
  * @since  3.0.0
  */
 function ap_load_admin_assets(){
 	$page = get_current_screen();
-	$load = 'question' === $page->post_type || 'answer' === $page->post_type || strpos($page->base, 'anspress') !== false || $page->base === 'nav-menus';
-	
+	$load = 'question' === $page->post_type || 'answer' === $page->post_type || strpos($page->base, 'platformpress') !== false || $page->base === 'nav-menus';
+
 	/**
 	 * Filter ap_load_admin_assets to load admin assets in custom page.
 	 * @param boolean $load Pass a boolean value if need to load assets.

@@ -1,8 +1,9 @@
 /**
- * Contain general JavaScript functions used in AnsPress
- * @author Rahul Aryan
- * @license GPL 2+
- * @since 2.0
+ * Contain general JavaScript functions used in PlatformPress
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
  ;(function($){
 
@@ -146,7 +147,7 @@
 						showtip(item);
 					}, config.delay);
 				}else{
-					showtip(this);					
+					showtip(this);
 				}
 
 			}).mouseleave(function(){
@@ -283,10 +284,10 @@
 	}
 
 	$.fn.apAjaxQueryString = function () {
-		var query = $(this).data('query').split("::");		
-		
+		var query = $(this).data('query').split("::");
+
 		var newQuery = {};
-	
+
 		newQuery['action'] = 'ap_ajax';
 		newQuery['ap_ajax_action'] = query[0];
 		newQuery['__nonce'] = query[1];
@@ -297,13 +298,13 @@
 			if(i != 0 && i != 1){
 		   		newQuery['args'][newi] = query[i];
 		   		newi++;
-			}		   
+			}
 		});
 
 		console.log(newQuery);
 
 		return newQuery;
-	}	
+	}
 
 })(jQuery);
 

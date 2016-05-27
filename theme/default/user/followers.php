@@ -1,9 +1,9 @@
 <?php
 /**
  * Display user's followers page
- * @link http://anspress.io
+ * @link http://platformpress.io
  * @since 2.3
- * @package AnsPress
+ * @package PlatformPress
  */
 ?>
 <div id="ap-users" class="ap-users ap-followers">

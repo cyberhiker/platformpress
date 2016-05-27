@@ -1,9 +1,9 @@
 <?php
 /**
- * Installation and activation of anspress, register hooks that are fired when the plugin is activated.
+ * Installation and activation of platformpress, register hooks that are fired when the plugin is activated.
  *
- * @package     AnsPress
- * @copyright   Copyright (c) 2013, Rahul Aryan
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.1
  */
@@ -32,7 +32,7 @@ class AP_Activate
 
 		// If the single instance hasn't been set, set it now.
 		if ( null == self::$instance ) {
-			anspress();
+			platformpress();
 			self::$instance = new self;
 			global $network_wide;
 			$network_wide = $network_wide;
@@ -97,7 +97,7 @@ class AP_Activate
 	}
 
 	/**
-	 * AnsPress activity meta table.
+	 * PlatformPress activity meta table.
 	 */
 	public function activity_meta_table() {
 		global $wpdb;
@@ -114,7 +114,7 @@ class AP_Activate
 	}
 
 	/**
-	 * AnsPress notification table.
+	 * PlatformPress notification table.
 	 */
 	public function notification_table() {
 		global $wpdb;
@@ -124,7 +124,7 @@ class AP_Activate
                 `noti_id` bigint(20) NOT NULL AUTO_INCREMENT,
                 `noti_activity_id` bigint(20) NOT NULL,
                 `noti_user_id` bigint(20) NOT NULL,
-                `noti_status` varchar(225) NOT NULL,                
+                `noti_status` varchar(225) NOT NULL,
                 `noti_date` timestamp NOT NULL,
                 PRIMARY KEY (`noti_id`)
 	        )'.$this->charset_collate.';';
@@ -132,14 +132,14 @@ class AP_Activate
 	}
 
 	/**
-	 * AnsPress subscriber table.
+	 * PlatformPress subscriber table.
 	 */
 	public function subscribers_table() {
 		global $wpdb;
 
 		if ( $wpdb->get_var( "show tables like '{$wpdb->ap_subscribers}'" ) != $wpdb->ap_subscribers ) {
 			$this->tables[] = 'CREATE TABLE IF NOT EXISTS `'.$wpdb->ap_subscribers.'` (
-                `subs_id` bigint(20) NOT NULL AUTO_INCREMENT,               
+                `subs_id` bigint(20) NOT NULL AUTO_INCREMENT,
                 `subs_user_id` bigint(20) NOT NULL,
                 `subs_question_id` bigint(20) NOT NULL,
                 `subs_item_id` bigint(20) NOT NULL,
@@ -231,7 +231,7 @@ class AP_Activate
 
 		$this->insert_tables();
 		ap_opt('db_version', AP_DB_VERSION );
-		update_option( 'anspress_opt', get_option( 'anspress_opt' ) + ap_default_options() );
+		update_option( 'platformpress_opt', get_option( 'platformpress_opt' ) + ap_default_options() );
 
 		ap_opt( 'ap_flush', 'true' );
 		flush_rewrite_rules( false );

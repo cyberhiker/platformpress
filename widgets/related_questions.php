@@ -1,12 +1,12 @@
 <?php
 /**
- * AnsPress related question widget.	
+ * PlatformPress related question widget.
  * Shows related questions based on tags
  *
- * @link 	https://anspress.io
- * @since 	2.4
- * @author  Rahul Aryan <support@anspress.io>
- * @package AnsPress/AP_Related_questions
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 /**
@@ -20,8 +20,8 @@ class AP_Related_questions extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'ap_related_questions',
-			__( '(AnsPress) Related Questions', 'anspress-question-answer' ),
-			array( 'description' => __( 'For showing related question. This widget will only work in question page.', 'anspress-question-answer' ) )
+			__( '(PlatformPress) Related Questions', 'platformpress' ),
+			array( 'description' => __( 'For showing related question. This widget will only work in question page.', 'platformpress' ) )
 		);
 	}
 
@@ -35,8 +35,8 @@ class AP_Related_questions extends WP_Widget {
 			echo $args['before_title'] . $title . $args['after_title']; }
 
 		echo '<div class="ap-widget-inner">';
-		if ( ! class_exists( 'Tags_For_AnsPress' ) ) {
-			echo 'Tags plugin must be installed for related question. Get <a href="https://wordpress.org/plugins/tags-for-anspress">Tags for AnsPress</a>';
+		if ( ! class_exists( 'Tags_For_PlatformPress' ) ) {
+			echo 'Tags plugin must be installed for related question. Get <a href="https://wordpress.org/plugins/tags-for-platformpress">Tags for PlatformPress</a>';
 			return;
 		}
 		$tags = get_the_terms( get_question_id(), 'question_tag' );
@@ -69,13 +69,13 @@ class AP_Related_questions extends WP_Widget {
 	}
 
 	public function form( $instance ) {
-		$title 			= __( 'Related Questions', 'anspress-question-answer' );
+		$title 			= __( 'Related Questions', 'platformpress' );
 
 		if ( isset( $instance[ 'title' ] ) ) {
 			$title = $instance[ 'title' ]; }
 		?>
         <p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
 

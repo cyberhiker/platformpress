@@ -1,6 +1,6 @@
 <?php
 /**
- * View licenses page for AnsPress
+ * View licenses page for PlatformPress
  */
 
 // Save license key if form is submitted.
@@ -9,17 +9,17 @@ if ( current_user_can( 'manage_options' ) && isset($_POST['ap_licenses_nonce']) 
 }
 
 $fields = ap_product_license_fields();
-$licenses = get_option( 'anspress_license' );
+$licenses = get_option( 'platformpress_license' );
 ?>
 
 <div class="wrap">
     <h2>
-		<?php _e('Licenses', 'anspress-question-answer' ); ?>
+		<?php _e('Licenses', 'platformpress' ); ?>
     </h2>
-	<p class="lead"><?php _e('License keys for AnsPress products, i.e. extensions and themes.', 'anspress-question-answer' ); ?></p>
+	<p class="lead"><?php _e('License keys for PlatformPress products, i.e. extensions and themes.', 'platformpress' ); ?></p>
 
 	<?php if ( ! empty( $fields ) ) :   ?>
-        <form method="post" action="<?php echo admin_url( 'admin.php?page=anspress_licenses' ); ?>">
+        <form method="post" action="<?php echo admin_url( 'admin.php?page=platformpress_licenses' ); ?>">
             <table class="form-table">
                 <tbody>
 					<?php foreach ( $fields as $slug => $prod ) :   ?>
@@ -30,7 +30,7 @@ $licenses = get_option( 'anspress_license' );
 
 								<?php if ( ! empty( $licenses[$slug]['key'] ) ) { ?>
 									<?php if ( $licenses[$slug]['status'] !== false && $licenses[$slug]['status'] == 'valid' ) { ?>
-										<span class="ap-license-check"><i class="apicon-check"></i><?php _e('active', 'anspress-question-answer' ); ?></span><br />
+										<span class="ap-license-check"><i class="apicon-check"></i><?php _e('active', 'platformpress' ); ?></span><br />
 										<input type="submit" class="button-secondary" name="ap_license_deactivate_<?php echo $slug; ?>" value="<?php _e('Deactivate License' ); ?>"/>
 									<?php } else { ?>
 										<input type="submit" class="button-secondary" name="ap_license_activate_<?php echo $slug; ?>" value="<?php _e('Activate License' ); ?>"/>
@@ -42,7 +42,7 @@ $licenses = get_option( 'anspress_license' );
                 </tbody>
             </table>
             <input type="hidden" name="action" value="ap_product_license">
-            <input type="submit" name="save_licenses" class="button button-primary" value="<?php _e('Save', 'anspress-question-answer' ); ?>" />
+            <input type="submit" name="save_licenses" class="button button-primary" value="<?php _e('Save', 'platformpress' ); ?>" />
             <?php wp_nonce_field( 'ap_licenses_nonce', 'ap_licenses_nonce' ); ?>
         </form>
 	<?php else : ?>

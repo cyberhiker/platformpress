@@ -1,16 +1,16 @@
 module.exports = function(grunt) {
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-wp-i18n' );
-	grunt.loadNpmTasks('grunt-phpdocumentor');
-	grunt.loadNpmTasks('grunt-csscomb');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-wp-readme-to-markdown');
-	grunt.loadNpmTasks('grunt-version');
-	grunt.loadNpmTasks('grunt-phplint');
-	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTcomments('grunt-contrib-watch');
+	grunt.loadNpmTcomments('grunt-contrib-less');
+	grunt.loadNpmTcomments('grunt-wp-i18n' );
+	grunt.loadNpmTcomments('grunt-phpdocumentor');
+	grunt.loadNpmTcomments('grunt-csscomb');
+	grunt.loadNpmTcomments('grunt-contrib-copy');
+	grunt.loadNpmTcomments('grunt-contrib-uglify');
+	grunt.loadNpmTcomments('grunt-wp-readme-to-markdown');
+	grunt.loadNpmTcomments('grunt-version');
+	grunt.loadNpmTcomments('grunt-phplint');
+	grunt.loadNpmTcomments('grunt-contrib-compress');
+	grunt.loadNpmTcomments('grunt-contrib-concat');
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON( 'package.json' ),
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 	                domainPath: '/languages',                   // Where to save the POT file.
 	                exclude: ['.git/.*', '.svn/.*', '.node_modules/.*', '.vendor/.*'],
 	                //include: [],                      // List of files or directories to include.
-	                mainFile: 'anspress-question-answer.php',                     // Main project file.
+	                mainFile: 'platformpress.php',                     // Main project file.
 	                //potComments: '',                  // The copyright at the beginning of the POT file.
 	                //potFilename: '',                  // Name of the POT file.
 	                potHeaders: {
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 	    
 	    addtextdomain: {
 	    	options: {
-	            textdomain: 'anspress-question-answer',    // Project text domain.
+	            textdomain: 'platformpress',    // Project text domain.
 	            updateDomains: ['ap']  // List of text domains to replace.
 	        },
 	        target: {
@@ -57,20 +57,20 @@ module.exports = function(grunt) {
 	    	dist: {
 	    		options: {
 	    			directory : './',
-	    			target : 'M:\wamp\www\anspress-docs\\'
+	    			target : 'M:\wamp\www\platformpress-docs\\'
 	    		}
 	    	}
 	    },
 	    csscomb: {
 	    	files: ['**/*.css', '!**/node_modules/**'],
-	    	tasks: ['csscomb'],
+	    	tcomments: ['csscomb'],
 	    },
 
 	    copy: {
 	    	main: {
 	    		files: [
-	    		{nonull:true, expand: true, cwd: 'M:\\wamp\\www\\anspress\\wp-content\\plugins\\anspress-question-answer', src: ['**/*', '!**/.git/**', '!**/.svn/**', '!**/node_modules/**', '!**/bin/**', '!**/docs/**', '!**/tests/**'], dest: 'M:\\wamp\\www\\aptest\\wp-content\\plugins\\anspress-question-answer'},
-	    		{nonull:true, expand: true, cwd: 'M:\\wamp\\www\\anspress\\wp-content\\plugins\\anspress-question-answer', src: ['**/*', '!**/.git/**', '!**/.svn/**', '!**/node_modules/**', '!**/bin/**', '!**/docs/**', '!**/tests/**'], dest: 'M:\\wamp\\www\\askbug\\wp-content\\plugins\\anspress-question-answer'}
+	    		{nonull:true, expand: true, cwd: 'M:\\wamp\\www\\platformpress\\wp-content\\plugins\\platformpress', src: ['**/*', '!**/.git/**', '!**/.svn/**', '!**/node_modules/**', '!**/bin/**', '!**/docs/**', '!**/tests/**'], dest: 'M:\\wamp\\www\\aptest\\wp-content\\plugins\\platformpress'},
+	    		{nonull:true, expand: true, cwd: 'M:\\wamp\\www\\platformpress\\wp-content\\plugins\\platformpress', src: ['**/*', '!**/.git/**', '!**/.svn/**', '!**/node_modules/**', '!**/bin/**', '!**/docs/**', '!**/tests/**'], dest: 'M:\\wamp\\www\\commentbug\\wp-content\\plugins\\platformpress'}
 	    		]
 	    	}
 	    },
@@ -85,13 +85,13 @@ module.exports = function(grunt) {
 	    		options: {
 	    			prefix: 'Version\\:\\s+'
 	    		},
-	    		src: [ 'anspress-question-answer.php' ],
+	    		src: [ 'platformpress.php' ],
 	    	},
 	    	mainplugin: {
 	    		options: {
 	    			pattern: '\$_plugin_version = (?:\')(.+)(?:\')/g'
 	    		},
-	    		src: [ 'anspress-question-answer.php' ],
+	    		src: [ 'platformpress.php' ],
 	    	},
 	    	project: {
 	    		src: ['plugin.json']
@@ -114,7 +114,7 @@ module.exports = function(grunt) {
 	    uglify: {
 	    	my_target: {
 	    		files: {
-	    			'assets/min/anspress_site.min.js': ['assets/js/anspress_site.js'],
+	    			'assets/min/platformpress_site.min.js': ['assets/js/platformpress_site.js'],
 	    			'assets/min/ap-functions.min.js': ['assets/js/ap-functions.js'],
 	    			'assets/min/ap-admin.min.js': ['assets/js/ap-admin.js'],
 	    			'theme/default/min/ap.min.js': ['theme/default/js/ap.js']
@@ -132,11 +132,11 @@ module.exports = function(grunt) {
 	    compress: {
 	    	main: {
 	    		options: {
-	    			archive: 'build/anspress-question-answer.zip'
+	    			archive: 'build/platformpress.zip'
 	    		},
 		        //cwd: 'build/',
 		        expand: true,
-		        src: ['**','!**/tests/**','!**/node_modules/**','!**/.git/**','!**/.svn/**','!**/.gitignore','!**/.scrutinizer.yml','!**/.scrutinizer.yml','!**/.travis.yml','!**/npm-debug.log','!**/phpdoc.dist.xml','!**/phpunit.xml','!**/plugin.json','!**/tasks.TODO','!**/build']
+		        src: ['**','!**/tests/**','!**/node_modules/**','!**/.git/**','!**/.svn/**','!**/.gitignore','!**/.scrutinizer.yml','!**/.scrutinizer.yml','!**/.travis.yml','!**/npm-debug.log','!**/phpdoc.dist.xml','!**/phpunit.xml','!**/plugin.json','!**/tcomments.TODO','!**/build']
 		    }
 		},
 
@@ -150,28 +150,28 @@ module.exports = function(grunt) {
 			options: {
 				separator: ';',
 			},
-			anspress: {
-				src: ['assets/min/ap-functions.min.js', 'assets/min/anspress_site.min.js'],
-				dest: 'assets/min/anspress.min.js',
+			platformpress: {
+				src: ['assets/min/ap-functions.min.js', 'assets/min/platformpress_site.min.js'],
+				dest: 'assets/min/platformpress.min.js',
 			},
 			theme: {
 				src: ['theme/default/js/initial.min.js', 'theme/default/js/jquery.peity.min.js', 'theme/default/js/jquery.scrollbar.min.js', 'theme/default/min/ap.min.js'],
-				dest: 'theme/default/min/anspress-theme.min.js',
+				dest: 'theme/default/min/platformpress-theme.min.js',
 			},
 		},
 		
 		watch: {
 			less: {
 				files: ['**/*.less'],
-				tasks: ['less'],
+				tcomments: ['less'],
 			},
 			uglify: {
 				files: ['theme/default/js/*.js','assets/js/*.js'],
-				tasks: ['uglify', 'concat'],
+				tcomments: ['uglify', 'concat'],
 			}
 		},
 	});
 
-grunt.registerTask( 'build', [ 'phplint', 'makepot', 'version', 'less', 'uglify', 'concat', 'compress' ]);
+grunt.registerTcomment( 'build', [ 'phplint', 'makepot', 'version', 'less', 'uglify', 'concat', 'compress' ]);
 
 }

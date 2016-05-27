@@ -119,8 +119,8 @@ APjs.admin = function() {};
 					success: function(data){
 						if(data['status']){
 							jQuery('#ap-reputation-edit').remove();
-							jQuery('#anspress-reputation-table').hide();
-							jQuery('#anspress-reputation-table').after(data['html']);
+							jQuery('#platformpress-reputation-table').hide();
+							jQuery('#platformpress-reputation-table').after(data['html']);
 						}
 					}
 				});
@@ -161,8 +161,8 @@ APjs.admin = function() {};
 					dataType:'json',
 					success: function(data){
 						jQuery('#ap-reputation-edit').remove();
-						jQuery('#anspress-reputation-table').hide();
-						jQuery('#anspress-reputation-table').after(data['html']);
+						jQuery('#platformpress-reputation-table').hide();
+						jQuery('#platformpress-reputation-table').after(data['html']);
 					}
 				});
 
@@ -207,8 +207,8 @@ APjs.admin = function() {};
 					success: function(data){
 						if(data['status']){
 							jQuery('#ap-badge-edit').remove();
-							jQuery('#anspress-badge-table').hide();
-							jQuery('#anspress-badge-table').after(data['html']);
+							jQuery('#platformpress-badge-table').hide();
+							jQuery('#platformpress-badge-table').after(data['html']);
 						}
 					}
 				});
@@ -245,8 +245,8 @@ APjs.admin = function() {};
 					dataType:'json',
 					success: function(data){
 						jQuery('#ap-badge-edit').remove();
-						jQuery('#anspress-badge-table').hide();
-						jQuery('#anspress-badge-table').after(data['html']);
+						jQuery('#platformpress-badge-table').hide();
+						jQuery('#platformpress-badge-table').after(data['html']);
 					}
 				});
 

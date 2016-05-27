@@ -1,12 +1,12 @@
 <?php
 /**
- * AnsPress subscribe question
+ * PlatformPress subscribe question
  * Widget for showing subscribe button
- * @package AnsPress
- * @author Rahul Aryan <support@anspress.io>
- * @license GPL 2+ GNU GPL licence above 2+
- * @link http://anspress.io
- * @since 2.0.0-alpha2
+ *
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  *
  */
 
@@ -15,7 +15,7 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
-class AnsPress_Subscribe_Widget extends WP_Widget {
+class PlatformPress_Subscribe_Widget extends WP_Widget {
 
 	/**
 	 * Initialize the class
@@ -23,8 +23,8 @@ class AnsPress_Subscribe_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'ap_subscribe_widget',
-			__( '(AnsPress) Subscribe', 'anspress-question-answer' ),
-			array( 'description' => __( 'Subscribe button for single question and terms page.', 'anspress-question-answer' ) )
+			__( '(PlatformPress) Subscribe', 'platformpress' ),
+			array( 'description' => __( 'Subscribe button for single question and terms page.', 'platformpress' ) )
 		);
 	}
 
@@ -52,11 +52,11 @@ class AnsPress_Subscribe_Widget extends WP_Widget {
 			$title = $instance[ 'title' ];
 		}
 		else {
-			$title = __( 'Subscribe', 'anspress-question-answer' );
+			$title = __( 'Subscribe', 'platformpress' );
 		}
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<?php
@@ -81,7 +81,7 @@ class AnsPress_Subscribe_Widget extends WP_Widget {
 }
 
 function ap_subscribe_register_widgets() {
-	register_widget( 'AnsPress_Subscribe_Widget' );
+	register_widget( 'PlatformPress_Subscribe_Widget' );
 }
 
 add_action( 'widgets_init', 'ap_subscribe_register_widgets' );

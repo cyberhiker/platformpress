@@ -1,12 +1,12 @@
 <?php
 /**
- * AnsPress question stats widget
+ * PlatformPress question stats widget
  * Widget for showing question stats
- * @package AnsPress
- * @author Rahul Aryan <support@anspress.io>
- * @license GPL 2+ GNU GPL licence above 2+
- * @link http://anspress.io
- * @since 2.0.0-alpha2
+ *
+ * @package     PlatformPress
+ * @copyright   Copyright (c) 2013, Rahul Aryan; Copyright (c) 2016, Chris Burton
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1
  */
 
 // If this file is called directly, abort.
@@ -14,7 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die();
 }
 
-class AnsPress_Stats_Widget extends WP_Widget {
+class PlatformPress_Stats_Widget extends WP_Widget {
 
 	/**
 	 * Initialize the class
@@ -22,8 +22,8 @@ class AnsPress_Stats_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'ap_stats_widget',
-			__( '(AnsPress) Question Stats', 'anspress-question-answer' ),
-			array( 'description' => __( 'Shows question stats in single question page.', 'anspress-question-answer' ) )
+			__( '(PlatformPress) Question Stats', 'platformpress' ),
+			array( 'description' => __( 'Shows question stats in single question page.', 'platformpress' ) )
 		);
 	}
 
@@ -46,13 +46,13 @@ class AnsPress_Stats_Widget extends WP_Widget {
 
 		if ( is_question() ) {
 			echo '<ul class="ap-stats-widget">';
-			echo '<li><span class="stat-label apicon-pulse">'.__( 'Active', 'anspress-question-answer' ). '</span><span class="stat-value"><time class="published updated" itemprop="dateModified" datetime="'.mysql2date( 'c', $last_active ).'">'. $last_active_time .'</time></span></li>' ;
-			echo '<li><span class="stat-label apicon-eye">'.__( 'Views', 'anspress-question-answer' ). '</span><span class="stat-value">'.sprintf( _n( 'One time', '%d times', $view_count, 'anspress-question-answer' ), $view_count ).'</span></li>' ;
-			echo '<li><span class="stat-label apicon-answer">'.__( 'Answers', 'anspress-question-answer' ). '</span><span class="stat-value">'.sprintf( _n( '%2$s1%3$s answer', '%2$s%1$d%3$s answers', $ans_count, 'anspress-question-answer' ), $ans_count, '<span data-view="answer_count">', '</span>' ).'</span></li>' ;
-			echo '<li><span class="stat-label apicon-mail">'.__( 'Followers', 'anspress-question-answer' ). '</span><span class="stat-value">'.sprintf( _n( '1 follower', '%d followers', $total_subs, 'anspress-question-answer' ), $total_subs ).'</span></li>' ;
+			echo '<li><span class="stat-label apicon-pulse">'.__( 'Active', 'platformpress' ). '</span><span class="stat-value"><time class="published updated" itemprop="dateModified" datetime="'.mysql2date( 'c', $last_active ).'">'. $last_active_time .'</time></span></li>' ;
+			echo '<li><span class="stat-label apicon-eye">'.__( 'Views', 'platformpress' ). '</span><span class="stat-value">'.sprintf( _n( 'One time', '%d times', $view_count, 'platformpress' ), $view_count ).'</span></li>' ;
+			echo '<li><span class="stat-label apicon-answer">'.__( 'Answers', 'platformpress' ). '</span><span class="stat-value">'.sprintf( _n( '%2$s1%3$s answer', '%2$s%1$d%3$s answers', $ans_count, 'platformpress' ), $ans_count, '<span data-view="answer_count">', '</span>' ).'</span></li>' ;
+			echo '<li><span class="stat-label apicon-mail">'.__( 'Followers', 'platformpress' ). '</span><span class="stat-value">'.sprintf( _n( '1 follower', '%d followers', $total_subs, 'platformpress' ), $total_subs ).'</span></li>' ;
 			echo '</ul>';
 		} else {
-			_e( 'This widget can only be used in single question page', 'anspress-question-answer' );
+			_e( 'This widget can only be used in single question page', 'platformpress' );
 		}
 
 		echo '</div>';
@@ -64,11 +64,11 @@ class AnsPress_Stats_Widget extends WP_Widget {
 		if ( isset( $instance[ 'title' ] ) ) {
 			$title = $instance[ 'title' ];
 		} else {
-			$title = __( 'Question stats', 'anspress-question-answer' );
+			$title = __( 'Question stats', 'platformpress' );
 		}
 		?>
         <p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'anspress-question-answer' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'platformpress' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
 		<?php
@@ -93,7 +93,7 @@ class AnsPress_Stats_Widget extends WP_Widget {
 }
 
 function ap_stats_register_widgets() {
-	register_widget( 'AnsPress_Stats_Widget' );
+	register_widget( 'PlatformPress_Stats_Widget' );
 }
 
 add_action( 'widgets_init', 'ap_stats_register_widgets' );
