@@ -28,7 +28,7 @@ before_script:
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   - mysql -e 'create database wptestloader;'
   # configure apache virtual hosts
-  - echo "$(curl -fsSL https://gist.github.com/rahularyan/5b179508f63cebbce486/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`/www,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
+  - echo "$(curl -fsSL https://gist.githubusercontent.com/cyberhiker/e273a56610c80f2b970f8b317880f095/raw/be0139a922ed2ba494e099daf43e67b8b75f203e/apacheTester.conf)" | sed -e "s,PATH,`pwd`/www,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - echo "127.0.0.1 wptest.localhost" | sudo tee -a /etc/hosts
   - sudo service apache2 restart
   - sudo apt-get install git
