@@ -1,5 +1,5 @@
 # PlatformPress - Political Platforms #
-[![Build Status](https://travis-ci.org/cyberhiker/platformpress.svg?branch=master)](https://travis-ci.org/platformpress/platformpress) [![Download count](https://img.shields.io/badge/download-1.2k%2Fmonth-brightgreen.svg)](https://downloads.wordpress.org/plugin/platformpress.zip) [![Version](https://img.shields.io/badge/version-3.0.0.alpha2-blue.svg)]()
+[![Build Status](https://travis-ci.org/cyberhiker/platformpress.svg?branch=master)](https://travis-ci.org/platformpress/platformpress) [![Download count](https://img.shields.io/badge/download-1.2k%2Fmonth-brightgreen.svg)](https://downloads.wordpress.org/plugin/platformpress.zip) [![Version](https://img.shields.io/badge/version-0.1--alpha-green.svg)]()
 
 **Contributors:** nerdaryan  
 **Tags:** politics, democracy, platforms, forum, profile  
@@ -9,13 +9,12 @@
 **License:** GPLv2
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
-Free political platform plugin for WordPress.
+Free political platform development plugin for WordPress.
 
 ## Description ##
-GitHub repo: [Git PlatformPress](https://github.com/cyberikher/platformpress/)
+GitHub repo: [Git PlatformPress](https://github.com/cyberhiker/platformpress/)
 
-Easily add question and answer section like stackoverflow.com or quora.com in your WordPress.
-PlatformPress is a most complete question and answer system for WordPress. PlatformPress is made with developers in mind, highly customizable. PlatformPress provide an easy to use override system for theme.
+PlatformPress is a political platform development tool for WordPress.
 
 Extensions:
 

@@ -21,6 +21,5 @@ tests/_output/*
 tests/_output/*
 tests/_output/*
 tests/_output/*
-/.travis.yml
 /platformpress.sublime-project
 /platformpress.sublime-workspace

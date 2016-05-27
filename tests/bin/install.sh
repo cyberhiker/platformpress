@@ -30,9 +30,9 @@ install_composer(){
 	command -v composer >/dev/null 2>&1 || {
 		stty -echo
 		sudo apt-get install curl php5-cli git -y
-		curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer	
+		curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 	}
-	
+
 	#echo 'export PATH="$PATH:/home/travis/.composer/vendor/bin"' >> ~/.bashrc
 	curl -i http://localhost:4444/wd/hub/status
 }
@@ -53,7 +53,7 @@ vhost(){
 	sudo echo "<VirtualHost *:80>
 	        DocumentRoot /var/www/$HOST/
 	        ServerName $HOST.localhost
-	        ServerAlias wptest.platformpress.io
+	        ServerAlias wptest.anspress.io
 	        <Directory /var/www/$HOST/>
                 Options +Indexes +FollowSymLinks +MultiViews +Includes
                 AllowOverride All
@@ -61,7 +61,7 @@ vhost(){
                 allow from all
 	        </Directory>
 	</VirtualHost>" > /etc/apache2/sites-available/$HOST.conf
-	 
+
 	# Add the host to the hosts file
 	sudo echo 127.0.0.1 $HOST.localhost >> /etc/hosts
 
@@ -183,23 +183,23 @@ install_db() {
 copy_platformpress(){
 	whoami
 	NEW_platformpress_DIR="$WP_CORE_DIR/wp-content/plugins/platformpress"
-	
+
 	rm -rf "$NEW_platformpress_DIR"
 	rm -rf "$WP_CORE_DIR/wp-config.php"
 	sudo mkdir -p "$NEW_platformpress_DIR"
 	sudo chown -R travis:travis $NEW_platformpress_DIR
 	cd $NEW_platformpress_DIR
 	git init
-	git remote add origin "https://github.com/platformpress/platformpress.git"
+	git remote add origin "https://github.com/cyberhiker/platformpress.git"
 	git fetch origin
 	sudo git reset --hard origin/master
 	#cp -r "../../"* "$NEW_platformpress_DIR/"
 	#sed -i -e '2i include "'$TRAVIS_BUILD_DIR'/c3.php"; define("MY_APP_STARTED", true);\ ' platformpress.php
-	#cd $TRAVIS_BUILD_DIR	
+	#cd $TRAVIS_BUILD_DIR
 	#wget https://raw.github.com/Codeception/c3/2.0/c3.php
 }
 
-core_install(){	
+core_install(){
 	cd $WP_CORE_DIR
 	sudo echo "apache_modules:
   - mod_rewrite" > wp-cli.yml
