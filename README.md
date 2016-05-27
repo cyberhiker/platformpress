@@ -1,5 +1,5 @@
 # PlatformPress - Political Platforms #
-[![Build Status](https://travis-ci.org/cyberhiker/platformpress.svg?branch=master)](https://travis-ci.org/platformpress/platformpress) [![Download count](https://img.shields.io/badge/download-1.2k%2Fmonth-brightgreen.svg)](https://downloads.wordpress.org/plugin/platformpress.zip) [![Version](https://img.shields.io/badge/version-0.1--alpha-green.svg)]()
+[![Build Status](https://travis-ci.org/cyberhiker/platformpress.svg?branch=master)](https://travis-ci.org/cyberhiker/platformpress) [![Download count](https://img.shields.io/badge/download-1.2k%2Fmonth-brightgreen.svg)](https://downloads.wordpress.org/plugin/platformpress.zip) [![Version](https://img.shields.io/badge/version-0.1--alpha-green.svg)]()
 
 **Contributors:** nerdaryan  
 **Tags:** politics, democracy, platforms, forum, profile  
