@@ -121,7 +121,7 @@ class AP_Roles
  * @return boolean
  * @since  2.4.6 Added new argument `$user_id`.
  */
-function ap_user_can_comment( $user_id = false ) {
+function ap_user_can_ask( $user_id = false ) {
 	if ( false === $user_id ) {
 		$user_id = get_current_user_id();
 	}
