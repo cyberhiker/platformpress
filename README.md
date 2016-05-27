@@ -1,20 +1,18 @@
-# PlatformPress - Question and answer #
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/platformpress/platformpress/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/platformpress/platformpress/?branch=master) [![Build Status](https://travis-ci.org/platformpress/platformpress.svg?branch=master)](https://travis-ci.org/platformpress/platformpress) [![Download count](https://img.shields.io/badge/download-1.2k%2Fmonth-brightgreen.svg)](https://downloads.wordpress.org/plugin/platformpress.zip) [![Version](https://img.shields.io/badge/version-3.0.0.alpha2-blue.svg)]()
+# PlatformPress - Political Platforms #
+[![Build Status](https://travis-ci.org/cyberhiker/platformpress.svg?branch=master)](https://travis-ci.org/platformpress/platformpress) [![Download count](https://img.shields.io/badge/download-1.2k%2Fmonth-brightgreen.svg)](https://downloads.wordpress.org/plugin/platformpress.zip) [![Version](https://img.shields.io/badge/version-3.0.0.alpha2-blue.svg)]()
 
 **Contributors:** nerdaryan  
-**Donate link:** https://www.paypal.com/cgi-bin/webscr?business=rah12@live.com&cmd=_xclick&item_name=Donation%20to%20PlatformPress%20development  
-**Tags:** question, answer, q&a, forum, profile, stackoverflow, quora, buddypress  
+**Tags:** politics, democracy, platforms, forum, profile  
 **Requires at least:** 4.2  
 **Tested up to:** 4.4  
 **Stable tag:** 2.4.8  
-**License:** GPLv2 or later  
+**License:** GPLv2
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
-Free question and answer plugin for WordPress. Made with developers in mind, highly customizable.
+Free political platform plugin for WordPress.
 
 ## Description ##
-Demo & support forum: http://platformpress.io/
-GitHub repo: [Git PlatformPress](https://github.com/platformpress/platformpress/)
+GitHub repo: [Git PlatformPress](https://github.com/cyberikher/platformpress/)
 
 Easily add question and answer section like stackoverflow.com or quora.com in your WordPress.
 PlatformPress is a most complete question and answer system for WordPress. PlatformPress is made with developers in mind, highly customizable. PlatformPress provide an easy to use override system for theme.
@@ -168,7 +166,7 @@ Read full FAQ here http://platformpress.io/documents/doc_page=faq
   * Added comment approve button
   * Improved comment form for answer
 
-### 2.4.8 ### 
+### 2.4.8 ###
 
 * Fixed PlatformPress menu not appearing in menu editor.
 
