@@ -1,0 +1,12 @@
+body.post-type-qbot-question #minor-publishing, body.post-type-qbot-answer #minor-publishing {
+	display: none;
+}
+body.post-type-qbot-question .wp-editor-tabs, body.post-type-qbot-answer .wp-editor-tabs{display:none;}
+body.post-type-qbot-question .wp-media-buttons, body.post-type-qbot-answer .wp-media-buttons{display:none;}
+
+.type-qbot-question .row-actions span.inline{display:none}
+
+body.post-type-qbot-answer .view-switch{display:none}
+
+#newqbot-categories_parent{display:none !important}
+.qbot-activation-key-panel{background-color:#fafafa}
