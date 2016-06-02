@@ -1,2 +1,0 @@
-<?php 
- //initially left blank

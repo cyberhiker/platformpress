@@ -1,0 +1,12 @@
+body.post-type-platformpress-plank #minor-publishing, body.post-type-platformpress-remark #minor-publishing {
+	display: none;
+}
+body.post-type-platformpress-plank .wp-editor-tabs, body.post-type-platformpress-remark .wp-editor-tabs{display:none;}
+body.post-type-platformpress-plank .wp-media-buttons, body.post-type-platformpress-remark .wp-media-buttons{display:none;}
+
+.type-platformpress-plank .row-actions span.inline{display:none}
+
+body.post-type-platformpress-remark .view-switch{display:none}
+
+#newplatformpress-categories_parent{display:none !important}
+.platformpress-activation-key-panel{background-color:#fafafa}
