@@ -186,7 +186,9 @@ input[type="submit"] { background: #de6667; border: 1px solid #de6667; border-ra
 
 #frontend_wrap .platformpress-plank h1 { font-size: 36px; line-height: 36px; padding-bottom: 15px; }
 
-.description0 { background: #fdfdef none repeat scroll 0 0; color: #404040; font-size: 18px; line-height: 24px; margin: 0; padding: 30px 60px; position: relative; text-align: center; border-radius: 8px; margin: 0 0 15px; }
+/*.description0 { background: #fdfdef none repeat scroll 0 0; color: #404040; font-size: 18px; line-height: 24px; margin: 0; padding: 30px 60px; position: relative; text-align: center; border-radius: 8px; margin: 0 0 15px; }
+*/
+.description0 { background: #fdfdef none repeat scroll 0 0; color: #404040; font-size: 18px; line-height: 24px; margin: 0; padding: 30px 60px; position: relative; text-align: left; border-radius: 8px; margin: 0 0 15px; }
 
 .description0::before { background: url("../images/top_arrow.png") no-repeat scroll 0 0; content: ""; display: block; height: 19px; left: 15px; position: absolute; top: 15px; width: 20px; }
 
