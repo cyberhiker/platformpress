@@ -2,7 +2,7 @@
   <div class="back-btn" style="padding-top:8%">
   <!--back-btn-->
   <a class="btn-quaseo" href="<?php echo $this->getBaseUrl(); ?>">
-   <i class="fa fa-arrow-left"></i>&nbsp;&nbsp; BACK TO QUESTIONS</a>
+   <i class="fa fa-arrow-left"></i>&nbsp;&nbsp; BACK TO PLANKS</a>
   </div>
 	<?php if(isset($_GET['action']) && ($_GET['action']=='update-plank')): ?>
 	<h2>Update plank</h2>

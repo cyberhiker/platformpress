@@ -4,7 +4,7 @@
   <div class="back-btn">
   <!--back-btn-->
   <a class="btn-quaseo" href="<?php echo $this->getBaseUrl(); ?>">
-   <i class="fa fa-arrow-left"></i>&nbsp;&nbsp; BACK TO QUESTIONS</a>
+   <i class="fa fa-arrow-left"></i>&nbsp;&nbsp; BACK TO PLANKS</a>
   </div>
   <!--/back-btn-->
 

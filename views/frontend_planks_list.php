@@ -7,7 +7,7 @@ $totalPlanks 	= $wp_query->found_posts;
   <div id="platformpress_top" class="platformpress-block">
    <!--platformpress_top-->
     <div class="bck-sect">
-      <a href="<?php echo $plank_listing_url; ?>"><h2>All Planks</h2></a>
+      <a href="<?php echo $plank_listing_url; ?>"><h2>Platform</h2></a>
 	  <?php
 	  if(isset($_GET['cat']) && $_GET['cat']!=""){
 		echo "<h4>Displaying results for category \"".$_GET['cat']."\"</h4>";
