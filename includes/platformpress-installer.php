@@ -1,13 +1,13 @@
 <?php
-function qbot_plugin_install() {
+function platformpress_plugin_install() {
    	global $wpdb;
 	
-	$tableName = 'mcl_qbot_favorite_questions';
+	$tableName = 'mcl_platformpress_favorite_planks';
 	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(10) unsigned NOT NULL auto_increment,
-		  `qbot_questions_id` int(11) NOT NULL,
+		  `platformpress_planks_id` int(11) NOT NULL,
 		  `wp_users_id` varchar(45) NOT NULL,
 		  `created_at` date default NULL,
 		  PRIMARY KEY  (`id`)
@@ -17,14 +17,14 @@ function qbot_plugin_install() {
 		dbDelta($sql);
 	}
 	
-	$tableName = 'mcl_qbot_roles';
+	$tableName = 'mcl_platformpress_roles';
 	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(11) NOT NULL AUTO_INCREMENT,
 		  `wp_users_id` int(11) DEFAULT NULL,
-		  `can_ask_questions` tinyint(1) DEFAULT '1',
-		  `can_answer_questions` tinyint(1) DEFAULT '1',
+		  `can_ask_planks` tinyint(1) DEFAULT '1',
+		  `can_remark_planks` tinyint(1) DEFAULT '1',
 		  PRIMARY KEY (`id`)
 		 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
  
@@ -32,7 +32,7 @@ function qbot_plugin_install() {
 		dbDelta($sql);
 	}
 	
-	$tableName = 'mcl_qbot_users';
+	$tableName = 'mcl_platformpress_users';
 	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
@@ -53,15 +53,15 @@ function qbot_plugin_install() {
 	}
 	
 	
-	$tableName = 'mcl_qbot_votes';
+	$tableName = 'mcl_platformpress_votes';
 	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(10) unsigned NOT NULL auto_increment,
 		  `ip_add` varchar(45) default NULL,
 		  `wp_users_id` int(10) unsigned default NULL,
-		  `qbot_question_id` int(10) unsigned default NULL,
-		  `qbot_answer_id` int(10) unsigned default NULL,
+		  `platformpress_plank_id` int(10) unsigned default NULL,
+		  `platformpress_remark_id` int(10) unsigned default NULL,
 		  `created_at` date default NULL,
 		  `is_up_vote` tinyint(1) default NULL,
 		  `is_down_vote` tinyint(1) default NULL,
@@ -74,14 +74,14 @@ function qbot_plugin_install() {
 	
 	
 	
-	$tableName = 'mcl_qbot_views';
+	$tableName = 'mcl_platformpress_views';
 	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(10) NOT NULL auto_increment,
 		  `ip_add` varchar(45) NOT NULL,
 		  `ip_country_code` VARCHAR(2) NULL,
-		  `question_id` int(10) NOT NULL,
+		  `plank_id` int(10) NOT NULL,
 		  `wp_users_id` int(10) NOT NULL,
 		  `enter_at` datetime NOT NULL,
 		  PRIMARY KEY  (`id`)
@@ -91,7 +91,7 @@ function qbot_plugin_install() {
 		dbDelta($sql);
 	}
 
-	$tableName = 'mcl_qbot_spam';
+	$tableName = 'mcl_platformpress_spam';
 	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
@@ -101,7 +101,7 @@ function qbot_plugin_install() {
 		  `obj_id` INT(11) NOT NULL,
 		  `spam_val` VARCHAR(255) NOT NULL,
 		  `time` DATETIME NOT NULL,
-		  `group_name` ENUM('questions','answers') NOT NULL,
+		  `group_name` ENUM('planks','remarks') NOT NULL,
 		  PRIMARY KEY  (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
  
@@ -64969,17 +64969,17 @@ INSERT INTO `mcl_ip2location_db1` (`ip_from`, `ip_to`, `country_code`) VALUES
 	}
 	
 	//Add deafult setting very first time
-	$settings = qbot_setting_get_all($default='yes');
+	$settings = platformpress_setting_get_all($default='yes');
 	foreach($settings as $option_name=>$new_value){
-		qbot_setting_save($option_name,$new_value);	
+		platformpress_setting_save($option_name,$new_value);	
 	}	
 
-	//Auto create question page
+	//Auto create plank page
 	$args = array(
-		'post_title' =>'Qbot questions',
+		'post_title' =>'Qbot planks',
 		'post_type' => 'page',
 		'post_status' => 'publish',
-		'post_content'  => '[qbot-frontend]',
+		'post_content'  => '[platformpress-frontend]',
 	);
 	$frontend_page = get_page_by_path( sanitize_title( $args['post_title'] ) );
 	if ( ! $frontend_page ) {
@@ -64990,18 +64990,18 @@ INSERT INTO `mcl_ip2location_db1` (`ip_from`, `ip_to`, `country_code`) VALUES
 	}
 
 	// Valid page content to ensure shortcode was inserted
-	$questions_page_content = get_post_field( 'post_content', $page_id );
-	if ( strpos( $questions_page_content, '[qbot-frontend]' ) === false ) {
+	$planks_page_content = get_post_field( 'post_content', $page_id );
+	if ( strpos( $planks_page_content, '[platformpress-frontend]' ) === false ) {
 		wp_update_post( array(
 			'ID'			=> $page_id,
-			'post_content'	=> '[qbot-frontend]',
+			'post_content'	=> '[platformpress-frontend]',
 		) );
 	}
 	//When activate plugin set plugin settings
-	qbot_setting_save('plugin_page_id',$page_id);	
+	platformpress_setting_save('plugin_page_id',$page_id);	
 	
-	//On activation add new role (QBOT User)-->(qbot_qbot_user)
-	qbot_add_qbot_user_role();
+	//On activation add new role (PLATFORMPRESS User)-->(platformpress_platformpress_user)
+	platformpress_add_platformpress_user_role();
 	
 	//On activation By default allow user to register
 	update_option( 'users_can_register', 1 );

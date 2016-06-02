@@ -5,26 +5,26 @@
 	<?php endif; ?>
 
 	<?php if(($action=="add") || ($action=="edit")): ?>
-	<h2><?php echo ($action=="add") ? "Add new answer" : "Editing answer"; ?></h2>
+	<h2><?php echo ($action=="add") ? "Add new remark" : "Editing remark"; ?></h2>
 	<?php endif; ?>
 	
 	<h2 class="nav-tab-wrapper">
 		<?php
-		$params = array('page'=>'qbot-plugin-answers');
+		$params = array('page'=>'platformpress-plugin-remarks');
 		$url = esc_url(add_query_arg($params,'admin.php'));
 		?>
-		<a class="nav-tab <?php echo (($action=="") || ($action=="add") || ($action=="edit") || ($action=="delete")) ? "nav-tab-active" : ""; ?>" title="Manage all answers" href="<?php echo $url; ?>">Manage answers</a>
+		<a class="nav-tab <?php echo (($action=="") || ($action=="add") || ($action=="edit") || ($action=="delete")) ? "nav-tab-active" : ""; ?>" title="Manage all remarks" href="<?php echo $url; ?>">Manage remarks</a>
 	</h2>
 
 	<?php if(($action=="") || ($action=="delete")): ?>
 	<?php
-	qbot_flash_get();
+	platformpress_flash_get();
 	global $wpdb;
 	$pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
 	$limit = 10;
 	$offset = ( $pagenum - 1 ) * $limit;
-	$entries = $wpdb->get_results( "SELECT mcl_qbot_answers.*,mcl_qbot_questions.question_title,mcl_qbot_questions.question_slug FROM mcl_qbot_answers 
-	INNER JOIN mcl_qbot_questions ON(mcl_qbot_answers.question_id=mcl_qbot_questions.id)
+	$entries = $wpdb->get_results( "SELECT mcl_platformpress_remarks.*,mcl_platformpress_planks.plank_title,mcl_platformpress_planks.plank_slug FROM mcl_platformpress_remarks 
+	INNER JOIN mcl_platformpress_planks ON(mcl_platformpress_remarks.plank_id=mcl_platformpress_planks.id)
 	ORDER BY id DESC LIMIT $offset, $limit" );
 	echo '<div class="wrap">';
 	?>
@@ -49,12 +49,12 @@
 
 				<tr <?php echo $class; ?>>
 					<td style="width:40%">
-						<strong><a title="View <?php echo esc_html($entry->question_title); ?>" target="blank" href="<?php echo $this->getQuestionUrl($entry); ?>"><?php echo esc_html($entry->question_title); ?></a></strong><br />
+						<strong><a title="View <?php echo esc_html($entry->plank_title); ?>" target="blank" href="<?php echo $this->getQuestionUrl($entry); ?>"><?php echo esc_html($entry->plank_title); ?></a></strong><br />
 						<strong>Answer:</strong> 
 						<?php 
 						$wordlimit = 50;
-						echo substr($entry->answer_content,0,$wordlimit);
-						echo (strlen($entry->answer_content)>$wordlimit) ? "..." : "";
+						echo substr($entry->remark_content,0,$wordlimit);
+						echo (strlen($entry->remark_content)>$wordlimit) ? "..." : "";
 						?>
 					</td>
 					<td>
@@ -63,7 +63,7 @@
 					if($user_id>0){
 						$userData =  get_userdata($user_id);
 						echo "<div style=\"float:left; margin-right:10px;\">";
-							echo qbot_avatar($user_id, 32 );
+							echo platformpress_avatar($user_id, 32 );
 						echo "</div>";
 							echo ucfirst(esc_html($userData->data->display_name))."<br />";
 							echo human_time_diff( strtotime($entry->created_at), current_time('timestamp') ) . ' ago';
@@ -74,25 +74,25 @@
 					</td>					
 					<td>
 						<?php
-						$params = array('page'=>'qbot-plugin-answers','action'=>'edit','id'=>$entry->id);
+						$params = array('page'=>'platformpress-plugin-remarks','action'=>'edit','id'=>$entry->id);
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						?>
 						<a href="<?php echo $url; ?>">
-						<img src="<?php echo QBOT_PLUGIN_IMAGES_URL; ?>edit.png" width="16" height="16" />
+						<img src="<?php echo PLATFORMPRESS_PLUGIN_IMAGES_URL; ?>edit.png" width="16" height="16" />
 						</a>
 						<?php
-						$params = array('page'=>'qbot-plugin-answers','action'=>'delete','id'=>$entry->id);
+						$params = array('page'=>'platformpress-plugin-remarks','action'=>'delete','id'=>$entry->id);
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						?>
 						<a href="<?php echo $url; ?>">
-						<img src="<?php echo QBOT_PLUGIN_IMAGES_URL; ?>trash.png" width="16" height="16" />
+						<img src="<?php echo PLATFORMPRESS_PLUGIN_IMAGES_URL; ?>trash.png" width="16" height="16" />
 						</a>
 						<?php
-						$params = array('page'=>'qbot-plugin-answers','action'=>'add','question_id'=>$entry->question_id);
+						$params = array('page'=>'platformpress-plugin-remarks','action'=>'add','plank_id'=>$entry->plank_id);
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						?>
-						<a title="Add your answer" href="<?php echo $url; ?>">
-						<img src="<?php echo QBOT_PLUGIN_IMAGES_URL; ?>create.png" width="16" height="16" />
+						<a title="Add your remark" href="<?php echo $url; ?>">
+						<img src="<?php echo PLATFORMPRESS_PLUGIN_IMAGES_URL; ?>create.png" width="16" height="16" />
 						</a>
 					</td>
 				</tr>
@@ -112,7 +112,7 @@
 
 	<?php
 
-	$total = $wpdb->get_var( "SELECT COUNT(id) FROM mcl_qbot_answers" );
+	$total = $wpdb->get_var( "SELECT COUNT(id) FROM mcl_platformpress_remarks" );
 	$num_of_pages = ceil( $total / $limit );
 	$page_links = paginate_links( array(
 		'base' => add_query_arg( 'pagenum', '%#%' ),
@@ -134,17 +134,17 @@
 
 	<?php if(($action=="add") || ($action=="edit")): ?>
 	
-	<?php qbot_flash_get(); ?>
+	<?php platformpress_flash_get(); ?>
 	
 	
-	<form class="validate" id="qbotform" name="createuser" method="post">
+	<form class="validate" id="platformpressform" name="createuser" method="post">
 	<table class="form-table">
 		<tbody>
 
 		<tr>
 			<th scope="row">Question</th>
-			<td><h3><?php echo esc_html($_POST['question_title']); ?></h3></td>
-			<input type="hidden" name="question_id" value="<?php echo (int)($_GET["question_id"]); ?>" />
+			<td><h3><?php echo esc_html($_POST['plank_title']); ?></h3></td>
+			<input type="hidden" name="plank_id" value="<?php echo (int)($_GET["plank_id"]); ?>" />
 		</tr>
 		
 		<tr>
@@ -152,10 +152,10 @@
 			<td>
 			<?php 
 			//Answer textarea
-			qbot_editor( array( 
-				'content' => ( isset( $_POST['answer_content'] ) ? wp_kses_data( $_POST['answer_content'] ) : '' ),
-				'id' 			=> 'answer_content', 
-				'textarea_name' => 'answer_content',
+			platformpress_editor( array( 
+				'content' => ( isset( $_POST['remark_content'] ) ? wp_kses_data( $_POST['remark_content'] ) : '' ),
+				'id' 			=> 'remark_content', 
+				'textarea_name' => 'remark_content',
 				'media_buttons' => false,
 			));
 			?>
@@ -180,7 +180,7 @@
 		
 		</tbody></table>
 		<p class="submit">
-		<input type="submit" value="<?php echo ($action=="add") ? "Create new answer" : "Update answer"; ?>" class="button button-primary" name="qbot-submitted">
+		<input type="submit" value="<?php echo ($action=="add") ? "Create new remark" : "Update remark"; ?>" class="button button-primary" name="platformpress-submitted">
 		</p>
 	</form>
 	<?php endif; ?>

@@ -1768,7 +1768,7 @@ class Google_CommunityPoll extends Google_Model {
   protected $__authorType = 'Google_OrkutAuthorResource';
   protected $__authorDataType = '';
   public $author;
-  public $question;
+  public $plank;
   public $id;
   public $isRestricted;
   public $communityId;
@@ -1833,11 +1833,11 @@ class Google_CommunityPoll extends Google_Model {
   public function getAuthor() {
     return $this->author;
   }
-  public function setQuestion($question) {
-    $this->question = $question;
+  public function setQuestion($plank) {
+    $this->plank = $plank;
   }
   public function getQuestion() {
-    return $this->question;
+    return $this->plank;
   }
   public function setId($id) {
     $this->id = $id;

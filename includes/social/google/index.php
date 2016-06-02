@@ -12,7 +12,7 @@ require_once 'src/contrib/Google_Oauth2Service.php';
 session_start();
 
 $gClient = new Google_Client();
-$gClient->setApplicationName('Login to QBOT-Wordpress');
+$gClient->setApplicationName('Login to PLATFORMPRESS-Wordpress');
 $gClient->setClientId($google_client_id);
 $gClient->setClientSecret($google_client_secret);
 $gClient->setRedirectUri($google_redirect_url);

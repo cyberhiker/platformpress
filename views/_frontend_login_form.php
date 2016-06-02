@@ -1,8 +1,8 @@
 <div id="login_sect">
 	<h3>Log in/ Register to Post Questions & Answers</h3>
-	<div class="qbot-block">
+	<div class="platformpress-block">
 
-		<?php if((qbot_setting_get('login_and_registeration')=="1") || is_user_logged_in()): ?>	
+		<?php if((platformpress_setting_get('login_and_registeration')=="1") || is_user_logged_in()): ?>	
 	
 		<div class="bck-sect colm-7">
 			<form name="loginform" id="loginform" action="<?php echo get_option('siteurl'); ?>/wp-login.php" method="post">

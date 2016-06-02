@@ -2,7 +2,7 @@ jQuery(document).ready(function($) {
 
 	//localStorage.clear();
 	jQuery(".write-comment-action").click(function(){
-		jQuery(this).parent().parent().find("form.qbot-comment-form").toggle();
+		jQuery(this).parent().parent().find("form.platformpress-comment-form").toggle();
 		
 	});
     jQuery(".unlock").click(function(){
@@ -11,10 +11,10 @@ jQuery(document).ready(function($) {
 		});
     });
 	
-	$('#qbotform').validate({	
+	$('#platformpressform').validate({	
 		ignore: "",
 		rules: {
-			'qbotanswercontent': {
+			'platformpressremarkcontent': {
 				required: true,
 				minlength: 3
 			},
@@ -27,9 +27,9 @@ jQuery(document).ready(function($) {
 		},		
 	});
 	
-	jQuery('#qbotform input[type="submit"]').on('click',function(){
-		content = tinymce.get('qbotanswercontent').getContent();
-		$("#qbotanswercontent").val(content);
+	jQuery('#platformpressform input[type="submit"]').on('click',function(){
+		content = tinymce.get('platformpressremarkcontent').getContent();
+		$("#platformpressremarkcontent").val(content);
 	});	
 	
 });

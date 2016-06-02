@@ -1,4 +1,4 @@
-<div id="frontend_wrap" class="qbot-frontend-wrap que-view">
+<div id="frontend_wrap" class="platformpress-frontend-wrap que-view">
 
   <div class="back-btn">
   <!--back-btn-->
@@ -8,6 +8,6 @@
   <!--/back-btn-->
   
 	<br />
-	<?php require_once QBOT_PLUGIN_VIEW_PATH.'/_frontend_login_form.php'; ?>
+	<?php require_once PLATFORMPRESS_PLUGIN_VIEW_PATH.'/_frontend_login_form.php'; ?>
 	
 </div>

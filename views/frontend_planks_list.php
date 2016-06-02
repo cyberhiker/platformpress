@@ -2,12 +2,12 @@
 $totalQuestions 	= $wp_query->found_posts;
 ?>
 
-<div id="frontend_wrap" class="qbot-frontend-wrap">
+<div id="frontend_wrap" class="platformpress-frontend-wrap">
 
-  <div id="qbot_top" class="qbot-block">
-   <!--qbot_top-->
+  <div id="platformpress_top" class="platformpress-block">
+   <!--platformpress_top-->
     <div class="bck-sect">
-      <a href="<?php echo $question_listing_url; ?>"><h2>All Questions</h2></a>
+      <a href="<?php echo $plank_listing_url; ?>"><h2>All Questions</h2></a>
 	  <?php 
 	  if(isset($_GET['cat']) && $_GET['cat']!=""){
 		echo "<h4>Displaying results for category \"".$_GET['cat']."\"</h4>";
@@ -15,21 +15,21 @@ $totalQuestions 	= $wp_query->found_posts;
 	  ?>
     </div>
     <div class="bck-sect">
-		<?php $url = add_query_arg(array('action'=>'add-new-question'),get_permalink()); ?>
+		<?php $url = add_query_arg(array('action'=>'add-new-plank'),get_permalink()); ?>
 		<a id="post_ques" href="<?php echo $url; ?>"> Post a Question</a>
     </div>
-    <!--/qbot_top-->
+    <!--/platformpress_top-->
   </div>
   
-    <?php require_once(QBOT_PLUGIN_INCLUDE_PATH.'qbot-flash-messages.php'); ?>	
+    <?php require_once(PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'platformpress-flash-messages.php'); ?>	
 
   
   <?php if($totalQuestions>0){ ?>
-  <div class="qbot-main-search">
-	<form role="search" method="get" class="search-form" action="<?php echo $question_listing_url; ?>">
+  <div class="platformpress-main-search">
+	<form role="search" method="get" class="search-form" action="<?php echo $plank_listing_url; ?>">
 		<label>
 			<span class="screen-reader-text"><?php echo _x( 'Search for:', 'label' ) ?></span>
-			<input type="search" class="search-field" placeholder="<?php echo esc_attr_x( 'Search …', 'placeholder' ) ?>" value="<?php echo get_search_query() ?>" name="qbot-search" title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>" />
+			<input type="search" class="search-field" placeholder="<?php echo esc_attr_x( 'Search ï¿½', 'placeholder' ) ?>" value="<?php echo get_search_query() ?>" name="platformpress-search" title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>" />
 		</label>
 		<input type="submit" class="" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" />
 	</form>  
@@ -51,8 +51,8 @@ $totalQuestions 	= $wp_query->found_posts;
 	}
 	
 	?>
-  <ul class="qbot-sort">
-	<?php if($filter!=="private"): //don't show sorting option in case of private questions ?>
+  <ul class="platformpress-sort">
+	<?php if($filter!=="private"): //don't show sorting option in case of private planks ?>
     <?php
 	$params = array('sort'=>'newest');
 	$url = esc_url(add_query_arg($params));
@@ -68,10 +68,10 @@ $totalQuestions 	= $wp_query->found_posts;
       <a href="<?php echo $url; ?>">View</a>
     </li>
     <?php
-	$params = array('sort'=>'answer');
+	$params = array('sort'=>'remark');
 	$url = esc_url(add_query_arg($params));
 	?>
-    <li <?php echo ($sort=='answer') ? "class=\"active\"" : "" ?>>
+    <li <?php echo ($sort=='remark') ? "class=\"active\"" : "" ?>>
       <a href="<?php echo $url; ?>" >Most Answered</a>
     </li>
     <?php
@@ -102,19 +102,19 @@ $totalQuestions 	= $wp_query->found_posts;
 
 	
   
-  <div class="qbot-questions-list">
+  <div class="platformpress-planks-list">
     <?php while (have_posts()) : the_post(); ?>
 	<?php
 	// Question variables
-	$questionAuthoId = $post->post_author;
-	$questionId 		= get_the_ID();
-	$userData 			= get_userdata($questionAuthoId);				
-	$questionUrl 		= get_permalink();
-	$resolvedAnswerId	= get_post_meta($questionId, 'qbot_question_resolved', true);
+	$plankAuthoId = $post->post_author;
+	$plankId 		= get_the_ID();
+	$userData 			= get_userdata($plankAuthoId);				
+	$plankUrl 		= get_permalink();
+	$resolvedAnswerId	= get_post_meta($plankId, 'platformpress_plank_resolved', true);
 	?>	
-    <div class="qbot-questions-item">
+    <div class="platformpress-planks-item">
       <div class="ques">
-        <h3><a href="<?php echo $questionUrl; ?>"><?php echo esc_html(get_the_title()); ?></a></h3>
+        <h3><a href="<?php echo $plankUrl; ?>"><?php echo esc_html(get_the_title()); ?></a></h3>
         <p>
 			<?php 
 			$wordlimit = 256;
@@ -123,10 +123,10 @@ $totalQuestions 	= $wp_query->found_posts;
 			?>	
 		</p>
 						
-        <div id="social_sec" class="qbot-block">
+        <div id="social_sec" class="platformpress-block">
           <div class="bck-sect">
             <div class="user-img">
-				<?php echo qbot_avatar($questionAuthoId,32); ?>
+				<?php echo platformpress_avatar($plankAuthoId,32); ?>
             </div>
           </div>
           <div class="bck-sect ">
@@ -137,12 +137,12 @@ $totalQuestions 	= $wp_query->found_posts;
 			  </strong>
 			  on <?php echo date_i18n('jS F Y',strtotime($post->post_date)); ?>
 
-			<?php if($this->settings['general']['user_id']==$questionAuthoId): ?>
-				<?php $editurl = add_query_arg(array('action'=>'update-question','post_id'=>$questionId),$this->getBaseUrl()); ?>
-				<?php $deleteurl = add_query_arg(array('action'=>'delete-question','post_id'=>$questionId),$this->getBaseUrl()); ?>
+			<?php if($this->settings['general']['user_id']==$plankAuthoId): ?>
+				<?php $editurl = add_query_arg(array('action'=>'update-plank','post_id'=>$plankId),$this->getBaseUrl()); ?>
+				<?php $deleteurl = add_query_arg(array('action'=>'delete-plank','post_id'=>$plankId),$this->getBaseUrl()); ?>
 				&nbsp;&nbsp;
 				<a href="<?php echo $editurl; ?>">Edit</a> | 
-				<a href="<?php echo $deleteurl; ?>" onclick="return confirm('Are you sure you want to delete this question?')">Delete</a>
+				<a href="<?php echo $deleteurl; ?>" onclick="return confirm('Are you sure you want to delete this plank?')">Delete</a>
 			<?php endif; ?>			  
 			  
 			  
@@ -151,36 +151,36 @@ $totalQuestions 	= $wp_query->found_posts;
             <div class="analysis">
               <ul>
 				<li><i class="fa fa-eye"></i>
-				  <?php $avg = get_post_meta(get_the_ID(), 'qbot_views_count', true); ?>
+				  <?php $avg = get_post_meta(get_the_ID(), 'platformpress_views_count', true); ?>
 				  <span title="Views"><?php if($avg != '' ) { echo $avg; } else{ echo "0" ;} ?></span>
                 </li>
                 <li>
                   <i class="fa fa-thumbs-up"></i>
-				  <?php $avg = get_post_meta(get_the_ID(), 'qbot_question_vote_count', true); ?>
+				  <?php $avg = get_post_meta(get_the_ID(), 'platformpress_plank_vote_count', true); ?>
 				  <span title="Votes"><?php if($avg != '' ) { echo $avg; } else{ echo "0" ;} ?></span>
                 </li>
 				<li><i class="fa fa-heart "></i>
-					<?php $count = get_post_meta(get_the_ID(), 'qbot_question_favorite', true); ?>
+					<?php $count = get_post_meta(get_the_ID(), 'platformpress_plank_favorite', true); ?>
 				 <span title="Favourites" id="qasefavcount"><?php if($count != '' ) { echo $count; } else{ echo "0" ;} ?></span>
 				</li>
 				<li>
 				  <i class="fa fa-comment"></i>
-				  <?php $count = get_post_meta(get_the_ID(), 'qbot_answers_count', true); ?>
+				  <?php $count = get_post_meta(get_the_ID(), 'platformpress_remarks_count', true); ?>
 				  <span title="Answers"><?php if($count != '' ) { echo $count; } else{ echo "0" ;} ?></span>
 				</li>
 				
-				<?php if($category = $this->post_categories($questionId)): ?>
+				<?php if($category = $this->post_categories($plankId)): ?>
 					<li>
 					<i class="fa fa-tag rotate"></i>
 					<?php
-					$cat_url = add_query_arg(array('cat'=>$category->name),$question_listing_url);
+					$cat_url = add_query_arg(array('cat'=>$category->name),$plank_listing_url);
 					?>					
 					<a href="<?php echo $cat_url; ?>" class="cat_list"><?php echo esc_html($category->name); ?></a>
 					</li>
 				<?php endif; ?>
 		
 					<?php
-					$attachmentId = get_post_meta($questionId, 'qbot_question_attachment', true);
+					$attachmentId = get_post_meta($plankId, 'platformpress_plank_attachment', true);
 					?>
 					<?php if(($attachmentId!=='') && is_numeric($attachmentId) && ($attachmentId>0)): ?>
 					<li>
@@ -200,15 +200,15 @@ $totalQuestions 	= $wp_query->found_posts;
         <p>
 		
         <?php
-		$answer = $this->getLatestAnswer($questionId);
-		// if this question have answer, show latest answer
-		if($answer){
-			$userData =  get_userdata($answer->post_author);
-			echo "answered by ";?>
+		$remark = $this->getLatestAnswer($plankId);
+		// if this plank have remark, show latest remark
+		if($remark){
+			$userData =  get_userdata($remark->post_author);
+			echo "remarked by ";?>
 				<strong><?php echo ucfirst(esc_html($userData->data->display_name)); ?></strong>
 				<?php
 			//echo ucfirst($userData->data->display_name)." ";
-			echo "<span class=\"qbot-smallfont\">". human_time_diff( strtotime($answer->post_date), current_time('timestamp') ) . ' ago</span>';		
+			echo "<span class=\"platformpress-smallfont\">". human_time_diff( strtotime($remark->post_date), current_time('timestamp') ) . ' ago</span>';		
 		}
 		?>
         </p>
@@ -227,7 +227,7 @@ bootstrap_pagination($totalQuestions,2);
 
  
 <?php if(!$this->settings['general']['is_user_logged_in']): ?> 
-<?php require_once QBOT_PLUGIN_VIEW_PATH.'/_frontend_login_form.php'; ?>
+<?php require_once PLATFORMPRESS_PLUGIN_VIEW_PATH.'/_frontend_login_form.php'; ?>
 <?php endif; ?>
 
 </div> 
@@ -247,7 +247,7 @@ function bootstrap_pagination($total = '', $range = 2)
 
 	if(1 != $pages)
 	{
-		echo "<div id='qbot_pagenation'><ul>";
+		echo "<div id='platformpress_pagenation'><ul>";
 		if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<li><a href='".get_pagenum_link($paged - 1)."'>Previous</a></li>";
 		if($paged > 1 && $showitems < $pages) echo "<li><a href='".get_pagenum_link(1)."'>First</a></li>";
 

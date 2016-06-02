@@ -1,5 +1,5 @@
 <?php
-class qbot_manager{
+class platformpress_manager{
 
 	function run(){
 		

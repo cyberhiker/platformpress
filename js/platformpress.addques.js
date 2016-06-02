@@ -1,19 +1,19 @@
 	jQuery(document).ready(function($) {
-			$('#qbotform').validate({	
+			$('#platformpressform').validate({	
 			ignore: "",
 			rules: {
-				question_title: {
+				plank_title: {
 					required: true,
 					maxlength:150,
 					minlength: 3
 					
 				},
-				question_slug: {
+				plank_slug: {
 					required: true,
 					maxlength:150,
 					minlength: 3
 				},
-				question_description: {
+				plank_description: {
 					required: true,
 					minlength: 3
 				},
@@ -26,11 +26,11 @@
 			},		
 		});
 		
-		jQuery('.slug').slugify('#question_title');
+		jQuery('.slug').slugify('#plank_title');
 		
-		jQuery('#qbotform input[type="submit"]').on('click',function(){
-			content = tinymce.get('question_description').getContent();
-			$("#question_description").val(content);
+		jQuery('#platformpressform input[type="submit"]').on('click',function(){
+			content = tinymce.get('plank_description').getContent();
+			$("#plank_description").val(content);
 		});
 		
 	});

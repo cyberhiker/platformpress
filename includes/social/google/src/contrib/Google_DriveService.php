@@ -88,7 +88,7 @@
     /**
      * Gets a file's metadata by ID. (files.get)
      *
-     * @param string $fileId The ID for the file in question.
+     * @param string $fileId The ID for the file in plank.
      * @param array $optParams Optional parameters.
      *
      * @opt_param bool updateViewedDate Whether to update the view date after successfully retrieving the file.

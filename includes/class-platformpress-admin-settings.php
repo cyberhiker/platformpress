@@ -1,36 +1,36 @@
 <?php 
-class qbotAdminSettings extends qbotSettings{
+class platformpressAdminSettings extends platformpressSettings{
 
 	function run(){
 		$this->loadScriptAndStyle();
 		
 		$action = isset($_GET['action']) ? $_GET['action'] : "";
 		
-		if(isset($_POST['qbot-submitted'])){
+		if(isset($_POST['platformpress-submitted'])){
 		
 			switch($action)
 			{
 				case 'permalink-settings':
 					//default settongs
 					$settings = array(
-						'permalink_question' =>'',
+						'permalink_plank' =>'',
 					);
 					
 					foreach($_POST as $key=>$val){
 						if(isset($settings[$key])){
 							switch($key){
-								case 'permalink_question':
+								case 'permalink_plank':
 									$queried_post = get_page_by_path($val,OBJECT);
 									if($queried_post){
-										qbot_flash_set('error','This permalink already in use, please choose other.');
+										platformpress_flash_set('error','This permalink already in use, please choose other.');
 									} else{
 										$settings[$key] = $val;
-										$var1 = '^'.sanitize_text_field($_POST['permalink_question']).'/([^/]+)?';
+										$var1 = '^'.sanitize_text_field($_POST['permalink_plank']).'/([^/]+)?';
 										$var2 = 'index.php?page_id='.$this->settings['stored']['plugin_page_id'].'&qid=$matches[1]';
 										add_rewrite_rule($var1,$var2,'top');
 										global $wp_rewrite;
 										$wp_rewrite->flush_rules(false);
-										qbot_flash_set('success','Permalinks updated successfully.');				
+										platformpress_flash_set('success','Permalinks updated successfully.');				
 									}
 								break;
 								case 'permalink_category':
@@ -45,9 +45,9 @@ class qbotAdminSettings extends qbotSettings{
 				
 					$settings = array(
 						'notify_user'					=>'',//checkbox
-						'notify_new_question'			=>'',//checkbox
-						'notification_new_question'		=>'',//mail content
-						'notification_new_answer'		=>'',//mail content
+						'notify_new_plank'			=>'',//checkbox
+						'notification_new_plank'		=>'',//mail content
+						'notification_new_remark'		=>'',//mail content
 					);
 					
 					foreach($_POST as $key=>$val){
@@ -57,7 +57,7 @@ class qbotAdminSettings extends qbotSettings{
 					}
 					
 					$this->handelFormData($settings);
-					qbot_flash_set('success','Settings updated successfully.');				
+					platformpress_flash_set('success','Settings updated successfully.');				
 				break;	
 				default:
 					//default settongs
@@ -67,8 +67,8 @@ class qbotAdminSettings extends qbotSettings{
 						'login_and_registeration'		=>'',
 						
 						'disble_negative_rating'		=>'',
-						'auto_approve_new_questions'	=>'',
-						'auto_approve_new_answers'		=>'',
+						'auto_approve_new_planks'	=>'',
+						'auto_approve_new_remarks'		=>'',
 						
 						'facebook_app_id'				=>'',
 						'facebook_app_secret'			=>'',
@@ -86,7 +86,7 @@ class qbotAdminSettings extends qbotSettings{
 					}
 					
 					$this->handelFormData($settings);
-					qbot_flash_set('success','Settings updated successfully.');
+					platformpress_flash_set('success','Settings updated successfully.');
 				break;
 			}	
 		}
@@ -96,7 +96,7 @@ class qbotAdminSettings extends qbotSettings{
 	}
 	
 	protected function openRecord(){
-		$settings = qbot_setting_get_all($default='no');
+		$settings = platformpress_setting_get_all($default='no');
 		return $settings;
 	}
 	
@@ -111,7 +111,7 @@ class qbotAdminSettings extends qbotSettings{
 				update_option( 'users_can_register', 0 );
 			}
 			
-			qbot_setting_save($option_name,$val);
+			platformpress_setting_save($option_name,$val);
 		}
 		if(isset($settings['plugin_page_id']) && ($settings['plugin_page_id']!="") && is_numeric($settings['plugin_page_id'])){
 			$this->attachShortcodeToPage($settings['plugin_page_id']);
@@ -151,10 +151,10 @@ class qbotAdminSettings extends qbotSettings{
 	protected function attachShortcodeToPage($pageId){
 		$pageId = (int)($pageId);
 		$page_content = get_post_field( 'post_content', $pageId );
-		if ( strpos( $page_content, '[qbot-frontend]' ) === false ){
+		if ( strpos( $page_content, '[platformpress-frontend]' ) === false ){
 			$res = wp_update_post( array(
 				'ID'			=> $pageId,
-				'post_content'	=> $page_content.'[qbot-frontend]',
+				'post_content'	=> $page_content.'[platformpress-frontend]',
 			) );
 		}
 	}	
@@ -165,15 +165,15 @@ class qbotAdminSettings extends qbotSettings{
 
 				jQuery.validator.addMethod("checkslug", function(value, element){
 					return /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(value);
-				}, "Please choose correct slug for this question");		
+				}, "Please choose correct slug for this plank");		
 			
-				$('#qbotform').validate({	
+				$('#platformpressform').validate({	
 				rules: {
-					question_title: {
+					plank_title: {
 						required: true,
 						minlength: 3
 					},
-					question_slug: {
+					plank_slug: {
 						checkslug: true,
 					},
 					email: {
@@ -197,7 +197,7 @@ class qbotAdminSettings extends qbotSettings{
 					$(element).parent().parent().removeClass('form-invalid');
 				},		
 			});
-			jQuery('.slug').slugify('#question_title');
+			jQuery('.slug').slugify('#plank_title');
 		});
 	</script>			
 	<?php	

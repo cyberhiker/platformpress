@@ -1,10 +1,10 @@
 <?php
-class qbotFrontend extends qbotSettings{
+class platformpressFrontend extends platformpressSettings{
 
 	function run(){
-		global $wpdb, $qbot_plugin_settings, $wp, $wp_query, $post;
+		global $wpdb, $platformpress_plugin_settings, $wp, $wp_query, $post;
 		
-		$question_listing_url = get_permalink();
+		$plank_listing_url = get_permalink();
 
 		
 		$ip = $_SERVER['REMOTE_ADDR'];
@@ -15,12 +15,12 @@ class qbotFrontend extends qbotSettings{
 		$qid = get_query_var('qid');
 		$qid = $qid;
 		
-		$action = 'question_list';
+		$action = 'plank_list';
 
-		/* If we are on question view page load post variable*/
+		/* If we are on plank view page load post variable*/
 		if($qid!==""){
 			if(!is_numeric($qid)){
-				$post =  get_page_by_path($qid,OBJECT, 'qbot-question');
+				$post =  get_page_by_path($qid,OBJECT, 'platformpress-plank');
 				if($post==''){
 					header("HTTP/1.0 404 Not Found - Archive Empty");
 					$wp_query->set_404();
@@ -41,7 +41,7 @@ class qbotFrontend extends qbotSettings{
 		}elseif(isset($_GET['action']) && $_GET['action']=='spam'){
 			$action = "spam";
 		} elseif($qid!==""){
-			$action = 'question_view';
+			$action = 'plank_view';
 		}
 		
 		if(!is_user_logged_in()){
@@ -73,15 +73,15 @@ class qbotFrontend extends qbotSettings{
 						$spam_id = (int)($_POST['spam']);
 						$spamObjId = (int)($_POST['spamObjId']);
 						$spamObjName = sanitize_text_field($_POST['spamObjName']);
-						$table_name = 'mcl_qbot_spam';
+						$table_name = 'mcl_platformpress_spam';
 						$user_ID = get_current_user_id();
 						$ip= $_SERVER['REMOTE_ADDR'];
 						
-						$answerInfo		= get_post($spamObjId);
-						$questionInfo	= get_post($answerInfo->post_parent);
-						$questionUrl = get_permalink($questionInfo->ID);
+						$remarkInfo		= get_post($spamObjId);
+						$plankInfo	= get_post($remarkInfo->post_parent);
+						$plankUrl = get_permalink($plankInfo->ID);
 
-						$res = $wpdb->get_row( 'SELECT COUNT(*) as counts FROM mcl_qbot_spam WHERE wp_user_id="'.$user_ID.'" AND obj_id="'.$spamObjId.'"' );
+						$res = $wpdb->get_row( 'SELECT COUNT(*) as counts FROM mcl_platformpress_spam WHERE wp_user_id="'.$user_ID.'" AND obj_id="'.$spamObjId.'"' );
 						if($res->counts==0){
 						
 							$wpdb->insert($table_name, array(
@@ -94,11 +94,11 @@ class qbotFrontend extends qbotSettings{
 							), array('%s','%d','%d','%s','%s','%s'));
 							
 							//$this->flash_message('success', $message = 'Spam marked successfully' );
-							wp_redirect($questionUrl.'#qbotanswer-'.$answerInfo->ID);
+							wp_redirect($plankUrl.'#platformpressremark-'.$remarkInfo->ID);
 						}
 						else{
-							$url = add_query_arg(array('error'=>'Already Marked by You'),$questionUrl);
-							wp_redirect($url.'#qbotanswer-'.$answerInfo->ID);
+							$url = add_query_arg(array('error'=>'Already Marked by You'),$plankUrl);
+							wp_redirect($url.'#platformpressremark-'.$remarkInfo->ID);
 						}
 					}
 					require_once plugin_dir_path( __FILE__ ) . '../views/frontend_spam.php';
@@ -106,9 +106,9 @@ class qbotFrontend extends qbotSettings{
 				} 
 				
 		break;
-		case 'question_list':
+		case 'plank_list':
 			$action = isset($_GET['action']) ? $_GET['action'] : "";
-			if(($action=="add-new-question") || ($action=="update-question")){
+			if(($action=="add-new-plank") || ($action=="update-plank")){
 				
 				if(!is_user_logged_in()){
 					$params = array('action'=>'login');
@@ -121,11 +121,11 @@ class qbotFrontend extends qbotSettings{
 				if(isset($_POST) && (count($_POST)>0))
 				{
 					$user_id 				= get_current_user_id();
-					$question_title 		= sanitize_text_field($_POST['question_title']);
-					$question_description 	= wp_kses_post($_POST['question_description']);
+					$plank_title 		= sanitize_text_field($_POST['plank_title']);
+					$plank_description 	= wp_kses_post($_POST['plank_description']);
 					
 					// Create post object
-					if((qbot_setting_get("auto_approve_new_questions")=="1") || (is_admin())){
+					if((platformpress_setting_get("auto_approve_new_planks")=="1") || (is_admin())){
 						$post_status = 'publish';
 						$success_message = 'Question created successfully.';
 					} else{
@@ -134,47 +134,47 @@ class qbotFrontend extends qbotSettings{
 					}
 					
 					
-					if($action=="add-new-question"){
+					if($action=="add-new-plank"){
 						//Add
 						$my_post = array(
-						  'post_type'     => 'qbot-question',
-						  'post_title'    => $question_title,
-						  'post_content'  => $question_description,
+						  'post_type'     => 'platformpress-plank',
+						  'post_title'    => $plank_title,
+						  'post_content'  => $plank_description,
 						  'post_status'   => $post_status,
 						  'post_author'   => $user_id,
 						);
-						$questionId = wp_insert_post($my_post);
+						$plankId = wp_insert_post($my_post);
 						
 						$this->updateMyLocation();
-						$this->nofity_new_question($questionId);
-					} elseif($action=="update-question"){
+						$this->nofity_new_plank($plankId);
+					} elseif($action=="update-plank"){
 						//Update
-							$questionId = $_GET['post_id'];
+							$plankId = $_GET['post_id'];
 						    $my_post = array(
 							  'ID'            => $_GET['post_id'],
-							  'post_title'    => $question_title,
-							  'post_content'  => $question_description,
+							  'post_title'    => $plank_title,
+							  'post_content'  => $plank_description,
 						  );
 						  wp_update_post($my_post);
 						  $success_message = 'Question updated successfully.';
 					}
 					
 					if(isset($_POST['cat']) && ($_POST['cat']!="")){
-						wp_set_object_terms($questionId, intval($_POST['cat']), 'qbot-categories',true);
+						wp_set_object_terms($plankId, intval($_POST['cat']), 'platformpress-categories',true);
 					}
 					
 					$this->flash_message('success', $success_message );
 		
-					if($_GET['action']=='add-new-question'){
-						wp_redirect(get_the_permalink($questionId));
+					if($_GET['action']=='add-new-plank'){
+						wp_redirect(get_the_permalink($plankId));
 						exit;
-					} elseif($_GET['action']=='update-question'){
+					} elseif($_GET['action']=='update-plank'){
 						// Open in edit mode
 						if(isset($_GET['post_id']) && ($_GET['post_id']!="") && is_numeric($_GET['post_id'])){
 							$_GET['post_id'] = (int)($_GET['post_id']);
 							$post = get_post($_GET['post_id']);
-							$_POST['question_title'] 		= $post->post_title;
-							$_POST['question_description'] 	= $post->post_content; 
+							$_POST['plank_title'] 		= $post->post_title;
+							$_POST['plank_description'] 	= $post->post_content; 
 						}
 					}
 					
@@ -189,15 +189,15 @@ class qbotFrontend extends qbotSettings{
 							require TEMPLATEPATH.'/404.php';
 							exit;
 						}
-						$_POST['question_title'] 		= $post->post_title;
-						$_POST['question_description'] 	= $post->post_content; 
+						$_POST['plank_title'] 		= $post->post_title;
+						$_POST['plank_description'] 	= $post->post_content; 
 					}
 				}
 
 					
-				require_once plugin_dir_path( __FILE__ ) . '../views/frontend_questions_add.php';
+				require_once plugin_dir_path( __FILE__ ) . '../views/frontend_planks_add.php';
 				
-			} elseif($action=="delete-question"){
+			} elseif($action=="delete-plank"){
 				// Open in delete mode
 				if(isset($_GET['post_id']) && ($_GET['post_id']!="") && is_numeric($_GET['post_id'])){
 					$_GET['post_id'] = (int)($_GET['post_id']);
@@ -226,39 +226,39 @@ class qbotFrontend extends qbotSettings{
 				
 				if(isset($_GET['sort']) && ($_GET['sort']=='view')){
 					$query = array(
-						'post_type' 	=> 'qbot-question',
+						'post_type' 	=> 'platformpress-plank',
 						'post_status'	=> 'publish',
-						'meta_key' 		=> 'qbot_views_count',
+						'meta_key' 		=> 'platformpress_views_count',
 						'orderby' 		=> 'meta_value_num',
 						'order' 		=> 'DESC'
 					);
-				} elseif(isset($_GET['sort']) && ($_GET['sort']=='answer')){
+				} elseif(isset($_GET['sort']) && ($_GET['sort']=='remark')){
 					$query = array(
-						'post_type' 	=> 'qbot-question',
+						'post_type' 	=> 'platformpress-plank',
 						'post_status'	=> 'publish',
-						'meta_key' 		=> 'qbot_answers_count',
+						'meta_key' 		=> 'platformpress_remarks_count',
 						'orderby' 		=> 'meta_value_num',
 						'order' 		=> 'DESC'
 					);
 				} elseif(isset($_GET['sort']) && ($_GET['sort']=='vote')){
 					$query = array(
-						'post_type' 	=> 'qbot-question',
+						'post_type' 	=> 'platformpress-plank',
 						'post_status'	=> 'publish',
-						'meta_key' 		=> 'qbot_question_vote_count',
+						'meta_key' 		=> 'platformpress_plank_vote_count',
 						'orderby' 		=> 'meta_value_num',
 						'order' 		=> 'DESC'
 					);
 				} elseif(isset($_GET['sort']) && ($_GET['sort']=='favourite')){
 					$query = array(
-						'post_type' 	=> 'qbot-question',
+						'post_type' 	=> 'platformpress-plank',
 						'post_status'	=> 'publish',
-						'meta_key' 		=> 'qbot_question_favorite',
+						'meta_key' 		=> 'platformpress_plank_favorite',
 						'orderby' 		=> 'meta_value_num',
 						'order' 		=> 'DESC'
 					);
 				} else{
 					$query = array(
-						'post_type' 	=> 'qbot-question',
+						'post_type' 	=> 'platformpress-plank',
 						'post_status'	=> 'publish',
 						'order_by' 		=> array('ID'),
 						'order' 		=> 'DESC',
@@ -266,8 +266,8 @@ class qbotFrontend extends qbotSettings{
 				}
 				
 				//search if search tag set
-				if(isset($_GET['qbot-search']) && (strlen($_GET['qbot-search'])>0)){
-					$keywords = $_GET['qbot-search'];
+				if(isset($_GET['platformpress-search']) && (strlen($_GET['platformpress-search'])>0)){
+					$keywords = $_GET['platformpress-search'];
 					$query['s'] = $keywords;
 				}
 
@@ -277,31 +277,31 @@ class qbotFrontend extends qbotSettings{
 				$cat = isset($_GET['cat']) ? $_GET['cat'] : "";
 
 				if($cat!==""){
-					$query['qbot-categories'] = $cat;
+					$query['platformpress-categories'] = $cat;
 				}
 				
 				query_posts($query);
 				
-				require_once plugin_dir_path( __FILE__ ) . '../views/frontend_questions_list.php';
+				require_once plugin_dir_path( __FILE__ ) . '../views/frontend_planks_list.php';
 			}
 				
 			break;
-				case 'question_view':
-					$questionUrl = get_permalink(get_the_ID());
+				case 'plank_view':
+					$plankUrl = get_permalink(get_the_ID());
 					$this->handleViewCounter(get_the_ID());
 					$this->updateMyLocation();
-					// If answer submitted
-					if(isset($_POST['qbotanswercontent']) && ($_POST['qbotanswercontent']!="")){
+					// If remark submitted
+					if(isset($_POST['platformpressremarkcontent']) && ($_POST['platformpressremarkcontent']!="")){
 						$user_id = get_current_user_id();
-						$answer_content = wp_kses_post($_POST['qbotanswercontent']);
-						if($answer_content!=="")
+						$remark_content = wp_kses_post($_POST['platformpressremarkcontent']);
+						if($remark_content!=="")
 						{
 							$this->updateMyLocation();
 							// Create post object
 							$my_post = array(
-							  'post_type'    => 'qbot-answer',
-							  'post_title'    => 'QBOT Answer',
-							  'post_content'  => $answer_content,
+							  'post_type'    => 'platformpress-remark',
+							  'post_title'    => 'PLATFORMPRESS Answer',
+							  'post_content'  => $remark_content,
 							  'post_status'   => 'publish',
 							  'post_author'   => $user_id,
 							  'post_parent'	  => $qid,
@@ -310,18 +310,18 @@ class qbotFrontend extends qbotSettings{
 							
 							$my_post = array(
 							  'ID'           => $post_ID,
-							  'post_name'   => 'qbot-answer-'.$post_ID,
+							  'post_name'   => 'platformpress-remark-'.$post_ID,
 							);
 							wp_update_post($my_post);
 							
-							$this->nofity_new_answer($wpdb->insert_id);
+							$this->nofity_new_remark($wpdb->insert_id);
 							$this->flash_message('success', $message = 'Answered successfully.' );
 							//$url = $this->getQuestionUrl($qid);
-							wp_redirect($questionUrl.'#qbotanswer-'.$post_ID);
+							wp_redirect($plankUrl.'#platformpressremark-'.$post_ID);
 							exit;
 						} else{
-							$this->flash_message('error', $message = 'Please enter correct answer.' );
-							wp_redirect($questionUrl);
+							$this->flash_message('error', $message = 'Please enter correct remark.' );
+							wp_redirect($plankUrl);
 						}
 					}
 					
@@ -335,29 +335,29 @@ class qbotFrontend extends qbotSettings{
 							exit;
 						}
 					
-						$table_name = 'mcl_qbot_comments';
+						$table_name = 'mcl_platformpress_comments';
 						$user_id = get_current_user_id();
 						$aid=$_POST['aid'];
 						$aid = (int)($aid);
-						$comment_content = sanitize_text_field($_POST['qbot-comment-content']);
+						$comment_content = sanitize_text_field($_POST['platformpress-comment-content']);
 						if($comment_content!=="")
 						{
 							$comment_id = $this->addComment($aid,$comment_content);
 							$this->flash_message('success', $message = 'Commented successfully.' );
-							wp_redirect($questionUrl.'#qbotcomment-'.$comment_id);
+							wp_redirect($plankUrl.'#platformpresscomment-'.$comment_id);
 							exit;
 						} else{
 							$this->flash_message('error', $message = 'Please enter your comment.' );
 						}					
 					}
-					require_once plugin_dir_path( __FILE__ ) . '../views/frontend_question_view.php';
+					require_once plugin_dir_path( __FILE__ ) . '../views/frontend_plank_view.php';
 			break;
 			case 'login':
 				if(is_user_logged_in()){
 					$url = $this->getBaseUrl();
 					wp_redirect($url);
 				} else{
-					require_once plugin_dir_path( __FILE__ ) . '../views/frontend_question_login.php';
+					require_once plugin_dir_path( __FILE__ ) . '../views/frontend_plank_login.php';
 				}
 			break;
 			case 'spam':
@@ -376,13 +376,13 @@ class qbotFrontend extends qbotSettings{
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
 
-				$('#qbotform').validate({	
+				$('#platformpressform').validate({	
 				rules: {
-					question_title: {
+					plank_title: {
 						required: true,
 						minlength: 3
 					},
-					question_description: {
+					plank_description: {
 						required: true,
 						minlength: 3
 					},
@@ -394,9 +394,9 @@ class qbotFrontend extends qbotSettings{
 					$(element).parent().parent().removeClass('form-invalid');
 				},		
 			});
-			jQuery('.slug').slugify('#question_title');
+			jQuery('.slug').slugify('#plank_title');
 			
-		jQuery(".qbot-alert .qbot_flash_success").hover(function(){
+		jQuery(".platformpress-alert .platformpress_flash_success").hover(function(){
         jQuery(this).fadeOut(3000);
 		
         });
@@ -429,7 +429,7 @@ class qbotFrontend extends qbotSettings{
 		$styleSettings = implode(';',$styleSettings);
 		$css = "";
 		$css = "<style type=\"text/css\">";
-		$css .= ".qbot-frontend-wrap .qbot-question .description{".$styleSettings."}";
+		$css .= ".platformpress-frontend-wrap .platformpress-plank .description{".$styleSettings."}";
 		$css .= "</style>";
 		echo $css;
 	}
@@ -437,14 +437,14 @@ class qbotFrontend extends qbotSettings{
 	function userAnswersCount($user_id){
 		global $wpdb;
 		$user_id = (int)($user_id);
-		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_qbot_answers WHERE wp_users_id='.$user_id.'', 'OBJECT');
+		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_remarks WHERE wp_users_id='.$user_id.'', 'OBJECT');
 		return $res->counts;
 	}
 	
 	function userQuestionsCount($user_id){
 		global $wpdb;
 		$user_id = (int)($user_id);
-		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_qbot_questions WHERE wp_users_id='.$user_id.'', 'OBJECT');
+		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_planks WHERE wp_users_id='.$user_id.'', 'OBJECT');
 		return $res->counts;
 	}
 
@@ -466,7 +466,7 @@ class qbotFrontend extends qbotSettings{
 			$currentUrl = home_url(add_query_arg($params,$wp->request));
 		}
 		
-		require_once QBOT_PLUGIN_INCLUDE_PATH.'/social/facebook_login_class.php';
+		require_once PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'/social/facebook_login_class.php';
 		$facebook = new Facebook_Login(
 		$this->settings['stored']['facebook_app_id'],
 		$this->settings['stored']['facebook_app_secret'],
@@ -477,8 +477,8 @@ class qbotFrontend extends qbotSettings{
 			$userId = $this->getUserIdByLogin($userData['email']);
 			
 			if($userId!=""){
-				update_user_meta($userId, '_qbot_user_lastlogin_type','facebook');
-				update_user_meta($userId, '_qbot_user_fb_id', $userData['id']);
+				update_user_meta($userId, '_platformpress_user_lastlogin_type','facebook');
+				update_user_meta($userId, '_platformpress_user_fb_id', $userData['id']);
 				wp_set_auth_cookie($userId, false, is_ssl() );
 			} else{
 				//Registeration code
@@ -492,8 +492,8 @@ class qbotFrontend extends qbotSettings{
 				'nickname'      =>   $userData['first_name'],
 				);
 				$userId = wp_insert_user($userRecord);
-				add_user_meta($userId, '_qbot_user_lastlogin_type','facebook',true);
-				add_user_meta($userId, '_qbot_user_fb_id', $userData['id'],true);
+				add_user_meta($userId, '_platformpress_user_lastlogin_type','facebook',true);
+				add_user_meta($userId, '_platformpress_user_fb_id', $userData['id'],true);
 				$this->welcome_mail($userId,$password);
 				wp_set_auth_cookie($userId, false, is_ssl() );
 			}
@@ -519,7 +519,7 @@ class qbotFrontend extends qbotSettings{
 		$redirectUrl = $this->settings['general']['plugin_base_url'];
 		$google_redirect_url 	= $redirectUrl;
 		
-		require_once QBOT_PLUGIN_INCLUDE_PATH.'/social/google/index.php';
+		require_once PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'/social/google/index.php';
 		
 		if($gClient->getAccessToken()){
 		
@@ -539,9 +539,9 @@ class qbotFrontend extends qbotSettings{
 			  
 			  
 			  if($userId!=""){
-					update_user_meta($userId, '_qbot_user_lastlogin_type','google');
-					update_user_meta($userId, '_qbot_user_google_id',$user['id']);
-					update_user_meta($userId, '_qbot_user_google_pic_url',$profile_image_url);
+					update_user_meta($userId, '_platformpress_user_lastlogin_type','google');
+					update_user_meta($userId, '_platformpress_user_google_id',$user['id']);
+					update_user_meta($userId, '_platformpress_user_google_pic_url',$profile_image_url);
 					wp_set_auth_cookie($userId, false, is_ssl() );
 				} else{
 					//Registeration code
@@ -555,9 +555,9 @@ class qbotFrontend extends qbotSettings{
 					'nickname'      =>   $user_name,
 					);
 					$userId = wp_insert_user($userRecord);
-					add_user_meta($userId, '_qbot_user_lastlogin_type','google',true);
-					add_user_meta($userId, '_qbot_user_google_id',$user['id'],true);
-					add_user_meta($userId, '_qbot_user_google_pic_url',$profile_image_url,true);
+					add_user_meta($userId, '_platformpress_user_lastlogin_type','google',true);
+					add_user_meta($userId, '_platformpress_user_google_id',$user['id'],true);
+					add_user_meta($userId, '_platformpress_user_google_pic_url',$profile_image_url,true);
 					$this->welcome_mail($userId,$password);
 					wp_set_auth_cookie($userId, false, is_ssl() );
 					unset($_SESSION['token']);
@@ -583,8 +583,8 @@ class qbotFrontend extends qbotSettings{
 		$qid = (int)($qid);
 		$user_ID = get_current_user_id();
 		$ip= $_SERVER['REMOTE_ADDR'];
-		$table_name = 'mcl_qbot_views';
-		$res = $wpdb->get_row( 'SELECT COUNT(*) as counts FROM mcl_qbot_views WHERE ip_add="'.$ip.'" AND question_id="'.$qid.'"' );
+		$table_name = 'mcl_platformpress_views';
+		$res = $wpdb->get_row( 'SELECT COUNT(*) as counts FROM mcl_platformpress_views WHERE ip_add="'.$ip.'" AND plank_id="'.$qid.'"' );
 		if($res->counts==0){
 			$response = $this->getMyLocation();
 			if($response){
@@ -596,7 +596,7 @@ class qbotFrontend extends qbotSettings{
 			$wpdb->insert($table_name, array(
 				'ip_add' 		=> $ip,
 				'ip_country_code'=>$countryCode,
-				'question_id' 	=> $qid,
+				'plank_id' 	=> $qid,
 				'wp_users_id'	=> $user_ID,	
 				'enter_at'		=> current_time('mysql')
 			), array('%s','%s','%d','%d','%s'));

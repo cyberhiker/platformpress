@@ -30,14 +30,14 @@
 }
 
 .activities_wrap h2 { padding: 9px 0px 4px 0; }
-.qbot-feature-list ul li{min-height:80px;}
+.platformpress-feature-list ul li{min-height:80px;}
 </style>
 
 <div class="wrap">
-	<h2>QBOT Plugin Dashboard <small>( <a target="blank" href="<?php echo $this->getBaseUrl(); ?>">Visit frontend</a> )</small></h2>
+	<h2>PLATFORMPRESS Plugin Dashboard <small>( <a target="blank" href="<?php echo $this->getBaseUrl(); ?>">Visit frontend</a> )</small></h2>
 
 
-  <div class="welcome-panel qbot-activation-key-panel" id="welcome-panel">
+  <div class="welcome-panel platformpress-activation-key-panel" id="welcome-panel">
     <div class="welcome-panel-content">
 	
 		<h1>Basic version</h1>
@@ -45,85 +45,85 @@
 		<div class="welcome-panel-content">
 		<div class="welcome-panel-column-container">
 		<!-- <h3>You are using Free version, some features are locked</h3>-->
-		<div class="welcome-panel-column qbot-feature-list">
+		<div class="welcome-panel-column platformpress-feature-list">
 		  <ul>
 			<li>
 				<h4>
-				<a class="qbot-admin-dashboard qbot-manage-question" href="edit.php?post_type=qbot-question">Manage Questions</a>
+				<a class="platformpress-admin-dashboard platformpress-manage-plank" href="edit.php?post_type=platformpress-plank">Manage Questions</a>
 				</h4>
 				<p>View/ Edit/ Delete Posted Questions</p>
 			</li>
 			<li>
 				<h4>
-				<a class="qbot-admin-dashboard qbot-manage-answer" href="edit.php?post_type=qbot-answer">Manage Answers</a>
+				<a class="platformpress-admin-dashboard platformpress-manage-remark" href="edit.php?post_type=platformpress-remark">Manage Answers</a>
 				</h4>
 				<p>View/ Edit/ Delete/ Respond to Posted Answers</p>
 			</li>
 			<li>
 				<h4>
-				<a class="qbot-admin-dashboard qbot-manage-settings" href="admin.php?page=qbot-plugin-settings">Settings</a>
+				<a class="platformpress-admin-dashboard platformpress-manage-settings" href="admin.php?page=platformpress-plugin-settings">Settings</a>
 				</h4>
-				<p>Manage QBOT's extensive features from this section</p>
+				<p>Manage PLATFORMPRESS's extensive features from this section</p>
 			</li>
 			<li>
-				<h4><span class="qbot-admin-dashboard qbot-manage-categories0">Category Management</span></h4>
-				<p>Keep things organized. Give your users the ability to post questions into admin specified categories</p>
+				<h4><span class="platformpress-admin-dashboard platformpress-manage-categories0">Category Management</span></h4>
+				<p>Keep things organized. Give your users the ability to post planks into admin specified categories</p>
 			</li>
 			<li>
-				<h4><span class="qbot-admin-dashboard qbot-manage-question-style0" >Design Management</span>
+				<h4><span class="platformpress-admin-dashboard platformpress-manage-plank-style0" >Design Management</span>
 				</h4>
-				<p>Manage fonts, colors and background of QBOT to match your website design</p>
+				<p>Manage fonts, colors and background of PLATFORMPRESS to match your website design</p>
 			</li>
 		  </ul>
 		</div>
-		<div class="welcome-panel-column qbot-feature-list">
+		<div class="welcome-panel-column platformpress-feature-list">
 		  <ul>
 			<li>
-				<h4><span class="qbot-admin-dashboard qbot-manage-shortcode0" >Manage Shortcodes</span>
+				<h4><span class="platformpress-admin-dashboard platformpress-manage-shortcode0" >Manage Shortcodes</span>
 				</h4>
 				<p>Use Shortcodes to include QABOT into other sections of your website</p>
 			</li>
 			<li>
-				<h4><span class="qbot-admin-dashboard qbot-manage-spam0" >Spam Manager</span>
+				<h4><span class="platformpress-admin-dashboard platformpress-manage-spam0" >Spam Manager</span>
 				</h4>
-				<p>Keep spam at bay. Manage flagged questions/ answers</p>
+				<p>Keep spam at bay. Manage flagged planks/ remarks</p>
 			</li>
 			<li>
-				<h4><span class="qbot-admin-dashboard qbot-manage-comments0" >Manage Sub Answers</span>
+				<h4><span class="platformpress-admin-dashboard platformpress-manage-comments0" >Manage Sub Answers</span>
 				</h4>
 				<p>View/ Edit/ Delete/ Respond to Posted Sub Answers</p>
 			</li>
 			
 			<li>
-				<h4><span class="qbot-admin-dashboard qbot-manage-categories0" >Widgets</span>
+				<h4><span class="platformpress-admin-dashboard platformpress-manage-categories0" >Widgets</span>
 				</h4>
-				<p>Add QBOT widget to specific sections of your website</p>
+				<p>Add PLATFORMPRESS widget to specific sections of your website</p>
 			</li>
 			
 			<li>
-				<h4><span class="qbot-admin-dashboard qbot-manage-sociallogin0" >Share & Learn</span>
+				<h4><span class="platformpress-admin-dashboard platformpress-manage-sociallogin0" >Share & Learn</span>
 				</h4>
-				<p>Social Lock the top answers, pushing your visitors to share your page for the correct answer. Social Sharing = Higher Rankings</p>
+				<p>Social Lock the top remarks, pushing your visitors to share your page for the correct remark. Social Sharing = Higher Rankings</p>
 			</li>			
 			
 		  </ul>
 		</div>
-		<div class="welcome-panel-column welcome-panel-last qbot-feature-list">
+		<div class="welcome-panel-column welcome-panel-last platformpress-feature-list">
 			<ul>
 				<li>
-					<h4><span class="qbot-admin-dashboard qbot-manage-sociallogin0" >Social Login</span>
+					<h4><span class="platformpress-admin-dashboard platformpress-manage-sociallogin0" >Social Login</span>
 					</h4>
 					<p>Allow users to register via Facebook/ G+. User data and email address captured from logins are stores into your database increasing your email list organically</p>
 				</li>			
 				<li>
-					<h4><span class="qbot-admin-dashboard qbot-analytics0" >Analytics</span>
+					<h4><span class="platformpress-admin-dashboard platformpress-analytics0" >Analytics</span>
 					</h4>
-					<p>Use a multi feature analytic system to track top questions, contributors, and countries, and download users in CSV.</p>
+					<p>Use a multi feature analytic system to track top planks, contributors, and countries, and download users in CSV.</p>
 				</li>
 				<li>
-					<h4><span class="qbot-admin-dashboard qbot-userroles0" >User Roles</span>
+					<h4><span class="platformpress-admin-dashboard platformpress-userroles0" >User Roles</span>
 					</h4>
-					<p>Control user access to certain questions or answers</p>
+					<p>Control user access to certain planks or remarks</p>
 				</li>			
 			</ul>
 		</div>
@@ -187,8 +187,8 @@
     <tr <?php echo $class; ?>>
       <td><?php echo $printDate; ?></td>
       <td align="center"><?php echo $this->countByDate($date,'userRegistered'); ?></td>
-      <td align="center"><?php echo $this->countByDate($date,'questions'); ?></td>
-      <td align="center"><?php echo $this->countByDate($date,'answers'); ?></td>
+      <td align="center"><?php echo $this->countByDate($date,'planks'); ?></td>
+      <td align="center"><?php echo $this->countByDate($date,'remarks'); ?></td>
       <td align="center"><?php echo $this->countByDate($date,'spam'); ?></td>
     </tr>
     <?php

@@ -1,5 +1,5 @@
 <?php 
-class qbotSettings{
+class platformpressSettings{
 
 	var $settings = array();
 	var $currentUrl = '';
@@ -23,7 +23,7 @@ class qbotSettings{
 	}
 
 	function loadStoredSettings(){
-		$settings = qbot_setting_get_all($default='no');
+		$settings = platformpress_setting_get_all($default='no');
 		return $settings;
 	}
 	
@@ -53,10 +53,10 @@ class qbotSettings{
 		return $value;
 	}
 	
-	function isQuestionMarkedAsFavorite($questionId){
+	function isQuestionMarkedAsFavorite($plankId){
 		global $wpdb;
 		$user_id = get_current_user_id();
-		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_qbot_favorite_questions WHERE wp_users_id='.$user_id.' AND qbot_questions_id='.$questionId.'', 'OBJECT');
+		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_favorite_planks WHERE wp_users_id='.$user_id.' AND platformpress_planks_id='.$plankId.'', 'OBJECT');
 		if($res->counts>0){
 			return true;
 		} else{
@@ -114,7 +114,7 @@ class qbotSettings{
 				
 				if($response){
 					global $wpdb;
-					$wpdb->insert('mcl_qbot_users', array(
+					$wpdb->insert('mcl_platformpress_users', array(
 						'wp_users_id' 	=> $userId,
 						'country_code' 	=> $response->countryCode,
 						'country_name'	=> '',
@@ -145,7 +145,7 @@ class qbotSettings{
 	function getUserLocation($userId){
 		global $wpdb;
 		$userId = (int)($userId);
-		$res = $wpdb->get_row('SELECT * FROM mcl_qbot_users WHERE wp_users_id='.$userId.' AND country_code!=""', 'OBJECT');
+		$res = $wpdb->get_row('SELECT * FROM mcl_platformpress_users WHERE wp_users_id='.$userId.' AND country_code!=""', 'OBJECT');
 		if($res){
 			return $res;
 		} else{
@@ -166,18 +166,18 @@ class qbotSettings{
 		return $ip;
 	}
 	
-	function getQuestionUrl($question){
-		if(is_object($question)){
-			$qid = $question->question_slug;
+	function getQuestionUrl($plank){
+		if(is_object($plank)){
+			$qid = $plank->plank_slug;
 		} else{
 			global $wpdb;
-			$res = $wpdb->get_row('SELECT question_slug FROM mcl_qbot_questions WHERE id='.$question.'', 'OBJECT');
-			$qid = $res->question_slug;
+			$res = $wpdb->get_row('SELECT plank_slug FROM mcl_platformpress_planks WHERE id='.$plank.'', 'OBJECT');
+			$qid = $res->plank_slug;
 		}
 		
-		if(($this->settings['stored']['seo_friendly_urls']==1) && ($this->settings['stored']['permalink_question']!='')){
+		if(($this->settings['stored']['seo_friendly_urls']==1) && ($this->settings['stored']['permalink_plank']!='')){
 			$params = array('qid'=>$qid);
-			$url = site_url($this->settings['stored']['permalink_question'].'/'.$qid.'/');
+			$url = site_url($this->settings['stored']['permalink_plank'].'/'.$qid.'/');
 		} else{
 			$params = array('qid'=>$qid);
 			$url = esc_url(add_query_arg($params,$this->getBaseUrl()));
@@ -194,12 +194,12 @@ class qbotSettings{
 	function countByDate($date,$type){
 		global $wpdb;
 		switch($type){
-			case 'questions':
-			$res = $wpdb->get_row( 'SELECT COUNT(*) as counts FROM '.$wpdb->posts.' WHERE DATE(post_date) = "'.$date.'" AND post_status="publish" AND post_type="qbot-question"', 'OBJECT' );
+			case 'planks':
+			$res = $wpdb->get_row( 'SELECT COUNT(*) as counts FROM '.$wpdb->posts.' WHERE DATE(post_date) = "'.$date.'" AND post_status="publish" AND post_type="platformpress-plank"', 'OBJECT' );
 			return $res->counts;
 			break;
-			case 'answers':
-			$res = $wpdb->get_row( 'SELECT COUNT(*) as counts FROM '.$wpdb->posts.' WHERE DATE(post_date) = "'.$date.'" AND post_status="publish" AND post_type="qbot-answer"', 'OBJECT' );
+			case 'remarks':
+			$res = $wpdb->get_row( 'SELECT COUNT(*) as counts FROM '.$wpdb->posts.' WHERE DATE(post_date) = "'.$date.'" AND post_status="publish" AND post_type="platformpress-remark"', 'OBJECT' );
 			return $res->counts;
 			break;
 			case 'userRegistered':
@@ -207,7 +207,7 @@ class qbotSettings{
 			return $res->counts;
 			break;
 			case 'spam':
-			$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_qbot_spam WHERE DATE(time) = "'.$date.'"', 'OBJECT' );
+			$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_spam WHERE DATE(time) = "'.$date.'"', 'OBJECT' );
 			return $res->counts;
 			break;
 			default:
@@ -216,28 +216,28 @@ class qbotSettings{
 		}
 	}
 
-	public function nofity_new_question( $questionId ) {
+	public function nofity_new_plank( $plankId ) {
 		#send notification to admin if setting enabled from admin;
-		$questionId = (int)($questionId);
-		$isQuestuionNotificationEnabled = ($this->settings['stored']['notify_new_question']==1) ? true : false;
+		$plankId = (int)($plankId);
+		$isQuestuionNotificationEnabled = ($this->settings['stored']['notify_new_plank']==1) ? true : false;
 		if(!$isQuestuionNotificationEnabled){
 			return false;
 		}
 	
-		require_once QBOT_PLUGIN_INCLUDE_PATH.'class-qbot-admin-questions.php';
-		$qbotAdminQuestions = new qbotAdminQuestions();
-		$post 	= get_post($questionId);
+		require_once PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'class-platformpress-admin-planks.php';
+		$platformpressAdminQuestions = new platformpressAdminQuestions();
+		$post 	= get_post($plankId);
 		
-		$questionUserData = get_userdata($post->post_author);
+		$plankUserData = get_userdata($post->post_author);
 		
-		$subject = "Notification - New question posted";
-		$message = $this->settings['stored']['notification_new_question'];
+		$subject = "Notification - New plank posted";
+		$message = $this->settings['stored']['notification_new_plank'];
 		
-		$question_author 		= $questionUserData->data->display_name;
-		$question_url 			= get_permalink($post->ID);
-		$question_title 		= $post->post_title;
-		$question_title_url 	= "<a href='".$question_url."'>".$question_title."</a>";
-		$question_content 		= $post->post_content;
+		$plank_author 		= $plankUserData->data->display_name;
+		$plank_url 			= get_permalink($post->ID);
+		$plank_title 		= $post->post_title;
+		$plank_title_url 	= "<a href='".$plank_url."'>".$plank_title."</a>";
+		$plank_content 		= $post->post_content;
 
 		$site_name 				= get_bloginfo( 'name' );
 		
@@ -245,20 +245,20 @@ class qbotSettings{
 		$subject = str_replace( '{site_description}', get_bloginfo( 'description' ), $subject );
 		$subject = str_replace( '{site_url}', site_url(), $subject );
 		
-		$subject = str_replace( '{question_title}', $question_title, $subject );
-		$subject = str_replace( '{question_author}', $question_author, $subject );
+		$subject = str_replace( '{plank_title}', $plank_title, $subject );
+		$subject = str_replace( '{plank_author}', $plank_author, $subject );
 
 		$message = str_replace( '{site_name}', get_bloginfo( 'name' ), $message );
 		$message = str_replace( '{site_description}', get_bloginfo( 'description' ), $message );
 		$message = str_replace( '{site_url}', site_url(), $message );
 		
-		$message = str_replace( '{question_author}', $question_author, $message );
-		$message = str_replace( '{question_content}', $question_content, $message );
+		$message = str_replace( '{plank_author}', $plank_author, $message );
+		$message = str_replace( '{plank_content}', $plank_content, $message );
 		
-		$message = str_replace( '{question_title}', $question_title, $message );
-		$message = str_replace( '{question_title_url}', $question_title_url, $message );
+		$message = str_replace( '{plank_title}', $plank_title, $message );
+		$message = str_replace( '{plank_title_url}', $plank_title_url, $message );
 		
-		$from_email = $questionUserData->data->user_email;
+		$from_email = $plankUserData->data->user_email;
 		
 		#Content-type header must be set
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -272,33 +272,33 @@ class qbotSettings{
 		wp_mail($to_email, $subject, $message, $headers );
 	}	
 	
-	public function nofity_new_answer( $answer_id ) {
+	public function nofity_new_remark( $remark_id ) {
 	
-		$answer_id = (int)($answer_id);
-		#send notification to question author if setting enabled from admin;
+		$remark_id = (int)($remark_id);
+		#send notification to plank author if setting enabled from admin;
 		$isAnswerNotificationEnabled = ($this->settings['stored']['notify_user']==1) ? true : false;
 		if(!$isAnswerNotificationEnabled){
 			return false;
 		}
 		
-		$answer 	= get_post($answer_id);
-		$questionId = $answer->post_parent;
-		$question 	= get_post($questionId);
+		$remark 	= get_post($remark_id);
+		$plankId = $remark->post_parent;
+		$plank 	= get_post($plankId);
 		
-		$questionUserData = get_userdata($question->post_author);
-		$answerUserData = get_userdata($answer->post_author);
+		$plankUserData = get_userdata($plank->post_author);
+		$remarkUserData = get_userdata($remark->post_author);
 		
-		$subject = "Notification - New answer posted";
-		$message = $this->settings['stored']['notification_new_answer'];
+		$subject = "Notification - New remark posted";
+		$message = $this->settings['stored']['notification_new_remark'];
 		
-		$question_author 		= $questionUserData->data->display_name;
-		$question_url 			= get_permalink($question->ID);
-		$question_title 		= $question->post_title;
-		$question_title_url 	= "<a href='".$question_url."'>".$question_title."</a>";
-		$question_content 		= $question->post_content;
+		$plank_author 		= $plankUserData->data->display_name;
+		$plank_url 			= get_permalink($plank->ID);
+		$plank_title 		= $plank->post_title;
+		$plank_title_url 	= "<a href='".$plank_url."'>".$plank_title."</a>";
+		$plank_content 		= $plank->post_content;
 
-		$answer_author 			= $answerUserData->data->display_name;
-		$answer_content 		= $answer->post_content;
+		$remark_author 			= $remarkUserData->data->display_name;
+		$remark_content 		= $remark->post_content;
 		
 		$site_name 				= get_bloginfo( 'name' );
 		
@@ -307,23 +307,23 @@ class qbotSettings{
 		$subject = str_replace( '{site_description}', get_bloginfo( 'description' ), $subject );
 		$subject = str_replace( '{site_url}', site_url(), $subject );
 		
-		$subject = str_replace( '{question_title}', $question_title, $subject );
-		$subject = str_replace( '{question_author}', $question_author, $subject );
-		$subject = str_replace( '{answer_author}', $answer_author, $subject );
+		$subject = str_replace( '{plank_title}', $plank_title, $subject );
+		$subject = str_replace( '{plank_author}', $plank_author, $subject );
+		$subject = str_replace( '{remark_author}', $remark_author, $subject );
 
 		$message = str_replace( '{site_name}', get_bloginfo( 'name' ), $message );
 		$message = str_replace( '{site_description}', get_bloginfo( 'description' ), $message );
 		$message = str_replace( '{site_url}', site_url(), $message );
 		
-		$message = str_replace( '{question_author}', $question_author, $message );
-		$message = str_replace( '{answer_author}', $answer_author, $message );
-		$message = str_replace( '{question_content}', $question_content, $message );
-		$message = str_replace( '{answer_content}', $answer_content, $message );
+		$message = str_replace( '{plank_author}', $plank_author, $message );
+		$message = str_replace( '{remark_author}', $remark_author, $message );
+		$message = str_replace( '{plank_content}', $plank_content, $message );
+		$message = str_replace( '{remark_content}', $remark_content, $message );
 		
-		$message = str_replace( '{question_title}', $question_title, $message );
-		$message = str_replace( '{question_title_url}', $question_title_url, $message );
+		$message = str_replace( '{plank_title}', $plank_title, $message );
+		$message = str_replace( '{plank_title_url}', $plank_title_url, $message );
 		
-		$to_email = $questionUserData->data->user_email;
+		$to_email = $plankUserData->data->user_email;
 		
 		#Content-type header must be set
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -346,11 +346,11 @@ class qbotSettings{
 		
 		$message = "";
 		$message .= "Hello ".$to_name.",<br /><br />";
-		$message .= "Your QBOT account has been created for ".$site_name."<br />";
+		$message .= "Your PLATFORMPRESS account has been created for ".$site_name."<br />";
 		$message .= "Login credentials are:<br />";
 		$message .= "Username: ".$userData->data->user_login."<br />";
 		$message .= "Password: ".$password."<br />";
-		$message .= "<a href='".$this->getBaseUrl()."'>Click here</a> to view new questions.";
+		$message .= "<a href='".$this->getBaseUrl()."'>Click here</a> to view new planks.";
 		$message .= "<br /><br />";
 		$message .= "Thanks & regards,<br />";
 		$message .= $site_name;
@@ -374,7 +374,7 @@ class qbotSettings{
 	public function loadStyle(){
 	
 		wp_enqueue_style(
-			'qbot-main-style',
+			'platformpress-main-style',
 			plugin_dir_url( __FILE__ ) . '../css/style.css',
 			array(),
 			'1.0'
@@ -387,22 +387,22 @@ class qbotSettings{
 		
 
 		//add_action('wp_footer', array($this,'runjs'));
-		// apply dynamicly added question description style
+		// apply dynamicly added plank description style
 		add_action('wp_footer', array($this,'runcss'));
 	}
 	
 	function flash_message( $type, $message = '' ) {
 		if(session_id() == ''){ session_start(); }
-		$_SESSION['qbot_flash_messages'][$type] = $message;
+		$_SESSION['platformpress_flash_messages'][$type] = $message;
 	}
 
 	function get_flash_messages() {
 		if(session_id() == ''){ session_start(); }
 		$return = '';
-		if ( isset( $_SESSION['qbot_flash_messages'] ) && is_array( $_SESSION['qbot_flash_messages'] ) ) {
-			foreach( $_SESSION['qbot_flash_messages'] as $type => $message ) {
-				$key = 'qbot_flash_'.$type;
-				$html = "<div id='close' class=\"qbot-alert ".$key."\">";
+		if ( isset( $_SESSION['platformpress_flash_messages'] ) && is_array( $_SESSION['platformpress_flash_messages'] ) ) {
+			foreach( $_SESSION['platformpress_flash_messages'] as $type => $message ) {
+				$key = 'platformpress_flash_'.$type;
+				$html = "<div id='close' class=\"platformpress-alert ".$key."\">";
 				$html .= $message;
 				$html .= "</div>";
 				$return .= $html;
@@ -418,15 +418,15 @@ class qbotSettings{
 		if(session_id() == ''){ session_start(); }
 		
 		if ( ! $type ){
-			$_SESSION['qbot_flash_messages'] = array();
+			$_SESSION['platformpress_flash_messages'] = array();
 		}
 		else{
-			unset( $_SESSION['qbot_flash_messages'][$type]);
+			unset( $_SESSION['platformpress_flash_messages'][$type]);
 		}
 	}
 
 	function setQuestionViews($postID) {
-		$count_key = 'qbot_views_count';
+		$count_key = 'platformpress_views_count';
 		$count = get_post_meta($postID, $count_key, true);
 		if($count==''){
 			$count = 0;
@@ -440,50 +440,50 @@ class qbotSettings{
 	
 	function setAnswerVotes($postID) {
 		global $wpdb;
-		$upVoteObj = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_qbot_votes WHERE qbot_answer_id='.$postID.' AND is_up_vote=1', 'OBJECT');
+		$upVoteObj = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_votes WHERE platformpress_remark_id='.$postID.' AND is_up_vote=1', 'OBJECT');
 		$count = ($upVoteObj->counts);
-		$count_key 		= 'qbot_answer_vote_count';
+		$count_key 		= 'platformpress_remark_vote_count';
 		$storedCount 	= get_post_meta($postID, $count_key, true);
 		if($storedCount==''){
 			add_post_meta($postID, $count_key, $count);
 		}else{
-			//update thumb-up votes count for each answer
+			//update thumb-up votes count for each remark
 			update_post_meta($postID, $count_key, $count);
 		}
 		
-		//update thumb-up votes of all the answers in question to show most voted question
-		$questionId = wp_get_post_parent_id($postID);
+		//update thumb-up votes of all the remarks in plank to show most voted plank
+		$plankId = wp_get_post_parent_id($postID);
 		$sql = "
-		SELECT COUNT(*) as counts FROM mcl_qbot_votes 
-		INNER JOIN {$wpdb->posts} AS P ON(mcl_qbot_votes.qbot_answer_id=P.ID) 
-		WHERE P.post_status='publish' AND qbot_question_id=".$questionId." AND is_up_vote=1";
+		SELECT COUNT(*) as counts FROM mcl_platformpress_votes 
+		INNER JOIN {$wpdb->posts} AS P ON(mcl_platformpress_votes.platformpress_remark_id=P.ID) 
+		WHERE P.post_status='publish' AND platformpress_plank_id=".$plankId." AND is_up_vote=1";
 		$upVoteObj = $wpdb->get_row($sql, 'OBJECT');
 
 		$qaAvgCount = (($upVoteObj->counts));
-		$count_key = 'qbot_question_vote_count';
-		$storedCount = get_post_meta($questionId, $count_key, true);
+		$count_key = 'platformpress_plank_vote_count';
+		$storedCount = get_post_meta($plankId, $count_key, true);
 		if($storedCount==''){
-			delete_post_meta($questionId, $count_key);
-			add_post_meta($questionId, $count_key, $qaAvgCount);
+			delete_post_meta($plankId, $count_key);
+			add_post_meta($plankId, $count_key, $qaAvgCount);
 		}else{
-			update_post_meta($questionId, $count_key, $qaAvgCount);
+			update_post_meta($plankId, $count_key, $qaAvgCount);
 		}
 		$count = ($count<1) ? '0' : $count;
 		return $count;
 	}
 	
-	/* Bookmark this question */
+	/* Bookmark this plank */
 	function setQuestionBookmarkCount($postID){
 		global $wpdb;
-		$obj = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_qbot_favorite_questions WHERE qbot_questions_id='.$postID, 'OBJECT');
+		$obj = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_favorite_planks WHERE platformpress_planks_id='.$postID, 'OBJECT');
 		$counts = $obj->counts;
-		update_post_meta($postID, 'qbot_question_favorite', $counts);
+		update_post_meta($postID, 'platformpress_plank_favorite', $counts);
 		return $counts;
 	}
 	
-	function getLatestAnswer($question_id){
+	function getLatestAnswer($plank_id){
 		global $wpdb;
-		$sql = "SELECT * FROM {$wpdb->posts} AS P WHERE P.post_parent = ".$question_id." AND P.post_type = 'qbot-answer' AND P.post_status = 'publish' ORDER BY ID DESC";
+		$sql = "SELECT * FROM {$wpdb->posts} AS P WHERE P.post_parent = ".$plank_id." AND P.post_type = 'platformpress-remark' AND P.post_status = 'publish' ORDER BY ID DESC";
 		$obj = $wpdb->get_row($sql,OBJECT);
 		if($obj!==null){
 			return $obj;
@@ -492,13 +492,13 @@ class qbotSettings{
 		}
 	}
 	
-	function post_categories($questionId){
+	function post_categories($plankId){
 		global $wpdb;
 		$sql = "
 		SELECT term.term_id,term.name,term.slug FROM 
 		{$wpdb->term_relationships} AS catr, {$wpdb->term_taxonomy} AS termtax, {$wpdb->terms} AS term 
 		WHERE
-		catr.object_id=".$questionId."
+		catr.object_id=".$plankId."
 		AND catr.term_taxonomy_id=termtax.term_taxonomy_id 
 		AND termtax.term_id=term.term_id";
 		$categories = $wpdb->get_row($sql);

@@ -1,5 +1,5 @@
 <?php 
-class qbotAdminQuestions extends qbotSettings{
+class platformpressAdminQuestions extends platformpressSettings{
 
 	function run(){
 		$this->loadScriptAndStyle();
@@ -10,10 +10,10 @@ class qbotAdminQuestions extends qbotSettings{
 		/* Process actions */
 		switch($action){
 			case 'add':
-				if(isset($_POST['qbot-submitted'])) {
+				if(isset($_POST['platformpress-submitted'])) {
 					if($this->handelFormData()){
 						$this->updateMyLocation();
-						$params = array('page'=>'qbot-plugin-questions');
+						$params = array('page'=>'platformpress-plugin-planks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						add_action( 'admin_notices',  printf( '<div class="updated">Question created successfully.</div>'));
 						unset($_POST);
@@ -22,10 +22,10 @@ class qbotAdminQuestions extends qbotSettings{
 				}
 			break;
 			case 'edit':
-				if(isset($_POST['qbot-submitted'])) {
+				if(isset($_POST['platformpress-submitted'])) {
 					if($this->handelFormData()){
 						add_action( 'admin_notices',  printf( '<div class="updated">Question updated successfully.</div>'));
-						$params = array('page'=>'qbot-plugin-questions');
+						$params = array('page'=>'platformpress-plugin-planks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						//wp_redirect($url);
 					}
@@ -35,10 +35,10 @@ class qbotAdminQuestions extends qbotSettings{
 			break;
 			case 'delete':
 				if(isset($_GET['id'])) {
-					$question_id = (int)($_GET['id']);
-					if($this->delete($question_id)){
-						qbot_flash_set('success','Question deleted successfully.');
-						$params = array('page'=>'qbot-plugin-questions');
+					$plank_id = (int)($_GET['id']);
+					if($this->delete($plank_id)){
+						platformpress_flash_set('success','Question deleted successfully.');
+						$params = array('page'=>'platformpress-plugin-planks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						//wp_redirect($url);
 					}
@@ -46,18 +46,18 @@ class qbotAdminQuestions extends qbotSettings{
 			break;		
 		}
 		
-		require_once plugin_dir_path( __FILE__ ) . '../views/admin_questions.php';
+		require_once plugin_dir_path( __FILE__ ) . '../views/admin_planks.php';
 	}
 	
 	protected function openRecord($id){
 		global $wpdb;
 		$id = (int)($id);
-		$res = $wpdb->get_row( 'SELECT * FROM mcl_qbot_questions WHERE id = '.$id, 'OBJECT' );
+		$res = $wpdb->get_row( 'SELECT * FROM mcl_platformpress_planks WHERE id = '.$id, 'OBJECT' );
 		$data = array(
 		    'id' 	=> $res->id,
-			'question_title' 	=> $res->question_title,
-			'question_slug' 	=> $res->question_slug,
-			'question_description' 	=> $res->question_description,
+			'plank_title' 	=> $res->plank_title,
+			'plank_slug' 	=> $res->plank_slug,
+			'plank_description' 	=> $res->plank_description,
 			'wp_users_id' 	=> $res->wp_users_id,
 			'is_active'			=> $res->is_active,
 			
@@ -65,48 +65,48 @@ class qbotAdminQuestions extends qbotSettings{
 		return $data;
 	}
 	
-	public function getQuestion($questionId){
+	public function getQuestion($plankId){
 		global $wpdb;
-		$questionId = (int)($questionId);
-		$res = $wpdb->get_row( 'SELECT * FROM mcl_qbot_questions WHERE id = '.$questionId, 'OBJECT' );
+		$plankId = (int)($plankId);
+		$res = $wpdb->get_row( 'SELECT * FROM mcl_platformpress_planks WHERE id = '.$plankId, 'OBJECT' );
 		return $res;		
 	}
 	
-	protected function delete($question_id){
+	protected function delete($plank_id){
 		global $wpdb;
 		
-		$question_id = (int)($question_id);
+		$plank_id = (int)($plank_id);
 		
 		//Delete if favorite
-		$wpdb->query($wpdb->prepare("DELETE FROM mcl_qbot_favorite_questions WHERE qbot_questions_id = %d",$question_id));
+		$wpdb->query($wpdb->prepare("DELETE FROM mcl_platformpress_favorite_planks WHERE platformpress_planks_id = %d",$plank_id));
 		//Delete if spamed
-		$wpdb->query($wpdb->prepare("DELETE FROM mcl_qbot_spam WHERE obj_id = %d AND group_name='question'",$question_id));
+		$wpdb->query($wpdb->prepare("DELETE FROM mcl_platformpress_spam WHERE obj_id = %d AND group_name='plank'",$plank_id));
 		//Delete if comment
-		$wpdb->query($wpdb->prepare("DELETE FROM mcl_qbot_comments WHERE question_id = %d",$question_id));
-		//Delete all answers
-		$wpdb->query($wpdb->prepare("DELETE FROM mcl_qbot_answers WHERE question_id = %d",$question_id));
-		//Delete questions
-		$wpdb->query($wpdb->prepare("DELETE FROM mcl_qbot_questions WHERE id = %d",$question_id));
+		$wpdb->query($wpdb->prepare("DELETE FROM mcl_platformpress_comments WHERE plank_id = %d",$plank_id));
+		//Delete all remarks
+		$wpdb->query($wpdb->prepare("DELETE FROM mcl_platformpress_remarks WHERE plank_id = %d",$plank_id));
+		//Delete planks
+		$wpdb->query($wpdb->prepare("DELETE FROM mcl_platformpress_planks WHERE id = %d",$plank_id));
 		return true;
 	}
 	
 	
 	protected function handelFormData(){
 		global $wpdb;
-		$table_name = 'mcl_qbot_questions';
+		$table_name = 'mcl_platformpress_planks';
 		if(isset($_GET['id'])){
-			$question_title = sanitize_text_field($_POST['question_title']);
-			$question_slug 	= sanitize_text_field($_POST['question_slug']);
-			//$question_description = sanitize_text_field($_POST['question_description']);
-			$question_description = wp_kses_post($_POST['question_description']);
+			$plank_title = sanitize_text_field($_POST['plank_title']);
+			$plank_slug 	= sanitize_text_field($_POST['plank_slug']);
+			//$plank_description = sanitize_text_field($_POST['plank_description']);
+			$plank_description = wp_kses_post($_POST['plank_description']);
 			$is_active 		= isset($_POST['is_active']) ? 1 : 0;
 			
 			$user_id 		= (int)($_POST['wp_users_id']);
 			
 			$data = array(
-				'question_title' 	=> $question_title,
-				'question_slug' 	=> $question_slug,
-				'question_description' => $question_description,
+				'plank_title' 	=> $plank_title,
+				'plank_slug' 	=> $plank_slug,
+				'plank_description' => $plank_description,
 				'is_active'			=> $is_active,
 				
 				'wp_users_id'		=> $user_id,	
@@ -120,8 +120,8 @@ class qbotAdminQuestions extends qbotSettings{
 			
 			if(isset($_POST['cat'])){
 				$cat = sanitize_text_field($_POST['cat']);
-				$table_name = 'mcl_qbot_term_relationships';
-				$where = array('mcl_qbot_questions_id' => $_GET['id']);
+				$table_name = 'mcl_platformpress_term_relationships';
+				$where = array('mcl_platformpress_planks_id' => $_GET['id']);
 				$data = array(
 				'term_taxonomy_id' 		 => $cat);
 				$format = array('%s','%s','%s','%d','%d','%s');
@@ -131,16 +131,16 @@ class qbotAdminQuestions extends qbotSettings{
 			return true;
 		} else{
 			$user_id = (isset($_POST['wp_users_id'])) ? $_POST['wp_users_id'] : get_current_user_id();
-			$question_title 		= sanitize_text_field($_POST['question_title']);
-			$question_slug 			= sanitize_text_field($_POST['question_slug']);
-			$question_description   = wp_kses_post($_POST['question_description']);
+			$plank_title 		= sanitize_text_field($_POST['plank_title']);
+			$plank_slug 			= sanitize_text_field($_POST['plank_slug']);
+			$plank_description   = wp_kses_post($_POST['plank_description']);
 			$is_active 		= isset($_POST['is_active']) ? 1 : 0;
 			
-			$table_name = 'mcl_qbot_questions';
+			$table_name = 'mcl_platformpress_planks';
 			$wpdb->insert($table_name, array(
-				'question_title' 		=> $question_title,
-				'question_slug' 		=> $question_slug,
-				'question_description'	=> $question_description,
+				'plank_title' 		=> $plank_title,
+				'plank_slug' 		=> $plank_slug,
+				'plank_description'	=> $plank_description,
 				'wp_users_id'			=> $user_id,
 				'is_active' 			=> $is_active,
 				'created_at'				=> current_time('mysql')
@@ -148,10 +148,10 @@ class qbotAdminQuestions extends qbotSettings{
 			
 			if(isset($_POST['cat'])){
 				$cat = sanitize_text_field($_POST['cat']);
-				$table_name = 'mcl_qbot_term_relationships';
+				$table_name = 'mcl_platformpress_term_relationships';
 				$wpdb->insert($table_name, array(
 					'term_taxonomy_id' 		 => $cat,
-					'mcl_qbot_questions_id' => $wpdb->insert_id,
+					'mcl_platformpress_planks_id' => $wpdb->insert_id,
 				), array('%d','%d'));
 			}
 			unset($_POST);
@@ -197,19 +197,19 @@ class qbotAdminQuestions extends qbotSettings{
 		jQuery(document).ready(function($) {
 				jQuery.validator.addMethod("checkslug", function(value, element){
 					return /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(value);
-				}, "Please choose correct slug for this question");		
+				}, "Please choose correct slug for this plank");		
 			
-				$('#qbotform').validate({
+				$('#platformpressform').validate({
 				ignore: "",
 				rules: {
-					question_title: {
+					plank_title: {
 						required: true,
 						minlength: 3
 					},
-					question_slug: {
+					plank_slug: {
 						checkslug: true,
 					},
-					question_description: {
+					plank_description: {
 						required: true,
 						minlength: 3,
 						highlight: function(element) {
@@ -225,10 +225,10 @@ class qbotAdminQuestions extends qbotSettings{
 					$(element).parent().parent().parent().parent().removeClass('form-invalid');
 				},		
 			});
-			jQuery('.slug').slugify('#question_title');
-			jQuery('#qbotform input[type="submit"]').on('click',function(){
-				content = tinymce.get('question_description').getContent();
-				$("#question_description").val(content);
+			jQuery('.slug').slugify('#plank_title');
+			jQuery('#platformpressform input[type="submit"]').on('click',function(){
+				content = tinymce.get('plank_description').getContent();
+				$("#plank_description").val(content);
 			});			
 			$(".updated").fadeOut(2000); 
 		});

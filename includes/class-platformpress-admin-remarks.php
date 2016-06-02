@@ -1,5 +1,5 @@
 <?php 
-class qbotAdminAnswers extends qbotSettings{
+class platformpressAdminAnswers extends platformpressSettings{
 
 	function run(){
 		$this->loadScriptAndStyle();
@@ -10,35 +10,35 @@ class qbotAdminAnswers extends qbotSettings{
 		/* Process actions */
 		switch($action){
 			case 'add':
-				if(isset($_POST['qbot-submitted'])) {
+				if(isset($_POST['platformpress-submitted'])) {
 					if($this->handelFormData()){
 						$this->updateMyLocation();
-						$params = array('page'=>'qbot-plugin-answers');
+						$params = array('page'=>'platformpress-plugin-remarks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						unset($_POST);
 						add_action( 'admin_notices',  printf( '<div class="updated">Answer created successfully.</div>'));
 					}
 				}
 				
-				if(isset($_GET["question_id"])){
-					$question_id = $_GET["question_id"];
+				if(isset($_GET["plank_id"])){
+					$plank_id = $_GET["plank_id"];
 					global $wpdb;
-					$question = $wpdb->get_row( 'SELECT question_title FROM mcl_qbot_questions WHERE id='.$question_id .''
+					$plank = $wpdb->get_row( 'SELECT plank_title FROM mcl_platformpress_planks WHERE id='.$plank_id .''
 					, 'OBJECT' );
-					if(!$question_id){
+					if(!$plank_id){
 						echo "Access not allowed";
 						exit;
 					} else{
-						$_POST['question_id'] = (int)($question_id);
-						$_POST['question_title'] = $question->question_title;
+						$_POST['plank_id'] = (int)($plank_id);
+						$_POST['plank_title'] = $plank->plank_title;
 					}
 				}
 			break;
 			case 'edit':
-				if(isset($_POST['qbot-submitted'])) {
+				if(isset($_POST['platformpress-submitted'])) {
 					if($this->handelFormData()){
 						add_action( 'admin_notices',  printf( '<div class="updated">Answer updated successfully.</div>'));
-						$params = array('page'=>'qbot-plugin-answers');
+						$params = array('page'=>'platformpress-plugin-remarks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 					}
 				}
@@ -47,11 +47,11 @@ class qbotAdminAnswers extends qbotSettings{
 			break;
 			case 'delete':
 				if(isset($_GET['id'])) {
-					$answer_id = $_GET['id'];
-					$answer_id = (int)($answer_id);
-					if($this->delete($answer_id)){
+					$remark_id = $_GET['id'];
+					$remark_id = (int)($remark_id);
+					if($this->delete($remark_id)){
 						add_action( 'admin_notices',  printf( '<div class="updated">Answer deleted successfully.</div>'));
-						$params = array('page'=>'qbot-plugin-answers');
+						$params = array('page'=>'platformpress-plugin-remarks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						//wp_redirect($url);
 					}
@@ -59,47 +59,47 @@ class qbotAdminAnswers extends qbotSettings{
 			break;		
 		}
 		
-		require_once plugin_dir_path( __FILE__ ) . '../views/admin_answers.php';
+		require_once plugin_dir_path( __FILE__ ) . '../views/admin_remarks.php';
 	}
 	
 	protected function openRecord($id){
 		global $wpdb;
-		$res = $wpdb->get_row( 'SELECT mcl_qbot_answers.*,mcl_qbot_questions.question_title FROM mcl_qbot_answers 
-	INNER JOIN mcl_qbot_questions ON(mcl_qbot_answers.question_id=mcl_qbot_questions.id) WHERE mcl_qbot_answers.id = '.$id, 'OBJECT' );
+		$res = $wpdb->get_row( 'SELECT mcl_platformpress_remarks.*,mcl_platformpress_planks.plank_title FROM mcl_platformpress_remarks 
+	INNER JOIN mcl_platformpress_planks ON(mcl_platformpress_remarks.plank_id=mcl_platformpress_planks.id) WHERE mcl_platformpress_remarks.id = '.$id, 'OBJECT' );
 		$data = array(
-			'answer_content' 	=> $res->answer_content,
-			'question_id' 		=> $res->question_id,
+			'remark_content' 	=> $res->remark_content,
+			'plank_id' 		=> $res->plank_id,
 			'wp_users_id' 		=> $res->wp_users_id,
-			'question_title' 	=> $res->question_title,
+			'plank_title' 	=> $res->plank_title,
 		);
 		return $data;
 	}
 	
-	protected function delete($answer_id){
+	protected function delete($remark_id){
 		global $wpdb;
 		
-		$answer_id = (int)($answer_id);
+		$remark_id = (int)($remark_id);
 		
 		//Delete if spamed
-		$wpdb->query($wpdb->prepare("DELETE FROM mcl_qbot_spam WHERE obj_id = %d AND group_name='answer'",$answer_id));
+		$wpdb->query($wpdb->prepare("DELETE FROM mcl_platformpress_spam WHERE obj_id = %d AND group_name='remark'",$remark_id));
 		//Delete if comment
-		$wpdb->query($wpdb->prepare("DELETE FROM mcl_qbot_comments WHERE answer_id = %d",$answer_id));
-		//Dlete answer
-		$wpdb->query($wpdb->prepare("DELETE FROM mcl_qbot_answers WHERE id = %d",$answer_id));
+		$wpdb->query($wpdb->prepare("DELETE FROM mcl_platformpress_comments WHERE remark_id = %d",$remark_id));
+		//Dlete remark
+		$wpdb->query($wpdb->prepare("DELETE FROM mcl_platformpress_remarks WHERE id = %d",$remark_id));
 		return true;
 	}
 	
 	
 	protected function handelFormData(){
 		global $wpdb;
-		$table_name = 'mcl_qbot_answers';
+		$table_name = 'mcl_platformpress_remarks';
 		if(isset($_GET['id'])){
 			
 			$_GET['id'] = (int)($_GET['id']);
-			$answer_content = wp_kses_post($_POST['answer_content']);
+			$remark_content = wp_kses_post($_POST['remark_content']);
 			$user_id 		= (int)($_POST['wp_users_id']);
 			$data = array(
-				'answer_content' 	=> $answer_content,
+				'remark_content' 	=> $remark_content,
 				'wp_users_id'		=> $user_id,	
 			);
 			$where = array('id' => $_GET['id']);
@@ -108,12 +108,12 @@ class qbotAdminAnswers extends qbotSettings{
 			$wpdb->update($table_name, $data, $where, $format, $where_format);
 			return true;
 		} else{
-			$answer_content = wp_kses_post($_POST['answer_content']);
-			$question_id 	= (int)($_POST['question_id']);
+			$remark_content = wp_kses_post($_POST['remark_content']);
+			$plank_id 	= (int)($_POST['plank_id']);
 			$user_id 		= (int)($_POST['wp_users_id']);
 			$wpdb->insert($table_name, array(
-				'answer_content' 	=> $answer_content,
-				'question_id' 		=> $question_id,
+				'remark_content' 	=> $remark_content,
+				'plank_id' 		=> $plank_id,
 				'wp_users_id'		=> $user_id,	
 				'created_at'		=> current_time('mysql')
 			), array('%s','%d','%d','%s'));
@@ -147,10 +147,10 @@ class qbotAdminAnswers extends qbotSettings{
 	function runjs(){ ?>
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
-			$('#qbotform').validate({
+			$('#platformpressform').validate({
 				ignore: "",
 				rules: {
-					answer_content: {
+					remark_content: {
 						required: true,
 						minlength: 3,
 						highlight: function(element) {
@@ -163,9 +163,9 @@ class qbotAdminAnswers extends qbotSettings{
 				},		
 			});
 			
-			jQuery('#qbotform input[type="submit"]').on('click',function(){
-				content = tinymce.get('answer_content').getContent();
-				$("#answer_content").val(content);
+			jQuery('#platformpressform input[type="submit"]').on('click',function(){
+				content = tinymce.get('remark_content').getContent();
+				$("#remark_content").val(content);
 			});	
 			
 			$(".updated").fadeOut(2000); 
@@ -178,9 +178,9 @@ class qbotAdminAnswers extends qbotSettings{
 		global $wpdb;
 		
 		$id = (int)($id);
-		$answer = $wpdb->get_row( 'SELECT * FROM mcl_qbot_answers WHERE id = '.$id, 'OBJECT' );
-		if(!empty($answer)){
-			return $answer;
+		$remark = $wpdb->get_row( 'SELECT * FROM mcl_platformpress_remarks WHERE id = '.$id, 'OBJECT' );
+		if(!empty($remark)){
+			return $remark;
 		} else{
 			return false;
 		}
