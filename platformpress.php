@@ -54,7 +54,7 @@
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
 
 		add_submenu_page('platformpress-plugin', __('Settings'),  __('Settings'), 'manage_options', 'platformpress-plugin-settings', 'platformpress_menu_manageSettings');
-        add_submenu_page('platformpress-plugin', __('Categories'),  __('Categories'), 'manage_options', 'platformpress-plugin-categories', 'platformpress_menu_manageCategories');
+        // add_submenu_page('platformpress-plugin', __('Categories'),  __('Categories'), 'manage_options', 'platformpress-plugin-categories', 'platformpress_menu_manageCategories');
         add_submenu_page('platformpress-plugin', __('QA SEO'), 'Admin Dashboard', 'manage_options', 'platformpress-plugin');
 
 
