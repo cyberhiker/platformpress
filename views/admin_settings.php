@@ -3,10 +3,10 @@
 	<?php if(($action=="")): ?>
 	<h2>General Settings</h2>
 	<?php endif; ?>
-	
+
 	<?php if(($action=="permalink-settings")): ?>
 	<h2>Permalink Settings</h2>
-	<?php endif; ?>	
+	<?php endif; ?>
 
 	<h2 class="nav-tab-wrapper">
 		<?php
@@ -19,18 +19,26 @@
 		$url = esc_url(add_query_arg($params,'admin.php'));
 		?>
 		<a class="nav-tab <?php echo ($action=="permalink-settings") ? "nav-tab-active" : ""; ?>" title="Permalink Settings" href="<?php echo $url; ?>">Permalink Settings</a>
-		
+
 		<?php
 		$params = array('page'=>'platformpress-plugin-settings','action'=>'notification-settings');
 		$url = esc_url(add_query_arg($params,'admin.php'));
 		?>
 		<a class="nav-tab <?php echo ($action=="notification-settings") ? "nav-tab-active" : ""; ?>" title="Notification Settings" href="<?php echo $url; ?>">Notification Settings</a>
-		
+
+	</h2>
+
+    <h2 class="nav-tab-wrapper">
+		<?php
+		$params = array('page'=>'platformpress-plugin-categories');
+		$url = esc_url(add_query_arg($params,'admin.php'));
+		?>
+		<a class="nav-tab <?php echo (($action=="")) ? "nav-tab-active" : ""; ?>" title="Categories" href="<?php echo $url; ?>">Manage Categories</a>
 	</h2>
 
 	<?php platformpress_flash_get(); ?>
-	
-	<?php if(($action=="")): ?>	
+
+	<?php if(($action=="")): ?>
 	<form novalidate="novalidate" class="validate" id="platformpressform" name="platformpresssettings" method="post">
 	<table class="form-table">
 		<tbody>
@@ -50,7 +58,7 @@
 								 'selected' => $setting
 							)
 						);
-					?>	
+					?>
 				</label>
 				<p class="description">Select a page where you want to show PLATFORMPRESSs frontend</p>
 			</td>
@@ -67,8 +75,8 @@
 				</label>
 				<p class="description">Enabling this feature is required to allow users to post planks and remarks</p>
 			</td>
-		</tr>	
-		
+		</tr>
+
 		<tr>
 			<th scope="row">Disable negative ratings</th>
 			<td>
@@ -80,7 +88,7 @@
 				</label>
 				<p class="description">By default remarks include the thumb up and thumb down feature</p>
 			</td>
-		</tr>	
+		</tr>
 
 		<tr>
 			<th scope="row">Approve Planks</th>
@@ -94,21 +102,21 @@
 				<p class="description">All planks would be posted immediately upon submission</p>
 			</td>
 		</tr>
-					
+
 		</tbody></table>
 		<p class="submit">
 		<input type="submit" value="Save Settings" class="button button-primary" name="platformpress-submitted">
 		</p>
 	</form>
 	<?php elseif(($action=="permalink-settings")): ?>
-	
+
 		<table width="100%">
 		<tr>
-		<td width="50%" valign="top">	
+		<td width="50%" valign="top">
 			<form novalidate="novalidate" class="validate" id="platformpressform" name="platformpresssettings" method="post">
 			<table class="form-table">
 				<tbody>
-				
+
 				<tr class="form-field">
 					<th scope="row">Plank view permalink</th>
 					<td>
@@ -120,21 +128,21 @@
 
 				</tbody>
 			</table>
-			
+
 				<p class="submit">
 				<input type="submit" value="Save" class="button button-primary" name="platformpress-submitted">
-				</p>	
-			
-			</form>	
+				</p>
+
+			</form>
 		</td>
 		</tr>
 		</table>
-		
+
 	<?php elseif(($action=="notification-settings")): ?>
-	
+
 		<table width="100%">
 		<tr>
-		<td width="50%" valign="top">	
+		<td width="50%" valign="top">
 			<form novalidate="novalidate" class="validate" id="platformpressform" name="platformpresssettings" method="post">
 			<table class="form-table">
 				<tbody>
@@ -151,23 +159,23 @@
 							</label>
 						</div>
 					</td>
-				</tr>	
-				
+				</tr>
+
 				<tr class="form-field">
 					<th scope="row">Notify new plank</th>
 					<td>
 						<?php $setting = (isset($_POST['notification_new_plank'])) ? $_POST['notification_new_plank']: ""; ?>
-						<?php 
+						<?php
 						//Remark textarea
 						platformpress_editor(array(
 							'content' 		=> $setting,
-							'id' 			=> 'notification_new_plank', 
+							'id' 			=> 'notification_new_plank',
 							'textarea_name' => 'notification_new_plank',
 							'media_buttons' => false,
 						));
-						?>						
+						?>
 						<p class="description">Notification template, send this notification to admin, when new plank created.</p>
-						
+
 						<div>
 							<h3>User following shortcode in plank email</h3>
 							<ul>
@@ -180,10 +188,10 @@
 							<li>{plank_title_url}</li>
 							</ul>
 						</div>
-						
+
 					</td>
 				</tr>
-				
+
 				<tr>
 					<th scope="row">New remark notification</th>
 					<td>
@@ -196,23 +204,23 @@
 							</label>
 						</div>
 					</td>
-				</tr>	
-				
-				
+				</tr>
+
+
 				<tr class="form-field">
 					<th scope="row">Notify new remark</th>
 					<td>
 						<?php $setting = (isset($_POST['notification_new_remark'])) ? $_POST['notification_new_remark']: ""; ?>
 
-						<?php 
+						<?php
 						//Remark textarea
 						platformpress_editor(array(
 							'content' 		=> $setting,
-							'id' 			=> 'notification_new_remark', 
+							'id' 			=> 'notification_new_remark',
 							'textarea_name' => 'notification_new_remark',
 							'media_buttons' => false,
 						));
-						?>						
+						?>
 						<p class="description">Notification template notify to plank author, when someone post remark</p>
 
 						<div>
@@ -229,22 +237,22 @@
 							<li>{remark_content}</li>
 							</ul>
 						</div>
-						
+
 					</td>
 				</tr>
-				
+
 				</tbody>
 			</table>
-			
+
 				<p class="submit">
 				<input type="submit" value="Save" class="button button-primary" name="platformpress-submitted">
-				</p>	
-			
-			</form>	
+				</p>
+
+			</form>
 		</td>
 		</tr>
-		</table>		
-		
-	
+		</table>
+
+
 	<?php endif; ?>
 </div><!--/wrap-->

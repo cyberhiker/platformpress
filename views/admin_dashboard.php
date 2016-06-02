@@ -34,14 +34,14 @@
 </style>
 
 <div class="wrap">
-	<h2>PLATFORMPRESS Plugin Dashboard <small>( <a target="blank" href="<?php echo $this->getBaseUrl(); ?>">Visit frontend</a> )</small></h2>
+	<h2>PlaformPress Plugin Dashboard <small>( <a target="blank" href="<?php echo $this->getBaseUrl(); ?>">Visit frontend</a> )</small></h2>
 
 
   <div class="welcome-panel platformpress-activation-key-panel" id="welcome-panel">
     <div class="welcome-panel-content">
-	
+
 		<h1>Basic version</h1>
-		
+
 		<div class="welcome-panel-content">
 		<div class="welcome-panel-column-container">
 		<!-- <h3>You are using Free version, some features are locked</h3>-->
@@ -63,16 +63,17 @@
 				<h4>
 				<a class="platformpress-admin-dashboard platformpress-manage-settings" href="admin.php?page=platformpress-plugin-settings">Settings</a>
 				</h4>
-				<p>Manage PLATFORMPRESS's extensive features from this section</p>
+				<p>Manage PlatformPress's extensive features from this section</p>
 			</li>
 			<li>
-				<h4><span class="platformpress-admin-dashboard platformpress-manage-categories0">Category Management</span></h4>
+				<h4>
+                    <a class="platformpress-admin-dashboard platformpress-manage-categories" href="admin.php?page=platformpress-plugin-categories">Category Management</a></h4>
 				<p>Keep things organized. Give your users the ability to post planks into admin specified categories</p>
 			</li>
 			<li>
 				<h4><span class="platformpress-admin-dashboard platformpress-manage-plank-style0" >Design Management</span>
 				</h4>
-				<p>Manage fonts, colors and background of PLATFORMPRESS to match your website design</p>
+				<p>Manage fonts, colors and background of PlatformPress to match your website design</p>
 			</li>
 		  </ul>
 		</div>
@@ -93,19 +94,19 @@
 				</h4>
 				<p>View/ Edit/ Delete/ Respond to Posted Sub Remarks</p>
 			</li>
-			
+
 			<li>
 				<h4><span class="platformpress-admin-dashboard platformpress-manage-categories0" >Widgets</span>
 				</h4>
 				<p>Add PLATFORMPRESS widget to specific sections of your website</p>
 			</li>
-			
+
 			<li>
 				<h4><span class="platformpress-admin-dashboard platformpress-manage-sociallogin0" >Share & Learn</span>
 				</h4>
 				<p>Social Lock the top remarks, pushing your visitors to share your page for the correct remark. Social Sharing = Higher Rankings</p>
-			</li>			
-			
+			</li>
+
 		  </ul>
 		</div>
 		<div class="welcome-panel-column welcome-panel-last platformpress-feature-list">
@@ -114,7 +115,7 @@
 					<h4><span class="platformpress-admin-dashboard platformpress-manage-sociallogin0" >Social Login</span>
 					</h4>
 					<p>Allow users to register via Facebook/ G+. User data and email address captured from logins are stores into your database increasing your email list organically</p>
-				</li>			
+				</li>
 				<li>
 					<h4><span class="platformpress-admin-dashboard platformpress-analytics0" >Analytics</span>
 					</h4>
@@ -124,14 +125,14 @@
 					<h4><span class="platformpress-admin-dashboard platformpress-userroles0" >User Roles</span>
 					</h4>
 					<p>Control user access to certain planks or remarks</p>
-				</li>			
+				</li>
 			</ul>
 		</div>
 		</div>
 		<br /><br />
-		</div>		
+		</div>
 
-		
+
 	</div>
   </div>
 
@@ -146,7 +147,7 @@
 	?>
 
 	<div class="activities_wrap">
-	  <h2>Last 7 days activities 
+	  <h2>Last 7 days activities
 		<!--
 		<a class="view_user_wrap" href="#">To view full stat Download pro version</a>
 		-->
@@ -164,13 +165,13 @@
     </tr>
   </thead>
   <tbody>
-  
+
 	<?php
 	$date = date('Y-m-d');
 	$end_date = date('Y-m-d', strtotime('-7 days'));
 	$count = 1;
 	?>
-	
+
     <?php while (strtotime($date) >= strtotime($end_date)) { ?>
     <?php
 				if($date==date('Y-m-d')){
@@ -180,7 +181,7 @@
 				} else{
 					$printDate= date('d M Y',strtotime($date));
 				}
-				
+
 				$class = '';
 				$class = ( $count % 2 == 0 ) ? ' class="alternate"' : '';
 				?>

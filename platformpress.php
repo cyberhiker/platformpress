@@ -54,7 +54,8 @@
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
 
 		add_submenu_page('platformpress-plugin', __('Settings'),  __('Settings'), 'manage_options', 'platformpress-plugin-settings', 'platformpress_menu_manageSettings');
-		add_submenu_page('platformpress-plugin', __('QA SEO'), 'Admin Dashboard', 'manage_options', 'platformpress-plugin');
+        add_submenu_page('platformpress-plugin', __('Categories'),  __('Categories'), 'manage_options', 'platformpress-plugin-categories', 'platformpress_menu_manageCategories');
+        add_submenu_page('platformpress-plugin', __('QA SEO'), 'Admin Dashboard', 'manage_options', 'platformpress-plugin');
 
 
 	}
@@ -100,6 +101,13 @@
 	function platformpress_menu_manageSettings(){
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-platformpress-admin-settings.php';
 		$qa = new platformpressAdminSettings();
+		$qa->loadStyle();
+		$qa->run();
+	}
+
+    function platformpress_menu_manageCategories(){
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-platformpress-admin-categories.php';
+		$qa = new platformpressAdminCategories();
 		$qa->loadStyle();
 		$qa->run();
 	}

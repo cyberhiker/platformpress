@@ -515,7 +515,10 @@ ul.platformpress-sort li a { font-size: 12px; padding: 6px; }
 
 #frontend_wrap .ansblock h3 { margin-top: 15px; padding-right: 30px; display: inline-block; }
 
-#frontend_wrap .platformpress-plank h1 { font-size: 19px; text-align: center; }
+#frontend_wrap .platformpress-plank h1 { font-size: 19px; text-align: left; }
+
+/*
+#frontend_wrap .platformpress-plank h1 { font-size: 19px; text-align: left; }*/
 
 #frontend_wrap h2 { font-size: 30px; }
 
