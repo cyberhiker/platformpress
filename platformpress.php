@@ -6,7 +6,6 @@
     Description: Plugin to integrate plank & remark features for wordpress it will turn your website into a Search Engine MAGNET like Quora, Yahoo Remarks.
     Author: Chris Burton
     Version: 0.1-alpha
-    Author URI: http://www.Chris Burton.com
     */
 	if ( ! defined( 'PLATFORMPRESS_PLUGIN_URL' ) )
     define( 'PLATFORMPRESS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -50,7 +49,7 @@
 	function platformpress_admin_menu(){
 
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
-		add_menu_page('PLATFORMPRESS', __('PLATFORMPRESS'), 'manage_options', 'platformpress-plugin','platformpressAdmin',$icon_url);
+		add_menu_page('PlatformPress', __('PLATFORMPRESS'), 'manage_options', 'platformpress-plugin','platformpressAdmin',$icon_url);
 
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
 
