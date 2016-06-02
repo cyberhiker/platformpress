@@ -6,11 +6,11 @@ ul.suggest {
 <div class="wrap">
 
 	<?php if(($action=="") || ($action=="delete")): ?>
-	<h2>Manage Questions</h2>
+	<h2>Manage Planks</h2>
 	<?php endif; ?>
 	
 	<?php if(($action=="add") || ($action=="edit")): ?>
-	<h2><?php echo ($action=="add") ? "Add new Question" : "Editing plank"; ?></h2>
+	<h2><?php echo ($action=="add") ? "Add new Plank" : "Editing plank"; ?></h2>
 	<?php endif; ?>
 	
 
@@ -19,12 +19,12 @@ ul.suggest {
 		$params = array('page'=>'platformpress-plugin-planks');
 		$url = esc_url(add_query_arg($params,'admin.php'));
 		?>
-		<a class="nav-tab <?php echo (($action=="") || ($action=="edit") || ($action=="delete")) ? "nav-tab-active" : ""; ?>" title="Manage all plank" href="<?php echo $url; ?>">Manage Questions</a>
+		<a class="nav-tab <?php echo (($action=="") || ($action=="edit") || ($action=="delete")) ? "nav-tab-active" : ""; ?>" title="Manage all plank" href="<?php echo $url; ?>">Manage Planks</a>
 		<?php
 		$params = array('page'=>'platformpress-plugin-planks','action'=>'add');
 		$url = esc_url(add_query_arg($params,'admin.php'));
 		?>
-		<a class="nav-tab <?php echo ($action=="add") ? "nav-tab-active" : ""; ?>" title="Create new plank" href="<?php echo $url; ?>">Add new Question</a>
+		<a class="nav-tab <?php echo ($action=="add") ? "nav-tab-active" : ""; ?>" title="Create new plank" href="<?php echo $url; ?>">Add new Plank</a>
 	</h2>
 
 	<?php if(($action=="") || ($action=="delete")): ?>
@@ -47,7 +47,7 @@ ul.suggest {
 				<th scope="col" class="manage-column column-name">Quesions</th>
 				<th scope="col" class="manage-column column-name">User & post time</th>
 				<th scope="col" class="manage-column column-name">Category</th>
-				<th scope="col" class="manage-column column-name"  style="text-align:center">Total Answers</th>
+				<th scope="col" class="manage-column column-name"  style="text-align:center">Total Remarks</th>
 				<th scope="col" class="manage-column column-name" style="text-align:center">Status</th>
 				<th scope="col" class="manage-column column-name"></th>
 			</tr>
@@ -65,7 +65,7 @@ ul.suggest {
 
 				<tr <?php echo $class; ?>>
 					<td>
-						<strong><a title="View <?php echo esc_html($entry->plank_title); ?>" target="blank" href="<?php echo $this->getQuestionUrl($entry); ?>"><?php echo esc_html($entry->plank_title); ?></a></strong><br />
+						<strong><a title="View <?php echo esc_html($entry->plank_title); ?>" target="blank" href="<?php echo $this->getPlankUrl($entry); ?>"><?php echo esc_html($entry->plank_title); ?></a></strong><br />
 						<?php 
 						$wordlimit = 50;
 						echo substr($entry->plank_description,0,$wordlimit);
@@ -176,7 +176,7 @@ ul.suggest {
 	<table class="form-table">
 		<tbody>
 		<tr class="form-field">
-			<th scope="row"><label for="user_login">Question <span class="description">(required)</span></label></th>
+			<th scope="row"><label for="user_login">Plank <span class="description">(required)</span></label></th>
 			<td><input id="plank_title" type="text" aria-required="true" value="<?php echo (isset($_POST['plank_title'])) ? $_POST['plank_title'] : ""; ?>" name="plank_title"></td>
 		</tr>
 		<tr class="form-field">
@@ -208,10 +208,10 @@ ul.suggest {
 	</td></tr>
 	
 		<tr>
-			<th scope="row">Question description</th>
+			<th scope="row">Plank description</th>
 			<td>
 			<?php 
-			//Answer textarea
+			//Remark textarea
 			platformpress_editor( array( 
 				'content' => ( isset( $_POST['plank_description'] ) ? wp_kses_data( $_POST['plank_description'] ) : '' ),
 				'id' 			=> 'plank_description', 
@@ -223,7 +223,7 @@ ul.suggest {
 		</tr>	
 
 		<tr>
-			<th scope="row">Question posted by</th>
+			<th scope="row">Plank posted by</th>
 			<td>
 			<?php
 			$args = array(

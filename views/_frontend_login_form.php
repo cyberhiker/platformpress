@@ -1,5 +1,5 @@
 <div id="login_sect">
-	<h3>Log in/ Register to Post Questions & Answers</h3>
+	<h3>Log in/ Register to Post Planks & Remarks</h3>
 	<div class="platformpress-block">
 
 		<?php if((platformpress_setting_get('login_and_registeration')=="1") || is_user_logged_in()): ?>	

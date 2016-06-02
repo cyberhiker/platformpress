@@ -1757,7 +1757,7 @@ class Google_CommunityPoll extends Google_Model {
   protected $__linksType = 'Google_OrkutLinkResource';
   protected $__linksDataType = 'array';
   public $links;
-  public $isMultipleAnswers;
+  public $isMultipleRemarks;
   protected $__imageType = 'Google_CommunityPollImage';
   protected $__imageDataType = '';
   public $image;
@@ -1791,11 +1791,11 @@ class Google_CommunityPoll extends Google_Model {
   public function getLinks() {
     return $this->links;
   }
-  public function setIsMultipleAnswers($isMultipleAnswers) {
-    $this->isMultipleAnswers = $isMultipleAnswers;
+  public function setIsMultipleRemarks($isMultipleRemarks) {
+    $this->isMultipleRemarks = $isMultipleRemarks;
   }
-  public function getIsMultipleAnswers() {
-    return $this->isMultipleAnswers;
+  public function getIsMultipleRemarks() {
+    return $this->isMultipleRemarks;
   }
   public function setImage(Google_CommunityPollImage $image) {
     $this->image = $image;
@@ -1833,10 +1833,10 @@ class Google_CommunityPoll extends Google_Model {
   public function getAuthor() {
     return $this->author;
   }
-  public function setQuestion($plank) {
+  public function setPlank($plank) {
     $this->plank = $plank;
   }
-  public function getQuestion() {
+  public function getPlank() {
     return $this->plank;
   }
   public function setId($id) {

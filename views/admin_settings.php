@@ -36,7 +36,7 @@
 		<tbody>
 
 		<tr>
-			<th scope="row">Questions listing page</th>
+			<th scope="row">Planks listing page</th>
 			<td>
 				<label for="remark_rating">
 				<?php $setting = ((isset($_POST['plugin_page_id'])) && ($_POST['plugin_page_id']!='')) ? $_POST['plugin_page_id']: ""; ?>
@@ -83,7 +83,7 @@
 		</tr>	
 
 		<tr>
-			<th scope="row">Approve Questions</th>
+			<th scope="row">Approve Planks</th>
 			<td>
 				<input type="hidden" value="0" name="auto_approve_new_planks">
 				<label for="auto_approve_new_planks">
@@ -110,7 +110,7 @@
 				<tbody>
 				
 				<tr class="form-field">
-					<th scope="row">Question view permalink</th>
+					<th scope="row">Plank view permalink</th>
 					<td>
 						<?php $setting = (isset($_POST['permalink_plank'])) ? $_POST['permalink_plank']: ""; ?>
 						<input type="text" name="permalink_plank" value="<?php echo $setting; ?>" />
@@ -158,7 +158,7 @@
 					<td>
 						<?php $setting = (isset($_POST['notification_new_plank'])) ? $_POST['notification_new_plank']: ""; ?>
 						<?php 
-						//Answer textarea
+						//Remark textarea
 						platformpress_editor(array(
 							'content' 		=> $setting,
 							'id' 			=> 'notification_new_plank', 
@@ -205,7 +205,7 @@
 						<?php $setting = (isset($_POST['notification_new_remark'])) ? $_POST['notification_new_remark']: ""; ?>
 
 						<?php 
-						//Answer textarea
+						//Remark textarea
 						platformpress_editor(array(
 							'content' 		=> $setting,
 							'id' 			=> 'notification_new_remark', 

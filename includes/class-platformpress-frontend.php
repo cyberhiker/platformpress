@@ -127,10 +127,10 @@ class platformpressFrontend extends platformpressSettings{
 					// Create post object
 					if((platformpress_setting_get("auto_approve_new_planks")=="1") || (is_admin())){
 						$post_status = 'publish';
-						$success_message = 'Question created successfully.';
+						$success_message = 'Plank created successfully.';
 					} else{
 						$post_status = 'pending';
-						$success_message = 'Question awaiting for approval.';
+						$success_message = 'Plank awaiting for approval.';
 					}
 					
 					
@@ -156,7 +156,7 @@ class platformpressFrontend extends platformpressSettings{
 							  'post_content'  => $plank_description,
 						  );
 						  wp_update_post($my_post);
-						  $success_message = 'Question updated successfully.';
+						  $success_message = 'Plank updated successfully.';
 					}
 					
 					if(isset($_POST['cat']) && ($_POST['cat']!="")){
@@ -205,7 +205,7 @@ class platformpressFrontend extends platformpressSettings{
 					//Delete if authorized well
 					if($post->post_author==$this->settings['general']['user_id']){
 						wp_delete_post($_GET['post_id'], true);
-						$this->flash_message('success', "Question deleted successfully." );
+						$this->flash_message('success', "Plank deleted successfully." );
 						wp_redirect($this->getBaseUrl());
 						exit;
 					}
@@ -300,7 +300,7 @@ class platformpressFrontend extends platformpressSettings{
 							// Create post object
 							$my_post = array(
 							  'post_type'    => 'platformpress-remark',
-							  'post_title'    => 'PLATFORMPRESS Answer',
+							  'post_title'    => 'PLATFORMPRESS Remark',
 							  'post_content'  => $remark_content,
 							  'post_status'   => 'publish',
 							  'post_author'   => $user_id,
@@ -315,8 +315,8 @@ class platformpressFrontend extends platformpressSettings{
 							wp_update_post($my_post);
 							
 							$this->nofity_new_remark($wpdb->insert_id);
-							$this->flash_message('success', $message = 'Answered successfully.' );
-							//$url = $this->getQuestionUrl($qid);
+							$this->flash_message('success', $message = 'Remarked successfully.' );
+							//$url = $this->getPlankUrl($qid);
 							wp_redirect($plankUrl.'#platformpressremark-'.$post_ID);
 							exit;
 						} else{
@@ -434,14 +434,14 @@ class platformpressFrontend extends platformpressSettings{
 		echo $css;
 	}
 
-	function userAnswersCount($user_id){
+	function userRemarksCount($user_id){
 		global $wpdb;
 		$user_id = (int)($user_id);
 		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_remarks WHERE wp_users_id='.$user_id.'', 'OBJECT');
 		return $res->counts;
 	}
 	
-	function userQuestionsCount($user_id){
+	function userPlanksCount($user_id){
 		global $wpdb;
 		$user_id = (int)($user_id);
 		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_planks WHERE wp_users_id='.$user_id.'', 'OBJECT');
@@ -600,7 +600,7 @@ class platformpressFrontend extends platformpressSettings{
 				'wp_users_id'	=> $user_ID,	
 				'enter_at'		=> current_time('mysql')
 			), array('%s','%s','%d','%d','%s'));
-			$this->setQuestionViews($qid);
+			$this->setPlankViews($qid);
 		}
 	}	
 	

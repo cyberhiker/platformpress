@@ -53,7 +53,7 @@ class platformpressSettings{
 		return $value;
 	}
 	
-	function isQuestionMarkedAsFavorite($plankId){
+	function isPlankMarkedAsFavorite($plankId){
 		global $wpdb;
 		$user_id = get_current_user_id();
 		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_favorite_planks WHERE wp_users_id='.$user_id.' AND platformpress_planks_id='.$plankId.'', 'OBJECT');
@@ -166,7 +166,7 @@ class platformpressSettings{
 		return $ip;
 	}
 	
-	function getQuestionUrl($plank){
+	function getPlankUrl($plank){
 		if(is_object($plank)){
 			$qid = $plank->plank_slug;
 		} else{
@@ -225,7 +225,7 @@ class platformpressSettings{
 		}
 	
 		require_once PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'class-platformpress-admin-planks.php';
-		$platformpressAdminQuestions = new platformpressAdminQuestions();
+		$platformpressAdminPlanks = new platformpressAdminPlanks();
 		$post 	= get_post($plankId);
 		
 		$plankUserData = get_userdata($post->post_author);
@@ -276,8 +276,8 @@ class platformpressSettings{
 	
 		$remark_id = (int)($remark_id);
 		#send notification to plank author if setting enabled from admin;
-		$isAnswerNotificationEnabled = ($this->settings['stored']['notify_user']==1) ? true : false;
-		if(!$isAnswerNotificationEnabled){
+		$isRemarkNotificationEnabled = ($this->settings['stored']['notify_user']==1) ? true : false;
+		if(!$isRemarkNotificationEnabled){
 			return false;
 		}
 		
@@ -425,7 +425,7 @@ class platformpressSettings{
 		}
 	}
 
-	function setQuestionViews($postID) {
+	function setPlankViews($postID) {
 		$count_key = 'platformpress_views_count';
 		$count = get_post_meta($postID, $count_key, true);
 		if($count==''){
@@ -438,7 +438,7 @@ class platformpressSettings{
 		}
 	}
 	
-	function setAnswerVotes($postID) {
+	function setRemarkVotes($postID) {
 		global $wpdb;
 		$upVoteObj = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_votes WHERE platformpress_remark_id='.$postID.' AND is_up_vote=1', 'OBJECT');
 		$count = ($upVoteObj->counts);
@@ -473,7 +473,7 @@ class platformpressSettings{
 	}
 	
 	/* Bookmark this plank */
-	function setQuestionBookmarkCount($postID){
+	function setPlankBookmarkCount($postID){
 		global $wpdb;
 		$obj = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_favorite_planks WHERE platformpress_planks_id='.$postID, 'OBJECT');
 		$counts = $obj->counts;
@@ -481,7 +481,7 @@ class platformpressSettings{
 		return $counts;
 	}
 	
-	function getLatestAnswer($plank_id){
+	function getLatestRemark($plank_id){
 		global $wpdb;
 		$sql = "SELECT * FROM {$wpdb->posts} AS P WHERE P.post_parent = ".$plank_id." AND P.post_type = 'platformpress-remark' AND P.post_status = 'publish' ORDER BY ID DESC";
 		$obj = $wpdb->get_row($sql,OBJECT);

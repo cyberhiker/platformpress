@@ -1,5 +1,5 @@
 <?php 
-class platformpressAdminAnswers extends platformpressSettings{
+class platformpressAdminRemarks extends platformpressSettings{
 
 	function run(){
 		$this->loadScriptAndStyle();
@@ -16,7 +16,7 @@ class platformpressAdminAnswers extends platformpressSettings{
 						$params = array('page'=>'platformpress-plugin-remarks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						unset($_POST);
-						add_action( 'admin_notices',  printf( '<div class="updated">Answer created successfully.</div>'));
+						add_action( 'admin_notices',  printf( '<div class="updated">Remark created successfully.</div>'));
 					}
 				}
 				
@@ -37,7 +37,7 @@ class platformpressAdminAnswers extends platformpressSettings{
 			case 'edit':
 				if(isset($_POST['platformpress-submitted'])) {
 					if($this->handelFormData()){
-						add_action( 'admin_notices',  printf( '<div class="updated">Answer updated successfully.</div>'));
+						add_action( 'admin_notices',  printf( '<div class="updated">Remark updated successfully.</div>'));
 						$params = array('page'=>'platformpress-plugin-remarks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 					}
@@ -50,7 +50,7 @@ class platformpressAdminAnswers extends platformpressSettings{
 					$remark_id = $_GET['id'];
 					$remark_id = (int)($remark_id);
 					if($this->delete($remark_id)){
-						add_action( 'admin_notices',  printf( '<div class="updated">Answer deleted successfully.</div>'));
+						add_action( 'admin_notices',  printf( '<div class="updated">Remark deleted successfully.</div>'));
 						$params = array('page'=>'platformpress-plugin-remarks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						//wp_redirect($url);
@@ -174,7 +174,7 @@ class platformpressAdminAnswers extends platformpressSettings{
 	<?php	
 	}
 	
-	public function getAnswer($id){
+	public function getRemark($id){
 		global $wpdb;
 		
 		$id = (int)($id);

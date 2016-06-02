@@ -1,5 +1,5 @@
 <?php 
-class platformpressAdminQuestions extends platformpressSettings{
+class platformpressAdminPlanks extends platformpressSettings{
 
 	function run(){
 		$this->loadScriptAndStyle();
@@ -15,7 +15,7 @@ class platformpressAdminQuestions extends platformpressSettings{
 						$this->updateMyLocation();
 						$params = array('page'=>'platformpress-plugin-planks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
-						add_action( 'admin_notices',  printf( '<div class="updated">Question created successfully.</div>'));
+						add_action( 'admin_notices',  printf( '<div class="updated">Plank created successfully.</div>'));
 						unset($_POST);
 						//wp_redirect($url);
 					}
@@ -24,7 +24,7 @@ class platformpressAdminQuestions extends platformpressSettings{
 			case 'edit':
 				if(isset($_POST['platformpress-submitted'])) {
 					if($this->handelFormData()){
-						add_action( 'admin_notices',  printf( '<div class="updated">Question updated successfully.</div>'));
+						add_action( 'admin_notices',  printf( '<div class="updated">Plank updated successfully.</div>'));
 						$params = array('page'=>'platformpress-plugin-planks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						//wp_redirect($url);
@@ -37,7 +37,7 @@ class platformpressAdminQuestions extends platformpressSettings{
 				if(isset($_GET['id'])) {
 					$plank_id = (int)($_GET['id']);
 					if($this->delete($plank_id)){
-						platformpress_flash_set('success','Question deleted successfully.');
+						platformpress_flash_set('success','Plank deleted successfully.');
 						$params = array('page'=>'platformpress-plugin-planks');
 						$url = esc_url(add_query_arg($params,'admin.php'));
 						//wp_redirect($url);
@@ -65,7 +65,7 @@ class platformpressAdminQuestions extends platformpressSettings{
 		return $data;
 	}
 	
-	public function getQuestion($plankId){
+	public function getPlank($plankId){
 		global $wpdb;
 		$plankId = (int)($plankId);
 		$res = $wpdb->get_row( 'SELECT * FROM mcl_platformpress_planks WHERE id = '.$plankId, 'OBJECT' );

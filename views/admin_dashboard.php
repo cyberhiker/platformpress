@@ -49,15 +49,15 @@
 		  <ul>
 			<li>
 				<h4>
-				<a class="platformpress-admin-dashboard platformpress-manage-plank" href="edit.php?post_type=platformpress-plank">Manage Questions</a>
+				<a class="platformpress-admin-dashboard platformpress-manage-plank" href="edit.php?post_type=platformpress-plank">Manage Planks</a>
 				</h4>
-				<p>View/ Edit/ Delete Posted Questions</p>
+				<p>View/ Edit/ Delete Posted Planks</p>
 			</li>
 			<li>
 				<h4>
-				<a class="platformpress-admin-dashboard platformpress-manage-remark" href="edit.php?post_type=platformpress-remark">Manage Answers</a>
+				<a class="platformpress-admin-dashboard platformpress-manage-remark" href="edit.php?post_type=platformpress-remark">Manage Remarks</a>
 				</h4>
-				<p>View/ Edit/ Delete/ Respond to Posted Answers</p>
+				<p>View/ Edit/ Delete/ Respond to Posted Remarks</p>
 			</li>
 			<li>
 				<h4>
@@ -89,9 +89,9 @@
 				<p>Keep spam at bay. Manage flagged planks/ remarks</p>
 			</li>
 			<li>
-				<h4><span class="platformpress-admin-dashboard platformpress-manage-comments0" >Manage Sub Answers</span>
+				<h4><span class="platformpress-admin-dashboard platformpress-manage-comments0" >Manage Sub Remarks</span>
 				</h4>
-				<p>View/ Edit/ Delete/ Respond to Posted Sub Answers</p>
+				<p>View/ Edit/ Delete/ Respond to Posted Sub Remarks</p>
 			</li>
 			
 			<li>
@@ -158,8 +158,8 @@
     <tr>
       <th scope="col" class="manage-column column-name">Date</th>
       <th scope="col" class="manage-column column-name" style="text-align:center">User registered</th>
-      <th scope="col" class="manage-column column-name" style="text-align:center">Question asked</th>
-      <th scope="col" class="manage-column column-name" style="text-align:center">Answered</th>
+      <th scope="col" class="manage-column column-name" style="text-align:center">Plank asked</th>
+      <th scope="col" class="manage-column column-name" style="text-align:center">Remarked</th>
       <th scope="col" class="manage-column column-name" style="text-align:center">Spam counts</th>
     </tr>
   </thead>

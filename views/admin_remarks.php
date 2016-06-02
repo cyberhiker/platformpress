@@ -1,7 +1,7 @@
 <div class="wrap">
 
 	<?php if(($action=="") || ($action=="delete")): ?>
-	<h2>Manage Answers</h2>
+	<h2>Manage Remarks</h2>
 	<?php endif; ?>
 
 	<?php if(($action=="add") || ($action=="edit")): ?>
@@ -31,7 +31,7 @@
 	<table class="widefat">
 		<thead>
 			<tr>
-				<th scope="col" class="manage-column column-name">Answer</th>
+				<th scope="col" class="manage-column column-name">Remark</th>
 				<th scope="col" class="manage-column column-name">User & post time</th>
 				<th scope="col" class="manage-column column-name"></th>
 			</tr>
@@ -49,8 +49,8 @@
 
 				<tr <?php echo $class; ?>>
 					<td style="width:40%">
-						<strong><a title="View <?php echo esc_html($entry->plank_title); ?>" target="blank" href="<?php echo $this->getQuestionUrl($entry); ?>"><?php echo esc_html($entry->plank_title); ?></a></strong><br />
-						<strong>Answer:</strong> 
+						<strong><a title="View <?php echo esc_html($entry->plank_title); ?>" target="blank" href="<?php echo $this->getPlankUrl($entry); ?>"><?php echo esc_html($entry->plank_title); ?></a></strong><br />
+						<strong>Remark:</strong> 
 						<?php 
 						$wordlimit = 50;
 						echo substr($entry->remark_content,0,$wordlimit);
@@ -142,16 +142,16 @@
 		<tbody>
 
 		<tr>
-			<th scope="row">Question</th>
+			<th scope="row">Plank</th>
 			<td><h3><?php echo esc_html($_POST['plank_title']); ?></h3></td>
 			<input type="hidden" name="plank_id" value="<?php echo (int)($_GET["plank_id"]); ?>" />
 		</tr>
 		
 		<tr>
-			<th scope="row">Answer description</th>
+			<th scope="row">Remark description</th>
 			<td>
 			<?php 
-			//Answer textarea
+			//Remark textarea
 			platformpress_editor( array( 
 				'content' => ( isset( $_POST['remark_content'] ) ? wp_kses_data( $_POST['remark_content'] ) : '' ),
 				'id' 			=> 'remark_content', 
@@ -163,7 +163,7 @@
 		</tr>	
 
 		<tr>
-			<th scope="row">Answered by</th>
+			<th scope="row">Remarked by</th>
 			<td>
 			<?php
 			$args = array(

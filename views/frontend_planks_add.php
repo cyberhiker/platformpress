@@ -26,15 +26,15 @@
 	<div class="form_plank_wrapper"><form id="platformpressform" name="platformpressform" method="post" action="<?php echo $url; ?>">
 
 		<div class="input-row platformpress_wrap_wrapper">
-		<label>Question title</label>
+		<label>Plank title</label>
 		<input id="plank_title" type="text"  aria-required="true" value="<?php echo (isset($_POST['plank_title'])) ? $_POST['plank_title'] : ""; ?>" name="plank_title">
 		</div>
 		
 		<br />
 		<div class="input-row">
-			<label>Question description</label>		
+			<label>Plank description</label>		
 			<?php 
-			//Answer textarea
+			//Remark textarea
 			platformpress_editor( array( 
 				'content' => ( isset( $_POST['plank_description'] ) ? $_POST['plank_description'] : '' ),
 				'id' 			=> 'plank_description', 

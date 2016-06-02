@@ -3,7 +3,7 @@
     /*
     Plugin Name: PlatformPress
     Plugin URI: https://github.com/cyberhiker/platformpress
-    Description: Plugin to integrate plank & remark features for wordpress it will turn your website into a Search Engine MAGNET like Quora, Yahoo Answers.
+    Description: Plugin to integrate plank & remark features for wordpress it will turn your website into a Search Engine MAGNET like Quora, Yahoo Remarks.
     Author: Chris Burton
     Version: 0.1-alpha
     Author URI: http://www.Chris Burton.com
@@ -83,17 +83,17 @@
 		$qa->run();
 	}
 
-	function platformpress_menu_manageQuestions(){
+	function platformpress_menu_managePlanks(){
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-platformpress-admin-planks.php';
-		$qa = new platformpressAdminQuestions();
+		$qa = new platformpressAdminPlanks();
 		$qa->loadStyle();
 		$qa->run();
 
 	}
 
-	function platformpress_menu_manageAnswers(){
+	function platformpress_menu_manageRemarks(){
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-platformpress-admin-remarks.php';
-		$qa = new platformpressAdminAnswers();
+		$qa = new platformpressAdminRemarks();
 		$qa->loadStyle();
 		$qa->run();
 	}
@@ -217,7 +217,7 @@
 						if($res->is_up_vote==1){
 							$response->type = 'error';
 							$response->message = 'You already up voted this remark.';
-							$response->vote_count = $settingsObj->setAnswerVotes($remarkId);
+							$response->vote_count = $settingsObj->setRemarkVotes($remarkId);
 							echo wp_json_encode($response);
 							exit;
 						} else{
@@ -233,7 +233,7 @@
 							), array('%s','%d','%d','%s','%d'));
 							$response->type = 'success';
 							$response->message = 'Voted successfully.';
-							$response->vote_count = $settingsObj->setAnswerVotes($remarkId);
+							$response->vote_count = $settingsObj->setRemarkVotes($remarkId);
 							echo wp_json_encode($response);
 							exit;
 						}
@@ -248,7 +248,7 @@
 						), array('%s','%d','%d','%s','%d'));
 						$response->type 		= 'success';
 						$response->message 		= 'Voted successfully.';
-						$response->vote_count 	= $settingsObj->setAnswerVotes($remarkId);
+						$response->vote_count 	= $settingsObj->setRemarkVotes($remarkId);
 						echo wp_json_encode($response);
 						exit;
 					}
@@ -280,14 +280,14 @@
 							), array('%s','%d','%d','%s','%d'));
 							$response->type 		= 'success';
 							$response->message 		= 'Voted successfully.';
-							$response->vote_count 	= $settingsObj->setAnswerVotes($remarkId);
+							$response->vote_count 	= $settingsObj->setRemarkVotes($remarkId);
 							echo wp_json_encode($response);
 							exit;
 						} else{
 							// if already down voted
 							$response->type 	= 'error';
 							$response->message 	= 'You already down voted this remark.';
-							$response->vote_count 	= $settingsObj->setAnswerVotes($remarkId);
+							$response->vote_count 	= $settingsObj->setRemarkVotes($remarkId);
 							echo wp_json_encode($response);
 							exit;
 						}
@@ -302,7 +302,7 @@
 						), array('%s','%d','%d','%s','%d'));
 						$response->type 		= 'success';
 						$response->message 		= 'Voted successfully.';
-						$response->vote_count	= $settingsObj->setAnswerVotes($remarkId);
+						$response->vote_count	= $settingsObj->setRemarkVotes($remarkId);
 						echo wp_json_encode($response);
 						exit;
 					}
@@ -330,7 +330,7 @@
 				$response->type = 'success';
 				$response->message = 'Your favorite plank removed successfully.';
 				$response->actionPerformed = "removed";
-				$response->fav_count = $settingsObj->setQuestionBookmarkCount($plankId);
+				$response->fav_count = $settingsObj->setPlankBookmarkCount($plankId);
 			}
 
 			else{
@@ -342,7 +342,7 @@
 				$response->type = 'success';
 				$response->message = 'Marked as favorite successfully.';
 				$response->actionPerformed = "added";
-				$response->fav_count = $settingsObj->setQuestionBookmarkCount($plankId);
+				$response->fav_count = $settingsObj->setPlankBookmarkCount($plankId);
 			}
 			echo wp_json_encode($response);
 			exit;
@@ -416,7 +416,7 @@
 
 
 
-		/* Register Answers post type */
+		/* Register Remarks post type */
 		$remark_labels = array(
 			'name' =>'Remarks',
 			'singular_name' => 'Remark',
@@ -650,8 +650,8 @@
 				echo '<div class="after-title-help postbox">';
 				$entry = get_post($_GET['parent_id']);
 				echo "<input type=\"hidden\" name=\"parent_id\" value=\"".$entry->ID."\" />";
-				echo "<input type=\"hidden\" name=\"post_title\" value=\"PLATFORMPRESS Answer\" />";
-				echo "<h3>Question: ".$entry->post_title."</h3>";
+				echo "<input type=\"hidden\" name=\"post_title\" value=\"PLATFORMPRESS Remark\" />";
+				echo "<h3>Plank: ".$entry->post_title."</h3>";
 				echo '<div class="inside">';
 				echo "<p>".$entry->post_content."</p>";
 				$user_id = $entry->post_author;
@@ -660,7 +660,7 @@
 					echo "<div style=\"float:left; margin-right:10px;\">";
 						echo platformpress_avatar($user_id, 32 );
 					echo "</div>";
-						echo "Question posted by ".ucfirst($userData->data->display_name)."<br />";
+						echo "Plank posted by ".ucfirst($userData->data->display_name)."<br />";
 						echo human_time_diff( strtotime($entry->post_date), current_time('timestamp') ) . ' ago';
 				} else{
 					echo "n/a";
@@ -699,7 +699,7 @@
 			global $submenu;
 			$defaults = array(
 				'cb'            => '<input type="checkbox">',
-				'remark'          => 'Answer',
+				'remark'          => 'Remark',
 				'date'			=> 'Date',
 				'remarkauthor'        => 'Author',
 				'in-response-to' => 'In Response to plank',
@@ -862,7 +862,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			//When remark saved, set 0, if no vote counter set
 			$settingsObj = new platformpressSettings();
 			$count_key = 'platformpress_remark_vote_count';
-			$count = $settingsObj->setAnswerVotes($post_id); //get count of votest
+			$count = $settingsObj->setRemarkVotes($post_id); //get count of votest
 			if($count==''){
 				$count = 0;
 				delete_post_meta($parent_id, $count_key);
@@ -880,7 +880,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			//When remark saved, set 0, if no vote counter set
 			$settingsObj = new platformpressSettings();
 			$count_key = 'platformpress_remark_vote_count';
-			$count = $settingsObj->setAnswerVotes($post_after->ID); //get count of votest
+			$count = $settingsObj->setRemarkVotes($post_after->ID); //get count of votest
 		}
 	}
 	add_action( 'post_updated', 'platformpress_post_updated', 10, 3 );
@@ -919,7 +919,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			//if remark deleted reset , up votes
 			if($post_type=='platformpress-remark'){
 				$settingsObj = new platformpressSettings();
-				$settingsObj->setAnswerVotes($pid);
+				$settingsObj->setRemarkVotes($pid);
 			}
 
 		}
