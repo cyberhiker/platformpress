@@ -3,7 +3,7 @@
     /*
     Plugin Name: PlatformPress
     Plugin URI: https://github.com/cyberhiker/platformpress
-    Description: Plugin to integrate plank & remark features for wordpress it will turn your website into a Search Engine MAGNET like Quora, Yahoo Remarks.
+    Description: Plugin to create and manage a political platform. 
     Author: Chris Burton
     Version: 0.1-alpha
     */
