@@ -49,7 +49,7 @@
 	function platformpress_admin_menu(){
 
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
-		add_menu_page('PlatformPress', __('PlatformPress'), 'manage_options', 'platformpress-plugin','platformpressAdmin',$icon_url);
+		add_menu_page('PlatformPress', __('PlatformPress'), 'manage_options', 'platformpress-plugin','platformpressAdmin');
 
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
 
@@ -1027,8 +1027,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 		return $settings;
 	}
 
-	# NEW CODES 22 JULY 2015 EVENING
-	function platformpress_add_platformpress_user_role() {
+	function add_platformpress_user_role() {
 		add_role('platformpress_user',
 			'PlatformPress User',
 			array(
@@ -1040,6 +1039,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			)
 		);
 	}
+    register_activation_hook( __FILE__, 'add_platformpress_user_role' );
 
 	add_filter('pre_option_default_role', function($default_role){
 		return 'platformpress_user'; // This is changed
@@ -1073,12 +1073,14 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 	}
 	add_action('wp_head','platformpress_set_meta_tags', 1);
 
+
+    add_action('admin_init','platformpress_add_role_caps',999);
     function platformpress_add_role_caps() {
 
         $role = get_role('platformpress_user');
 
         $role->add_cap( 'read' );
-        $role->add_cap( 'read_platformpress_plank');
+        $role->add_cap( 'read_platformpress_plank' );
         $role->add_cap( 'edit_platformpress_plank' );
         $role->add_cap( 'edit_platformpress_planks' );
         $role->add_cap( 'edit_published_platformpress_planks' );
@@ -1103,8 +1105,6 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
                  $role->add_cap( 'delete_others_platformpress_planks' );
                  $role->add_cap( 'delete_private_platformpress_planks' );
                  $role->add_cap( 'delete_published_platformpress_planks' );
-
         }
     }
-    add_action('admin_init','platformpress_add_role_caps',999);
 ?>
