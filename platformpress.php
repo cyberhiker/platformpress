@@ -3,7 +3,7 @@
     /*
     Plugin Name: PlatformPress
     Plugin URI: https://github.com/cyberhiker/platformpress
-    Description: Plugin to create and manage a political platform. 
+    Description: Plugin to create and manage a political platform.
     Author: Chris Burton
     Version: 0.1-alpha
     */
@@ -54,8 +54,8 @@
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
 
 		add_submenu_page('platformpress-plugin', __('Settings'),  __('Settings'), 'manage_options', 'platformpress-plugin-settings', 'platformpress_menu_manageSettings');
-        add_submenu_page('platformpress-plugin', __('Categories'),  __('Categories'), 'manage_options', 'platformpress-plugin-categories', 'platformpress_menu_manageCategories');
-        add_submenu_page('platformpress-plugin', __('QA SEO'), 'Admin Dashboard', 'manage_options', 'platformpress-plugin');
+        // add_submenu_page('platformpress-plugin', __('Categories'),  __('Categories'), 'manage_options', 'platformpress-plugin-categories', 'platformpress_menu_manageCategories');
+        add_submenu_page('platformpress-plugin', __('Admin Dashboard'), 'Admin Dashboard', 'manage_options', 'platformpress-plugin');
 
 
 	}
@@ -194,7 +194,7 @@
 		return $template;
 	}
 
-	function initQBotPlugin() {
+	function initPlatformPressPlugin() {
 		global $wpdb;
 		$settingsObj = new platformpressSettings();
 
@@ -418,9 +418,10 @@
 			'hierarchical' => true,
 			'menu_icon' => '',
 			'supports' => $questinSupport
+            'capability_type' => array('platformpress-plank','platformpress-planks'),
+            'map_meta_cap' => true,
 		);
 		register_post_type( 'platformpress-plank', $plank_args );
-
 
 
 		/* Register Remarks post type */
@@ -476,7 +477,7 @@
 		platformpress_update_rewrite_rules();
 	}
 
-	add_action( 'init', 'initQBotPlugin', 0 );
+	add_action( 'init', 'initPlatformPressPlugin', 0 );
 
 	add_filter( 'page_template', 'platformpress_wpa3396_page_template' );
 	function platformpress_wpa3396_page_template( $page_template ){
@@ -998,12 +999,12 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 
 			'notification_new_remark'		=> '<p>Hey Admin,</p>
 			<p>New remark created on your plank.</p>
-			<p>Regards,</p><p>PLATFORMPRESS Team</p>',
+			<p>Regards,</p><p>PlatformPress Team</p>',
 			'notification_new_plank'		=> '<p>Hey Admin,</p>
 <p>The user {plank_author} has posted this plank on {plank_title_url}</p>
 <p>You might wanna check it out.</p>
 <p>Regards,</p>
-<p>PLATFORMPRESS Team</p>',
+<p>PlatformPress Team</p>',
 			'notify_new_plank'			=> '0',
 			'notify_user'					=> '0',
 
@@ -1037,8 +1038,8 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 
 	# NEW CODES 22 JULY 2015 EVENING
 	function platformpress_add_platformpress_user_role() {
-		add_role('platformpress_platformpress_user',
-			'PLATFORMPRESS User',
+		add_role('platformpress_user',
+			'PlatformPress User',
 			array(
 				'read' => true,
 				'edit_posts' => false,
@@ -1049,9 +1050,12 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 		);
 	}
 
-	add_filter('pre_option_default_role', function($default_role){
+    /*
+    This is so that the PlatformPress User is not default
+    add_filter('pre_option_default_role', function($default_role){
 		return 'platformpress_platformpress_user'; // This is changed
 	});
+    */
 
 	function disable_platformpress_stuff($data) {
 		return false;
@@ -1080,4 +1084,49 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 		} //is page end
 	}
 	add_action('wp_head','platformpress_set_meta_tags', 1);
+
+    function platformpress_add_role_caps() {
+
+        // Add the roles you'd like to administer the custom post types
+        $roles = array('platformpress_user');
+
+        // Loop through each role and assign capabilities
+        foreach($roles as $the_role) {
+
+             $role = get_role($the_role);
+
+                 $role->add_cap( 'read' );
+                 $role->add_cap( 'read_platformpress_plank');
+                 $role->add_cap( 'edit_platformpress_plank' );
+                 $role->add_cap( 'edit_platformpress_planks' );
+                 $role->add_cap( 'edit_published_platformpress_planks' );
+                 $role->add_cap( 'publish_platformpress_planks' );
+                 $role->add_cap( 'delete_published_platformpress_planks' );
+
+        }
+
+         // Add the roles you'd like to administer the custom post types
+         $roles = array('editor','administrator');
+
+         // Loop through each role and assign capabilities
+         foreach($roles as $the_role) {
+
+              $role = get_role($the_role);
+
+                  $role->add_cap( 'read' );
+                  $role->add_cap( 'read_platformpress_plank');
+                  $role->add_cap( 'edit_platformpress_plank' );
+                  $role->add_cap( 'edit_platformpress_planks' );
+                  $role->add_cap( 'edit_others_platformpress_planks' );
+                  $role->add_cap( 'edit_published_platformpress_planks' );
+                  $role->add_cap( 'publish_platformpress_planks' );
+                  $role->add_cap( 'delete_others_platformpress_planks' );
+                  $role->add_cap( 'delete_private_platformpress_planks' );
+                  $role->add_cap( 'delete_published_platformpress_planks' );
+        }
+
+    }
+
+    add_action('admin_init','platformpress_add_role_caps',999);
+}
 ?>
