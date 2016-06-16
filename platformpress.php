@@ -3,7 +3,7 @@
     /*
     Plugin Name: PlatformPress
     Plugin URI: https://github.com/cyberhiker/platformpress
-    Description: Plugin to facilitate the create of a political platforn..
+    Description: Plugin to create and manage a political platform.
     Author: Chris Burton
     Version: 0.1-alpha
     */
