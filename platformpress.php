@@ -409,7 +409,7 @@
 			'has_archive' => true,
 			'hierarchical' => true,
 			'menu_icon' => '',
-            'capability_type' => array('plank','planks'),
+            'capability_type' => array('platformpress_plank','platformpress_planks'),
             'map_meta_cap' => true,
 			'supports' => $questinSupport
 		);
