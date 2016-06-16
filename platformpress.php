@@ -1073,25 +1073,18 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 	}
 	add_action('wp_head','platformpress_set_meta_tags', 1);
 
-    function psp_add_role_caps() {
+    function platformpress_add_role_caps() {
 
-		// Add the roles you'd like to administer the custom post types
-		$roles = array('platformpress_user');
+        $role = get_role('platformpress_user');
 
-		// Loop through each role and assign capabilities
-		foreach($roles as $the_role) {
+        $role->add_cap( 'read' );
+        $role->add_cap( 'read_platformpress_plank');
+        $role->add_cap( 'edit_platformpress_plank' );
+        $role->add_cap( 'edit_platformpress_planks' );
+        $role->add_cap( 'edit_published_platformpress_planks' );
+        $role->add_cap( 'publish_platformpress_planks' );
+        $role->add_cap( 'delete_published_platformpress_planks' );
 
-		     $role = get_role($the_role);
-
-	             $role->add_cap( 'read' );
-	             $role->add_cap( 'read_platformpress_plank');
-	             $role->add_cap( 'edit_platformpress_plank' );
-	             $role->add_cap( 'edit_platformpress_planks' );
-	             $role->add_cap( 'edit_published_platformpress_planks' );
-	             $role->add_cap( 'publish_platformpress_planks' );
-	             $role->add_cap( 'delete_published_platformpress_planks' );
-
-		}
         // Add the roles you'd like to administer the custom post types
         $roles = array('editor','administrator');
 
