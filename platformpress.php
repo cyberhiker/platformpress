@@ -378,7 +378,7 @@
 
 		/* Register planks post type */
 		$plank_labels = array(
-			'name' =>'Planks',
+			'name' => 'Planks',
 			'singular_name' => 'Plank',
 			'add_new' => 'Add new',
 			'add_new_item' =>'Add new plank',
@@ -409,11 +409,11 @@
 			'has_archive' => true,
 			'hierarchical' => true,
 			'menu_icon' => '',
+            'capability_type' => array('plank','planks'),
+            'map_meta_cap' => true,
 			'supports' => $questinSupport
 		);
 		register_post_type( 'platformpress_plank', $plank_args );
-
-
 
 		/* Register Remarks post type */
 		$remark_labels = array(
@@ -649,7 +649,7 @@
 				echo '<div class="after-title-help postbox">';
 				$entry = get_post($_GET['parent_id']);
 				echo "<input type=\"hidden\" name=\"parent_id\" value=\"".$entry->ID."\" />";
-				echo "<input type=\"hidden\" name=\"post_title\" value=\"PLATFORMPRESS Remark\" />";
+				echo "<input type=\"hidden\" name=\"post_title\" value=\"PlatformPress Remark\" />";
 				echo "<h3>Plank: ".$entry->post_title."</h3>";
 				echo '<div class="inside">';
 				echo "<p>".$entry->post_content."</p>";
@@ -990,7 +990,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 
 			'notification_new_remark'		=> '<p>Hey Admin,</p>
 			<p>New remark created on your plank.</p>
-			<p>Regards,</p><p>PLATFORMPRESS Team</p>',
+			<p>Regards,</p><p>PlatformPress Team</p>',
 			'notification_new_plank'		=> '<p>Hey Admin,</p>
 <p>The user {plank_author} has posted this plank on {plank_title_url}</p>
 <p>You might wanna check it out.</p>
@@ -1029,8 +1029,8 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 
 	# NEW CODES 22 JULY 2015 EVENING
 	function platformpress_add_platformpress_user_role() {
-		add_role('platformpress_platformpress_user',
-			'PLATFORMPRESS User',
+		add_role('platformpress_user',
+			'PlatformPress User',
 			array(
 				'read' => true,
 				'edit_posts' => false,
@@ -1042,7 +1042,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 	}
 
 	add_filter('pre_option_default_role', function($default_role){
-		return 'platformpress_platformpress_user'; // This is changed
+		return 'platformpress_user'; // This is changed
 	});
 
 	function disable_platformpress_stuff($data) {
@@ -1072,4 +1072,46 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 		} //is page end
 	}
 	add_action('wp_head','platformpress_set_meta_tags', 1);
+
+    function psp_add_role_caps() {
+
+		// Add the roles you'd like to administer the custom post types
+		$roles = array('platformpress_user');
+
+		// Loop through each role and assign capabilities
+		foreach($roles as $the_role) {
+
+		     $role = get_role($the_role);
+
+	             $role->add_cap( 'read' );
+	             $role->add_cap( 'read_platformpress_plank');
+	             $role->add_cap( 'edit_platformpress_plank' );
+	             $role->add_cap( 'edit_platformpress_planks' );
+	             $role->add_cap( 'edit_published_platformpress_planks' );
+	             $role->add_cap( 'publish_platformpress_planks' );
+	             $role->add_cap( 'delete_published_platformpress_planks' );
+
+		}
+        // Add the roles you'd like to administer the custom post types
+        $roles = array('editor','administrator');
+
+        // Loop through each role and assign capabilities
+        foreach($roles as $the_role) {
+
+             $role = get_role($the_role);
+
+                 $role->add_cap( 'read' );
+                 $role->add_cap( 'read_platformpress_plank');
+                 $role->add_cap( 'edit_platformpress_plank' );
+                 $role->add_cap( 'edit_platformpress_planks' );
+                 $role->add_cap( 'edit_others_platformpress_planks' );
+                 $role->add_cap( 'edit_published_platformpress_planks' );
+                 $role->add_cap( 'publish_platformpress_planks' );
+                 $role->add_cap( 'delete_others_platformpress_planks' );
+                 $role->add_cap( 'delete_private_platformpress_planks' );
+                 $role->add_cap( 'delete_published_platformpress_planks' );
+
+        }
+    }
+    add_action('admin_init','platformpress_add_role_caps',999);
 ?>
