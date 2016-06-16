@@ -413,7 +413,7 @@
             'map_meta_cap' => true,
 			'supports' => $questinSupport
 		);
-		register_post_type( 'platformpress_plank', $plank_args );
+		register_post_type( 'platformpress-plank', $plank_args );
 
 		/* Register Remarks post type */
 		$remark_labels = array(
@@ -995,7 +995,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 <p>The user {plank_author} has posted this plank on {plank_title_url}</p>
 <p>You might wanna check it out.</p>
 <p>Regards,</p>
-<p>PLATFORMPRESS Team</p>',
+<p>PlatformPress Team</p>',
 			'notify_new_plank'			=> '0',
 			'notify_user'					=> '0',
 
@@ -1078,12 +1078,12 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
         $role = get_role('platformpress_user');
 
         $role->add_cap( 'read' );
-        $role->add_cap( 'read_platformpress_plank');
-        $role->add_cap( 'edit_platformpress_plank' );
-        $role->add_cap( 'edit_platformpress_planks' );
-        $role->add_cap( 'edit_published_platformpress_planks' );
-        $role->add_cap( 'publish_platformpress_planks' );
-        $role->add_cap( 'delete_published_platformpress_planks' );
+        $role->add_cap( 'read_platformpress-plank');
+        $role->add_cap( 'edit_platformpress-plank' );
+        $role->add_cap( 'edit_platformpress-planks' );
+        $role->add_cap( 'edit_published_platformpress-planks' );
+        $role->add_cap( 'publish_platformpress-planks' );
+        $role->add_cap( 'delete_published_platformpress-planks' );
 
         // Add the roles you'd like to administer the custom post types
         $roles = array('editor','administrator');
@@ -1094,15 +1094,15 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
              $role = get_role($the_role);
 
                  $role->add_cap( 'read' );
-                 $role->add_cap( 'read_platformpress_plank');
-                 $role->add_cap( 'edit_platformpress_plank' );
-                 $role->add_cap( 'edit_platformpress_planks' );
-                 $role->add_cap( 'edit_others_platformpress_planks' );
-                 $role->add_cap( 'edit_published_platformpress_planks' );
-                 $role->add_cap( 'publish_platformpress_planks' );
-                 $role->add_cap( 'delete_others_platformpress_planks' );
-                 $role->add_cap( 'delete_private_platformpress_planks' );
-                 $role->add_cap( 'delete_published_platformpress_planks' );
+                 $role->add_cap( 'read_platformpress-plank');
+                 $role->add_cap( 'edit_platformpress-plank' );
+                 $role->add_cap( 'edit_platformpress-planks' );
+                 $role->add_cap( 'edit_others_platformpress-planks' );
+                 $role->add_cap( 'edit_published_platformpress-planks' );
+                 $role->add_cap( 'publish_platformpress-planks' );
+                 $role->add_cap( 'delete_others_platformpress-planks' );
+                 $role->add_cap( 'delete_private_platformpress-planks' );
+                 $role->add_cap( 'delete_published_platformpress-planks' );
 
         }
     }
