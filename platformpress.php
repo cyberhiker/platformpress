@@ -411,7 +411,7 @@
 			'menu_icon' => '',
 			'supports' => $questinSupport
 		);
-		register_post_type( 'platformpress-plank', $plank_args );
+		register_post_type( 'platformpress_plank', $plank_args );
 
 
 
