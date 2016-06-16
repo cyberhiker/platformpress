@@ -49,7 +49,7 @@
 	function platformpress_admin_menu(){
 
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
-		add_menu_page('PlatformPress', __('PLATFORMPRESS'), 'manage_options', 'platformpress-plugin','platformpressAdmin',$icon_url);
+		add_menu_page('PlatformPress', __('PlatformPress'), 'manage_options', 'platformpress-plugin','platformpressAdmin',$icon_url);
 
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
 
