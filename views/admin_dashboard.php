@@ -159,7 +159,7 @@
     <tr>
       <th scope="col" class="manage-column column-name">Date</th>
       <th scope="col" class="manage-column column-name" style="text-align:center">User registered</th>
-      <th scope="col" class="manage-column column-name" style="text-align:center">Plank added</th>
+      <th scope="col" class="manage-column column-name" style="text-align:center">Plank asked</th>
       <th scope="col" class="manage-column column-name" style="text-align:center">Remarked</th>
       <th scope="col" class="manage-column column-name" style="text-align:center">Spam counts</th>
     </tr>
