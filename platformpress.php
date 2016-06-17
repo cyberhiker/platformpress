@@ -1088,6 +1088,31 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
         $role->add_cap( 'publish_platformpress-planks' );
         $role->add_cap( 'delete_private_platformpress-planks' );
         $role->add_cap( 'delete_published_platformpress-planks' );
+        $role->add_cap( 'delete_others_pages' );
+        $role->add_cap( 'delete_others_posts' );
+        $role->add_cap( 'delete_pages' );
+        $role->add_cap( 'delete_posts' );
+        $role->add_cap( 'delete_private_pages' );
+        $role->add_cap( 'delete_private_posts' );
+        $role->add_cap( 'delete_published_pages' );
+        $role->add_cap( 'delete_published_posts' );
+        $role->add_cap( 'edit_others_pages' );
+        $role->add_cap( 'edit_others_posts' );
+        $role->add_cap( 'edit_pages' );
+        $role->add_cap( 'edit_posts' );
+        $role->add_cap( 'edit_private_pages' );
+        $role->add_cap( 'edit_private_posts' );
+        $role->add_cap( 'edit_published_pages' );
+        $role->add_cap( 'edit_published_posts' );
+        $role->add_cap( 'manage_links' );
+        $role->add_cap( 'moderate_comments' );
+        $role->add_cap( 'publish_pages' );
+        $role->add_cap( 'publish_posts' );
+        $role->add_cap( 'read' );
+        $role->add_cap( 'read_private_pages' );
+        $role->add_cap( 'read_private_posts' );
+        $role->add_cap( 'unfiltered_html' );
+        $role->add_cap( 'upload_files' );
 
         // Add the roles you'd like to administer the custom post types
         $roles = array('editor','administrator');
