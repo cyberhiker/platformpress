@@ -1029,7 +1029,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 
 	function add_platformpress_user_role() {
         remove_role('platformpress_user');
-        
+
 		add_role('platformpress_user',
 			'PlatformPress User',
 			array(
@@ -1088,12 +1088,9 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
         $role->add_cap( 'manage_categories' );
         $role->add_cap( 'publish_platformpress-planks' );
         $role->add_cap( 'delete_private_platformpress-planks' );
-        $role->add_cap( 'delete_published_platformpress-planks' );
-        $role->add_cap( 'edit_others_posts' );
+        $role->add_cap( 'delete_published_platformpress-planks'
         $role->add_cap( 'edit_posts' );
         $role->add_cap( 'edit_published_posts' );
-        $role->add_cap( 'manage_links' );
-        $role->add_cap( 'moderate_comments' );
         $role->add_cap( 'publish_posts' );
         $role->add_cap( 'unfiltered_html' );
         $role->add_cap( 'upload_files' );
