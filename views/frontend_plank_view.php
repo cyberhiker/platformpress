@@ -165,8 +165,7 @@
   <div class="fb-share-button" data-href="<?php echo $plankUrl; ?>" data-layout="button_count"></div>
   <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $plankUrl; ?>">Tweet</a>
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-  <div class="g-plusone" data-size="medium" data-annotation="inline" data-width="300" data-href="<?php echo $plankUrl; ?>"></div>
-  </div>
+ </div>
   <?php endif; ?>
 
   <?php require_once(PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'platformpress-flash-messages.php'); ?>
