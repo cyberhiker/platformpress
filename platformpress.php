@@ -1084,7 +1084,9 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
         $role->add_cap( 'edit_platformpress-plank' );
         $role->add_cap( 'edit_platformpress-planks' );
         $role->add_cap( 'edit_published_platformpress-planks' );
+        $role->add_cap( 'manage_categories' );
         $role->add_cap( 'publish_platformpress-planks' );
+        $role->add_cap( 'delete_private_platformpress-planks' );
         $role->add_cap( 'delete_published_platformpress-planks' );
 
         // Add the roles you'd like to administer the custom post types
