@@ -1028,6 +1028,8 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 	}
 
 	function add_platformpress_user_role() {
+        remove_role('platformpress_user');
+        
 		add_role('platformpress_user',
 			'PlatformPress User',
 			array(
