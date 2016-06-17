@@ -59,12 +59,14 @@
 
 	}
 
+/*
 	add_filter( 'custom_menu_order', 'wpplatformpress_5911_submenu_order' );
 	function wpplatformpress_5911_submenu_order( $menu_ord )
 	{
 		global $submenu;
 
 		$submenuNewOrder = array();
+
 
 		$submenuNewOrder['platformpress-plugin'][] = $submenu['platformpress-plugin'][3];
 		$submenuNewOrder['platformpress-plugin'][] = $submenu['platformpress-plugin'][0];
@@ -74,6 +76,7 @@
 		$submenu = array_merge($submenu,$submenuNewOrder);
 		return $submenu;
 	}
+*/
 
 	function platformpressAdmin() {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-platformpress-admin.php';
