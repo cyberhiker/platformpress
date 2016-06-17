@@ -413,7 +413,7 @@
             'map_meta_cap' => true,
 			'supports' => $questinSupport
 		);
-		register_post_type( 'platformpress-plank', $plank_args );
+		register_post_type( 'plank', $plank_args );
 
 		/* Register Remarks post type */
 		$remark_labels = array(
@@ -434,7 +434,7 @@
 
 
 
-		if((isset($_GET['post_type']) && ($_GET['post_type']=='platformpress-remark')) && (!isset($_GET['parent_id']))){
+		if((isset($_GET['post_type']) && ($_GET['post_type']=='remark')) && (!isset($_GET['parent_id']))){
 			$remarkCap = array('create_posts' => false);
 		} else{
 			//if opened in edit mode
@@ -463,7 +463,7 @@
 			'capabilities' => $remarkCap,
 			'map_meta_cap' => true,
 		);
-		register_post_type( 'platformpress-remark', $remark_args );
+		register_post_type( 'remark', $remark_args );
 
 		platformpress_update_rewrite_rules();
 	}
