@@ -1037,7 +1037,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 				'edit_posts' => false,
 				'delete_posts' => false,
 				'publish_posts' => false,
-				'upload_files' => true,
+				'upload_files' => false,
 			)
 		);
 	}
@@ -1089,11 +1089,9 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
         $role->add_cap( 'publish_platformpress-planks' );
         $role->add_cap( 'delete_private_platformpress-planks' );
         $role->add_cap( 'delete_published_platformpress-planks' );
-        $role->add_cap( 'unfiltered_html' );
-        $role->add_cap( 'upload_files' );
         $role->add_cap( 'publish_posts' );
         $role->add_cap( 'edit_posts' );
-        
+
         /*
 
         $role->add_cap( 'edit_published_posts' );
