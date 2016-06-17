@@ -75,6 +75,10 @@
 		return $submenu;
 	}
 */
+    add_action('admin_init','platformpress_remove_old_role',998);
+    function platformpress_remove_old_role() {
+        remove_role( 'platformpress_user' );
+    }
 	function platformpressAdmin() {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-platformpress-admin.php';
 		$qa = new platformpressAdmin();
@@ -1072,7 +1076,6 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 		} //is page end
 	}
 	add_action('wp_head','platformpress_set_meta_tags', 1);
-
 
     add_action('admin_init','platformpress_add_role_caps',999);
     function platformpress_add_role_caps() {
