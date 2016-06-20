@@ -123,7 +123,6 @@ class platformpressFrontend extends platformpressSettings{
 					$user_id 				= get_current_user_id();
 					$plank_title 		= sanitize_text_field($_POST['plank_title']);
 					$plank_description 	= wp_kses_post($_POST['plank_description']);
-                    $plank_termID        = $_POST['plank_category'];
 
 					// Create post object
 					if((platformpress_setting_get("auto_approve_new_planks")=="1") || (is_admin())){
@@ -164,7 +163,7 @@ class platformpressFrontend extends platformpressSettings{
 							  'post_content'  => $plank_description,
 						  );
 						  wp_update_post($my_post);
-                          $term_taxonomy_ids = wp_set_object_terms( $plankId, $plank_termID, 'topic', false );
+
 						  $success_message = 'Plank updated successfully.';
 					}
 
@@ -172,6 +171,13 @@ class platformpressFrontend extends platformpressSettings{
 						wp_set_object_terms($plankId, intval($_POST['cat']), 'platformpress-categories',true);
 					}
 
+                    if(isset($_POST['plank_category']) && ($_POST['plank_category']!="")){
+					    $term_taxonomy_ids = wp_set_object_terms( $plankId, intval($_POST['plank_category']), 'topic', false );
+                    }
+
+                    if ( is_wp_error( $term_taxonomy_ids ) ) {
+	                       $success_message .= '<br />Topic not set.';
+                        }
 					$this->flash_message('success', $success_message );
 
 					if($_GET['action']=='add-new-plank'){
