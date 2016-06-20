@@ -168,7 +168,7 @@ class platformpressFrontend extends platformpressSettings{
 					}
 
 					if(isset($_POST['cat']) && ($_POST['cat']!="")){
-						wp_set_object_terms($plankId, intval($_POST['cat']), 'topic', true);
+						wp_set_object_terms($plankId, intval($_POST['cat']), 'topic', false );
 					}
 
                     if(isset($_POST['plank_category']) && ($_POST['plank_category']!="")){
@@ -178,10 +178,7 @@ class platformpressFrontend extends platformpressSettings{
                     if ( is_wp_error( $term_taxonomy_ids ) ) {
 	                       $success_message .= '<br />Topic not set.';
                         }
-                    else {
-                        # code...
-                        $success_message .= '<br />Topic set.';
-                    }
+
 					$this->flash_message('success', $success_message );
 
 					if($_GET['action']=='add-new-plank'){
