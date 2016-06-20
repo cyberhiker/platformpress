@@ -99,10 +99,6 @@
 
 		<div class="analysis">
 		  <ul>
-		  <li><i class="fa fa-eye"></i>
-			  <?php $avg = get_post_meta(get_the_ID(), 'platformpress_views_count', true); ?>
-			  <span title="Views"><?php if($avg != '' ) { echo $avg; } else{ echo "0" ;} ?></span>
-			</li>
 			<li>
 			  <i class="fa fa-thumbs-up"></i>
 			  <?php $avg = get_post_meta(get_the_ID(), 'platformpress_plank_vote_count', true); ?>
@@ -242,6 +238,35 @@
 
 	}
 
+    function platformpressPlankVote(plankId){
+
+		jQuery(document).ready(function(){
+
+			if(!jQuery("#platformpress-remarks-item-"+plankId+" .vote_section li").hasClass('platformpress-voted-up')){
+				vote_count = jQuery("#platformpress-remarks-item-"+plankId+" li span.votes").text();
+				jQuery("#platformpress-remarks-item-"+plankId+" li span.votes").html("<i class='fa fa-refresh fa-spin text-mutted'></i>");
+
+				jQuery.ajax({
+					method: 'POST',
+					data : {plankId:plankId,action:'vote-up'},
+					dataType : 'JSON',
+					success:function(res) {
+						if(res.type=='success'){
+							jQuery("#platformpress-remarks-item-"+plankId+" li span.votes").html(res.vote_count);
+							jQuery("#platformpress-remarks-item-"+plankId+" li.vote-up").removeClass("platformpress-voted-up");
+							jQuery("#platformpress-remarks-item-"+plankId+" li.vote-down").removeClass("platformpress-voted-down");
+							jQuery("#platformpress-remarks-item-"+plankId+" li.vote-up").addClass("platformpress-voted-up");
+						} else{
+							jQuery("#platformpress-remarks-item-"+plankId+" li span.votes").html(vote_count);
+							alert(res.message);
+						}
+					}
+				});
+			}
+		});
+
+	}
+    /*
 	function platformpressVoteDown(remarkId){
 		jQuery(document).ready(function(){
 			if(!jQuery("#platformpress-remarks-item-"+remarkId+" .vote_section li").hasClass('platformpress-voted-down')){
@@ -265,7 +290,7 @@
 				});
 			}
 		});
-	}
+	}*/
 
 	function platformpressMarkPlankFavorite(plankId){
 		jQuery(document).ready(function(){

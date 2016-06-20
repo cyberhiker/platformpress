@@ -123,6 +123,7 @@ class platformpressFrontend extends platformpressSettings{
 					$user_id 				= get_current_user_id();
 					$plank_title 		= sanitize_text_field($_POST['plank_title']);
 					$plank_description 	= wp_kses_post($_POST['plank_description']);
+                    $plank_termID        = $_POST['plank_category'];
 
 					// Create post object
 					if((platformpress_setting_get("auto_approve_new_planks")=="1") || (is_admin())){
@@ -147,6 +148,8 @@ class platformpressFrontend extends platformpressSettings{
 
 						$this->updateMyLocation();
 						$this->nofity_new_plank($plankId);
+                        $term_taxonomy_ids = wp_set_object_terms( $plankId, $plank_termID, 'topics' );
+
 					} elseif($action=="update-plank"){
 						//Update
 							$plankId = $_GET['post_id'];
@@ -156,6 +159,7 @@ class platformpressFrontend extends platformpressSettings{
 							  'post_content'  => $plank_description,
 						  );
 						  wp_update_post($my_post);
+                          $term_taxonomy_ids = wp_set_object_terms( $plankId, $plank_termID, 'topics' );
 						  $success_message = 'Plank updated successfully.';
 					}
 

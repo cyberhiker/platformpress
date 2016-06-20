@@ -11,11 +11,11 @@
 	<?php endif; ?>
 	 <?php require_once(PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'platformpress-flash-messages.php'); ?>
 
-	<?php if(!$this->isUserAllowed(get_current_user_id(),'can_ask_planks')) : ?>
+	<?php if(!$this->isUserAllowed(get_current_user_id(),'can_add_planks')) : ?>
 
 		<div class="no-access">
 		<h4>Access not allowed</h4>
-		Sorry, you are not allowed to ask plank
+		Sorry, you are not allowed to add a plank.
 		</div>
 
 	<?php else: ?>
@@ -48,20 +48,25 @@
 
             <?php
             $terms = get_terms( 'topics', array(
-    		'orderby'    => 'count',
-    		'hide_empty' => 0,
-		)  );
-            if ( ! is_wp_error( $terms ) ){
-                echo '<select>';
-                foreach ( $terms as $term ) {
-                    echo '<option>' . $term->name . '</option>';
-                }
-                echo '</select>';
-            }
-	    else {
-		echo 'error';
-		}
+    		          'orderby'    => 'count',
+                      'hide_empty' => 0,
+                  )  );
 
+            if ( ! is_wp_error( $terms ) ){
+
+                echo '<select id="plank_category">'
+                echo '<option></option>'
+
+                foreach ( $terms as $term ) {
+                    echo '<option value="$term->term_id">' . $term->name . '</option>';
+                }
+
+                echo '</select>'
+            }
+
+            else {
+		              echo 'Categories have not been created.';
+                  }
             ?>
         </div>
 
