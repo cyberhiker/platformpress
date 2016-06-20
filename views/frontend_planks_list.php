@@ -99,8 +99,6 @@ $totalPlanks 	= $wp_query->found_posts;
   <?php } else{ ?>
       <div class="bck-sect">
           <h3>No result</h3>
-        <?php $url = add_query_arg(array('action'=>'add-new-plank'),get_permalink()); ?>
-        <a id="post_ques" href="<?php echo $url; ?>"> Post a Plank</a>
       </div>
   <?php } ?>
 
