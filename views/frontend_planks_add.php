@@ -53,7 +53,7 @@
                   )  );
 
             if ( ! is_wp_error( $terms ) ){
-                echo '<select id="plank_category">';
+                echo '<select name="plank_category" id="plank_category">';
                 echo '<option></option>';
                 foreach ( $terms as $term ) {
                     echo '<option value="' . $term->term_id . '">' . $term->name . '</option>';
