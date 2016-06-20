@@ -43,28 +43,23 @@
 			?>
 		</div>
 
-        <li id="categories">
-        	<label>Plank Category</label>
-        	<form id="category-select" class="category-select" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
+    	<label>Plank Topic</label>
 
-        		<?php
-        		$args = array(
-        			'show_option_none' => __( 'Select category' ),
-        			'show_count'       => 1,
-        			'orderby'          => 'name',
-        			'echo'             => 0,
-        		);
-        		?>
+		<?php
+		$args = array(
+			'show_option_none' => __( 'Select topic' ),
+			'show_count'       => 1,
+			'orderby'          => 'topic',
+			'echo'             => 0,
+		);
+		?>
 
-        		<?php $select  = wp_dropdown_categories( $args ); ?>
-        		<?php $replace = "<select$1 onchange='return this.form.submit()'>"; ?>
-        		<?php $select  = preg_replace( '#<select([^>]*)>#', $replace, $select ); ?>
+		<?php $select  = wp_dropdown_categories( $args ); ?>
+		<?php $replace = "<select$1 onchange='return this.form.submit()'>"; ?>
+		<?php $select  = preg_replace( '#<select([^>]*)>#', $replace, $select ); ?>
 
-        		<?php echo $select; ?>
+		<?php echo $select; ?>
 
-
-        	</form>
-        </li>
 		<?php if((!current_user_can( 'manage_options' ))): ?>
 		<?php if((platformpress_setting_get("auto_approve_new_planks")=="0")): ?>
 		<p>Note: Your plank will reviewed before publishing.</p>
