@@ -148,7 +148,7 @@ class platformpressFrontend extends platformpressSettings{
 
 						$this->updateMyLocation();
 						$this->nofity_new_plank($plankId);
-                        $term_taxonomy_ids = wp_set_object_terms( $plankId, $plank_termID, 'topics' );
+                        $term_taxonomy_ids = wp_set_object_terms( $plankId, $plank_termID, 'topic' );
 
 					} elseif($action=="update-plank"){
 						//Update
@@ -159,7 +159,7 @@ class platformpressFrontend extends platformpressSettings{
 							  'post_content'  => $plank_description,
 						  );
 						  wp_update_post($my_post);
-                          $term_taxonomy_ids = wp_set_object_terms( $plankId, $plank_termID, 'topics' );
+                          $term_taxonomy_ids = wp_set_object_terms( $plankId, $plank_termID, 'topic' );
 						  $success_message = 'Plank updated successfully.';
 					}
 
