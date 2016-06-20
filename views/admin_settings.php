@@ -28,14 +28,6 @@
 
 	</h2>
 
-    <h2 class="nav-tab-wrapper">
-		<?php
-		$params = array('page'=>'platformpress-plugin-categories');
-		$url = esc_url(add_query_arg($params,'admin.php'));
-		?>
-		<a class="nav-tab <?php echo (($action=="")) ? "nav-tab-active" : ""; ?>" title="Categories" href="<?php echo $url; ?>">Manage Categories</a>
-	</h2>
-
 	<?php platformpress_flash_get(); ?>
 
 	<?php if(($action=="")): ?>

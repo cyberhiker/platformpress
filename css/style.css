@@ -16,7 +16,7 @@
 .platformpress-frontend-wrap .platformpress-social-share-plugins { display: inline-block; }
 
 .platformpress-frontend-wrap .platformpress-social-share-plugins div,
-.platformpress-frontend-wrap .platformpress-social-share-plugins iframe { float: left; }
+.platformpress-frontend-wrap .platformpress-social-share-plugins iframe { float: center; }
 
 .platformpress-frontend-wrap a { text-decoration: none;  /*-o-transition: color 0.5s linear;
 -moz-transition: color 0.5s linear;

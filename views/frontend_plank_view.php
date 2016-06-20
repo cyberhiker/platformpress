@@ -23,31 +23,6 @@
 	$resolvedRemarkId	= get_post_meta($plankId, 'platformpress_plank_resolved', true);
 	?>
 
-	<?php if(($this->settings['stored']['social_locker']!=1)): ?>
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=1642509509312261";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
-
-	<script type="text/javascript">
-	  (function() {
-		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-		po.src = 'https://apis.google.com/js/platform.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	  })();
-	</script>
-	<div class="platformpress-social-share-plugins">
-	<div class="fb-share-button" data-href="<?php echo $plankUrl; ?>" data-layout="button_count"></div>
-	<a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $plankUrl; ?>">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="300" data-href="<?php echo $plankUrl; ?>"></div>
-	</div>
-	<?php endif; ?>
-
 
 
 	<?php
@@ -169,7 +144,29 @@
 
   </div>
   <!--/platformpress-plank-->
+  <?php if(($this->settings['stored']['social_locker']!=1)): ?>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=1642509509312261";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 
+  <script type="text/javascript">
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/platform.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+  <div class="platformpress-social-share-plugins">
+  <div class="fb-share-button" data-href="<?php echo $plankUrl; ?>" data-layout="button_count"></div>
+  <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $plankUrl; ?>">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+ </div>
+  <?php endif; ?>
 
   <?php require_once(PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'platformpress-flash-messages.php'); ?>
 
