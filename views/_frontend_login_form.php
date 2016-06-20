@@ -6,9 +6,6 @@
 
 		<div class="bck-sect colm-7">
 			<h4><a href="<?php echo wp_login_url(); ?>">Login</a></h4>
-		</div>
-
-		<div class="bck-sect colm-5 register-sec">
 			<h4><a href="<?php echo wp_registration_url(); ?>">Register</a></h4>
 		</div>
 
