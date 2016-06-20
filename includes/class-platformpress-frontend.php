@@ -152,7 +152,7 @@ class platformpressFrontend extends platformpressSettings{
 
                         if ( is_wp_error( $term_taxonomy_ids ) ) {
 	                           // There was an error somewhere and the terms couldn't be set.
-                               $success_message = $success_message . 'Could not set category'
+                               $success_message = $success_message . 'Could not set category';
                            }
 
 					} elseif($action=="update-plank"){
