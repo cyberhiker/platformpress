@@ -47,7 +47,7 @@
         	<label>Plank Topic</label>
 
             <?php
-            $terms = get_terms( 'topics', array(
+            $terms = get_terms( 'topic', array(
     		          'orderby'    => 'count',
                       'hide_empty' => 0,
                   )  );
