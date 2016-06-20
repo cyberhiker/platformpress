@@ -51,6 +51,7 @@
 			'show_count'       => 1,
 			'orderby'          => 'topic',
 			'echo'             => 0,
+            'taxonomy'         => 'topic',
 		);
 		?>
 
