@@ -64976,7 +64976,7 @@ INSERT INTO `mcl_ip2location_db1` (`ip_from`, `ip_to`, `country_code`) VALUES
 
 	//Auto create plank page
 	$args = array(
-		'post_title' =>'Qbot planks',
+		'post_title' =>'platform',
 		'post_type' => 'page',
 		'post_status' => 'publish',
 		'post_content'  => '[platformpress-frontend]',

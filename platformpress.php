@@ -186,7 +186,7 @@
 		return $template;
 	}
 
-	function initQBotPlugin() {
+	function initPlatformPressPlugin() {
 		global $wpdb;
 		$settingsObj = new platformpressSettings();
 
@@ -468,7 +468,7 @@
 		platformpress_update_rewrite_rules();
 	}
 
-	add_action( 'init', 'initQBotPlugin', 0 );
+	add_action( 'init', 'initPlatformPressPlugin', 0 );
 
 	add_filter( 'page_template', 'platformpress_wpa3396_page_template' );
 	function platformpress_wpa3396_page_template( $page_template ){
