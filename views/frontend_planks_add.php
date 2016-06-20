@@ -42,33 +42,29 @@
 			));
 			?>
 		</div>
-		<div class="input-row">
 
+        <div class="input-row">
         	<label>Plank Topic</label>
 
-<?php 
-$args = array(
-  'public'   => true,
-  '_builtin' => false
-  
-); 
-$output = 'names'; // or objects
-$operator = 'and'; // 'and' or 'or'
-$taxonomies = get_taxonomies( $args, $output, $operator ); 
-if ( $taxonomies ) {
-  foreach ( $taxonomies  as $taxonomy ) {
-    echo '<p>' . $taxonomy . '</p>';
-  }
-}
-?>
-	        </div>
+            <?php
+            $terms = get_terms( 'topics' );
+            if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+                echo '<ul>';
+                foreach ( $terms as $term ) {
+                    echo '<li>' . $term->name . '</li>';
+                }
+                echo '</ul>';
+            }
+
+            ?>
+        </div>
 		<?php $select  = wp_dropdown_categories( $args ); ?>
 		<?php $replace = "<select$1 onchange='return this.form.submit()'>"; ?>
 		<?php $select  = preg_replace( '#<select([^>]*)>#', $replace, $select ); ?>
 
 		<?php echo $select; ?>
 
-		<?php if((!current_user_can( 'manage_options' ))): ?>
+		<?php if((!current_user_can( 'edit_platformpress-plank' ))): ?>
 		<?php if((platformpress_setting_get("auto_approve_new_planks")=="0")): ?>
 		<p>Note: Your plank will reviewed before publishing.</p>
 		<?php endif; ?>
