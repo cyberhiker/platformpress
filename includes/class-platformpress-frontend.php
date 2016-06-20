@@ -147,6 +147,7 @@ class platformpressFrontend extends platformpressSettings{
 
 						$this->updateMyLocation();
 						$this->nofity_new_plank($plankId);
+
 					} elseif($action=="update-plank"){
 						//Update
 							$plankId = $_GET['post_id'];
@@ -156,12 +157,21 @@ class platformpressFrontend extends platformpressSettings{
 							  'post_content'  => $plank_description,
 						  );
 						  wp_update_post($my_post);
+
 						  $success_message = 'Plank updated successfully.';
 					}
 
 					if(isset($_POST['cat']) && ($_POST['cat']!="")){
-						wp_set_object_terms($plankId, intval($_POST['cat']), 'platformpress-categories',true);
+						wp_set_object_terms($plankId, intval($_POST['cat']), 'topic', false );
 					}
+
+                    if(isset($_POST['plank_category']) && ($_POST['plank_category']!="")){
+					    $term_taxonomy_ids = wp_set_object_terms( $plankId, intval($_POST['plank_category']), 'topic', false );
+                    }
+
+                    if ( is_wp_error( $term_taxonomy_ids ) ) {
+	                       $success_message .= '<br />Topic not set.';
+                        }
 
 					$this->flash_message('success', $success_message );
 
