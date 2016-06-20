@@ -1108,7 +1108,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
     	);
     	$args = array(
     		'labels'                     => $labels,
-    		'hierarchical'               => false,
+    		'hierarchical'               => true,
     		'public'                     => true,
     		'show_ui'                    => true,
     		'show_admin_column'          => true,
