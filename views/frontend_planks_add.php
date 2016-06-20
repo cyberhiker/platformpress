@@ -53,15 +53,12 @@
                   )  );
 
             if ( ! is_wp_error( $terms ) ){
-
-                echo '<select id="plank_category">'
-                echo '<option></option>'
-
+                echo '<select id="plank_category">';
+                echo '<option></option>';
                 foreach ( $terms as $term ) {
                     echo '<option value="$term->term_id">' . $term->name . '</option>';
                 }
-
-                echo '</select>'
+                echo '</select>';
             }
 
             else {
