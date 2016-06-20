@@ -42,19 +42,26 @@
 			));
 			?>
 		</div>
+		<div class="input-row">
 
-    	<label>Plank Topic</label>
+        	<label>Plank Topic</label>
 
-		<?php
-		$args = array(
-			'show_option_none' => __( 'Select topic' ),
-			'show_count'       => 1,
-			'orderby'          => 'topic',
-			'echo'             => 0,
-            'taxonomy'         => 'topic',
-		);
-		?>
-
+<?php 
+$args = array(
+  'public'   => true,
+  '_builtin' => false
+  
+); 
+$output = 'names'; // or objects
+$operator = 'and'; // 'and' or 'or'
+$taxonomies = get_taxonomies( $args, $output, $operator ); 
+if ( $taxonomies ) {
+  foreach ( $taxonomies  as $taxonomy ) {
+    echo '<p>' . $taxonomy . '</p>';
+  }
+}
+?>
+	        </div>
 		<?php $select  = wp_dropdown_categories( $args ); ?>
 		<?php $replace = "<select$1 onchange='return this.form.submit()'>"; ?>
 		<?php $select  = preg_replace( '#<select([^>]*)>#', $replace, $select ); ?>
