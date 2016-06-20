@@ -56,7 +56,7 @@
                 echo '<select id="plank_category">';
                 echo '<option></option>';
                 foreach ( $terms as $term ) {
-                    echo '<option value="$term->term_id">' . $term->name . '</option>';
+                    echo '<option value="' . $term->term_id . '">' . $term->name . '</option>';
                 }
                 echo '</select>';
             }
