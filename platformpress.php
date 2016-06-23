@@ -989,15 +989,18 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			'font'							=> '',
 
 			'notification_new_remark'		=> '<p>Hey Admin,</p>
-			<p>New remark created on your plank.</p>
-			<p>Regards,</p><p>PlatformPress Team</p>',
-			'notification_new_plank'		=> '<p>Hey Admin,</p>
-<p>The user {plank_author} has posted this plank on {plank_title_url}</p>
-<p>You might wanna check it out.</p>
-<p>Regards,</p>
-<p>PlatformPress Team</p>',
-			'notify_new_plank'			=> '0',
-			'notify_user'					=> '0',
+			<p>Hey Admin,</p>
+            <p>The user {plank_author} has posted this plank on {plank_title_url}</p>
+            <p>You might wanna check it out.</p><br /><br />
+            Regards,<br />
+            {site_name}',
+			'notification_new_plank'		=> '<p>Hey {plank_author},</p>
+            <p>{remark_author} has remarked on your plank at {plank_title_url}</p>
+            <p>You might wanna check it out.</p><br /><br />
+            <p>Regards,<br />
+            {site_name}',
+			'notify_new_plank'			=> '1',
+			'notify_user'					=> '1',
 
 			'permalink_plank'			=> 'plank',
 
@@ -1010,7 +1013,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 
 			'auto_approve_new_remarks'		=> '1',
 			'auto_approve_new_planks'	=> '1',
-			'disble_negative_rating'		=> '0',
+			'disble_negative_rating'		=> '1',
 			'plugin_page_id'				=> '',
 			'login_and_registeration'		=> '1',
 		);
@@ -1062,10 +1065,12 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			{
 				echo '<meta name="title" content="'.strip_tags($recentpost->post_title).'" />' . "\n";
 				$content = $recentpost->post_content;
+                /*
 				$acontent = strip_tags($content);
 				$content = str_replace("\r", ' ', $acontent);
 				$content = str_replace("\n", ' ', $content);
 				$content = str_replace("\t", '', $content);
+                */
 				$description = $content;
 				$description = substr($description,0,150);
 				echo '<meta name="description" content="'. $description .'" />' . "\n";

@@ -21,18 +21,6 @@
 	$userData 			= get_userdata($plankAuthoId);
 	$plankUrl 		= get_permalink();
 	$resolvedRemarkId	= get_post_meta($plankId, 'platformpress_plank_resolved', true);
-	?>
-
-
-
-	<?php
-		$attachmentId = get_post_meta($plankId, 'platformpress_plank_attachment', true);
-		if(($attachmentId!=='') && is_numeric($attachmentId) && ($attachmentId>0)){
-		$attachment_url = get_permalink().'?action=download&attachmentId='.$attachmentId;
-		$attachmentHtml = '<br /><a class="platformpress-attachment" title="Download attachment" href="'.$attachment_url.'"> <i class="fa fa-paperclip"></i> &nbsp; Download attachment</a>';
-		} else{
-		$attachmentHtml = '';
-		}
 
 	$plank_content = get_the_content();
 
