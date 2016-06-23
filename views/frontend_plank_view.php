@@ -22,7 +22,7 @@
 	$plankUrl 		= get_permalink();
 	$resolvedRemarkId	= get_post_meta($plankId, 'platformpress_plank_resolved', true);
 
-	$plank_content = get_the_content();
+	$plank_content = the_content();
 
 	echo "<div class=\"description1\">".$plank_content."</div>";
 
