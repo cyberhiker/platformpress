@@ -26,20 +26,6 @@
 
 
 	<?php
-	$plankStyle = array();
-	$styleSettings = array();
-	$styleSettings[] = ((isset($plankStyle['font'])) && ($plankStyle['font']!="")) ? "font-family:".str_replace('+',' ',$plankStyle['font']).' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['font_bold'])) && ($plankStyle['font_bold']=="1")) ? "font-weight:bold".' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['font_italic'])) && ($plankStyle['font_italic']=="1")) ? "font-style:italic".' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['font_size'])) && ($plankStyle['font_size']!="")) ? "font-size:".$plankStyle['font_size']."px".' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['line_height_size'])) && ($plankStyle['line_height_size']!="")) ? "line-height:".$plankStyle['line_height_size']."px".' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['font_color'])) && ($plankStyle['font_color']!="")) ? "color:#".$plankStyle['font_color'].' !important' : "";
-	$styleSettings = array_filter($styleSettings);
-	$styleSettings = implode(';',$styleSettings);
-	$plank_style = (isset($this->settings['stored']['plank_style'])) ? $this->settings['stored']['plank_style'] : "";
-	?>
-
-	<?php
 		$attachmentId = get_post_meta($plankId, 'platformpress_plank_attachment', true);
 		if(($attachmentId!=='') && is_numeric($attachmentId) && ($attachmentId>0)){
 		$attachment_url = get_permalink().'?action=download&attachmentId='.$attachmentId;
@@ -49,28 +35,9 @@
 		}
 
 	$plank_content = get_the_content();
-	$plank_content = strip_tags($plank_content,'<strong><b><i><a><em><span><font><ul><ol><li>');
-	$plank_content = $plank_content.$attachmentHtml;
-	switch($plank_style){
-		case 1:
-			echo "<div class=\"description1\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-		case 2:
-			echo "<div class=\"description2 bg_wrap\" style=\"".$styleSettings."\"><div class=\"arrow_down\"></div>".$plank_content."</div>";
-		break;
-		case 3:
-			echo "<div class=\"description3\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-		case 4:
-			echo "<div class=\"description4\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-		case 5:
-			echo "<div class=\"description5\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-		default:
-			echo "<div class=\"description0\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-	}
+
+	echo "<div class=\"description1\">".$plank_content."</div>";
+
 	?>
     <div class="platformpress-block" id="social_sec">
       <div class="bck-sect">
@@ -169,7 +136,7 @@
 	<?php $count = get_post_meta(get_the_ID(), 'platformpress_remarks_count', true); ?>
 
 	<?php if($count<1): ?>
-	<div class="platformpress-noremark">No remark found, be first to remark this plank</div>
+	<div class="platformpress-noremark">No remarks found, be first to remark on this plank</div>
 	<?php endif; ?>
 
 	<?php if($count >= 1 ): ?>
