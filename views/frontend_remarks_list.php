@@ -92,7 +92,7 @@
             </div>
 
 			<div class="ques">
-				<p><?php echo get_the_content(); ?></p>
+				<p><?php echo the_content(); ?></p>
 			</div>
 
         </div>
