@@ -1065,12 +1065,10 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			{
 				echo '<meta name="title" content="'.strip_tags($recentpost->post_title).'" />' . "\n";
 				$content = $recentpost->post_content;
-                /*
 				$acontent = strip_tags($content);
 				$content = str_replace("\r", ' ', $acontent);
 				$content = str_replace("\n", ' ', $content);
 				$content = str_replace("\t", '', $content);
-                */
 				$description = $content;
 				$description = substr($description,0,150);
 				echo '<meta name="description" content="'. $description .'" />' . "\n";
