@@ -59,7 +59,6 @@
           <div class="user-img">
             <?php echo platformpress_avatar($post->post_author,32); ?>
           </div>
--->
 		  <div class="bck-sect bck-sect colm-10">
             <div class="user-info">
 

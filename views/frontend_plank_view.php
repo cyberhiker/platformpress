@@ -74,6 +74,46 @@
 			<?php endif; ?>
 			</li>
 
+            <a name="platformpressplank-<?php echo get_the_ID(); ?>"></a>
+        	  <?php //echo get_the_ID(); ?>
+              <!--platformpress-remarks-item-->
+              <div class="platformpress-left vote_section">
+        		<!--platformpress-left vote_section-->
+        		<?php
+        			if(is_user_logged_in()){
+        				$user_id = get_current_user_id();
+        				$res = $wpdb->get_row('SELECT is_up_vote,is_down_vote FROM mcl_platformpress_votes WHERE wp_users_id='.$user_id.' AND platformpress_plank_id='.get_the_ID().'', 'OBJECT');
+        				if(!empty($res)){
+        					if($res->is_up_vote==1){
+        						$upVoteClass 	= "platformpress-voted-up";
+        						$downVoteClass 	= "";
+        					} else{
+        						$downVoteClass 	= "platformpress-voted-down";
+        						$upVoteClass 	= "";
+        					}
+        				} else{
+        					$upVoteClass		= "";
+        					$downVoteClass		= "";
+        				}
+        			} else{
+        				$upVoteClass		= "";
+        				$downVoteClass		= "";
+        			}
+        		?>
+        		<ul>
+                  <li class="vote-up <?php echo $upVoteClass; ?>">
+                    <a title="Thumb up" class="vote-up" onClick="platformpressVoteUp(<?php echo get_the_ID(); ?>)" href="javascript:void(0)">
+                      <i class="fa fa-thumbs-up"></i>
+                    </a>
+                  </li>
+                  <li>
+        		  <?php $avg = get_post_meta(get_the_ID(), 'platformpress_remark_vote_count', true); ?>
+              </li>
+
+                </ul>
+              </div>
+                <!--platformpress-left vote_section End-->
+
 			<?php if($category = $this->post_categories($plankId)): ?>
 				<li>
 				<i class="fa fa-tag rotate"></i>
