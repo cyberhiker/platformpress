@@ -15,8 +15,10 @@ $totalPlanks 	= $wp_query->found_posts;
 	  ?>
     </div>
     <div class="bck-sect">
-		<?php $url = add_query_arg(array('action'=>'add-new-plank'),get_permalink()); ?>
-		<a id="post_ques" href="<?php echo $url; ?>"> Post a Plank</a>
+        <?php if(current_user_can('publish_platformpress-planks')) : ?>
+		          <?php $url = add_query_arg(array('action'=>'add-new-plank'),get_permalink()); ?>
+		                <a id="post_ques" href="<?php echo $url; ?>"> Post a Plank</a>
+        <?php endif; ?>
     </div>
     <!--/platformpress_top-->
   </div>

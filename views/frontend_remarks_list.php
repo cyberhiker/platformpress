@@ -59,7 +59,33 @@
           <div class="user-img">
             <?php echo platformpress_avatar($post->post_author,32); ?>
           </div>
+<<<<<<< HEAD
 		  <div class="bck-sect bck-sect colm-10">
+=======
+
+		  <!-- Mark as resolved feature -->
+		  <?php
+		  $remarkId = get_post_meta($plankId, 'platformpress_plank_resolved', true);
+		  ?>
+
+		  <ul class="platformpress-resolove">
+		  <?php if($remarkId==get_the_ID()): ?>
+			<li><a title="Marked as resolved" class="plank-resolved" href="javascript:void(0)"><i class="fa fa-check plank-resolved"></i></a></li>
+		  <?php else: ?>
+			  <?php if(($this->settings['general']['is_user_logged_in']) && ($this->settings['general']['user_id']==$plankAuthoId) && ($resolvedRemarkId=='')){ ?>
+			  <li>
+				<div class="mark-resolved">
+				  <a title="Mark this as best remark" onClick="platformpressMarkPlankResolved(<?php echo $plankId; ?>,<?php echo get_the_ID(); ?>)" href="javascript:void(0)"><i class="fa fa-check"></i></a>
+				</div>
+			  </li>
+			  <?php } ?>
+		  <?php endif; ?>
+		  <!-- END Mark as resolved feature -->
+		  </ul>
+
+        </div>
+        <div class="bck-sect bck-sect colm-10">
+>>>>>>> parent of bdedac8... Working on Voting
             <div class="user-info">
 
 			  <strong>

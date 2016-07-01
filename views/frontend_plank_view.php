@@ -22,13 +22,10 @@
 	$plankUrl 		= get_permalink();
 	$resolvedRemarkId	= get_post_meta($plankId, 'platformpress_plank_resolved', true);
 
-<<<<<<< HEAD
 	echo "<div class=\"description0\">";
     echo apply_filters('the_content', $post->post_content);
     echo "</div>";
-=======
 	echo "<div class=\"description1\">".apply_filters('the_content', $post->post_content)."</div>";
->>>>>>> 583d1b1695f80e5ef1b444869d49d7d950333763
 	?>
     <div class="platformpress-block" id="social_sec">
       <div class="bck-sect">
