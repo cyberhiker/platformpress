@@ -65001,7 +65001,7 @@ INSERT INTO `mcl_ip2location_db1` (`ip_from`, `ip_to`, `country_code`) VALUES
 	platformpress_setting_save('plugin_page_id',$page_id);
 
 	//On activation add new role (PLATFORMPRESS User)-->(platformpress_platformpress_user)
-	add_platformpress_user_role();
+	add_platformpress_users_role();
 
 	//On activation By default allow user to register
 	update_option( 'users_can_register', 1 );
