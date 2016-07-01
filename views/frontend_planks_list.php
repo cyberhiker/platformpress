@@ -14,13 +14,10 @@ $totalPlanks 	= $wp_query->found_posts;
 	  }
 	  ?>
     </div>
-<!--
-    Remove shit header
     <div class="bck-sect">
 		<?php $url = add_query_arg(array('action'=>'add-new-plank'),get_permalink()); ?>
 		<a id="post_ques" href="<?php echo $url; ?>"> Post a Plank</a>
     </div>
--->
     <!--/platformpress_top-->
   </div>
 
@@ -100,7 +97,9 @@ $totalPlanks 	= $wp_query->found_posts;
 
   </ul>
   <?php } else{ ?>
-  <h3>No result</h3>
+      <div class="bck-sect">
+          <h3>No Results Yet.</h3>
+      </div>
   <?php } ?>
 
 

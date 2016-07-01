@@ -186,7 +186,7 @@
 		return $template;
 	}
 
-	function initQBotPlugin() {
+	function initPlatformPressPlugin() {
 		global $wpdb;
 		$settingsObj = new platformpressSettings();
 
@@ -374,7 +374,7 @@
 			exit;
 		}
 
-		$questinSupport = array('title','editor');
+		$questinSupport = array('title','editor','author','post-formats');
 
 		/* Register planks post type */
 		$plank_labels = array(
@@ -468,7 +468,7 @@
 		platformpress_update_rewrite_rules();
 	}
 
-	add_action( 'init', 'initQBotPlugin', 0 );
+	add_action( 'init', 'initPlatformPressPlugin', 0 );
 
 	add_filter( 'page_template', 'platformpress_wpa3396_page_template' );
 	function platformpress_wpa3396_page_template( $page_template ){
@@ -989,15 +989,18 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			'font'							=> '',
 
 			'notification_new_remark'		=> '<p>Hey Admin,</p>
-			<p>New remark created on your plank.</p>
-			<p>Regards,</p><p>PlatformPress Team</p>',
-			'notification_new_plank'		=> '<p>Hey Admin,</p>
-<p>The user {plank_author} has posted this plank on {plank_title_url}</p>
-<p>You might wanna check it out.</p>
-<p>Regards,</p>
-<p>PlatformPress Team</p>',
-			'notify_new_plank'			=> '0',
-			'notify_user'					=> '0',
+			<p>Hey Admin,</p>
+            <p>The user {plank_author} has posted this plank on {plank_title_url}</p>
+            <p>You might wanna check it out.</p><br /><br />
+            Regards,<br />
+            {site_name}',
+			'notification_new_plank'		=> '<p>Hey {plank_author},</p>
+            <p>{remark_author} has remarked on your plank at {plank_title_url}</p>
+            <p>You might wanna check it out.</p><br /><br />
+            <p>Regards,<br />
+            {site_name}',
+			'notify_new_plank'			=> '1',
+			'notify_user'					=> '1',
 
 			'permalink_plank'			=> 'plank',
 
@@ -1010,7 +1013,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 
 			'auto_approve_new_remarks'		=> '1',
 			'auto_approve_new_planks'	=> '1',
-			'disble_negative_rating'		=> '0',
+			'disble_negative_rating'		=> '1',
 			'plugin_page_id'				=> '',
 			'login_and_registeration'		=> '1',
 		);
@@ -1045,11 +1048,12 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 
 	add_filter('pre_option_default_role', function($default_role){
 		return 'subscriber'; // This is changed
+}
 
 	/*
 	add_filter('pre_option_default_role', function($default_role){
-		return 'platformpress_user'; // This is changed
-	});
+		return 'platformpress_user';
+		}
 	*/
 	
 	function disable_platformpress_stuff($data) {
@@ -1116,4 +1120,50 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
                  $role->add_cap( 'delete_published_platformpress-planks' );
         }
     }
+
+    // Register Custom Taxonomy
+    function topics() {
+
+        $labels = array(
+            'name'                       => _x( 'Topics', 'Taxonomy General Name', 'text_domain' ),
+            'singular_name'              => _x( 'Topic', 'Taxonomy Singular Name', 'text_domain' ),
+            'menu_name'                  => __( 'Topic', 'text_domain' ),
+            'all_items'                  => __( 'All Topics', 'text_domain' ),
+            'parent_item'                => __( 'Parent Topic', 'text_domain' ),
+            'parent_item_colon'          => __( 'Parent Topic:', 'text_domain' ),
+            'new_item_name'              => __( 'New Topic', 'text_domain' ),
+            'add_new_item'               => __( 'Add New Topic', 'text_domain' ),
+            'edit_item'                  => __( 'Edit Topic', 'text_domain' ),
+            'update_item'                => __( 'Update Topic', 'text_domain' ),
+            'view_item'                  => __( 'View Topic', 'text_domain' ),
+            'separate_items_with_commas' => __( 'Separate Topics with commas', 'text_domain' ),
+            'add_or_remove_items'        => __( 'Add or Remove Topics', 'text_domain' ),
+            'choose_from_most_used'      => __( 'Choose from the Most Used Topics', 'text_domain' ),
+            'popular_items'              => __( 'Popular Topics', 'text_domain' ),
+            'search_items'               => __( 'Search Topics', 'text_domain' ),
+            'not_found'                  => __( 'Not Found', 'text_domain' ),
+            'no_terms'                   => __( 'No Topics', 'text_domain' ),
+            'items_list'                 => __( 'Topics list', 'text_domain' ),
+            'items_list_navigation'      => __( 'Topics List Navigation', 'text_domain' ),
+        );
+        $capabilities = array(
+            'manage_terms'               => 'manage_categories',
+            'edit_terms'                 => 'manage_categories',
+            'delete_terms'               => 'manage_categories',
+            'assign_terms'               => 'edit_platformpress-plank',
+        );
+        $args = array(
+            'labels'                     => $labels,
+            'hierarchical'               => true,
+            'public'                     => true,
+            'show_ui'                    => true,
+            'show_admin_column'          => true,
+            'show_in_nav_menus'          => true,
+            'show_tagcloud'              => true,
+            'capabilities'               => $capabilities,
+        );
+        register_taxonomy( 'topic', array( 'platformpress-plank', 'platformpress-remark'), $args );
+
+    }
+    add_action( 'init', 'topics', 0 );
 ?>

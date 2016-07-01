@@ -23,7 +23,7 @@ function platformpress_plugin_install() {
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(11) NOT NULL AUTO_INCREMENT,
 		  `wp_users_id` int(11) DEFAULT NULL,
-		  `can_ask_planks` tinyint(1) DEFAULT '1',
+		  `can_add_planks` tinyint(1) DEFAULT '1',
 		  `can_remark_planks` tinyint(1) DEFAULT '1',
 		  PRIMARY KEY (`id`)
 		 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
@@ -64976,7 +64976,7 @@ INSERT INTO `mcl_ip2location_db1` (`ip_from`, `ip_to`, `country_code`) VALUES
 
 	//Auto create plank page
 	$args = array(
-		'post_title' =>'Qbot planks',
+		'post_title' =>'platform',
 		'post_type' => 'page',
 		'post_status' => 'publish',
 		'post_content'  => '[platformpress-frontend]',
