@@ -1002,7 +1002,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
         remove_role('platformpress_user');
 
 		add_role('platformpress_users',
-			'PlatformPress User',
+			'PlatformPress Users',
 			array(
 				'read' => true,
 				'edit_posts' => false,
