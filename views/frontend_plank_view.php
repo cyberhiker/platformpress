@@ -79,6 +79,7 @@
             <a name="platformpressplank-<?php echo get_the_ID(); ?>"></a>
         	  <?php //echo get_the_ID(); ?>
               <!--platformpress-remarks-item-->
+
               <div class="platformpress-left vote_section">
         		<!--platformpress-left vote_section-->
         		<?php
