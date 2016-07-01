@@ -347,34 +347,7 @@
 			exit;
 		}
 
-		if(isset($_POST['action']) && ($_POST['action']=='mark-plank-resolved')){
-			global $wpdb;
-			$plankId = (int)($_POST['plankId']);
-			$remarkId 	= (int)($_POST['remarkId']);
-			$user_id 	= get_current_user_id();
-
-			$response = new stdClass;
-			if(!is_user_logged_in()){
-				$response->type = 'error';
-				$response->message = 'Please login.';
-				echo wp_json_encode($response);
-				exit;
-			}
-			//check if already voted
-			$resolved = get_post_meta($plankId, 'platformpress_plank_resolved', true);
-			if($resolved != ''){
-				$response->type 	= 'error';
-				$response->message 	= 'This plank already marked as resolved.';
-			} else{
-				update_post_meta($plankId, 'platformpress_plank_resolved', $remarkId);
-				$response->type 	= 'success';
-				$response->message 	= 'Marked as resolved successfully.';
-			}
-			echo wp_json_encode($response);
-			exit;
-		}
-
-		$questinSupport = array('title','editor');
+		$questinSupport = array('title','editor','author','post-formats');
 
 		/* Register planks post type */
 		$plank_labels = array(
@@ -392,7 +365,6 @@
 			'parent_item_colon' => '',
 			'menu_name' => 'Planks',
 		);
-
 
 		$plank_args = array(
 			'labels' => $plank_labels,
@@ -988,13 +960,13 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			'font_bold'						=> '0',
 			'font'							=> '',
 
-			'notification_new_remark'		=> '<p>Hey Admin,</p>
+			'notification_new_plank'		=> '<p>Hey Admin,</p>
 			<p>Hey Admin,</p>
             <p>The user {plank_author} has posted this plank on {plank_title_url}</p>
             <p>You might wanna check it out.</p><br /><br />
             Regards,<br />
             {site_name}',
-			'notification_new_plank'		=> '<p>Hey {plank_author},</p>
+			'notification_new_remark'		=> '<p>Hey {plank_author},</p>
             <p>{remark_author} has remarked on your plank at {plank_title_url}</p>
             <p>You might wanna check it out.</p><br /><br />
             <p>Regards,<br />
@@ -1046,10 +1018,12 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 	}
     register_activation_hook( __FILE__, 'add_platformpress_user_role' );
 
-	add_filter('pre_option_default_role', function($default_role){
-		return 'platformpress_user'; // This is changed
-	});
+    function changeDefaultRole($default_role) {
+		return $default_role; // This is changed
+    }
+    add_filter('pre_option_default_role', changeDefaultRole('subscriber'));
 
+	
 	function disable_platformpress_stuff($data) {
 		return false;
 	}
