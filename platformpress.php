@@ -1044,9 +1044,14 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
     register_activation_hook( __FILE__, 'add_platformpress_user_role' );
 
 	add_filter('pre_option_default_role', function($default_role){
+		return 'subscriber'; // This is changed
+
+	/*
+	add_filter('pre_option_default_role', function($default_role){
 		return 'platformpress_user'; // This is changed
 	});
-
+	*/
+	
 	function disable_platformpress_stuff($data) {
 		return false;
 	}
