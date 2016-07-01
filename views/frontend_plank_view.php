@@ -25,7 +25,6 @@
 	echo "<div class=\"description0\">";
     echo apply_filters('the_content', $post->post_content);
     echo "</div>";
-	echo "<div class=\"description1\">".apply_filters('the_content', $post->post_content)."</div>";
 	?>
     <div class="platformpress-block" id="social_sec">
       <div class="bck-sect">
