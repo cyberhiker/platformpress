@@ -347,7 +347,7 @@
 			exit;
 		}
 
-		$questinSupport = array('title','editor','author','post-formats');
+		$questinSupport = array('title','editor','author','revisions');
 
 		/* Register planks post type */
 		$plank_labels = array(
@@ -404,8 +404,6 @@
 			'menu_name' => 'Remarks',
 		);
 
-
-
 		if((isset($_GET['post_type']) && ($_GET['post_type']=='platformpress-remark')) && (!isset($_GET['parent_id']))){
 			$remarkCap = array('create_posts' => false);
 		} else{
@@ -460,7 +458,7 @@
 		$userData =  get_userdata($userId);
 		$alt = ucfirst($userData->data->display_name);
 
-		$loginType = get_user_meta($userId, '_platformpress_user_lastlogin_type', true);
+		$loginType = get_user_meta($userId, '_platformpress_users_lastlogin_type', true);
 
 		//Show user avatar in admin according to social medta filter
 		if(isset($_GET['filter-user']) && ($_GET['filter-user']=='facebook')){
@@ -474,12 +472,12 @@
 
 		switch($loginType){
 			case 'facebook':
-				$fbId = get_user_meta($userId, '_platformpress_user_fb_id', true);
+				$fbId = get_user_meta($userId, '_platformpress_users_fb_id', true);
 				$avatar = 'http://graph.facebook.com/'.$fbId.'/picture?width='.($size+30).'&height='.($size+30).'';
 				$avatar = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
 			break;
 			case 'google':
-				$googlePic = get_user_meta($userId, '_platformpress_user_google_pic_url', true);
+				$googlePic = get_user_meta($userId, '_platformpress_users_google_pic_url', true);
 				$avatar = $googlePic;
 				$avatar = "<img alt='{$alt}' src='{$avatar}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
 			break;
@@ -959,7 +957,6 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			'font_italic'					=> '0',
 			'font_bold'						=> '0',
 			'font'							=> '',
-
 			'notification_new_plank'		=> '<p>Hey Admin,</p>
             <p>The user {plank_author} has posted this plank on {plank_title_url}</p>
             <p>You might wanna check it out.</p><br /><br />
@@ -1001,11 +998,11 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 		return $settings;
 	}
 
-	function add_platformpress_user_role() {
+	function add_platformpress_users_role() {
         remove_role('platformpress_user');
 
-		add_role('platformpress_user',
-			'PlatformPress User',
+		add_role('platformpress_users',
+			'PlatformPress Users',
 			array(
 				'read' => true,
 				'edit_posts' => false,
@@ -1015,7 +1012,12 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			)
 		);
 	}
-    register_activation_hook( __FILE__, 'add_platformpress_user_role' );
+    register_activation_hook( __FILE__, 'add_platformpress_users_role' );
+
+    function changeDefaultRole($default_role) {
+		return $default_role; // This is changed
+    }
+    add_filter('pre_option_default_role', changeDefaultRole('subscriber'));
 
 
 	function disable_platformpress_stuff($data) {
@@ -1049,17 +1051,17 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
     add_action('admin_init','platformpress_add_role_caps',999);
     function platformpress_add_role_caps() {
 
-        $role = get_role('platformpress_user');
+        $role = get_role('platformpress_users');
 
         $role->add_cap( 'read' );
         $role->add_cap( 'read_platformpress-plank' );
-        $role->add_cap( 'edit_platformpress-plank' );
-        $role->add_cap( 'edit_platformpress-planks' );
-        $role->add_cap( 'edit_published_platformpress-planks' );
-        $role->add_cap( 'publish_platformpress-planks' );
-        $role->add_cap( 'delete_published_platformpress-planks' );
-        $role->add_cap( 'publish_posts' );
-        $role->add_cap( 'edit_posts' );
+        #$role->add_cap( 'edit_platformpress-plank' );
+        #$role->add_cap( 'edit_platformpress-planks' );
+        #$role->add_cap( 'edit_published_platformpress-planks' );
+        #$role->add_cap( 'publish_platformpress-planks' );
+        #$role->add_cap( 'delete_published_platformpress-planks' );
+        #$role->add_cap( 'publish_posts' );
+        #$role->add_cap( 'edit_posts' );
 
 
         // Add the roles you'd like to administer the custom post types
