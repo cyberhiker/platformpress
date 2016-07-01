@@ -1,13 +1,3 @@
-<p>
-    Please create a login in order to comment/leave feedback on the five planks listed.
-    Your input will be accepted on these planks through July 8th, 2016.</p>
-<p>
-    The period for uploading new planks for this iteration of our People's Platform ended on June 30th.
-    No additional planks will be accepted at this time. Please subscribe to 
-    <a href="http://www.thepeoplesrevolution.org/" target="_blank" rel="noreferrer">www.thepeoplesrevolution.org</a> 
-    for information on when plank submissions will be accepted again.
-</p>
-
 <?php
 $totalPlanks 	= $wp_query->found_posts;
 ?>
@@ -17,6 +7,15 @@ $totalPlanks 	= $wp_query->found_posts;
   <div id="platformpress_top" class="platformpress-block">
    <!--platformpress_top-->
     <div class="bck-sect">
+        <p>
+            <Please create a login in order to comment/leave feedback on the five planks listed.
+            Your input will be accepted on these planks through July 8th, 2016.</p>
+        <p>
+            The period for uploading new planks for this iteration of our People's Platform ended on June 30th.
+            No additional planks will be accepted at this time. Please subscribe to 
+            <a href="http://www.thepeoplesrevolution.org/" target="_blank" rel="noreferrer">www.thepeoplesrevolution.org</a> 
+            for information on when plank submissions will be accepted again.
+        </p>
       <a href="<?php echo $plank_listing_url; ?>"><h2>Platform</h2></a>
 	  <?php
 	  if(isset($_GET['cat']) && $_GET['cat']!=""){
