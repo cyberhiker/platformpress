@@ -7,6 +7,7 @@ $totalPlanks 	= $wp_query->found_posts;
   <div id="platformpress_top" class="platformpress-block">
    <!--platformpress_top-->
     <div class="bck-sect">
+        <br />
         <p>
             Please create a login in order to comment/leave feedback on the five planks listed.
             Your input will be accepted on these planks through July 8th, 2016.
