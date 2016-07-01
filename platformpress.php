@@ -961,7 +961,6 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			'font'							=> '',
 
 			'notification_new_plank'		=> '<p>Hey Admin,</p>
-			<p>Hey Admin,</p>
             <p>The user {plank_author} has posted this plank on {plank_title_url}</p>
             <p>You might wanna check it out.</p><br /><br />
             Regards,<br />
@@ -1018,12 +1017,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 	}
     register_activation_hook( __FILE__, 'add_platformpress_user_role' );
 
-    function changeDefaultRole($default_role) {
-		return $default_role; // This is changed
-    }
-    add_filter('pre_option_default_role', changeDefaultRole('subscriber'));
 
-	
 	function disable_platformpress_stuff($data) {
 		return false;
 	}
