@@ -16,7 +16,7 @@
 .platformpress-frontend-wrap .platformpress-social-share-plugins { display: inline-block; }
 
 .platformpress-frontend-wrap .platformpress-social-share-plugins div,
-.platformpress-frontend-wrap .platformpress-social-share-plugins iframe { float: left; }
+.platformpress-frontend-wrap .platformpress-social-share-plugins iframe { float: center; }
 
 .platformpress-frontend-wrap a { text-decoration: none;  /*-o-transition: color 0.5s linear;
 -moz-transition: color 0.5s linear;
@@ -511,7 +511,9 @@ ul.platformpress-sort li a { font-size: 12px; padding: 6px; }
 
 #frontend_wrap h3 { font-size: 18px; margin-bottom: 10px; }
 
+/*
 .description1 { font-size: 14px; padding: 15px 25px; }
+*/
 
 .analysis { margin-bottom: 10px; }
 
@@ -595,8 +597,6 @@ table { margin: 0; }
 .platformpress-block.postaction { text-align: left; }
 
 .ques p span { color: grey; padding: 1%; }
-
-.description1 p { word-wrap: break-word; }
 
 .description2.bg_wrap { margin-bottom: 45px; }
 

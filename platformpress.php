@@ -49,17 +49,16 @@
 	function platformpress_admin_menu(){
 
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
-		add_menu_page('PlatformPress', __('PLATFORMPRESS'), 'manage_options', 'platformpress-plugin','platformpressAdmin',$icon_url);
+		add_menu_page('PlatformPress', __('PlatformPress'), 'manage_options', 'platformpress-plugin','platformpressAdmin');
 
 		$icon_url = PLATFORMPRESS_PLUGIN_IMAGES_URL.'/geekheroicons/small-geek.png';
 
 		add_submenu_page('platformpress-plugin', __('Settings'),  __('Settings'), 'manage_options', 'platformpress-plugin-settings', 'platformpress_menu_manageSettings');
-        // add_submenu_page('platformpress-plugin', __('Categories'),  __('Categories'), 'manage_options', 'platformpress-plugin-categories', 'platformpress_menu_manageCategories');
-        add_submenu_page('platformpress-plugin', __('Admin Dashboard'), 'Admin Dashboard', 'manage_options', 'platformpress-plugin');
+        add_submenu_page('platformpress-plugin', __('QA SEO'), 'Admin Dashboard', 'manage_options', 'platformpress-plugin');
 
 
 	}
-
+/*
 	add_filter( 'custom_menu_order', 'wpplatformpress_5911_submenu_order' );
 	function wpplatformpress_5911_submenu_order( $menu_ord )
 	{
@@ -75,7 +74,7 @@
 		$submenu = array_merge($submenu,$submenuNewOrder);
 		return $submenu;
 	}
-
+*/
 	function platformpressAdmin() {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-platformpress-admin.php';
 		$qa = new platformpressAdmin();
@@ -101,13 +100,6 @@
 	function platformpress_menu_manageSettings(){
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-platformpress-admin-settings.php';
 		$qa = new platformpressAdminSettings();
-		$qa->loadStyle();
-		$qa->run();
-	}
-
-    function platformpress_menu_manageCategories(){
-		require_once plugin_dir_path( __FILE__ ) . 'includes/class-platformpress-admin-categories.php';
-		$qa = new platformpressAdminCategories();
 		$qa->loadStyle();
 		$qa->run();
 	}
@@ -194,7 +186,7 @@
 		return $template;
 	}
 
-	function initQBotPlugin() {
+	function initPlatformPressPlugin() {
 		global $wpdb;
 		$settingsObj = new platformpressSettings();
 
@@ -382,11 +374,11 @@
 			exit;
 		}
 
-		$questinSupport = array('title','editor');
+		$questinSupport = array('title','editor','author','post-formats');
 
 		/* Register planks post type */
 		$plank_labels = array(
-			'name' =>'Planks',
+			'name' => 'Planks',
 			'singular_name' => 'Plank',
 			'add_new' => 'Add new',
 			'add_new_item' =>'Add new plank',
@@ -417,11 +409,11 @@
 			'has_archive' => true,
 			'hierarchical' => true,
 			'menu_icon' => '',
+            'capability_type' => array('platformpress-plank', 'platformpress-planks'),
+            'map_meta_cap' => true,
 			'supports' => $questinSupport
 		);
 		register_post_type( 'platformpress-plank', $plank_args );
-
-
 
 		/* Register Remarks post type */
 		$remark_labels = array(
@@ -476,7 +468,7 @@
 		platformpress_update_rewrite_rules();
 	}
 
-	add_action( 'init', 'initQBotPlugin', 0 );
+	add_action( 'init', 'initPlatformPressPlugin', 0 );
 
 	add_filter( 'page_template', 'platformpress_wpa3396_page_template' );
 	function platformpress_wpa3396_page_template( $page_template ){
@@ -657,7 +649,7 @@
 				echo '<div class="after-title-help postbox">';
 				$entry = get_post($_GET['parent_id']);
 				echo "<input type=\"hidden\" name=\"parent_id\" value=\"".$entry->ID."\" />";
-				echo "<input type=\"hidden\" name=\"post_title\" value=\"PLATFORMPRESS Remark\" />";
+				echo "<input type=\"hidden\" name=\"post_title\" value=\"PlatformPress Remark\" />";
 				echo "<h3>Plank: ".$entry->post_title."</h3>";
 				echo '<div class="inside">';
 				echo "<p>".$entry->post_content."</p>";
@@ -997,15 +989,18 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 			'font'							=> '',
 
 			'notification_new_remark'		=> '<p>Hey Admin,</p>
-			<p>New remark created on your plank.</p>
-			<p>Regards,</p><p>PLATFORMPRESS Team</p>',
-			'notification_new_plank'		=> '<p>Hey Admin,</p>
-<p>The user {plank_author} has posted this plank on {plank_title_url}</p>
-<p>You might wanna check it out.</p>
-<p>Regards,</p>
-<p>PLATFORMPRESS Team</p>',
-			'notify_new_plank'			=> '0',
-			'notify_user'					=> '0',
+			<p>Hey Admin,</p>
+            <p>The user {plank_author} has posted this plank on {plank_title_url}</p>
+            <p>You might wanna check it out.</p><br /><br />
+            Regards,<br />
+            {site_name}',
+			'notification_new_plank'		=> '<p>Hey {plank_author},</p>
+            <p>{remark_author} has remarked on your plank at {plank_title_url}</p>
+            <p>You might wanna check it out.</p><br /><br />
+            <p>Regards,<br />
+            {site_name}',
+			'notify_new_plank'			=> '1',
+			'notify_user'					=> '1',
 
 			'permalink_plank'			=> 'plank',
 
@@ -1018,7 +1013,7 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 
 			'auto_approve_new_remarks'		=> '1',
 			'auto_approve_new_planks'	=> '1',
-			'disble_negative_rating'		=> '0',
+			'disble_negative_rating'		=> '1',
 			'plugin_page_id'				=> '',
 			'login_and_registeration'		=> '1',
 		);
@@ -1035,23 +1030,21 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 		return $settings;
 	}
 
-	# NEW CODES 22 JULY 2015 EVENING
-	function platformpress_add_platformpress_user_role() {
-		add_role('platformpress_platformpress_user',
-			'PLATFORMPRESS User',
+	function add_platformpress_user_role() {
+        remove_role('platformpress_user');
+
+		add_role('platformpress_user',
+			'PlatformPress User',
 			array(
 				'read' => true,
 				'edit_posts' => false,
 				'delete_posts' => false,
 				'publish_posts' => false,
-				'upload_files' => true,
+				'upload_files' => false,
 			)
 		);
 	}
-
-	add_filter('pre_option_default_role', function($default_role){
-		return 'platformpress_platformpress_user'; // This is changed
-	});
+    register_activation_hook( __FILE__, 'add_platformpress_user_role' );
 
 	function disable_platformpress_stuff($data) {
 		return false;
@@ -1080,4 +1073,87 @@ add_action( 'manage_platformpress-remark_posts_custom_column', 'platformpress_re
 		} //is page end
 	}
 	add_action('wp_head','platformpress_set_meta_tags', 1);
+
+    add_action('admin_init','platformpress_add_role_caps',999);
+    function platformpress_add_role_caps() {
+
+        $role = get_role('platformpress_user');
+
+        $role->add_cap( 'read' );
+        $role->add_cap( 'read_platformpress-plank' );
+        $role->add_cap( 'edit_platformpress-plank' );
+        $role->add_cap( 'edit_platformpress-planks' );
+        $role->add_cap( 'edit_published_platformpress-planks' );
+        $role->add_cap( 'publish_platformpress-planks' );
+        $role->add_cap( 'delete_published_platformpress-planks' );
+        $role->add_cap( 'publish_posts' );
+        $role->add_cap( 'edit_posts' );
+
+
+        // Add the roles you'd like to administer the custom post types
+        $roles = array('editor','administrator');
+
+        // Loop through each role and assign capabilities
+        foreach($roles as $the_role) {
+
+             $role = get_role($the_role);
+
+                 $role->add_cap( 'read' );
+                 $role->add_cap( 'read_platformpress-plank');
+                 $role->add_cap( 'edit_platformpress-plank' );
+                 $role->add_cap( 'edit_platformpress-planks' );
+                 $role->add_cap( 'edit_others_platformpress-planks' );
+                 $role->add_cap( 'edit_published_platformpress-planks' );
+                 $role->add_cap( 'publish_platformpress-planks' );
+                 $role->add_cap( 'delete_others_platformpress-planks' );
+                 $role->add_cap( 'delete_private_platformpress-planks' );
+                 $role->add_cap( 'delete_published_platformpress-planks' );
+        }
+    }
+
+    // Register Custom Taxonomy
+    function topics() {
+
+        $labels = array(
+            'name'                       => _x( 'Topics', 'Taxonomy General Name', 'text_domain' ),
+            'singular_name'              => _x( 'Topic', 'Taxonomy Singular Name', 'text_domain' ),
+            'menu_name'                  => __( 'Topic', 'text_domain' ),
+            'all_items'                  => __( 'All Topics', 'text_domain' ),
+            'parent_item'                => __( 'Parent Topic', 'text_domain' ),
+            'parent_item_colon'          => __( 'Parent Topic:', 'text_domain' ),
+            'new_item_name'              => __( 'New Topic', 'text_domain' ),
+            'add_new_item'               => __( 'Add New Topic', 'text_domain' ),
+            'edit_item'                  => __( 'Edit Topic', 'text_domain' ),
+            'update_item'                => __( 'Update Topic', 'text_domain' ),
+            'view_item'                  => __( 'View Topic', 'text_domain' ),
+            'separate_items_with_commas' => __( 'Separate Topics with commas', 'text_domain' ),
+            'add_or_remove_items'        => __( 'Add or Remove Topics', 'text_domain' ),
+            'choose_from_most_used'      => __( 'Choose from the Most Used Topics', 'text_domain' ),
+            'popular_items'              => __( 'Popular Topics', 'text_domain' ),
+            'search_items'               => __( 'Search Topics', 'text_domain' ),
+            'not_found'                  => __( 'Not Found', 'text_domain' ),
+            'no_terms'                   => __( 'No Topics', 'text_domain' ),
+            'items_list'                 => __( 'Topics list', 'text_domain' ),
+            'items_list_navigation'      => __( 'Topics List Navigation', 'text_domain' ),
+        );
+        $capabilities = array(
+            'manage_terms'               => 'manage_categories',
+            'edit_terms'                 => 'manage_categories',
+            'delete_terms'               => 'manage_categories',
+            'assign_terms'               => 'edit_platformpress-plank',
+        );
+        $args = array(
+            'labels'                     => $labels,
+            'hierarchical'               => true,
+            'public'                     => true,
+            'show_ui'                    => true,
+            'show_admin_column'          => true,
+            'show_in_nav_menus'          => true,
+            'show_tagcloud'              => true,
+            'capabilities'               => $capabilities,
+        );
+        register_taxonomy( 'topic', array( 'platformpress-plank', 'platformpress-remark'), $args );
+
+    }
+    add_action( 'init', 'topics', 0 );
 ?>

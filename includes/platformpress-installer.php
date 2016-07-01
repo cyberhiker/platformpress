@@ -1,9 +1,9 @@
 <?php
 function platformpress_plugin_install() {
    	global $wpdb;
-	
+
 	$tableName = 'mcl_platformpress_favorite_planks';
-	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
+	if($wpdb->get_var("show tables like '$tableName'") != $tableName)
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -12,28 +12,28 @@ function platformpress_plugin_install() {
 		  `created_at` date default NULL,
 		  PRIMARY KEY  (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
- 
+
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	
+
 	$tableName = 'mcl_platformpress_roles';
-	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
+	if($wpdb->get_var("show tables like '$tableName'") != $tableName)
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(11) NOT NULL AUTO_INCREMENT,
 		  `wp_users_id` int(11) DEFAULT NULL,
-		  `can_ask_planks` tinyint(1) DEFAULT '1',
+		  `can_add_planks` tinyint(1) DEFAULT '1',
 		  `can_remark_planks` tinyint(1) DEFAULT '1',
 		  PRIMARY KEY (`id`)
 		 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
- 
+
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	
+
 	$tableName = 'mcl_platformpress_users';
-	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
+	if($wpdb->get_var("show tables like '$tableName'") != $tableName)
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -47,14 +47,14 @@ function platformpress_plugin_install() {
 		  `longi` float(11,7) default NULL,
 		  PRIMARY KEY  (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
- 
+
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	
-	
+
+
 	$tableName = 'mcl_platformpress_votes';
-	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
+	if($wpdb->get_var("show tables like '$tableName'") != $tableName)
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(10) unsigned NOT NULL auto_increment,
@@ -67,15 +67,15 @@ function platformpress_plugin_install() {
 		  `is_down_vote` tinyint(1) default NULL,
 		   PRIMARY KEY (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
- 
+
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	
-	
-	
+
+
+
 	$tableName = 'mcl_platformpress_views';
-	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
+	if($wpdb->get_var("show tables like '$tableName'") != $tableName)
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` int(10) NOT NULL auto_increment,
@@ -86,13 +86,13 @@ function platformpress_plugin_install() {
 		  `enter_at` datetime NOT NULL,
 		  PRIMARY KEY  (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
- 
+
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
 
 	$tableName = 'mcl_platformpress_spam';
-	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
+	if($wpdb->get_var("show tables like '$tableName'") != $tableName)
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 		  `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -104,13 +104,13 @@ function platformpress_plugin_install() {
 		  `group_name` ENUM('planks','remarks') NOT NULL,
 		  PRIMARY KEY  (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
- 
+
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
 
 	$tableName = 'mcl_ip2location_db1';
-	if($wpdb->get_var("show tables like '$tableName'") != $tableName) 
+	if($wpdb->get_var("show tables like '$tableName'") != $tableName)
 	{
 		$sql = "CREATE TABLE " . $tableName . " (
 			`ip_from` int(10) unsigned DEFAULT NULL,
@@ -64961,22 +64961,22 @@ INSERT INTO `mcl_ip2location_db1` (`ip_from`, `ip_to`, `country_code`) VALUES
 (3758092288, 3758093311, 'HK'),
 (3758094336, 3758095359, '-'),
 (3758095872, 3758096127, 'SG'),
-(3758096384, 4294967295, '-')	
-;";		
+(3758096384, 4294967295, '-')
+;";
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 		dbDelta($sql2);
 	}
-	
+
 	//Add deafult setting very first time
 	$settings = platformpress_setting_get_all($default='yes');
 	foreach($settings as $option_name=>$new_value){
-		platformpress_setting_save($option_name,$new_value);	
-	}	
+		platformpress_setting_save($option_name,$new_value);
+	}
 
 	//Auto create plank page
 	$args = array(
-		'post_title' =>'Qbot planks',
+		'post_title' =>'platform',
 		'post_type' => 'page',
 		'post_status' => 'publish',
 		'post_content'  => '[platformpress-frontend]',
@@ -64998,13 +64998,13 @@ INSERT INTO `mcl_ip2location_db1` (`ip_from`, `ip_to`, `country_code`) VALUES
 		) );
 	}
 	//When activate plugin set plugin settings
-	platformpress_setting_save('plugin_page_id',$page_id);	
-	
+	platformpress_setting_save('plugin_page_id',$page_id);
+
 	//On activation add new role (PLATFORMPRESS User)-->(platformpress_platformpress_user)
-	platformpress_add_platformpress_user_role();
-	
+	add_platformpress_user_role();
+
 	//On activation By default allow user to register
 	update_option( 'users_can_register', 1 );
-	
+
 }
 ?>

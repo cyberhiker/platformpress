@@ -97,7 +97,9 @@ $totalPlanks 	= $wp_query->found_posts;
 
   </ul>
   <?php } else{ ?>
-  <h3>No result</h3>
+      <div class="bck-sect">
+          <h3>No Results Yet.</h3>
+      </div>
   <?php } ?>
 
 

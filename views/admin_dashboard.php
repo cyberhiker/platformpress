@@ -39,12 +39,8 @@
 
   <div class="welcome-panel platformpress-activation-key-panel" id="welcome-panel">
     <div class="welcome-panel-content">
-
-		<h1>Basic version</h1>
-
 		<div class="welcome-panel-content">
 		<div class="welcome-panel-column-container">
-		<!-- <h3>You are using Free version, some features are locked</h3>-->
 		<div class="welcome-panel-column platformpress-feature-list">
 		  <ul>
 			<li>
@@ -66,76 +62,21 @@
 				<p>Manage PlatformPress's extensive features from this section</p>
 			</li>
 			<li>
-				<h4>
-                    <a class="platformpress-admin-dashboard platformpress-manage-categories" href="admin.php?page=platformpress-plugin-categories">Category Management</a></h4>
+				<h4><span class="platformpress-admin-dashboard platformpress-manage-plank-style0">Category Management</span>
+                </h4>
 				<p>Keep things organized. Give your users the ability to post planks into admin specified categories</p>
 			</li>
-			<li>
-				<h4><span class="platformpress-admin-dashboard platformpress-manage-plank-style0" >Design Management</span>
-				</h4>
-				<p>Manage fonts, colors and background of PlatformPress to match your website design</p>
-			</li>
 		  </ul>
 		</div>
-		<div class="welcome-panel-column platformpress-feature-list">
-		  <ul>
-			<li>
-				<h4><span class="platformpress-admin-dashboard platformpress-manage-shortcode0" >Manage Shortcodes</span>
-				</h4>
-				<p>Use Shortcodes to include QABOT into other sections of your website</p>
-			</li>
-			<li>
-				<h4><span class="platformpress-admin-dashboard platformpress-manage-spam0" >Spam Manager</span>
-				</h4>
-				<p>Keep spam at bay. Manage flagged planks/ remarks</p>
-			</li>
-			<li>
-				<h4><span class="platformpress-admin-dashboard platformpress-manage-comments0" >Manage Sub Remarks</span>
-				</h4>
-				<p>View/ Edit/ Delete/ Respond to Posted Sub Remarks</p>
-			</li>
 
-			<li>
-				<h4><span class="platformpress-admin-dashboard platformpress-manage-categories0" >Widgets</span>
-				</h4>
-				<p>Add PLATFORMPRESS widget to specific sections of your website</p>
-			</li>
-
-			<li>
-				<h4><span class="platformpress-admin-dashboard platformpress-manage-sociallogin0" >Share & Learn</span>
-				</h4>
-				<p>Social Lock the top remarks, pushing your visitors to share your page for the correct remark. Social Sharing = Higher Rankings</p>
-			</li>
-
-		  </ul>
-		</div>
-		<div class="welcome-panel-column welcome-panel-last platformpress-feature-list">
-			<ul>
-				<li>
-					<h4><span class="platformpress-admin-dashboard platformpress-manage-sociallogin0" >Social Login</span>
-					</h4>
-					<p>Allow users to register via Facebook/ G+. User data and email address captured from logins are stores into your database increasing your email list organically</p>
-				</li>
-				<li>
-					<h4><span class="platformpress-admin-dashboard platformpress-analytics0" >Analytics</span>
-					</h4>
-					<p>Use a multi feature analytic system to track top planks, contributors, and countries, and download users in CSV.</p>
-				</li>
-				<li>
-					<h4><span class="platformpress-admin-dashboard platformpress-userroles0" >User Roles</span>
-					</h4>
-					<p>Control user access to certain planks or remarks</p>
-				</li>
-			</ul>
-		</div>
-		</div>
 		<br /><br />
 		</div>
 
 
 	</div>
   </div>
-
+</div>
+</div>
 
 <?php
 	global $wpdb;
@@ -159,7 +100,7 @@
     <tr>
       <th scope="col" class="manage-column column-name">Date</th>
       <th scope="col" class="manage-column column-name" style="text-align:center">User registered</th>
-      <th scope="col" class="manage-column column-name" style="text-align:center">Plank added</th>
+      <th scope="col" class="manage-column column-name" style="text-align:center">Plank asked</th>
       <th scope="col" class="manage-column column-name" style="text-align:center">Remarked</th>
       <th scope="col" class="manage-column column-name" style="text-align:center">Spam counts</th>
     </tr>

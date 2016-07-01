@@ -3,18 +3,18 @@ class platformpressFrontend extends platformpressSettings{
 
 	function run(){
 		global $wpdb, $platformpress_plugin_settings, $wp, $wp_query, $post;
-		
+
 		$plank_listing_url = get_permalink();
 
-		
+
 		$ip = $_SERVER['REMOTE_ADDR'];
-		
+
 		$this->loadStyle();
-		
+
 		// Parameters as array of key =&gt; value pairs
 		$qid = get_query_var('qid');
 		$qid = $qid;
-		
+
 		$action = 'plank_list';
 
 		/* If we are on plank view page load post variable*/
@@ -31,9 +31,9 @@ class platformpressFrontend extends platformpressSettings{
 			} else{
 				$post = get_post($qid);
 			}
-			setup_postdata( $GLOBALS['post'] =& $post );			
+			setup_postdata( $GLOBALS['post'] =& $post );
 		}
-		
+
 		if(isset($_GET['action']) && $_GET['action']=='login'){
 			$action = "login";
 		} elseif(isset($_GET['action']) && $_GET['action']=='user-dashboard') {
@@ -43,32 +43,32 @@ class platformpressFrontend extends platformpressSettings{
 		} elseif($qid!==""){
 			$action = 'plank_view';
 		}
-		
+
 		if(!is_user_logged_in()){
 			if((isset($_GET['state'])) && ($_GET['state']=='facebook-login')){
 				$this->handelFacebookLogin($qid);
 				exit;
 			}
-			
+
 			//if only code variable request is from google
-			if((isset($_GET['code']) && (!isset($_GET['state']))) 
+			if((isset($_GET['code']) && (!isset($_GET['state'])))
 			|| ((isset($_GET['state'])) && ($_GET['state']=='google-login'))){
 				$this->handelGoogleLogin($qid);
 			}
 		}
-		
+
 		switch($action){
 		case 'spam':
 				$action = isset($_GET['action']) ? $_GET['action'] : "";
 				if(($action=="spam")){
-				
+
 					if(!is_user_logged_in()){
 						$params = array('action'=>'login');
 						$currentUrl = home_url(add_query_arg($params,$wp->request));
 						header('Location: '.$currentUrl);
 						exit;
 					}
-				
+
 					if(isset($_POST['submit']) && isset($_POST['spamObjId'])){
 						$spam_id = (int)($_POST['spam']);
 						$spamObjId = (int)($_POST['spamObjId']);
@@ -76,14 +76,14 @@ class platformpressFrontend extends platformpressSettings{
 						$table_name = 'mcl_platformpress_spam';
 						$user_ID = get_current_user_id();
 						$ip= $_SERVER['REMOTE_ADDR'];
-						
+
 						$remarkInfo		= get_post($spamObjId);
 						$plankInfo	= get_post($remarkInfo->post_parent);
 						$plankUrl = get_permalink($plankInfo->ID);
 
 						$res = $wpdb->get_row( 'SELECT COUNT(*) as counts FROM mcl_platformpress_spam WHERE wp_user_id="'.$user_ID.'" AND obj_id="'.$spamObjId.'"' );
 						if($res->counts==0){
-						
+
 							$wpdb->insert($table_name, array(
 								'ip_add' 		 => $ip,
 								'wp_user_id' 	 =>$user_ID,
@@ -92,7 +92,7 @@ class platformpressFrontend extends platformpressSettings{
 								'group_name'	=>$spamObjName,
 								'time'	 =>current_time('mysql')
 							), array('%s','%d','%d','%s','%s','%s'));
-							
+
 							//$this->flash_message('success', $message = 'Spam marked successfully' );
 							wp_redirect($plankUrl.'#platformpressremark-'.$remarkInfo->ID);
 						}
@@ -102,14 +102,14 @@ class platformpressFrontend extends platformpressSettings{
 						}
 					}
 					require_once plugin_dir_path( __FILE__ ) . '../views/frontend_spam.php';
-					
-				} 
-				
+
+				}
+
 		break;
 		case 'plank_list':
 			$action = isset($_GET['action']) ? $_GET['action'] : "";
 			if(($action=="add-new-plank") || ($action=="update-plank")){
-				
+
 				if(!is_user_logged_in()){
 					$params = array('action'=>'login');
 					$currentUrl = home_url(add_query_arg($params,$wp->request));
@@ -117,13 +117,13 @@ class platformpressFrontend extends platformpressSettings{
 					//header('Location: '.$currentUrl);
 					exit;
 				}
-				
+
 				if(isset($_POST) && (count($_POST)>0))
 				{
 					$user_id 				= get_current_user_id();
 					$plank_title 		= sanitize_text_field($_POST['plank_title']);
 					$plank_description 	= wp_kses_post($_POST['plank_description']);
-					
+
 					// Create post object
 					if((platformpress_setting_get("auto_approve_new_planks")=="1") || (is_admin())){
 						$post_status = 'publish';
@@ -132,8 +132,8 @@ class platformpressFrontend extends platformpressSettings{
 						$post_status = 'pending';
 						$success_message = 'Plank awaiting for approval.';
 					}
-					
-					
+
+
 					if($action=="add-new-plank"){
 						//Add
 						$my_post = array(
@@ -144,9 +144,10 @@ class platformpressFrontend extends platformpressSettings{
 						  'post_author'   => $user_id,
 						);
 						$plankId = wp_insert_post($my_post);
-						
+
 						$this->updateMyLocation();
 						$this->nofity_new_plank($plankId);
+
 					} elseif($action=="update-plank"){
 						//Update
 							$plankId = $_GET['post_id'];
@@ -156,15 +157,24 @@ class platformpressFrontend extends platformpressSettings{
 							  'post_content'  => $plank_description,
 						  );
 						  wp_update_post($my_post);
+
 						  $success_message = 'Plank updated successfully.';
 					}
-					
+
 					if(isset($_POST['cat']) && ($_POST['cat']!="")){
-						wp_set_object_terms($plankId, intval($_POST['cat']), 'platformpress-categories',true);
+						wp_set_object_terms($plankId, intval($_POST['cat']), 'topic', false );
 					}
-					
+
+                    if(isset($_POST['plank_category']) && ($_POST['plank_category']!="")){
+					    $term_taxonomy_ids = wp_set_object_terms( $plankId, intval($_POST['plank_category']), 'topic', false );
+                    }
+
+                    if ( is_wp_error( $term_taxonomy_ids ) ) {
+	                       $success_message .= '<br />Topic not set.';
+                        }
+
 					$this->flash_message('success', $success_message );
-		
+
 					if($_GET['action']=='add-new-plank'){
 						wp_redirect(get_the_permalink($plankId));
 						exit;
@@ -174,10 +184,10 @@ class platformpressFrontend extends platformpressSettings{
 							$_GET['post_id'] = (int)($_GET['post_id']);
 							$post = get_post($_GET['post_id']);
 							$_POST['plank_title'] 		= $post->post_title;
-							$_POST['plank_description'] 	= $post->post_content; 
+							$_POST['plank_description'] 	= $post->post_content;
 						}
 					}
-					
+
 				} else{
 					// Open in edit mode
 					if(isset($_GET['post_id']) && ($_GET['post_id']!="") && is_numeric($_GET['post_id'])){
@@ -190,13 +200,13 @@ class platformpressFrontend extends platformpressSettings{
 							exit;
 						}
 						$_POST['plank_title'] 		= $post->post_title;
-						$_POST['plank_description'] 	= $post->post_content; 
+						$_POST['plank_description'] 	= $post->post_content;
 					}
 				}
 
-					
+
 				require_once plugin_dir_path( __FILE__ ) . '../views/frontend_planks_add.php';
-				
+
 			} elseif($action=="delete-plank"){
 				// Open in delete mode
 				if(isset($_GET['post_id']) && ($_GET['post_id']!="") && is_numeric($_GET['post_id'])){
@@ -211,19 +221,19 @@ class platformpressFrontend extends platformpressSettings{
 					}
 				}
 			}
-			
+
 			else{
-				
+
 				$paged = get_query_var('paged');
 				$paged = (int)($paged);
 
 				$pagenum = (($paged=="") || ($paged==0)) ? 1 : $paged;
-				
+
 				$limit = 10;
 				$offset = ( $pagenum - 1 ) * $limit;
 				$catfilter = isset( $_GET['cat'] ) ? absint( $_GET['cat'] ) : '';
 				$user_id = get_current_user_id();
-				
+
 				if(isset($_GET['sort']) && ($_GET['sort']=='view')){
 					$query = array(
 						'post_type' 	=> 'platformpress-plank',
@@ -264,7 +274,7 @@ class platformpressFrontend extends platformpressSettings{
 						'order' 		=> 'DESC',
 					);
 				}
-				
+
 				//search if search tag set
 				if(isset($_GET['platformpress-search']) && (strlen($_GET['platformpress-search'])>0)){
 					$keywords = $_GET['platformpress-search'];
@@ -273,18 +283,18 @@ class platformpressFrontend extends platformpressSettings{
 
 				$query['posts_per_page'] = $limit;
 				$query['offset']		 = $offset;
-				
+
 				$cat = isset($_GET['cat']) ? $_GET['cat'] : "";
 
 				if($cat!==""){
 					$query['platformpress-categories'] = $cat;
 				}
-				
+
 				query_posts($query);
-				
+
 				require_once plugin_dir_path( __FILE__ ) . '../views/frontend_planks_list.php';
 			}
-				
+
 			break;
 				case 'plank_view':
 					$plankUrl = get_permalink(get_the_ID());
@@ -300,20 +310,20 @@ class platformpressFrontend extends platformpressSettings{
 							// Create post object
 							$my_post = array(
 							  'post_type'    => 'platformpress-remark',
-							  'post_title'    => 'PLATFORMPRESS Remark',
+							  'post_title'    => 'PlatformPress Remark',
 							  'post_content'  => $remark_content,
 							  'post_status'   => 'publish',
 							  'post_author'   => $user_id,
 							  'post_parent'	  => $qid,
 							);
 							$post_ID = wp_insert_post($my_post);
-							
+
 							$my_post = array(
 							  'ID'           => $post_ID,
 							  'post_name'   => 'platformpress-remark-'.$post_ID,
 							);
 							wp_update_post($my_post);
-							
+
 							$this->nofity_new_remark($wpdb->insert_id);
 							$this->flash_message('success', $message = 'Remarked successfully.' );
 							//$url = $this->getPlankUrl($qid);
@@ -324,17 +334,17 @@ class platformpressFrontend extends platformpressSettings{
 							wp_redirect($plankUrl);
 						}
 					}
-					
+
 					//If comment submitted
 					if(isset($_POST['comment'])){
-					
+
 						if(!is_user_logged_in()){
 							$params = array('action'=>'login');
 							$currentUrl = home_url(add_query_arg($params,$wp->request));
 							header('Location: '.$currentUrl);
 							exit;
 						}
-					
+
 						$table_name = 'mcl_platformpress_comments';
 						$user_id = get_current_user_id();
 						$aid=$_POST['aid'];
@@ -348,7 +358,7 @@ class platformpressFrontend extends platformpressSettings{
 							exit;
 						} else{
 							$this->flash_message('error', $message = 'Please enter your comment.' );
-						}					
+						}
 					}
 					require_once plugin_dir_path( __FILE__ ) . '../views/frontend_plank_view.php';
 			break;
@@ -362,7 +372,7 @@ class platformpressFrontend extends platformpressSettings{
 			break;
 			case 'spam':
 				require_once plugin_dir_path( __FILE__ ) . '../views/frontend_spam.php';
-			break;				
+			break;
 		}
 	}
 
@@ -370,13 +380,13 @@ class platformpressFrontend extends platformpressSettings{
 	 * Initiate the script.
 	 * Calls the validation options on the comment form.
 	 */
-	
-	
+
+
 	function runjs(){ ?>
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
 
-				$('#platformpressform').validate({	
+				$('#platformpressform').validate({
 				rules: {
 					plank_title: {
 						required: true,
@@ -389,35 +399,35 @@ class platformpressFrontend extends platformpressSettings{
 				},
 				highlight: function(element) {
 					$(element).parent().parent().addClass('form-invalid');
-				},		
+				},
 				unhighlight: function(element) {
 					$(element).parent().parent().removeClass('form-invalid');
-				},		
+				},
 			});
 			jQuery('.slug').slugify('#plank_title');
-			
+
 		jQuery(".platformpress-alert .platformpress_flash_success").hover(function(){
         jQuery(this).fadeOut(3000);
-		
+
         });
 		});
-	</script>			
-	<?php	
+	</script>
+	<?php
 	}
-	
+
 	function runcss(){
 		$settings = $this->settings['stored'];
-		
+
 		if(isset($settings['font']) && ($settings['font']!="")){
 			wp_enqueue_style(
 				'google-font-api',
 				'//fonts.googleapis.com/css?family='.$settings['font'],
 				array(),
 				'1.0'
-			);		
+			);
 			$settings['font'] = str_replace('+',' ',$settings['font']);
 		}
-		
+
 		$styleSettings = array();
 		$styleSettings[] = ((isset($settings['font'])) && ($settings['font']!="")) ? "font-family:".$settings['font']."" : "";
 		$styleSettings[] = ((isset($settings['font_bold'])) && ($settings['font_bold']!="")) ? "font-weight:blod" : "";
@@ -440,7 +450,7 @@ class platformpressFrontend extends platformpressSettings{
 		$res = $wpdb->get_row('SELECT COUNT(*) as counts FROM mcl_platformpress_remarks WHERE wp_users_id='.$user_id.'', 'OBJECT');
 		return $res->counts;
 	}
-	
+
 	function userPlanksCount($user_id){
 		global $wpdb;
 		$user_id = (int)($user_id);
@@ -454,7 +464,7 @@ class platformpressFrontend extends platformpressSettings{
 		array($email)));
 		return $record;
 	}
-	
+
 	function handelFacebookLogin($qid){
 		global $wp;
 		if(isset($qid) && ($qid!="")){
@@ -465,17 +475,17 @@ class platformpressFrontend extends platformpressSettings{
 			$params = array('state'=>'facebook-login');
 			$currentUrl = home_url(add_query_arg($params,$wp->request));
 		}
-		
+
 		require_once PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'/social/facebook_login_class.php';
 		$facebook = new Facebook_Login(
 		$this->settings['stored']['facebook_app_id'],
 		$this->settings['stored']['facebook_app_secret'],
 		$currentUrl);
-		
+
 		if($userData = $facebook->getUserData()){
-		
+
 			$userId = $this->getUserIdByLogin($userData['email']);
-			
+
 			if($userId!=""){
 				update_user_meta($userId, '_platformpress_user_lastlogin_type','facebook');
 				update_user_meta($userId, '_platformpress_user_fb_id', $userData['id']);
@@ -497,7 +507,7 @@ class platformpressFrontend extends platformpressSettings{
 				$this->welcome_mail($userId,$password);
 				wp_set_auth_cookie($userId, false, is_ssl() );
 			}
-			
+
 			$params = array('qid'=>$qid,'state'=>'facebook-login');
 			$currentUrl = home_url(add_query_arg($params,$wp->request));
 			echo "<script>
@@ -508,23 +518,23 @@ class platformpressFrontend extends platformpressSettings{
 			exit;
 		} else{
 			$facebook->login();
-		}			
-		
+		}
+
 	}
-	
+
 	function handelGoogleLogin($qid){
 		global $wp;
 
-		$qid = $qid;	
+		$qid = $qid;
 		$redirectUrl = $this->settings['general']['plugin_base_url'];
 		$google_redirect_url 	= $redirectUrl;
-		
+
 		require_once PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'/social/google/index.php';
-		
+
 		if($gClient->getAccessToken()){
-		
+
 			  $user 				= $google_oauthV2->userinfo->get();
-			  
+
 			  $user_id 				= $user['id'];
 			  $user_name 			= filter_var($user['name'], FILTER_SANITIZE_SPECIAL_CHARS);
 			  $email 				= filter_var($user['email'], FILTER_SANITIZE_EMAIL);
@@ -533,11 +543,11 @@ class platformpressFrontend extends platformpressSettings{
 			  $_SESSION['token'] 	= $gClient->getAccessToken();
 
 			  $userId = $this->getUserIdByLogin($email);
-			  
+
 				unset($_SESSION['token']);
 				$gClient->revokeToken();
-			  
-			  
+
+
 			  if($userId!=""){
 					update_user_meta($userId, '_platformpress_user_lastlogin_type','google');
 					update_user_meta($userId, '_platformpress_user_google_id',$user['id']);
@@ -561,22 +571,22 @@ class platformpressFrontend extends platformpressSettings{
 					$this->welcome_mail($userId,$password);
 					wp_set_auth_cookie($userId, false, is_ssl() );
 					unset($_SESSION['token']);
-					$gClient->revokeToken();	
+					$gClient->revokeToken();
 			}
 			echo "<script>
 			window.opener.location.reload();
 			window.close();
-			</script>";			
+			</script>";
 			//header('Location: '.$google_redirect_url);
 			exit;
-			
+
 		} else{
 			$authUrl = $gClient->createAuthUrl();
 			wp_redirect($authUrl);
-		}			
-		
-	}	
-	
+		}
+
+	}
+
 	protected function handleViewCounter($qid)
 	{
 		global $wpdb;
@@ -597,14 +607,14 @@ class platformpressFrontend extends platformpressSettings{
 				'ip_add' 		=> $ip,
 				'ip_country_code'=>$countryCode,
 				'plank_id' 	=> $qid,
-				'wp_users_id'	=> $user_ID,	
+				'wp_users_id'	=> $user_ID,
 				'enter_at'		=> current_time('mysql')
 			), array('%s','%s','%d','%d','%s'));
 			$this->setPlankViews($qid);
 		}
-	}	
-	
-	
+	}
+
+
 }
 
 ?>

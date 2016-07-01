@@ -21,81 +21,8 @@
 	$userData 			= get_userdata($plankAuthoId);
 	$plankUrl 		= get_permalink();
 	$resolvedRemarkId	= get_post_meta($plankId, 'platformpress_plank_resolved', true);
-	?>
 
-	<?php if(($this->settings['stored']['social_locker']!=1)): ?>
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=1642509509312261";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
-
-	<script type="text/javascript">
-	  (function() {
-		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-		po.src = 'https://apis.google.com/js/platform.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	  })();
-	</script>
-	<div class="platformpress-social-share-plugins">
-	<div class="fb-share-button" data-href="<?php echo $plankUrl; ?>" data-layout="button_count"></div>
-	<a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $plankUrl; ?>">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="300" data-href="<?php echo $plankUrl; ?>"></div>
-	</div>
-	<?php endif; ?>
-
-
-
-	<?php
-	$plankStyle = array();
-	$styleSettings = array();
-	$styleSettings[] = ((isset($plankStyle['font'])) && ($plankStyle['font']!="")) ? "font-family:".str_replace('+',' ',$plankStyle['font']).' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['font_bold'])) && ($plankStyle['font_bold']=="1")) ? "font-weight:bold".' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['font_italic'])) && ($plankStyle['font_italic']=="1")) ? "font-style:italic".' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['font_size'])) && ($plankStyle['font_size']!="")) ? "font-size:".$plankStyle['font_size']."px".' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['line_height_size'])) && ($plankStyle['line_height_size']!="")) ? "line-height:".$plankStyle['line_height_size']."px".' !important' : "";
-	$styleSettings[] = ((isset($plankStyle['font_color'])) && ($plankStyle['font_color']!="")) ? "color:#".$plankStyle['font_color'].' !important' : "";
-	$styleSettings = array_filter($styleSettings);
-	$styleSettings = implode(';',$styleSettings);
-	$plank_style = (isset($this->settings['stored']['plank_style'])) ? $this->settings['stored']['plank_style'] : "";
-	?>
-
-	<?php
-		$attachmentId = get_post_meta($plankId, 'platformpress_plank_attachment', true);
-		if(($attachmentId!=='') && is_numeric($attachmentId) && ($attachmentId>0)){
-		$attachment_url = get_permalink().'?action=download&attachmentId='.$attachmentId;
-		$attachmentHtml = '<br /><a class="platformpress-attachment" title="Download attachment" href="'.$attachment_url.'"> <i class="fa fa-paperclip"></i> &nbsp; Download attachment</a>';
-		} else{
-		$attachmentHtml = '';
-		}
-
-	$plank_content = get_the_content();
-	$plank_content = strip_tags($plank_content,'<strong><b><i><a><em><span><font><ul><ol><li>');
-	$plank_content = $plank_content.$attachmentHtml;
-	switch($plank_style){
-		case 1:
-			echo "<div class=\"description1\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-		case 2:
-			echo "<div class=\"description2 bg_wrap\" style=\"".$styleSettings."\"><div class=\"arrow_down\"></div>".$plank_content."</div>";
-		break;
-		case 3:
-			echo "<div class=\"description3\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-		case 4:
-			echo "<div class=\"description4\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-		case 5:
-			echo "<div class=\"description5\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-		default:
-			echo "<div class=\"description0\" style=\"".$styleSettings."\">".$plank_content."</div>";
-		break;
-	}
+	echo "<div class=\"description1\">".apply_filters('the_content', $post->post_content)."</div>";
 	?>
     <div class="platformpress-block" id="social_sec">
       <div class="bck-sect">
@@ -124,10 +51,6 @@
 
 		<div class="analysis">
 		  <ul>
-		  <li><i class="fa fa-eye"></i>
-			  <?php $avg = get_post_meta(get_the_ID(), 'platformpress_views_count', true); ?>
-			  <span title="Views"><?php if($avg != '' ) { echo $avg; } else{ echo "0" ;} ?></span>
-			</li>
 			<li>
 			  <i class="fa fa-thumbs-up"></i>
 			  <?php $avg = get_post_meta(get_the_ID(), 'platformpress_plank_vote_count', true); ?>
@@ -169,14 +92,36 @@
 
   </div>
   <!--/platformpress-plank-->
+  <?php if(($this->settings['stored']['social_locker']!=1)): ?>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=1642509509312261";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 
+  <script type="text/javascript">
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/platform.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+  <div class="platformpress-social-share-plugins">
+  <div class="fb-share-button" data-href="<?php echo $plankUrl; ?>" data-layout="button_count"></div>
+  <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $plankUrl; ?>">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+ </div>
+  <?php endif; ?>
 
   <?php require_once(PLATFORMPRESS_PLUGIN_INCLUDE_PATH.'platformpress-flash-messages.php'); ?>
 
 	<?php $count = get_post_meta(get_the_ID(), 'platformpress_remarks_count', true); ?>
 
 	<?php if($count<1): ?>
-	<div class="platformpress-noremark">No remark found, be first to remark this plank</div>
+	<div class="platformpress-noremark">No remarks found, be first to remark on this plank</div>
 	<?php endif; ?>
 
 	<?php if($count >= 1 ): ?>
@@ -245,6 +190,35 @@
 
 	}
 
+    function platformpressPlankVote(plankId){
+
+		jQuery(document).ready(function(){
+
+			if(!jQuery("#platformpress-remarks-item-"+plankId+" .vote_section li").hasClass('platformpress-voted-up')){
+				vote_count = jQuery("#platformpress-remarks-item-"+plankId+" li span.votes").text();
+				jQuery("#platformpress-remarks-item-"+plankId+" li span.votes").html("<i class='fa fa-refresh fa-spin text-mutted'></i>");
+
+				jQuery.ajax({
+					method: 'POST',
+					data : {plankId:plankId,action:'vote-up'},
+					dataType : 'JSON',
+					success:function(res) {
+						if(res.type=='success'){
+							jQuery("#platformpress-remarks-item-"+plankId+" li span.votes").html(res.vote_count);
+							jQuery("#platformpress-remarks-item-"+plankId+" li.vote-up").removeClass("platformpress-voted-up");
+							jQuery("#platformpress-remarks-item-"+plankId+" li.vote-down").removeClass("platformpress-voted-down");
+							jQuery("#platformpress-remarks-item-"+plankId+" li.vote-up").addClass("platformpress-voted-up");
+						} else{
+							jQuery("#platformpress-remarks-item-"+plankId+" li span.votes").html(vote_count);
+							alert(res.message);
+						}
+					}
+				});
+			}
+		});
+
+	}
+    /*
 	function platformpressVoteDown(remarkId){
 		jQuery(document).ready(function(){
 			if(!jQuery("#platformpress-remarks-item-"+remarkId+" .vote_section li").hasClass('platformpress-voted-down')){
@@ -268,7 +242,7 @@
 				});
 			}
 		});
-	}
+	}*/
 
 	function platformpressMarkPlankFavorite(plankId){
 		jQuery(document).ready(function(){
